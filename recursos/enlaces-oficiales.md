@@ -4,11 +4,25 @@ Lista curada y verificada. Empieza por los marcados como (clave).
 
 ## Certificacion HL7 FHIR
 
+Tu ruta de 3 metas (orden recomendado) y su estado oficial (junio 2026):
+1. Foundational Implementer (entrada, ACTIVO) - tu "Fundacion".
+   Nota: el antiguo "FHIR R4 Proficiency" esta EN PAUSA; usa el Foundational.
+2. Competencia practica GCP Cloud Healthcare API (no es examen HL7) - tu "Laboratorio".
+3. Advanced Developer (ACTIVO, requiere aprobar Foundational) - tu "Maestria".
+
 - (clave) Pagina de certificacion FHIR: https://hl7.org/certification/fhir.cfm
 - Examen Foundational Implementer: https://www.hl7.org/training/fhir-exam.cfm
 - Examen Advanced Developer: https://www.hl7.org/training/fhir-advanced.cfm
 - Curso de preparacion Foundational: https://www.hl7.org/training/fhir-foundational-prep.cfm
 - Programa general de certificacion (registro via Webassessor): http://www.hl7.org/certification/
+
+## Herramientas para profiling y validacion (metas 1 y 3)
+
+- FHIR Validator (oficial, Java): https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator
+- SUSHI / FSH (definir profiles como codigo): https://fshschool.org/
+- Forge (editor visual de profiles): https://simplifier.net/forge
+- US Core IG (la guia de implementacion mas usada): https://hl7.org/fhir/us/core/
+- Inferno (pruebas de conformidad): https://inferno.healthit.gov/
 
 ## Especificacion FHIR (version R4, la del examen)
 

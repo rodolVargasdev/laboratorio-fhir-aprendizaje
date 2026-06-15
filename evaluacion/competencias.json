@@ -1,0 +1,24 @@
+{
+  "_descripcion": "Registro manual de dominio por competencia (0-100). Lo actualizas tu (o Composer) cuando completes un modulo del plan anual y lo VERIFIQUES con un quiz o ejercicio. preparacion.py combina esto con tus notas reales de los quizzes (toma el mayor de ambos por dominio). Pon una nota solo cuando tengas EVIDENCIA (no por sensacion): un quiz aprobado, un ejercicio validado, un simulacro. Deja 0 lo que aun no domines.",
+  "_escala": "0 = sin empezar | 40 = lo entiendo pero no lo aplico solo | 60 = lo aplico con ayuda | 75 = lo aplico solo | 90 = lo domino y puedo ensenarlo",
+  "competencias": {
+    "modelo_recursos": {"score": 0, "evidencia": ""},
+    "api_behavior": {"score": 0, "evidencia": ""},
+    "implementacion": {"score": 0, "evidencia": ""},
+    "troubleshooting": {"score": 0, "evidencia": ""},
+    "guias_implementacion": {"score": 0, "evidencia": ""},
+
+    "gcp_setup": {"score": 0, "evidencia": ""},
+    "gcp_rest": {"score": 0, "evidencia": ""},
+    "gcp_validacion": {"score": 0, "evidencia": ""},
+    "gcp_seguridad": {"score": 0, "evidencia": ""},
+    "gcp_datos": {"score": 0, "evidencia": ""},
+
+    "profiling": {"score": 0, "evidencia": ""},
+    "busqueda_avanzada": {"score": 0, "evidencia": ""},
+    "seguridad_smart": {"score": 0, "evidencia": ""},
+    "terminologia": {"score": 0, "evidencia": ""},
+    "conformidad": {"score": 0, "evidencia": ""},
+    "clientes_servidores": {"score": 0, "evidencia": ""}
+  }
+}

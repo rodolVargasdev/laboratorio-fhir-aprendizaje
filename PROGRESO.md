@@ -8,6 +8,8 @@ Comandos:
 - Repaso intercalado:  python evaluacion\quiz_runner.py --repaso
 - Repaso espaciado:    python evaluacion\repaso.py
 - Estado de tarjetas:  python evaluacion\repaso.py --estado
+- Preparacion (3 certs): python evaluacion\preparacion.py
+- Preparacion detalle:   python evaluacion\preparacion.py --cert foundational --detalle
 
 ## Semana 1: Cimientos de software
 
@@ -45,6 +47,16 @@ Dia 11:
 Dia 12:
 Dia 13:
 Dia 14:
+
+## Seguimiento de preparacion (corre preparacion.py 1 vez por semana)
+
+Anota el puntaje compuesto (0-100) de cada meta para ver tu tendencia.
+
+| Fecha | Foundational | GCP | Advanced |
+|-------|-------------|-----|----------|
+|       |             |     |          |
+
+Recuerda: agenda un examen SOLO cuando su semaforo este VERDE.
 
 ## Dudas para reforzar
 

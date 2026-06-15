@@ -22,6 +22,9 @@ intercalado, con medicion objetiva de tu dominio. Detalle en
   Bloom: `python evaluacion\quiz_runner.py --dia N`
 - Repaso espaciado con cajas de Leitner (micro-aprendizaje):
   `python evaluacion\repaso.py`
+- Calculador de PREPARACION para las 3 certificaciones, con puntaje compuesto y
+  semaforo (te dice objetivamente si estas listo para agendar):
+  `python evaluacion\preparacion.py`
 - Historial de resultados en `evaluacion/resultados/historial.csv`.
 
 ## Por donde empezar
@@ -38,7 +41,9 @@ intercalado, con medicion objetiva de tu dominio. Detalle en
   - `quiz.json` evaluacion objetiva del dia.
   - `practica/` scripts y guias ejecutables.
 - `evaluacion/` motor de quizzes (`quiz_runner.py`), repaso espaciado
-  (`repaso.py`) y mazo de tarjetas (`flashcards.json`).
+  (`repaso.py`), calculador de preparacion (`preparacion.py`), planos de examen
+  (`blueprints.json`), registro de competencias (`competencias.json`) y mazo de
+  tarjetas (`flashcards.json`).
 - `00-setup/` preparacion del entorno.
 - `recursos/` enlaces oficiales y servidores de practica.
 - `METODOLOGIA-APRENDIZAJE.md` como aprendemos y como medimos el dominio.
