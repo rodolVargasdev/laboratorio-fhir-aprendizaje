@@ -1,4 +1,4 @@
-"""Dia 1 - Ejercicio 1: leer un recurso FHIR Patient desde un archivo JSON local.
+r"""Dia 1 - Ejercicio 1: leer un recurso FHIR Patient desde un archivo JSON local.
 
 No necesita internet. Practica las "rutas" para extraer datos de un JSON.
 

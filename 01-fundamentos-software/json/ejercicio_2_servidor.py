@@ -1,4 +1,4 @@
-"""Dia 1 - Ejercicio 2: descargar un Patient real desde un servidor FHIR publico.
+r"""Dia 1 - Ejercicio 2: descargar un Patient real desde un servidor FHIR publico.
 
 Usa el servidor de pruebas HAPI FHIR (R4). Necesita conexion a internet.
 Es tu primer "GET" a una API REST de FHIR: pedimos un recurso y leemos su JSON.
