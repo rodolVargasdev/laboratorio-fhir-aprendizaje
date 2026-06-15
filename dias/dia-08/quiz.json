@@ -1,0 +1,57 @@
+{
+  "dia": 8,
+  "tema": "Google Cloud: jerarquia y capa gratuita",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d8q1",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Cual es la jerarquia de recursos en GCP?",
+      "opciones": [
+        "Recurso > Proyecto > Organizacion",
+        "Organizacion > Proyecto > Recursos",
+        "Proyecto > Organizacion > Recursos",
+        "Cuenta > Recurso > Region"
+      ],
+      "respuesta": 1,
+      "explicacion": "Todo recurso vive dentro de un proyecto; el proyecto bajo la organizacion."
+    },
+    {
+      "id": "d8q2",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que incluye la capa gratuita de Cloud Healthcare API?",
+      "opciones": [
+        "Todo es siempre gratis sin limite",
+        "25,000 peticiones/mes y 1 GiB-hora/mes de almacenamiento gratis",
+        "Solo el primer dia gratis",
+        "Nada, no hay capa gratuita"
+      ],
+      "respuesta": 1,
+      "explicacion": "Esos limites gratuitos alcanzan de sobra para aprender."
+    },
+    {
+      "id": "d8q3",
+      "bloom": "aplicar",
+      "tipo": "verdadero_falso",
+      "pregunta": "Una alerta de presupuesto en GCP corta automaticamente el gasto al llegar al limite.",
+      "respuesta": false,
+      "explicacion": "La alerta solo AVISA. Por eso ademas hay que borrar los recursos al terminar."
+    },
+    {
+      "id": "d8q4",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Cual es el plan B con cero riesgo de cobro?",
+      "opciones": [
+        "Pagar mas credito",
+        "Levantar un servidor FHIR HAPI local (Docker)",
+        "No practicar",
+        "Usar otra nube de pago"
+      ],
+      "respuesta": 1,
+      "explicacion": "HAPI local corre en tu maquina y no usa GCP."
+    }
+  ]
+}

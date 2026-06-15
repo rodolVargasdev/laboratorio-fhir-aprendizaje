@@ -1,0 +1,51 @@
+{
+  "dia": 9,
+  "tema": "Dataset, FHIR store y CapabilityStatement",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d9q1",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Cual es la jerarquia para un FHIR store en GCP?",
+      "opciones": [
+        "Dataset > Proyecto > FHIR store",
+        "Proyecto > Localizacion > Dataset > FHIR store",
+        "FHIR store > Dataset > Proyecto",
+        "Localizacion > FHIR store > Dataset"
+      ],
+      "respuesta": 1,
+      "explicacion": "Proyecto > Localizacion > Dataset > FHIR store."
+    },
+    {
+      "id": "d9q2",
+      "bloom": "recordar",
+      "tipo": "respuesta_corta",
+      "pregunta": ".Que version de FHIR usamos para la certificacion?",
+      "respuestas_validas": ["R4", "r4", "fhir r4"],
+      "explicacion": "R4 es la version objetivo del examen."
+    },
+    {
+      "id": "d9q3",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Como obtienes el CapabilityStatement de un servidor FHIR?",
+      "opciones": [
+        "GET [base]/metadata",
+        "GET [base]/capability",
+        "POST [base]/conformance",
+        "GET [base]/CapabilityStatement/all"
+      ],
+      "respuesta": 0,
+      "explicacion": "GET [base]/metadata devuelve el CapabilityStatement."
+    },
+    {
+      "id": "d9q4",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "El endpoint FHIR de GCP requiere un token de acceso (Authorization), a diferencia del servidor publico de pruebas.",
+      "respuesta": true,
+      "explicacion": "GCP exige autorizacion; el servidor de pruebas publico es abierto."
+    }
+  ]
+}

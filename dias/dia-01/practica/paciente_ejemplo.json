@@ -16,10 +16,6 @@
   "gender": "female",
   "birthDate": "1985-04-12",
   "address": [
-    {
-      "use": "home",
-      "city": "San Salvador",
-      "country": "SV"
-    }
+    { "use": "home", "city": "San Salvador", "country": "SV" }
   ]
 }

@@ -1,31 +1,54 @@
 # Tablero de progreso
 
-Marca cada casilla cuando completes la parte practica del dia. En "Dudas"
-anota cualquier concepto que no haya quedado claro para reforzarlo despues.
+Apunta el porcentaje del quiz de cada dia y tus dudas. Es tu evidencia objetiva
+de avance. Criterio de maestria: quiz >= 80%.
+
+Comandos:
+- Quiz del dia:        python evaluacion\quiz_runner.py --dia N
+- Repaso intercalado:  python evaluacion\quiz_runner.py --repaso
+- Repaso espaciado:    python evaluacion\repaso.py
+- Estado de tarjetas:  python evaluacion\repaso.py --estado
 
 ## Semana 1: Cimientos de software
 
-- [ ] Dia 1 - Entorno + JSON + primer GET a FHIR
-- [ ] Dia 2 - JSON a fondo + XML comparado
-- [ ] Dia 3 - HTTP y REST (parte 1)
-- [ ] Dia 4 - REST (parte 2): estados y busqueda
-- [ ] Dia 5 - CRUD en servidor de pruebas
-- [ ] Dia 6 - OAuth 2.0 y SMART on FHIR
-- [ ] Dia 7 - Repaso activo semana 1
+- [ ] Dia 1 - JSON + primer GET a FHIR            quiz: ___%
+- [ ] Dia 2 - JSON anidado + XML                  quiz: ___%
+- [ ] Dia 3 - HTTP y REST (lecturas)              quiz: ___%
+- [ ] Dia 4 - Estados y busqueda                  quiz: ___%
+- [ ] Dia 5 - CRUD e idempotencia                 quiz: ___%
+- [ ] Dia 6 - OAuth 2.0 y SMART on FHIR           quiz: ___%
+- [ ] Dia 7 - Consolidacion Semana 1              quiz: ___%
 
-## Semana 2: Google Cloud + terminologias + FHIR
+## Semana 2: GCP + terminologias + FHIR
 
-- [ ] Dia 8 - GCP: cuenta, proyecto, facturacion
-- [ ] Dia 9 - Cloud Healthcare API: dataset y FHIR store
-- [ ] Dia 10 - Cargar y consultar datos FHIR en GCP
-- [ ] Dia 11 - Terminologias clinicas (LOINC, SNOMED)
-- [ ] Dia 12 - Modelo FHIR: recursos, referencias, Bundle
-- [ ] Dia 13 - Mini-proyecto integrador
-- [ ] Dia 14 - Cierre y autoevaluacion final
+- [ ] Dia 8  - GCP: jerarquia y capa gratuita     quiz: ___%
+- [ ] Dia 9  - Dataset, FHIR store, metadata      quiz: ___%
+- [ ] Dia 10 - Cargar datos y referencias         quiz: ___%
+- [ ] Dia 11 - Terminologias (LOINC, SNOMED)      quiz: ___%
+- [ ] Dia 12 - Modelo FHIR y Bundle               quiz: ___%
+- [ ] Dia 13 - Mini-proyecto integrador           quiz: ___%
+- [ ] Dia 14 - Examen final acumulado             quiz: ___%
+
+## Retos Feynman (explica con tus palabras)
+
+Dia 1:
+Dia 2:
+Dia 3:
+Dia 4:
+Dia 5:
+Dia 6:
+Dia 7:
+Dia 8:
+Dia 9:
+Dia 10:
+Dia 11:
+Dia 12:
+Dia 13:
+Dia 14:
 
 ## Dudas para reforzar
 
-(Anota aqui lo que quede flojo, con la fecha)
+(Anota lo que quede flojo, con la fecha)
 
 -
 

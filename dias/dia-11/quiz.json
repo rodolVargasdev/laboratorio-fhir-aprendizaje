@@ -1,0 +1,66 @@
+{
+  "dia": 11,
+  "tema": "Terminologias clinicas",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d11q1",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Para que sirve LOINC?",
+      "opciones": [
+        "Codificar diagnosticos y procedimientos",
+        "Identificar que se midio u observo (laboratorio, signos vitales)",
+        "Definir unidades de medida",
+        "Autorizar el acceso"
+      ],
+      "respuesta": 1,
+      "explicacion": "LOINC = que se midio (ej. 8867-4 frecuencia cardiaca)."
+    },
+    {
+      "id": "d11q2",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Para que sirve SNOMED CT?",
+      "opciones": [
+        "Unidades de medida",
+        "Conceptos clinicos: diagnosticos, hallazgos, procedimientos",
+        "Direcciones de servidores",
+        "Formatos de fecha"
+      ],
+      "respuesta": 1,
+      "explicacion": "SNOMED CT cubre conceptos clinicos."
+    },
+    {
+      "id": "d11q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Diferencia entre Coding y CodeableConcept?",
+      "opciones": [
+        "Son lo mismo",
+        "Coding es un solo codigo; CodeableConcept agrupa varios coding + texto",
+        "CodeableConcept es un solo codigo; Coding agrupa varios",
+        "Coding es solo texto libre"
+      ],
+      "respuesta": 1,
+      "explicacion": "Coding = un codigo (system/code/display); CodeableConcept = varios + text."
+    },
+    {
+      "id": "d11q4",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "En un Coding, .que campo guarda la URL del vocabulario?",
+      "respuestas_validas": ["system", "el system", ".system"],
+      "explicacion": "system es la URL (ej. http://loinc.org)."
+    },
+    {
+      "id": "d11q5",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Cual fuerza de binding obliga a usar el value set indicado?",
+      "opciones": ["example", "preferred", "extensible", "required"],
+      "respuesta": 3,
+      "explicacion": "required es obligatorio; los demas son mas flexibles."
+    }
+  ]
+}

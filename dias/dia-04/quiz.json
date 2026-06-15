@@ -1,0 +1,60 @@
+{
+  "dia": 4,
+  "tema": "Codigos de estado y busqueda",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d4q1",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que indica un codigo 201?",
+      "opciones": ["No encontrado", "Created (recurso creado)", "Error del servidor", "No autorizado"],
+      "respuesta": 1,
+      "explicacion": "201 Created se devuelve tras crear un recurso (POST/PUT)."
+    },
+    {
+      "id": "d4q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Un error 4xx significa que...",
+      "opciones": [
+        "Fallo el servidor",
+        "El problema esta en la peticion del cliente",
+        "Todo salio bien",
+        "Hubo una redireccion"
+      ],
+      "respuesta": 1,
+      "explicacion": "4xx = error del cliente; 5xx = error del servidor."
+    },
+    {
+      "id": "d4q3",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Escribe la busqueda (ruta relativa) de pacientes con apellido Perez.",
+      "respuestas_validas": ["Patient?family=Perez", "/Patient?family=Perez", "GET Patient?family=Perez"],
+      "explicacion": "search por apellido: Patient?family=Perez."
+    },
+    {
+      "id": "d4q4",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Para buscar observaciones con fecha mayor o igual a 2024-01-01:",
+      "opciones": [
+        "Observation?date=2024-01-01",
+        "Observation?date=ge2024-01-01",
+        "Observation?date>2024-01-01",
+        "Observation?date=min2024-01-01"
+      ],
+      "respuesta": 1,
+      "explicacion": "El prefijo 'ge' significa 'greater or equal' (mayor o igual)."
+    },
+    {
+      "id": "d4q5",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "El resultado de una busqueda FHIR es un Bundle con un campo 'total' y 'entry'.",
+      "respuesta": true,
+      "explicacion": "Es un Bundle searchset; total cuenta coincidencias, entry trae la pagina."
+    }
+  ]
+}

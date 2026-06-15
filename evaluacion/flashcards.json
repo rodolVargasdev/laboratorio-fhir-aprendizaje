@@ -1,0 +1,50 @@
+[
+  {"id": "d1-resourcetype", "dia": 1, "tema": "JSON/FHIR", "frente": "En un recurso FHIR en JSON, .que campo indica de que tipo de recurso se trata?", "reverso": "El campo 'resourceType' (por ejemplo, \"resourceType\": \"Patient\")."},
+  {"id": "d1-objeto-array", "dia": 1, "tema": "JSON", "frente": "Diferencia entre objeto { } y array [ ] en JSON", "reverso": "El objeto agrupa pares clave:valor; el array es una lista ordenada de elementos."},
+  {"id": "d1-ruta-given", "dia": 1, "tema": "JSON/FHIR", "frente": "Ruta para el primer nombre de pila de un Patient", "reverso": "Patient.name[0].given[0]"},
+  {"id": "d1-tipos", "dia": 1, "tema": "JSON", "frente": "Tipos de valor permitidos en JSON", "reverso": "Texto (string), numero, booleano (true/false), null, objeto { } y array [ ]."},
+
+  {"id": "d2-xml-vs-json", "dia": 2, "tema": "Formatos", "frente": ".Que formatos admite FHIR para representar recursos?", "reverso": "JSON y XML. JSON es el mas usado hoy; el examen espera que sepas LEER ambos."},
+  {"id": "d2-anidamiento", "dia": 2, "tema": "JSON", "frente": ".Que significa que un JSON este 'anidado'?", "reverso": "Que un objeto o array contiene otros objetos/arrays dentro (estructura en arbol)."},
+  {"id": "d2-coding", "dia": 2, "tema": "FHIR", "frente": ".Que es un campo de tipo 'CodeableConcept'?", "reverso": "Un concepto codificado: contiene uno o varios 'coding' (system, code, display) y un 'text' libre."},
+
+  {"id": "d3-rest", "dia": 3, "tema": "REST", "frente": ".Que es una API REST?", "reverso": "Un estilo de comunicacion cliente-servidor sobre HTTP donde operas sobre recursos identificados por URLs usando metodos (GET, POST, PUT, DELETE)."},
+  {"id": "d3-get", "dia": 3, "tema": "REST", "frente": ".Que metodo HTTP se usa para LEER un recurso sin modificarlo?", "reverso": "GET. Es de solo lectura y no debe cambiar datos."},
+  {"id": "d3-read-fhir", "dia": 3, "tema": "FHIR", "frente": ".Como se lee un Patient con id 123 por REST en FHIR?", "reverso": "GET [base]/Patient/123"},
+  {"id": "d3-content-type", "dia": 3, "tema": "REST", "frente": ".Que cabecera pides para recibir FHIR en JSON?", "reverso": "Accept: application/fhir+json"},
+
+  {"id": "d4-200", "dia": 4, "tema": "HTTP", "frente": ".Que significa un codigo de estado 200?", "reverso": "OK: la peticion fue exitosa."},
+  {"id": "d4-404", "dia": 4, "tema": "HTTP", "frente": ".Que significa un codigo 404?", "reverso": "Not Found: el recurso no existe en esa URL."},
+  {"id": "d4-4xx-5xx", "dia": 4, "tema": "HTTP", "frente": ".Diferencia entre errores 4xx y 5xx?", "reverso": "4xx = error del cliente (peticion mal hecha); 5xx = error del servidor."},
+  {"id": "d4-search", "dia": 4, "tema": "FHIR", "frente": ".Como buscas pacientes por apellido 'Perez' en FHIR?", "reverso": "GET [base]/Patient?family=Perez"},
+
+  {"id": "d5-post", "dia": 5, "tema": "REST", "frente": ".Que metodo crea un recurso nuevo dejando que el servidor asigne el id?", "reverso": "POST a [base]/Patient. El servidor devuelve el id asignado."},
+  {"id": "d5-put", "dia": 5, "tema": "REST", "frente": ".Que metodo actualiza (o crea con id conocido) un recurso?", "reverso": "PUT a [base]/Patient/123. Es idempotente."},
+  {"id": "d5-idempotente", "dia": 5, "tema": "REST", "frente": ".Que significa que una operacion sea idempotente?", "reverso": "Repetirla varias veces produce el mismo resultado que hacerla una vez (ej. PUT, DELETE)."},
+
+  {"id": "d6-authn-authz", "dia": 6, "tema": "Seguridad", "frente": ".Diferencia entre autenticacion y autorizacion?", "reverso": "Autenticacion = quien eres (identidad). Autorizacion = que tienes permitido hacer."},
+  {"id": "d6-oauth", "dia": 6, "tema": "Seguridad", "frente": ".Para que sirve OAuth 2.0?", "reverso": "Es un marco de autorizacion: permite dar acceso limitado mediante tokens, sin compartir la contrasena."},
+  {"id": "d6-smart", "dia": 6, "tema": "Seguridad", "frente": ".Que es SMART on FHIR?", "reverso": "Un perfil sobre OAuth 2.0 para apps de salud: define como autorizar acceso a datos FHIR (incluye SMART Backend Services para sistema-a-sistema)."},
+  {"id": "d6-scope", "dia": 6, "tema": "Seguridad", "frente": ".Que es un 'scope' en OAuth/SMART?", "reverso": "El alcance de permiso de un token, p.ej. 'patient/Observation.read' (leer observaciones de un paciente)."},
+
+  {"id": "d8-jerarquia-gcp", "dia": 8, "tema": "GCP", "frente": ".Cual es la jerarquia basica de recursos en GCP?", "reverso": "Organizacion > Proyecto > Recursos. Todo recurso vive dentro de un proyecto."},
+  {"id": "d8-free-tier", "dia": 8, "tema": "GCP", "frente": ".Que capa gratuita tiene Cloud Healthcare API?", "reverso": "25,000 peticiones/mes gratis y 1 GiB-hora/mes de almacenamiento gratis. Suficiente para aprender."},
+
+  {"id": "d9-jerarquia-fhir", "dia": 9, "tema": "GCP/FHIR", "frente": ".Jerarquia para un FHIR store en GCP?", "reverso": "Proyecto > Localizacion > Dataset > FHIR store."},
+  {"id": "d9-version", "dia": 9, "tema": "GCP/FHIR", "frente": ".Que versiones de FHIR soporta Cloud Healthcare API?", "reverso": "DSTU2, STU3 y R4. Para certificacion usamos R4."},
+
+  {"id": "d10-synthea", "dia": 10, "tema": "Datos", "frente": ".Que es Synthea?", "reverso": "Un generador de datos clinicos sinteticos (pacientes ficticios) en formato FHIR, ideal para practicar sin datos reales."},
+
+  {"id": "d11-loinc", "dia": 11, "tema": "Terminologias", "frente": ".Para que sirve LOINC?", "reverso": "Codificar observaciones y pruebas de laboratorio (que se midio), p.ej. tipo de analisis de sangre."},
+  {"id": "d11-snomed", "dia": 11, "tema": "Terminologias", "frente": ".Para que sirve SNOMED CT?", "reverso": "Codificar conceptos clinicos: diagnosticos, hallazgos, procedimientos."},
+  {"id": "d11-coding-vs-codeable", "dia": 11, "tema": "Terminologias", "frente": ".Diferencia entre 'Coding' y 'CodeableConcept'?", "reverso": "Coding es un solo codigo (system+code+display). CodeableConcept puede tener varios Coding mas un texto libre."},
+  {"id": "d11-binding", "dia": 11, "tema": "Terminologias", "frente": ".Que es la 'fuerza de binding' de un value set?", "reverso": "Que tan obligatorio es usar codigos de ese value set: required, extensible, preferred o example."},
+
+  {"id": "d12-patient", "dia": 12, "tema": "FHIR", "frente": ".Que representa el recurso Patient?", "reverso": "Datos demograficos y administrativos de una persona que recibe atencion."},
+  {"id": "d12-observation", "dia": 12, "tema": "FHIR", "frente": ".Que representa el recurso Observation?", "reverso": "Una medicion o hallazgo: signos vitales, resultados de laboratorio, etc."},
+  {"id": "d12-reference", "dia": 12, "tema": "FHIR", "frente": ".Como enlaza una Observation con su paciente?", "reverso": "Con una referencia: Observation.subject = { \"reference\": \"Patient/123\" }."},
+  {"id": "d12-bundle", "dia": 12, "tema": "FHIR", "frente": ".Que es un Bundle en FHIR?", "reverso": "Un contenedor que agrupa varios recursos (resultados de busqueda, transacciones, documentos)."},
+
+  {"id": "d13-capability", "dia": 13, "tema": "FHIR", "frente": ".Que es el CapabilityStatement de un servidor FHIR?", "reverso": "Describe que recursos, operaciones y busquedas soporta ese servidor. Se obtiene con GET [base]/metadata."},
+  {"id": "d14-operationoutcome", "dia": 14, "tema": "FHIR", "frente": ".Que recurso devuelve un servidor FHIR para informar errores o validaciones?", "reverso": "OperationOutcome."}
+]

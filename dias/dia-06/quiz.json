@@ -1,0 +1,80 @@
+{
+  "dia": 6,
+  "tema": "OAuth 2.0 y SMART on FHIR",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d6q1",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que distingue autenticacion de autorizacion?",
+      "opciones": [
+        "Son sinonimos",
+        "Autenticacion = quien eres; autorizacion = que puedes hacer",
+        "Autenticacion = que puedes hacer; autorizacion = quien eres",
+        "Ambas verifican contrasenas unicamente"
+      ],
+      "respuesta": 1,
+      "explicacion": "authn = identidad; authz = permisos."
+    },
+    {
+      "id": "d6q2",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "OAuth 2.0 es principalmente un marco de...",
+      "opciones": ["cifrado", "autorizacion", "compresion", "enrutamiento"],
+      "respuesta": 1,
+      "explicacion": "OAuth 2.0 concede acceso limitado mediante tokens (autorizacion)."
+    },
+    {
+      "id": "d6q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que es SMART on FHIR?",
+      "opciones": [
+        "Un formato de datos alternativo a JSON",
+        "Un perfil sobre OAuth 2.0 para autorizar acceso a datos FHIR en salud",
+        "Un lenguaje de programacion",
+        "Una base de datos de pacientes"
+      ],
+      "respuesta": 1,
+      "explicacion": "SMART estandariza la autorizacion OAuth 2.0 para apps de salud."
+    },
+    {
+      "id": "d6q4",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que permite el scope 'patient/Observation.read'?",
+      "opciones": [
+        "Crear observaciones de cualquier paciente",
+        "Leer observaciones en el contexto del paciente",
+        "Borrar el recurso Patient",
+        "Acceso total de administrador"
+      ],
+      "respuesta": 1,
+      "explicacion": "El scope describe el alcance: leer Observation del paciente."
+    },
+    {
+      "id": "d6q5",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Un JWT esta formado por tres partes:",
+      "opciones": [
+        "usuario.clave.dominio",
+        "header.payload.signature",
+        "get.post.put",
+        "iss.aud.exp"
+      ],
+      "respuesta": 1,
+      "explicacion": "header.payload.signature, separadas por puntos."
+    },
+    {
+      "id": "d6q6",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "SMART Backend Services permite acceso sistema-a-sistema sin un usuario presente.",
+      "respuesta": true,
+      "explicacion": "Usa un JWT firmado con clave privada del cliente (flujo de backend)."
+    }
+  ]
+}

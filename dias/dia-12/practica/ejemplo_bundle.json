@@ -1,0 +1,51 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "p1",
+        "name": [{"family": "Lopez", "given": ["Ana"]}],
+        "gender": "female",
+        "birthDate": "1979-09-20"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "dr1",
+        "name": [{"family": "Martinez", "given": ["Carlos"], "prefix": ["Dr."]}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "e1",
+        "status": "finished",
+        "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB", "display": "ambulatorio"},
+        "subject": {"reference": "Patient/p1"}
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "o1",
+        "status": "final",
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8480-6", "display": "Presion sistolica"}]},
+        "subject": {"reference": "Patient/p1"},
+        "encounter": {"reference": "Encounter/e1"},
+        "valueQuantity": {"value": 150, "unit": "mmHg"}
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "c1",
+        "code": {"coding": [{"system": "http://snomed.info/sct", "code": "38341003", "display": "Hipertension"}]},
+        "subject": {"reference": "Patient/p1"},
+        "encounter": {"reference": "Encounter/e1"}
+      }
+    }
+  ]
+}

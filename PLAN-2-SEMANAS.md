@@ -6,9 +6,10 @@ Perfil para el que esta calibrado este plan:
 - Lenguaje de practica: Python.
 - Google Cloud: cuenta Google existente, falta proyecto y facturacion.
 
-Cada dia tiene un objetivo claro, una parte de teoria corta y una parte de
-practica que ejecutas. Si un dia se complica, NO te saltes la practica: es
-donde de verdad se fijan los conceptos. Marca tu avance en `PROGRESO.md`.
+Cada dia vive en su carpeta `dias/dia-XX/` con su leccion (README.md), su
+practica y su quiz. Este archivo es el indice general; el detalle esta en cada dia.
+Si un dia se complica, NO te saltes la practica: es donde se fijan los conceptos.
+Marca tu avance en `PROGRESO.md`.
 
 ---
 
@@ -16,8 +17,7 @@ donde de verdad se fijan los conceptos. Marca tu avance en `PROGRESO.md`.
 
 ### Dia 1 - Entorno + JSON + primer GET a un servidor FHIR
 - Teoria: que es JSON y por que FHIR lo usa. Objetos, arrays, tipos.
-- Practica: `01-fundamentos-software/json/` leer un recurso Patient real
-  desde el servidor publico HAPI FHIR con Python.
+- Practica: `dias/dia-01/` leer un Patient local y uno real del servidor publico.
 - Resultado esperado: imprimes el nombre de un paciente desde JSON real.
 
 ### Dia 2 - JSON a fondo + XML comparado
@@ -79,7 +79,9 @@ donde de verdad se fijan los conceptos. Marca tu avance en `PROGRESO.md`.
 
 ## Reglas del juego
 
-- Repeticion espaciada: cada dia, 10 minutos repasando lo del dia anterior.
+- Repeticion espaciada: cada dia, 10 minutos con `python evaluacion\repaso.py`.
+- Recuperacion activa: cierra cada dia con `python evaluacion\quiz_runner.py --dia N` (meta 80%).
 - Si algo no quedo claro, marcalo en `PROGRESO.md` y lo reforzamos.
-- Coste: todo lo de la semana 1 es gratis (servidores publicos). En la semana 2,
-  GCP se usa dentro del credito gratuito; veras como evitar cargos.
+- Coste: la semana 1 es gratis (servidores publicos). La semana 2 es gratis con
+  servidor HAPI local o con la capa gratuita de Cloud Healthcare API (sin
+  necesidad de credito de bienvenida). Incluye guia de limpieza para no gastar.

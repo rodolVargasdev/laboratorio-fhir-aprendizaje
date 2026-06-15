@@ -1,0 +1,60 @@
+{
+  "dia": 3,
+  "tema": "HTTP y REST (lecturas)",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d3q1",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que metodo HTTP se usa para LEER sin modificar?",
+      "opciones": ["POST", "GET", "PUT", "DELETE"],
+      "respuesta": 1,
+      "explicacion": "GET es de solo lectura y no debe cambiar datos."
+    },
+    {
+      "id": "d3q2",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Escribe la peticion para leer el Patient con id 123 (metodo y ruta relativa).",
+      "respuestas_validas": ["GET Patient/123", "GET /Patient/123", "Patient/123"],
+      "explicacion": "Read = GET [base]/Patient/123."
+    },
+    {
+      "id": "d3q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que devuelve una operacion 'search' en FHIR?",
+      "opciones": [
+        "Un recurso unico",
+        "Un Bundle con los resultados",
+        "Un codigo de estado solamente",
+        "Un OperationOutcome siempre"
+      ],
+      "respuesta": 1,
+      "explicacion": "search devuelve un Bundle de tipo searchset con entradas."
+    },
+    {
+      "id": "d3q4",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que cabecera pide la respuesta en JSON de FHIR?",
+      "opciones": [
+        "Accept: application/fhir+json",
+        "Content-Length: json",
+        "Authorization: json",
+        "Host: fhir"
+      ],
+      "respuesta": 0,
+      "explicacion": "Accept indica el formato que quieres recibir."
+    },
+    {
+      "id": "d3q5",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "Una peticion GET puede usarse para crear un recurso nuevo.",
+      "respuesta": false,
+      "explicacion": "Crear es POST (o PUT con id). GET es solo lectura."
+    }
+  ]
+}

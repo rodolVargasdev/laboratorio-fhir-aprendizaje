@@ -1,0 +1,52 @@
+{
+  "dia": 10,
+  "tema": "Cargar datos y referencias",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d10q1",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que es Synthea?",
+      "opciones": [
+        "Un servidor FHIR comercial",
+        "Un generador de datos clinicos sinteticos en formato FHIR",
+        "Un lenguaje de consulta",
+        "Una terminologia clinica"
+      ],
+      "respuesta": 1,
+      "explicacion": "Synthea crea pacientes ficticios para practicar sin datos reales."
+    },
+    {
+      "id": "d10q2",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": ".Como se escribe la referencia de una Observation al Patient con id 123? (valor del campo reference)",
+      "respuestas_validas": ["Patient/123"],
+      "explicacion": "El valor de subject.reference es Patient/123 (tipo/id)."
+    },
+    {
+      "id": "d10q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Por que se usan referencias entre recursos?",
+      "opciones": [
+        "Para duplicar datos en cada recurso",
+        "Para enlazar recursos sin copiar sus datos (un paciente, muchas observaciones)",
+        "Para cifrar la informacion",
+        "Para comprimir el JSON"
+      ],
+      "respuesta": 1,
+      "explicacion": "Las referencias conectan recursos evitando duplicar informacion."
+    },
+    {
+      "id": "d10q4",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que tipo de Bundle envia varios recursos de forma atomica?",
+      "opciones": ["searchset", "document", "transaction", "collection"],
+      "respuesta": 2,
+      "explicacion": "El Bundle 'transaction' se procesa de forma atomica (todo o nada)."
+    }
+  ]
+}

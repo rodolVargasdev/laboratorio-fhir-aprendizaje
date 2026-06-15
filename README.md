@@ -1,59 +1,61 @@
-# Laboratorio de aprendizaje: cimientos de software para FHIR (enfoque Google Cloud)
+# Laboratorio de aprendizaje: cimientos de software para FHIR (Google Cloud first)
 
-Este workspace es tu laboratorio personal para prepararte, en 2 semanas, para
-estudiar el estandar HL7 FHIR de cara a la certificacion, desde el rol de
-desarrollador e implementador de la division de desarrollo de DoctorSV El Salvador.
+Tu laboratorio personal para prepararte, en 2 semanas intensivas y luego durante
+el resto del anio, para estudiar el estandar HL7 FHIR de cara a la certificacion,
+desde el rol de desarrollador e implementador de DoctorSV El Salvador.
 
 ## Idea central
 
-Durante estas 2 semanas NO se aprende FHIR a profundidad todavia. Se construyen
-los cimientos de software que el examen de certificacion da por sabidos, y se deja
-montado el entorno (incluido Google Cloud) para que el estudio posterior de FHIR
-sea fluido.
+Las 2 semanas construyen los CIMIENTOS de software que el examen da por sabidos
+(JSON, REST, seguridad, terminologias, modelo FHIR) y dejan montado el entorno
+(servidor FHIR local gratis o Cloud Healthcare API en capa gratuita). Despues, el
+plan del resto del anio acumula la experiencia practica que HL7 recomienda antes
+del examen.
 
-Metodologia: "aprender haciendo + repeticion espaciada".
-Cada tema tiene: explicacion simple con analogia, ejemplo concreto, y un
-mini-ejercicio que tu ejecutas y verificas.
+Metodologia con evidencia: recuperacion activa + repeticion espaciada +
+intercalado, con medicion objetiva de tu dominio. Detalle en
+`METODOLOGIA-APRENDIZAJE.md`.
 
-## Contexto de la certificacion (resumen verificado en HL7)
+## Como se mide que SI aprendiste (objetivo, con numeros)
 
-HL7 International ofrece dos niveles tecnicos:
+- Quiz diario auto-corregido con umbral de maestria (80%) y desglose por nivel de
+  Bloom: `python evaluacion\quiz_runner.py --dia N`
+- Repaso espaciado con cajas de Leitner (micro-aprendizaje):
+  `python evaluacion\repaso.py`
+- Historial de resultados en `evaluacion/resultados/historial.csv`.
 
-- FHIR Foundational Implementer (entrada): 100 preguntas, opcion multiple, 3 horas,
-  libro cerrado, se aprueba con 60%. Es el punto de partida obligatorio.
-- FHIR Advanced Developer (avanzado): requiere aprobar primero el Foundational.
-  Se aprueba con 65%.
+## Por donde empezar
 
-Nota honesta: HL7 recomienda alrededor de 6 meses de experiencia real con FHIR
-antes del examen Foundational. Por eso estas 2 semanas son para cimientos y
-entorno, no para presentar el examen.
+1. Lee `00-setup/README.md` y deja tu entorno listo (una sola vez).
+2. Lee `COMO-USAR-CON-COMPOSER.md` (como estudiar cada dia con Composer 2.5).
+3. Empieza por `dias/dia-01/README.md` y avanza un dia por jornada.
+4. Apunta tu progreso en `PROGRESO.md`.
 
-## Prerrequisitos de software que cubre este laboratorio
+## Estructura del workspace
 
-Tomados de la guia oficial de competencias del examen:
+- `dias/dia-01` ... `dias/dia-14/` Un dia por carpeta. Cada uno tiene:
+  - `README.md` leccion + practica + reto Feynman + "Prompt para Composer 2.5".
+  - `quiz.json` evaluacion objetiva del dia.
+  - `practica/` scripts y guias ejecutables.
+- `evaluacion/` motor de quizzes (`quiz_runner.py`), repaso espaciado
+  (`repaso.py`) y mazo de tarjetas (`flashcards.json`).
+- `00-setup/` preparacion del entorno.
+- `recursos/` enlaces oficiales y servidores de practica.
+- `METODOLOGIA-APRENDIZAJE.md` como aprendemos y como medimos el dominio.
+- `COMO-USAR-CON-COMPOSER.md` flujo diario con Composer 2.5.
+- `PLAN-2-SEMANAS.md` calendario de las 2 semanas.
+- `PLAN-RESTO-DEL-ANIO.md` hoja de ruta de varios meses hacia el examen.
+- `MICRO-APRENDIZAJE.md` rutinas de 5-15 min para dias ocupados.
+- `PROGRESO.md` tu tablero de control.
 
-- JSON y XML (leer y entender la estructura)
-- APIs REST (metodos HTTP, codigos de estado, busqueda)
-- Seguridad web: OAuth 2.0 y su perfil sanitario SMART on FHIR
-- Nociones de terminologias clinicas (LOINC, SNOMED, CodeableConcept)
-- Herramientas de desarrollo: Git, Python, cliente REST
-- Google Cloud Healthcare API (servidor FHIR R4 gestionado)
+## Costo
 
-## Como usar este workspace
+- Semana 1: $0 (servidores publicos de prueba).
+- Semana 2: $0 con servidor HAPI local, o $0 con la capa gratuita de Cloud
+  Healthcare API (25,000 peticiones/mes y 1 GiB-hora/mes). Incluye guia de
+  limpieza para no gastar.
 
-1. Empieza por `00-setup/README.md` para dejar tu entorno listo.
-2. Sigue el calendario en `PLAN-2-SEMANAS.md`, dia por dia.
-3. Marca tu avance en `PROGRESO.md` (es tu tablero de control).
-4. Los ejercicios viven en cada modulo `01-...`, `02-...`, etc.
-5. Cuando dudes de un concepto, cada leccion incluye una autoevaluacion corta.
+## Seguridad
 
-## Estructura
-
-- `00-setup/` Preparacion del entorno de trabajo
-- `01-fundamentos-software/` JSON, REST, OAuth/SMART, terminologias
-- `02-gcp/` Google Cloud: cuenta, facturacion y Healthcare API
-- `03-fhir-intro/` Primer contacto con recursos FHIR (al final de las 2 semanas)
-- `recursos/` Enlaces oficiales y servidores de practica gratuitos
-- `PLAN-2-SEMANAS.md` Calendario detallado
-- `PROGRESO.md` Tablero de seguimiento
-- `requirements.txt` Dependencias de Python
+Todo es local y gratuito. El `.gitignore` excluye claves y secretos. Usa SIEMPRE
+datos ficticios: nunca subas datos reales de pacientes a servidores de practica.

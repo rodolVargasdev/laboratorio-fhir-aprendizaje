@@ -1,0 +1,97 @@
+{
+  "dia": 14,
+  "tema": "Examen final acumulado",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d14q1",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Ruta para leer el Patient con id 42.",
+      "respuestas_validas": ["GET Patient/42", "Patient/42", "/Patient/42"],
+      "explicacion": "Read = GET [base]/Patient/42."
+    },
+    {
+      "id": "d14q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Recurso que un servidor FHIR devuelve para informar errores/validaciones:",
+      "opciones": ["OperationOutcome", "Bundle", "CapabilityStatement", "Parameters"],
+      "respuesta": 0,
+      "explicacion": "OperationOutcome transporta detalles de error/validacion."
+    },
+    {
+      "id": "d14q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "LOINC se usa para... y SNOMED CT para...",
+      "opciones": [
+        "diagnosticos / mediciones",
+        "mediciones-observaciones / conceptos clinicos (diagnosticos)",
+        "unidades / direcciones",
+        "tokens / fechas"
+      ],
+      "respuesta": 1,
+      "explicacion": "LOINC = que se midio; SNOMED = conceptos clinicos."
+    },
+    {
+      "id": "d14q4",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "SMART on FHIR se basa en... y un scope describe...",
+      "opciones": [
+        "SOAP / la version FHIR",
+        "OAuth 2.0 / el alcance del permiso",
+        "FTP / la unidad de medida",
+        "GraphQL / el id del paciente"
+      ],
+      "respuesta": 1,
+      "explicacion": "SMART = perfil OAuth 2.0; el scope define que se puede hacer."
+    },
+    {
+      "id": "d14q5",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Jerarquia de un FHIR store en GCP:",
+      "opciones": [
+        "Dataset > Proyecto > Store",
+        "Proyecto > Localizacion > Dataset > FHIR store",
+        "Store > Dataset > Region",
+        "Organizacion > Store > Dataset"
+      ],
+      "respuesta": 1,
+      "explicacion": "Proyecto > Localizacion > Dataset > FHIR store."
+    },
+    {
+      "id": "d14q6",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Cual es idempotente?",
+      "opciones": ["POST", "DELETE", "ninguno", "solo PATCH"],
+      "respuesta": 1,
+      "explicacion": "DELETE (y GET, PUT) son idempotentes; POST no."
+    },
+    {
+      "id": "d14q7",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Endpoint para obtener el CapabilityStatement (ruta relativa).",
+      "respuestas_validas": ["metadata", "/metadata", "GET metadata"],
+      "explicacion": "GET [base]/metadata."
+    },
+    {
+      "id": "d14q8",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Una app muestra 401 al llamar a tu FHIR store de GCP. .Causa mas probable?",
+      "opciones": [
+        "El recurso no existe",
+        "Falta o expiro el token de acceso (autorizacion)",
+        "El JSON esta mal formado",
+        "El servidor esta caido"
+      ],
+      "respuesta": 1,
+      "explicacion": "401 = no autenticado; el token de GCP caduca en ~1 hora."
+    }
+  ]
+}

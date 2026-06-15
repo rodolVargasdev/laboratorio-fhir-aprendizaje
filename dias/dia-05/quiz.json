@@ -1,0 +1,50 @@
+{
+  "dia": 5,
+  "tema": "CRUD e idempotencia",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d5q1",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que metodo crea un recurso dejando que el servidor asigne el id?",
+      "opciones": ["PUT", "POST", "GET", "PATCH"],
+      "respuesta": 1,
+      "explicacion": "POST crea y el servidor asigna el id (responde 201 Created)."
+    },
+    {
+      "id": "d5q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Cual de estas operaciones NO es idempotente?",
+      "opciones": ["GET", "PUT", "DELETE", "POST"],
+      "respuesta": 3,
+      "explicacion": "Dos POST iguales crean dos recursos distintos; no es idempotente."
+    },
+    {
+      "id": "d5q3",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "PUT requiere enviar el recurso completo, no solo el campo a cambiar.",
+      "respuesta": true,
+      "explicacion": "PUT reemplaza el recurso entero. Para cambios parciales existe PATCH."
+    },
+    {
+      "id": "d5q4",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Metodo y ruta relativa para borrar el Patient con id 999.",
+      "respuestas_validas": ["DELETE Patient/999", "DELETE /Patient/999", "Patient/999"],
+      "explicacion": "Delete = DELETE [base]/Patient/999."
+    },
+    {
+      "id": "d5q5",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Tras un POST exitoso, .que codigo de estado esperas?",
+      "opciones": ["200 OK", "201 Created", "404 Not Found", "500 Internal Server Error"],
+      "respuesta": 1,
+      "explicacion": "201 Created, con la cabecera Location del nuevo recurso."
+    }
+  ]
+}

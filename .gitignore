@@ -17,6 +17,11 @@ datos/*.ndjson
 datos/*.json
 !datos/.gitkeep
 
+# Resultados personales de evaluacion (tu progreso local)
+evaluacion/resultados/*.csv
+evaluacion/resultados/*.json
+!evaluacion/resultados/.gitkeep
+
 # Sistema operativo / editor
 .DS_Store
 Thumbs.db

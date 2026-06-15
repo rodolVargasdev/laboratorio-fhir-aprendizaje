@@ -1,0 +1,37 @@
+{
+  "dia": 13,
+  "tema": "Integracion (mini-proyecto)",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d13q1",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Para generar un resumen clinico de un paciente, .que pasos REST necesitas?",
+      "opciones": [
+        "Solo un POST",
+        "Crear (POST) los datos y luego leerlos (GET/search) por subject",
+        "Solo borrar (DELETE)",
+        "Solo pedir un token"
+      ],
+      "respuesta": 1,
+      "explicacion": "Creas con POST y luego consultas con GET/search filtrando por paciente."
+    },
+    {
+      "id": "d13q2",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Parametro de busqueda para traer observaciones de un paciente concreto.",
+      "respuestas_validas": ["subject", "subject=Patient/id", "patient"],
+      "explicacion": "Observation?subject=Patient/{id} (tambien existe el parametro patient)."
+    },
+    {
+      "id": "d13q3",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "Leer de vuelta del servidor confirma que los datos se guardaron y estan enlazados.",
+      "respuesta": true,
+      "explicacion": "Verificar leyendo es buena practica: confirma persistencia y relaciones."
+    }
+  ]
+}

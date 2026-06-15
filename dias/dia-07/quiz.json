@@ -1,0 +1,67 @@
+{
+  "dia": 7,
+  "tema": "Consolidacion Semana 1",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d7q1",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Ruta para el apellido oficial de un Patient (primer name).",
+      "respuestas_validas": ["Patient.name[0].family", "name[0].family"],
+      "explicacion": "name es array; tomamos [0].family."
+    },
+    {
+      "id": "d7q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Una busqueda FHIR devuelve...",
+      "opciones": ["un recurso unico", "un Bundle", "un JWT", "un CapabilityStatement"],
+      "respuesta": 1,
+      "explicacion": "search devuelve un Bundle searchset."
+    },
+    {
+      "id": "d7q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Un 403 significa...",
+      "opciones": ["creado", "no autorizado (prohibido)", "error de servidor", "ok"],
+      "respuesta": 1,
+      "explicacion": "403 Forbidden: autenticado pero sin permiso."
+    },
+    {
+      "id": "d7q4",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Cual es idempotente?",
+      "opciones": ["POST", "PUT", "ninguno", "todos menos GET"],
+      "respuesta": 1,
+      "explicacion": "PUT (y GET, DELETE) son idempotentes; POST no."
+    },
+    {
+      "id": "d7q5",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "SMART on FHIR se construye sobre...",
+      "opciones": ["FTP", "OAuth 2.0", "SOAP", "GraphQL"],
+      "respuesta": 1,
+      "explicacion": "SMART es un perfil de OAuth 2.0 para salud."
+    },
+    {
+      "id": "d7q6",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Busqueda (ruta relativa) de Observation con codigo LOINC 8867-4.",
+      "respuestas_validas": ["Observation?code=8867-4", "/Observation?code=8867-4"],
+      "explicacion": "search por code: Observation?code=8867-4."
+    },
+    {
+      "id": "d7q7",
+      "bloom": "recordar",
+      "tipo": "verdadero_falso",
+      "pregunta": "El campo resourceType identifica el tipo de recurso en JSON.",
+      "respuesta": true,
+      "explicacion": "Siempre presente en cada recurso FHIR."
+    }
+  ]
+}

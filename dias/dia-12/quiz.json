@@ -1,0 +1,56 @@
+{
+  "dia": 12,
+  "tema": "Modelo FHIR y Bundle",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d12q1",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que recurso representa una visita o atencion?",
+      "opciones": ["Observation", "Encounter", "Organization", "Condition"],
+      "respuesta": 1,
+      "explicacion": "Encounter modela una visita/atencion."
+    },
+    {
+      "id": "d12q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que recurso representa un diagnostico o problema?",
+      "opciones": ["Condition", "MedicationRequest", "Patient", "Practitioner"],
+      "respuesta": 0,
+      "explicacion": "Condition modela diagnosticos/problemas."
+    },
+    {
+      "id": "d12q3",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": ".Como se llama el array de un Bundle que contiene los recursos?",
+      "respuestas_validas": ["entry", "el entry", ".entry", "bundle.entry"],
+      "explicacion": "Bundle.entry es la lista de entradas, cada una con un 'resource'."
+    },
+    {
+      "id": "d12q4",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Para 'paciente con hipertension diagnosticada en una consulta y con receta', .que combinacion es correcta?",
+      "opciones": [
+        "Solo Patient",
+        "Patient + Encounter + Condition + MedicationRequest",
+        "Solo Observation",
+        "Organization + Practitioner unicamente"
+      ],
+      "respuesta": 1,
+      "explicacion": "Cada hecho clinico es un recurso distinto enlazado por referencias."
+    },
+    {
+      "id": "d12q5",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Un Bundle de tipo 'searchset' se obtiene tipicamente al...",
+      "opciones": ["crear un recurso", "hacer una busqueda (search)", "borrar un recurso", "pedir un token"],
+      "respuesta": 1,
+      "explicacion": "Las busquedas devuelven un Bundle searchset."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "dia": 2,
+  "tema": "JSON anidado y XML",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d2q1",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Ruta para el codigo LOINC de una Observation (primer coding).",
+      "respuestas_validas": ["Observation.code.coding[0].code", "code.coding[0].code"],
+      "explicacion": "code es un CodeableConcept; coding es un array; tomamos [0].code."
+    },
+    {
+      "id": "d2q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que contiene un CodeableConcept?",
+      "opciones": [
+        "Solo un texto libre",
+        "Solo un codigo",
+        "Uno o varios 'coding' (codigos) y opcionalmente un 'text'",
+        "Una referencia a otro recurso"
+      ],
+      "respuesta": 2,
+      "explicacion": "CodeableConcept = lista de coding + texto legible opcional."
+    },
+    {
+      "id": "d2q3",
+      "bloom": "recordar",
+      "tipo": "verdadero_falso",
+      "pregunta": "FHIR puede representarse tanto en JSON como en XML.",
+      "respuesta": true,
+      "explicacion": "Ambos formatos son validos; JSON es el mas usado."
+    },
+    {
+      "id": "d2q4",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "En XML de FHIR, .donde suele ir el valor de un elemento simple?",
+      "opciones": [
+        "Entre las etiquetas, como texto",
+        "En el atributo 'value' de la etiqueta",
+        "En un comentario",
+        "En el nombre de la etiqueta"
+      ],
+      "respuesta": 1,
+      "explicacion": "FHIR XML usa atributos value, p.ej. <status value=\"final\"/>."
+    },
+    {
+      "id": "d2q5",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Ruta para el valor numerico de una Observation con valueQuantity.",
+      "respuestas_validas": ["Observation.valueQuantity.value", "valueQuantity.value"],
+      "explicacion": "El numero medido vive en valueQuantity.value."
+    }
+  ]
+}
