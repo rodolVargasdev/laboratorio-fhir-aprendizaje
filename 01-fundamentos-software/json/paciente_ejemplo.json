@@ -1,0 +1,25 @@
+{
+  "resourceType": "Patient",
+  "id": "ejemplo-1",
+  "active": true,
+  "name": [
+    {
+      "use": "official",
+      "family": "Hernandez",
+      "given": ["Maria", "Jose"]
+    }
+  ],
+  "telecom": [
+    { "system": "phone", "value": "+503 7000-0000", "use": "mobile" },
+    { "system": "email", "value": "maria.hernandez@ejemplo.sv", "use": "home" }
+  ],
+  "gender": "female",
+  "birthDate": "1985-04-12",
+  "address": [
+    {
+      "use": "home",
+      "city": "San Salvador",
+      "country": "SV"
+    }
+  ]
+}

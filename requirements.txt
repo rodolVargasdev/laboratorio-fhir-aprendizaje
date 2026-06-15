@@ -1,0 +1,12 @@
+# Dependencias de Python para el laboratorio FHIR
+# Instalar con: pip install -r requirements.txt
+
+# Cliente HTTP moderno y simple para hablar con servidores FHIR (REST)
+requests==2.32.3
+
+# Utilidades para imprimir JSON de forma legible y trabajar en consola
+rich==13.9.4
+
+# (Semana 2) Cliente oficial de Google para Cloud Healthcare API
+google-api-python-client==2.149.0
+google-auth==2.36.0

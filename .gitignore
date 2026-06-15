@@ -1,0 +1,23 @@
+# Entorno virtual de Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Credenciales y secretos: NUNCA subir a git
+*.pem
+*.key
+*-key.json
+service-account*.json
+.env
+credenciales/
+
+# Datos descargados de practica
+datos/*.ndjson
+datos/*.json
+!datos/.gitkeep
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
+.vscode/
