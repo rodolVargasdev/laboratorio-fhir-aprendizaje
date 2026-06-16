@@ -54,5 +54,17 @@
 
   {"id": "d16-profile", "dia": 16, "tema": "Profiles", "frente": ".Que es un profile en FHIR?", "reverso": "Restriccion del estandar base para un caso de uso, definida en StructureDefinition."},
   {"id": "d16-sd", "dia": 16, "tema": "Profiles", "frente": ".Que recurso define formalmente un profile?", "reverso": "StructureDefinition."},
-  {"id": "d16-differential", "dia": 16, "tema": "Profiles", "frente": "differential vs snapshot en StructureDefinition", "reverso": "differential = cambios vs base; snapshot = vista completa expandida del profile."}
+  {"id": "d16-differential", "dia": 16, "tema": "Profiles", "frente": "differential vs snapshot en StructureDefinition", "reverso": "differential = cambios vs base; snapshot = vista completa expandida del profile."},
+
+  {"id": "d17-backend", "dia": 17, "tema": "SMART", "frente": "SMART Backend Services vs App Launch", "reverso": "Backend = sistema a sistema con JWT; App Launch = usuario autoriza en el navegador."},
+  {"id": "d17-jti", "dia": 17, "tema": "SMART", "frente": "Claim JWT que evita replay de assertions", "reverso": "jti (JWT ID), unico por emision."},
+
+  {"id": "d18-include", "dia": 18, "tema": "Search", "frente": "Parametro para incluir recursos referenciados en el Bundle", "reverso": "_include (ej. Observation?_include=Observation:subject)."},
+  {"id": "d18-revinclude", "dia": 18, "tema": "Search", "frente": "_include vs _revinclude", "reverso": "_include = lo referenciado; _revinclude = recursos que referencian al resultado."},
+
+  {"id": "d19-cs-vs-vs", "dia": 19, "tema": "Terminologia", "frente": "CodeSystem vs ValueSet", "reverso": "CodeSystem = diccionario; ValueSet = subconjunto seleccionado de codigos."},
+  {"id": "d19-expand", "dia": 19, "tema": "Terminologia", "frente": "Operacion para listar codigos de un ValueSet", "reverso": "$expand."},
+
+  {"id": "d20-iam", "dia": 20, "tema": "GCP", "frente": "Rol IAM minimo para solo LEER recursos FHIR", "reverso": "roles/healthcare.fhirResourceReader."},
+  {"id": "d20-metrics", "dia": 20, "tema": "GCP", "frente": "Metodo para metricas del FHIR store", "reverso": "fhirStores.getFHIRStoreMetrics."}
 ]

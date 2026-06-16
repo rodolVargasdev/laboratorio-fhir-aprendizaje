@@ -36,7 +36,7 @@ intercalado, con medicion objetiva de tu dominio. Detalle en
 
 ## Estructura del workspace
 
-- `dias/dia-01` ... `dias/dia-14/` Un dia por carpeta. Cada uno tiene:
+- `dias/dia-01` ... `dias/dia-20/` Un dia por carpeta (20 modulos). Cada uno tiene:
   - `README.md` leccion + practica + reto Feynman + "Prompt para Composer 2.5".
   - `quiz.json` evaluacion objetiva del dia.
   - `practica/` scripts y guias ejecutables.

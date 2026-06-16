@@ -1,0 +1,55 @@
+{
+  "dia": 19,
+  "tema": "Terminologia avanzada",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d19q1",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que define un vocabulario de codigos (el diccionario completo)?",
+      "opciones": ["ValueSet", "CodeSystem", "Bundle", "Encounter"],
+      "respuesta": 1,
+      "explicacion": "CodeSystem define los codigos; ValueSet selecciona un subconjunto."
+    },
+    {
+      "id": "d19q2",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Operacion para obtener la lista de codigos de un ValueSet:",
+      "opciones": ["$validate", "$expand", "$everything", "$match"],
+      "respuesta": 1,
+      "explicacion": "$expand materializa los codigos del ValueSet."
+    },
+    {
+      "id": "d19q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "ConceptMap sirve para...",
+      "opciones": [
+        "Mapear codigos entre vocabularios",
+        "Borrar pacientes",
+        "Firmar JWT",
+        "Crear datasets en GCP"
+      ],
+      "respuesta": 0,
+      "explicacion": "ConceptMap traduce entre CodeSystems."
+    },
+    {
+      "id": "d19q4",
+      "bloom": "recordar",
+      "tipo": "verdadero_falso",
+      "pregunta": "Binding 'required' obliga a usar codigos del ValueSet indicado.",
+      "respuesta": true,
+      "explicacion": "required es la fuerza de binding mas estricta."
+    },
+    {
+      "id": "d19q5",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Operacion para obtener el display de un codigo dado system+code.",
+      "respuestas_validas": ["$lookup", "lookup"],
+      "explicacion": "CodeSystem/$lookup con system y code."
+    }
+  ]
+}

@@ -190,17 +190,10 @@ Compuerta: dominios `terminologia` y `busqueda_avanzada` >= 70.
 
 ---
 
-## Modulos avanzados sugeridos para el laboratorio (dias 15-20)
+## Modulos avanzados del laboratorio (dias 15-20)
 
-- Dia 15: `$validate` + OperationOutcome (troubleshooting). **CREADO**
-- Dia 16: profiles y StructureDefinition (lectura y validacion). **CREADO**
-- Dia 17: SMART on FHIR hands-on (flujo de token real). pendiente
-- Dia 18: search avanzado (chaining, _include, modificadores). pendiente
-- Dia 19: terminologia avanzada (ValueSet/CodeSystem/ConceptMap, $expand). pendiente
-- Dia 20: GCP avanzado (import Synthea, IAM, metricas del store). pendiente
-
-Los dias 15-16 ya estan en `dias/dia-15/` y `dias/dia-16/` y alimentan los
-dominios en `blueprints.json` automaticamente.
+Todos creados en `dias/dia-15/` ... `dias/dia-20/` con leccion, practica, quiz y
+prompt para Composer. Alimentan `blueprints.json` automaticamente.
 
 ---
 

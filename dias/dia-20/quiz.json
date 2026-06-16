@@ -1,0 +1,65 @@
+{
+  "dia": 20,
+  "tema": "GCP Healthcare API avanzado",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d20q1",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Para importar archivos .ndjson desde GCS a un FHIR store usas...",
+      "opciones": [
+        "gcloud healthcare fhir-stores import gcs",
+        "gsutil fhir upload",
+        "POST Patient/$import solamente",
+        "BigQuery insert"
+      ],
+      "respuesta": 0,
+      "explicacion": "Healthcare API tiene operacion import desde GCS."
+    },
+    {
+      "id": "d20q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Rol IAM minimo para una app que solo LEE recursos FHIR:",
+      "opciones": [
+        "roles/owner",
+        "roles/healthcare.fhirResourceReader",
+        "roles/storage.admin",
+        "roles/compute.admin"
+      ],
+      "respuesta": 1,
+      "explicacion": "fhirResourceReader = lectura de recursos FHIR."
+    },
+    {
+      "id": "d20q3",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Metodo para obtener metricas del FHIR store (conteo por tipo):",
+      "opciones": [
+        "fhirStores.getFHIRStoreMetrics",
+        "Patient/$everything",
+        "ValueSet/$expand",
+        "Dataset/$delete"
+      ],
+      "respuesta": 0,
+      "explicacion": "getFHIRStoreMetrics devuelve conteos y tamanos."
+    },
+    {
+      "id": "d20q4",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "Borrar el dataset al terminar practicas evita cargos futuros de almacenamiento.",
+      "respuesta": true,
+      "explicacion": "Sin dataset/store no hay coste de almacenamiento FHIR."
+    },
+    {
+      "id": "d20q5",
+      "bloom": "recordar",
+      "tipo": "verdadero_falso",
+      "pregunta": "Debes subir claves de cuenta de servicio (*.json) al repositorio git.",
+      "respuesta": false,
+      "explicacion": "Nunca en git; .gitignore las excluye."
+    }
+  ]
+}

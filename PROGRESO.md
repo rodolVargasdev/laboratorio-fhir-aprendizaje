@@ -35,6 +35,10 @@ Comandos:
 
 - [ ] Dia 15 - $validate y OperationOutcome       quiz: ___%
 - [ ] Dia 16 - Profiles y StructureDefinition    quiz: ___%
+- [ ] Dia 17 - SMART on FHIR en practica         quiz: ___%
+- [ ] Dia 18 - Busqueda avanzada                 quiz: ___%
+- [ ] Dia 19 - Terminologia avanzada             quiz: ___%
+- [ ] Dia 20 - GCP avanzado (import, IAM)        quiz: ___%
 
 ## Retos Feynman (explica con tus palabras)
 

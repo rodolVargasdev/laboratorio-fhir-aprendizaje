@@ -1,0 +1,65 @@
+{
+  "dia": 18,
+  "tema": "Busqueda avanzada FHIR",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d18q1",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Para traer Observation y los Patient referenciados en un solo Bundle:",
+      "opciones": [
+        "Observation?_include=Observation:subject",
+        "Observation?_revinclude=Patient:subject",
+        "Patient?_include=Observation:subject",
+        "Observation?_count=include"
+      ],
+      "respuesta": 0,
+      "explicacion": "_include trae recursos referenciados por el resultado."
+    },
+    {
+      "id": "d18q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "_revinclude sirve para...",
+      "opciones": [
+        "Incluir recursos que referencian al resultado (inversa)",
+        "Borrar referencias",
+        "Validar profiles",
+        "Cifrar el Bundle"
+      ],
+      "respuesta": 0,
+      "explicacion": "Revinclude = recursos que apuntan al recurso buscado."
+    },
+    {
+      "id": "d18q3",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Modificador para buscar pacientes SIN birthDate.",
+      "respuestas_validas": ["birthdate:missing=true", "missing=true", ":missing=true"],
+      "explicacion": "Patient?birthdate:missing=true"
+    },
+    {
+      "id": "d18q4",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "Chaining permite filtrar por campos de un recurso referenciado.",
+      "respuesta": true,
+      "explicacion": "Ej. subject:Patient.name=Smith en Observation."
+    },
+    {
+      "id": "d18q5",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Para la siguiente pagina de resultados miras...",
+      "opciones": [
+        "Bundle.link con relation 'next'",
+        "OperationOutcome",
+        "CapabilityStatement",
+        "meta.versionId"
+      ],
+      "respuesta": 0,
+      "explicacion": "La paginacion usa links en el Bundle."
+    }
+  ]
+}
