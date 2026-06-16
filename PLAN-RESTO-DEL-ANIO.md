@@ -190,19 +190,17 @@ Compuerta: dominios `terminologia` y `busqueda_avanzada` >= 70.
 
 ---
 
-## Modulos nuevos sugeridos para el laboratorio (dias 15-20)
+## Modulos avanzados sugeridos para el laboratorio (dias 15-20)
 
-Para cubrir al 100% las metas 1 y 3, conviene agregar (puedo crearlos cuando
-quieras, con su quiz y su prompt para Composer):
-- Dia 15: `$validate` + OperationOutcome (troubleshooting).
-- Dia 16: profiles y StructureDefinition (lectura y validacion).
-- Dia 17: SMART on FHIR hands-on (flujo de token real).
-- Dia 18: search avanzado (chaining, _include, modificadores).
-- Dia 19: terminologia avanzada (ValueSet/CodeSystem/ConceptMap, $expand).
-- Dia 20: GCP avanzado (import Synthea, IAM, metricas del store).
+- Dia 15: `$validate` + OperationOutcome (troubleshooting). **CREADO**
+- Dia 16: profiles y StructureDefinition (lectura y validacion). **CREADO**
+- Dia 17: SMART on FHIR hands-on (flujo de token real). pendiente
+- Dia 18: search avanzado (chaining, _include, modificadores). pendiente
+- Dia 19: terminologia avanzada (ValueSet/CodeSystem/ConceptMap, $expand). pendiente
+- Dia 20: GCP avanzado (import Synthea, IAM, metricas del store). pendiente
 
-Cuando existan, agrega sus numeros de dia a los dominios en `blueprints.json`
-para que el calculador de preparacion los tome automaticamente.
+Los dias 15-16 ya estan en `dias/dia-15/` y `dias/dia-16/` y alimentan los
+dominios en `blueprints.json` automaticamente.
 
 ---
 

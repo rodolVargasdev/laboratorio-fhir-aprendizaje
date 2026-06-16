@@ -31,6 +31,11 @@ Comandos:
 - [ ] Dia 13 - Mini-proyecto integrador           quiz: ___%
 - [ ] Dia 14 - Examen final acumulado             quiz: ___%
 
+## Modulos avanzados (plan anual)
+
+- [ ] Dia 15 - $validate y OperationOutcome       quiz: ___%
+- [ ] Dia 16 - Profiles y StructureDefinition    quiz: ___%
+
 ## Retos Feynman (explica con tus palabras)
 
 Dia 1:

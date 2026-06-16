@@ -1,0 +1,74 @@
+{
+  "dia": 16,
+  "tema": "Profiles y StructureDefinition",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d16q1",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que es un profile en FHIR?",
+      "opciones": [
+        "Un servidor alternativo",
+        "Una restriccion del estandar base para un caso de uso, definida en StructureDefinition",
+        "Un tipo de Bundle",
+        "Un codigo LOINC"
+      ],
+      "respuesta": 1,
+      "explicacion": "El profile acota/reglas adicionales sobre un recurso R4."
+    },
+    {
+      "id": "d16q2",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que recurso define formalmente un profile?",
+      "opciones": ["CapabilityStatement", "StructureDefinition", "ValueSet", "ConceptMap"],
+      "respuesta": 1,
+      "explicacion": "StructureDefinition describe la estructura del profile."
+    },
+    {
+      "id": "d16q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que diferencia hay entre differential y snapshot en StructureDefinition?",
+      "opciones": [
+        "Son sinonimos",
+        "differential = cambios respecto al base; snapshot = vista completa expandida",
+        "snapshot = solo cambios; differential = vista completa",
+        "Ninguno se usa en profiles"
+      ],
+      "respuesta": 1,
+      "explicacion": "differential lista deltas; snapshot es el modelo completo resultante."
+    },
+    {
+      "id": "d16q4",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Parametro de $validate para validar contra un profile concreto.",
+      "respuestas_validas": ["profile", "el parametro profile", "?profile="],
+      "explicacion": "POST .../$validate?profile=<url-del-StructureDefinition>"
+    },
+    {
+      "id": "d16q5",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "Un Patient valido contra R4 base siempre cumple US Core Patient.",
+      "respuesta": false,
+      "explicacion": "US Core exige mas restricciones; puede fallar aunque R4 base pase."
+    },
+    {
+      "id": "d16q6",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "En StructureDefinition, el campo 'type' indica...",
+      "opciones": [
+        "El MIME type del JSON",
+        "A que recurso FHIR aplica el profile (Patient, Observation...)",
+        "La version HTTP",
+        "El algoritmo de cifrado"
+      ],
+      "respuesta": 1,
+      "explicacion": "type = recurso objetivo del profile."
+    }
+  ]
+}

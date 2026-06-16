@@ -1,0 +1,69 @@
+{
+  "dia": 15,
+  "tema": "Validacion y OperationOutcome",
+  "umbral_maestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d15q1",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Como invocas la validacion de un Patient en FHIR?",
+      "opciones": [
+        "GET [base]/Patient/$validate",
+        "POST [base]/Patient/$validate con el recurso en el cuerpo",
+        "DELETE [base]/Patient/$validate",
+        "POST [base]/validate/Patient"
+      ],
+      "respuesta": 1,
+      "explicacion": "$validate es una operacion; se invoca con POST y el recurso en el body."
+    },
+    {
+      "id": "d15q2",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que recurso devuelve el servidor para reportar errores de validacion?",
+      "opciones": ["Bundle", "OperationOutcome", "CapabilityStatement", "Parameters"],
+      "respuesta": 1,
+      "explicacion": "OperationOutcome agrupa los issue con severity, code y diagnostics."
+    },
+    {
+      "id": "d15q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Un JSON bien formado puede ser invalido como recurso FHIR porque...",
+      "opciones": [
+        "JSON no admite arrays",
+        "puede faltar un elemento obligatorio o tener tipo/cardinalidad incorrecta",
+        "FHIR solo usa XML",
+        "siempre devuelve 404"
+      ],
+      "respuesta": 1,
+      "explicacion": "La sintaxis JSON != conformidad con el modelo FHIR."
+    },
+    {
+      "id": "d15q4",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "En OperationOutcome, .que campo indica la ruta al elemento con problema?",
+      "respuestas_validas": ["location", "expression"],
+      "explicacion": "location o expression apuntan al path del error (ej. Patient.name)."
+    },
+    {
+      "id": "d15q5",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "HTTP 200 en $validate significa siempre que el recurso es valido sin errores.",
+      "respuesta": false,
+      "explicacion": "Debes revisar issue[] y buscar severity error o fatal."
+    },
+    {
+      "id": "d15q6",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que codigo HTTP suele indicar que el servidor rechazo un recurso mal formado al crear?",
+      "opciones": ["200 OK", "201 Created", "422 Unprocessable Entity", "301 Moved"],
+      "respuesta": 2,
+      "explicacion": "422 = no se pudo procesar el recurso; a menudo trae OperationOutcome."
+    }
+  ]
+}

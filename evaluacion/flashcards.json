@@ -46,5 +46,13 @@
   {"id": "d12-bundle", "dia": 12, "tema": "FHIR", "frente": ".Que es un Bundle en FHIR?", "reverso": "Un contenedor que agrupa varios recursos (resultados de busqueda, transacciones, documentos)."},
 
   {"id": "d13-capability", "dia": 13, "tema": "FHIR", "frente": ".Que es el CapabilityStatement de un servidor FHIR?", "reverso": "Describe que recursos, operaciones y busquedas soporta ese servidor. Se obtiene con GET [base]/metadata."},
-  {"id": "d14-operationoutcome", "dia": 14, "tema": "FHIR", "frente": ".Que recurso devuelve un servidor FHIR para informar errores o validaciones?", "reverso": "OperationOutcome."}
+  {"id": "d14-operationoutcome", "dia": 14, "tema": "FHIR", "frente": ".Que recurso devuelve un servidor FHIR para informar errores o validaciones?", "reverso": "OperationOutcome."},
+
+  {"id": "d15-validate", "dia": 15, "tema": "Validacion", "frente": ".Como invocas la validacion de un Patient?", "reverso": "POST [base]/Patient/$validate con el recurso en el cuerpo (operacion $validate)."},
+  {"id": "d15-severity", "dia": 15, "tema": "Validacion", "frente": "En OperationOutcome.issue, .que significa severity 'error'?", "reverso": "Problema que invalida el recurso o impide su uso; debe corregirse."},
+  {"id": "d15-location", "dia": 15, "tema": "Validacion", "frente": "Campo de OperationOutcome que indica la ruta al elemento con problema", "reverso": "location (o expression), ej. Patient.name."},
+
+  {"id": "d16-profile", "dia": 16, "tema": "Profiles", "frente": ".Que es un profile en FHIR?", "reverso": "Restriccion del estandar base para un caso de uso, definida en StructureDefinition."},
+  {"id": "d16-sd", "dia": 16, "tema": "Profiles", "frente": ".Que recurso define formalmente un profile?", "reverso": "StructureDefinition."},
+  {"id": "d16-differential", "dia": 16, "tema": "Profiles", "frente": "differential vs snapshot en StructureDefinition", "reverso": "differential = cambios vs base; snapshot = vista completa expandida del profile."}
 ]

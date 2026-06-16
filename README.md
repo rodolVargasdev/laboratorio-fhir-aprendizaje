@@ -64,3 +64,28 @@ intercalado, con medicion objetiva de tu dominio. Detalle en
 
 Todo es local y gratuito. El `.gitignore` excluye claves y secretos. Usa SIEMPRE
 datos ficticios: nunca subas datos reales de pacientes a servidores de practica.
+
+## Clonar en otro dispositivo (PC, laptop, etc.)
+
+1. Instala Git y Python 3.9+ en el nuevo equipo.
+2. Clona el repositorio:
+
+   ```powershell
+   git clone https://github.com/rodolVargasdev/laboratorio-fhir-aprendizaje.git
+   cd laboratorio-fhir-aprendizaje
+   ```
+
+3. Crea y activa el entorno virtual:
+
+   ```powershell
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   ```
+
+4. Verifica: `python 00-setup\verificar_entorno.py`
+5. Abre la carpeta en Cursor y continua desde `dias/dia-XX/README.md` y tu
+   `PROGRESO.md` (si lo subiste; el historial local de quizzes no se sube a git
+   por privacidad, solo el codigo y material del lab).
+
+En Linux/macOS usa `source .venv/bin/activate` en lugar del script de PowerShell.

@@ -10,8 +10,8 @@
         {"clave": "modelo_recursos", "nombre": "Resource Model and Structure", "peso": 29, "dias": [1, 2, 11, 12]},
         {"clave": "api_behavior", "nombre": "FHIR API Behavior", "peso": 26, "dias": [3, 4, 9, 12]},
         {"clave": "implementacion", "nombre": "Implementation", "peso": 24, "dias": [5, 10, 13]},
-        {"clave": "troubleshooting", "nombre": "Troubleshooting and Validation", "peso": 15, "dias": [14]},
-        {"clave": "guias_implementacion", "nombre": "Understanding Implementation Guides", "peso": 6, "dias": [12]}
+        {"clave": "troubleshooting", "nombre": "Troubleshooting and Validation", "peso": 15, "dias": [14, 15]},
+        {"clave": "guias_implementacion", "nombre": "Understanding Implementation Guides", "peso": 6, "dias": [12, 16]}
       ]
     },
     "gcp": {
@@ -22,7 +22,7 @@
       "dominios": [
         {"clave": "gcp_setup", "nombre": "Proyecto, jerarquia, dataset y FHIR store", "peso": 25, "dias": [8, 9]},
         {"clave": "gcp_rest", "nombre": "CRUD y REST sobre el store", "peso": 30, "dias": [9, 10, 13]},
-        {"clave": "gcp_validacion", "nombre": "Validacion, rechazo de datos y OperationOutcome", "peso": 20, "dias": [14]},
+        {"clave": "gcp_validacion", "nombre": "Validacion, rechazo de datos y OperationOutcome", "peso": 20, "dias": [14, 15]},
         {"clave": "gcp_seguridad", "nombre": "Seguridad, IAM y tokens de acceso", "peso": 15, "dias": [6, 9]},
         {"clave": "gcp_datos", "nombre": "Import masivo (Synthea) y analitica (BigQuery)", "peso": 10, "dias": [10]}
       ]
@@ -33,8 +33,8 @@
       "margen_objetivo": 5,
       "es_examen_oficial": true,
       "dominios": [
-        {"clave": "profiling", "nombre": "Profiling y StructureDefinition (slicing, extensions)", "peso": 25, "dias": []},
-        {"clave": "busqueda_avanzada", "nombre": "Busqueda avanzada y operaciones ($validate, $everything)", "peso": 20, "dias": [4]},
+        {"clave": "profiling", "nombre": "Profiling y StructureDefinition (slicing, extensions)", "peso": 25, "dias": [16]},
+        {"clave": "busqueda_avanzada", "nombre": "Busqueda avanzada y operaciones ($validate, $everything)", "peso": 20, "dias": [4, 15]},
         {"clave": "seguridad_smart", "nombre": "Seguridad y SMART on FHIR (App Launch + Backend Services)", "peso": 20, "dias": [6]},
         {"clave": "terminologia", "nombre": "Servicios de terminologia (CodeSystem, ValueSet, ConceptMap)", "peso": 15, "dias": [11]},
         {"clave": "conformidad", "nombre": "Conformidad y CapabilityStatement", "peso": 10, "dias": [9]},
