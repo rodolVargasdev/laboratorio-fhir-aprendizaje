@@ -30,9 +30,11 @@ intercalado, con medicion objetiva de tu dominio. Detalle en
 ## Por donde empezar
 
 1. Lee `00-setup/README.md` y deja tu entorno listo (una sola vez).
-2. Lee `COMO-USAR-CON-COMPOSER.md` (como estudiar cada dia con Composer 2.5).
-3. Empieza por `dias/dia-01/README.md` y avanza un dia por jornada.
-4. Apunta tu progreso en `PROGRESO.md`.
+2. **(Opcional pero recomendado)** Lee `dias/extra-historia-fhir/README.md` — por que
+   existe FHIR antes de escribir codigo (2-3 h).
+3. Lee `COMO-USAR-CON-COMPOSER.md` (como estudiar cada dia con Composer 2.5).
+4. Empieza por `dias/dia-01/README.md` y avanza un dia por jornada.
+5. Apunta tu progreso en `PROGRESO.md`.
 
 ## Estructura del workspace
 
@@ -40,6 +42,8 @@ intercalado, con medicion objetiva de tu dominio. Detalle en
   - `README.md` leccion + practica + reto Feynman + "Prompt para Composer 2.5".
   - `quiz.json` evaluacion objetiva del dia.
   - `practica/` scripts y guias ejecutables.
+- `dias/extra-historia-fhir/` modulo opcional: nacimiento de FHIR, HL7 v2/v3, Argonaut,
+  hitos hasta R4 (lectura profunda + quiz `--extra historia-fhir`).
 - `evaluacion/` motor de quizzes (`quiz_runner.py`), repaso espaciado
   (`repaso.py`), calculador de preparacion (`preparacion.py`), planos de examen
   (`blueprints.json`), registro de competencias (`competencias.json`) y mazo de
@@ -48,6 +52,7 @@ intercalado, con medicion objetiva de tu dominio. Detalle en
 - `recursos/` enlaces oficiales y servidores de practica.
 - `METODOLOGIA-APRENDIZAJE.md` como aprendemos y como medimos el dominio.
 - `COMO-USAR-CON-COMPOSER.md` flujo diario con Composer 2.5.
+- `NOTEBOOKLM.md` exportar cada dia y repasar con NotebookLM (audio, FAQ).
 - `PLAN-2-SEMANAS.md` calendario de las 2 semanas.
 - `PLAN-RESTO-DEL-ANIO.md` hoja de ruta de varios meses hacia el examen.
 - `MICRO-APRENDIZAJE.md` rutinas de 5-15 min para dias ocupados.

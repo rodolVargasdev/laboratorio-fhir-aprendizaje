@@ -66,5 +66,12 @@
   {"id": "d19-expand", "dia": 19, "tema": "Terminologia", "frente": "Operacion para listar codigos de un ValueSet", "reverso": "$expand."},
 
   {"id": "d20-iam", "dia": 20, "tema": "GCP", "frente": "Rol IAM minimo para solo LEER recursos FHIR", "reverso": "roles/healthcare.fhirResourceReader."},
-  {"id": "d20-metrics", "dia": 20, "tema": "GCP", "frente": "Metodo para metricas del FHIR store", "reverso": "fhirStores.getFHIRStoreMetrics."}
+  {"id": "d20-metrics", "dia": 20, "tema": "GCP", "frente": "Metodo para metricas del FHIR store", "reverso": "fhirStores.getFHIRStoreMetrics."},
+
+  {"id": "eh-v2", "modulo": "extra-historia-fhir", "tema": "Historia", "frente": "Principal debilidad practica de HL7 v2", "reverso": "Opcionalidad y variaciones locales; mismo estandar, distinta interpretacion."},
+  {"id": "eh-v3", "modulo": "extra-historia-fhir", "tema": "Historia", "frente": "Por que HL7 v3 tuvo adopcion limitada", "reverso": "Alta complejidad (RIM), costo y curva de aprendizaje vs necesidad de APIs agiles."},
+  {"id": "eh-fhir", "modulo": "extra-historia-fhir", "tema": "Historia", "frente": "Que significa FHIR", "reverso": "Fast Healthcare Interoperability Resources — recursos REST/JSON (o XML)."},
+  {"id": "eh-r4", "modulo": "extra-historia-fhir", "tema": "Historia", "frente": "Version normativa clave para el examen Foundational", "reverso": "FHIR R4 (2019)."},
+  {"id": "eh-argonaut", "modulo": "extra-historia-fhir", "tema": "Historia", "frente": "Proyecto que acelero adopcion con Epic/Cerner y OAuth", "reverso": "Proyecto Argonaut (2014-2016) + SMART on FHIR."},
+  {"id": "eh-coexist", "modulo": "extra-historia-fhir", "tema": "Historia", "frente": "FHIR reemplazo v2 de inmediato?", "reverso": "No; coexistencia larga con mappers v2→FHIR en hospitales."}
 ]

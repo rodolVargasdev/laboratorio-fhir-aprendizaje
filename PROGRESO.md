@@ -5,11 +5,16 @@ de avance. Criterio de maestria: quiz >= 80%.
 
 Comandos:
 - Quiz del dia:        python evaluacion\quiz_runner.py --dia N
+- Quiz modulo extra:   python evaluacion\quiz_runner.py --extra historia-fhir
 - Repaso intercalado:  python evaluacion\quiz_runner.py --repaso
 - Repaso espaciado:    python evaluacion\repaso.py
 - Estado de tarjetas:  python evaluacion\repaso.py --estado
 - Preparacion (3 certs): python evaluacion\preparacion.py
 - Preparacion detalle:   python evaluacion\preparacion.py --cert foundational --detalle
+
+## Modulo extra (opcional, antes del Dia 1)
+
+- [ ] Extra - Historia y nacimiento de FHIR          quiz: ___%
 
 ## Semana 1: Cimientos de software
 
@@ -42,6 +47,7 @@ Comandos:
 
 ## Retos Feynman (explica con tus palabras)
 
+Extra Historia FHIR:
 Dia 1:
 Dia 2:
 Dia 3:

@@ -22,6 +22,10 @@ evaluacion/resultados/*.csv
 evaluacion/resultados/*.json
 !evaluacion/resultados/.gitkeep
 
+# Exports locales para NotebookLM (regenerables)
+evaluacion/exports/*
+!evaluacion/exports/.gitkeep
+
 # Sistema operativo / editor
 .DS_Store
 Thumbs.db

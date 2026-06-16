@@ -13,6 +13,18 @@ Marca tu avance en `PROGRESO.md`.
 
 ---
 
+## Antes de la Semana 1 (opcional, 2-3 h)
+
+**Extra: Historia y nacimiento de FHIR** — `dias/extra-historia-fhir/README.md`
+
+Por que existio FHIR despues de HL7 v2 y v3, que papel tuvo Argonaut/SMART y
+por que R4 es tu referencia de examen. No es prerequisito tecnico del Dia 1, pero
+te da contexto que muchos candidatos omiten y luego lamentan en preguntas conceptuales.
+
+Quiz: `python evaluacion\quiz_runner.py --extra historia-fhir`
+
+---
+
 ## Semana 1: Cimientos de software
 
 ### Dia 1 - Entorno + JSON + primer GET a un servidor FHIR

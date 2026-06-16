@@ -58,6 +58,17 @@ python evaluacion\quiz_runner.py --repaso
   te deje intentar (eso es recuperacion activa, lo que de verdad fija memoria).
 - Usa la tecnica Feynman: explicale el concepto con tus palabras y pidele que
   detecte errores o vacios.
+
+## Repaso con NotebookLM (despues del dia)
+
+Cuando termines la practica y el quiz, exporta el material para estudiar en
+[NotebookLM](https://notebooklm.google.com):
+
+```powershell
+python evaluacion\export_notebooklm.py --dia 1
+```
+
+Guia completa: `NOTEBOOKLM.md`.
 - Si algo no te queda claro, dile "explicamelo como si tuviera 12 anios" y luego
   sube el nivel.
 

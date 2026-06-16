@@ -42,10 +42,25 @@ def carpeta_dia(numero: int) -> Path:
     return DIR_DIAS / f"dia-{numero:02d}"
 
 
+def carpeta_extra(slug: str) -> Path:
+    """slug 'historia-fhir' -> dias/extra-historia-fhir/"""
+    if slug.startswith("extra-"):
+        return DIR_DIAS / slug
+    return DIR_DIAS / f"extra-{slug}"
+
+
 def cargar_quiz(numero: int) -> dict:
     ruta = carpeta_dia(numero) / "quiz.json"
     if not ruta.exists():
         raise FileNotFoundError(f"No existe el quiz del dia {numero}: {ruta}")
+    with ruta.open(encoding="utf-8") as f:
+        return json.load(f)
+
+
+def cargar_quiz_extra(slug: str) -> dict:
+    ruta = carpeta_extra(slug) / "quiz.json"
+    if not ruta.exists():
+        raise FileNotFoundError(f"No existe el modulo extra '{slug}': {ruta}")
     with ruta.open(encoding="utf-8") as f:
         return json.load(f)
 
@@ -192,7 +207,9 @@ def ejecutar(preguntas: list[dict], etiqueta: str, umbral: float, auto: bool) ->
 def main() -> None:
     parser = argparse.ArgumentParser(description="Quiz de maestria con recuperacion activa.")
     grupo = parser.add_mutually_exclusive_group(required=True)
-    grupo.add_argument("--dia", type=int, help="Numero de dia a evaluar (1-14).")
+    grupo.add_argument("--dia", type=int, help="Numero de dia a evaluar (1-20).")
+    grupo.add_argument("--extra", type=str, metavar="SLUG",
+                       help="Modulo extra (ej. historia-fhir -> dias/extra-historia-fhir/).")
     grupo.add_argument("--repaso", action="store_true", help="Mezcla preguntas de varios dias (intercalado).")
     parser.add_argument("--n", type=int, default=10, help="Numero de preguntas en modo repaso.")
     parser.add_argument("--auto", action="store_true", help="Modo demostracion: se responde solo.")
@@ -203,6 +220,11 @@ def main() -> None:
         random.shuffle(todas)
         seleccion = todas[: args.n]
         ejecutar(seleccion, "repaso intercalado", umbral=0.8, auto=args.auto)
+    elif args.extra:
+        quiz = cargar_quiz_extra(args.extra)
+        umbral = float(quiz.get("umbral_maestria", 0.8))
+        etiqueta = f"extra {quiz.get('modulo', args.extra)} - {quiz.get('tema', '')}"
+        ejecutar(quiz["preguntas"], etiqueta, umbral=umbral, auto=args.auto)
     else:
         quiz = cargar_quiz(args.dia)
         umbral = float(quiz.get("umbral_maestria", 0.8))

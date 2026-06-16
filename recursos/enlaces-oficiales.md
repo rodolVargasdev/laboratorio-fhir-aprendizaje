@@ -24,6 +24,13 @@ Tu ruta de 3 metas (orden recomendado) y su estado oficial (junio 2026):
 - US Core IG (la guia de implementacion mas usada): https://hl7.org/fhir/us/core/
 - Inferno (pruebas de conformidad): https://inferno.healthit.gov/
 
+## Historia y contexto de FHIR (modulo extra del laboratorio)
+
+- (clave) HL7 FHIR en Confluence (historia, proceso, FAQ): https://confluence.hl7.org/display/FHIR
+- HL7 FHIR overview (intro oficial): http://hl7.org/fhir/overview.html
+- Blog / recursos de Grahame Grieve en HL7: https://hl7.org/fhir/downloads.html
+- SMART on FHIR (historia de apps): http://hl7.org/fhir/smart-app-launch/
+
 ## Especificacion FHIR (version R4, la del examen)
 
 - (clave) Inicio FHIR R4: http://hl7.org/fhir/R4/
