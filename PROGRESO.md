@@ -14,7 +14,10 @@ Comandos:
 
 ## Modulo extra (opcional, antes del Dia 1)
 
-- [ ] Extra - Historia y nacimiento de FHIR          quiz: ___%
+- [x] Extra - Historia y nacimiento de FHIR (Dia 00)  quiz: ___%  *(correr quiz para registrar %)*
+  - Secciones: v2/v3, nacimiento FHIR, Argonaut/SMART, R4, gobierno HL7
+  - Material NotebookLM: `evaluacion/exports/extra-historia-fhir-notebooklm.md`
+  - Notas de estudio: `notas/extra-historia-fhir.md`
 
 ## Semana 1: Cimientos de software
 
@@ -48,6 +51,7 @@ Comandos:
 ## Retos Feynman (explica con tus palabras)
 
 Extra Historia FHIR:
+(Pendiente: pegar aqui tu explicacion Feynman en 8-10 frases cuando la escribas)
 Dia 1:
 Dia 2:
 Dia 3:
@@ -83,4 +87,4 @@ Recuerda: agenda un examen SOLO cuando su semaforo este VERDE.
 
 (Una linea por dia: que hice y que aprendi)
 
--
+- 2026-06-21 — Dia 00 (Extra Historia FHIR): complete leccion de contexto v2/v3→FHIR→R4; material NotebookLM generado.
