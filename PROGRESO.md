@@ -14,10 +14,13 @@ Comandos:
 
 ## Modulo extra (opcional, antes del Dia 1)
 
-- [x] Extra - Historia y nacimiento de FHIR (Dia 00)  quiz: ___%  *(correr quiz para registrar %)*
+- [x] Extra - Historia y nacimiento de FHIR (Dia 00)  quiz: ___%  maestria: pendiente
+  - Leccion: OK (2026-06-21)
   - Secciones: v2/v3, nacimiento FHIR, Argonaut/SMART, R4, gobierno HL7
-  - Material NotebookLM: `evaluacion/exports/extra-historia-fhir-notebooklm.md`
-  - Notas de estudio: `notas/extra-historia-fhir.md`
+  - Notas estudio: `notas/extra-historia-fhir.md` — OK
+  - NotebookLM: regenerar `evaluacion/exports/extra-historia-fhir-notebooklm.md`
+  - **Pendiente:** quiz oficial, % >= 80%, Reto Feynman en seccion abajo
+  - Checkpoint: `SESION.md`
 
 ## Semana 1: Cimientos de software
 
@@ -87,4 +90,5 @@ Recuerda: agenda un examen SOLO cuando su semaforo este VERDE.
 
 (Una linea por dia: que hice y que aprendi)
 
-- 2026-06-21 — Dia 00 (Extra Historia FHIR): complete leccion de contexto v2/v3→FHIR→R4; material NotebookLM generado.
+- 2026-06-21 — Dia 00 (Extra Historia FHIR): complete leccion de contexto v2/v3→FHIR→R4; notas y export NotebookLM preparados.
+- 2026-07-05 — Checkpoint sesion: auditoria Dia 00 (quiz/Feynman pendientes); handoff a Dia 1 en SESION.md.
