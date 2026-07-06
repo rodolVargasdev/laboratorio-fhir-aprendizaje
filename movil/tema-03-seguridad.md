@@ -29,7 +29,7 @@ Analogía: la tarjeta-llave de hotel. Abre TU cuarto, por unos días, y no es la
 Las cuatro piezas del tablero:
 
 1. **Resource owner**: el dueño de los datos (el paciente o la institución).
-2. **Cliente**: la app que quiere acceso (tu app de DoctorSV).
+2. **Cliente**: la app que quiere acceso (tu app de la integración nacional).
 3. **Servidor de autorización**: quien verifica y emite tokens.
 4. **Servidor de recursos**: donde viven los datos — aquí, el servidor FHIR.
 

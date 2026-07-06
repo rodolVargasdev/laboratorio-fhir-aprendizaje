@@ -1,4 +1,4 @@
-# App del laboratorio (celular + PC) — costo $0
+﻿# App del laboratorio (celular + PC) — costo $0
 
 `index.html` es una app estática sin dependencias: ruta de estudio con progreso,
 lecturas de los temas, quizzes interactivos y tarjetas Leitner. Todo el estado se

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Genera docs/datos.js: el paquete de datos que consume la app (docs/index.html).
 
 Une en un solo archivo JS:
@@ -7,7 +7,7 @@ Une en un solo archivo JS:
   - dias/extra-*/quiz.json       (quiz del modulo extra)
   - evaluacion/flashcards.json   (tarjetas Leitner)
   - movil/tema-XX.md             (lecturas de celular)
-  - PRACTICAS-DOCTORSV.md        (practica institucional completa por tema)
+  - PRACTICAS-NACIONALES.md        (practica institucional completa por tema)
   - recursos/enlaces-oficiales.md (pestana Recursos)
 
 Correr cada vez que cambie cualquiera de esas fuentes:
@@ -50,8 +50,8 @@ def quiz_de_dia(dia):
 
 
 def practicas_por_tema():
-    """Divide PRACTICAS-DOCTORSV.md en secciones '## Tema N ...' -> {n: markdown}."""
-    texto = leer_texto(RAIZ / "PRACTICAS-DOCTORSV.md")
+    """Divide PRACTICAS-NACIONALES.md en secciones '## Tema N ...' -> {n: markdown}."""
+    texto = leer_texto(RAIZ / "PRACTICAS-NACIONALES.md")
     if not texto:
         return {}
     secciones = {}

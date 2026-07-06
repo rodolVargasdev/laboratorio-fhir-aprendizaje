@@ -1,4 +1,4 @@
-# Sesión activa — laboratorio FHIR
+﻿# Sesión activa — laboratorio FHIR
 
 Archivo de continuidad entre conversaciones. **Actualizar al cerrar cada sesión**
 o cada 2-3 secciones de estudio.
@@ -35,7 +35,7 @@ o cada 2-3 secciones de estudio.
 
 El laboratorio se navega por TEMAS: la línea recta está en `RUTA.md`. Lecturas de
 celular en `movil/`, app en `docs/` (GitHub Pages), guías largas en `guias/`,
-prácticas institucionales DoctorSV en `PRACTICAS-DOCTORSV.md`. Los módulos `dias/`
+prácticas institucionales la integración nacional en `PRACTICAS-NACIONALES.md`. Los módulos `dias/`
 siguen siendo la práctica de PC y `quiz_runner.py --dia N` no cambió.
 
 ## Notas de tutor (última sesión)

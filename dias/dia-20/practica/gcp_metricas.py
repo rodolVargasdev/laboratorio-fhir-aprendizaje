@@ -24,7 +24,7 @@ def config() -> tuple[str, str, str, str]:
         project = proj.stdout.strip() or "TU_PROYECTO"
     except Exception:
         project = "TU_PROYECTO"
-    return project, "us-central1", "doctorsv-dataset", "doctorsv-fhir-store"
+    return project, "us-central1", "integracion-nacional-dataset", "integracion-nacional-fhir-store"
 
 
 def metricas(project: str, location: str, dataset: str, store: str) -> None:

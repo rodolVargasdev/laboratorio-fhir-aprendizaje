@@ -37,7 +37,7 @@ Reto: agrega al resumen el calculo de la edad del paciente a partir de birthDate
 Para no gastar credito, borra el dataset al terminar tus practicas en la nube:
 
 ```powershell
-gcloud healthcare datasets delete doctorsv-dataset --location=us-central1
+gcloud healthcare datasets delete integracion-nacional-dataset --location=us-central1
 ```
 
 Ver mas detalle en `dias\dia-14\practica\limpieza-gcp.md`.
@@ -50,7 +50,7 @@ y por que cada una fue necesaria.
 ## Prompt para Composer 2.5 (copia y pega)
 
 Actua como mi mentor del Dia 13. Tema: construir un mini-proyecto que crea datos
-FHIR y genera un resumen clinico. Soy desarrollador intermedio en DoctorSV, en
+FHIR y genera un resumen clinico. Soy desarrollador intermedio en la integración nacional, en
 espanol, mentalidad GCP-first. Guiame como un par de programacion: hazme proponer
 el diseno antes de codificar, revisa mi logica con preguntas, y solo dame pistas
 si me atasco. Quiero practicar CRUD, referencias y terminologias juntos. Errores

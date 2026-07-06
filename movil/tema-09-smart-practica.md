@@ -14,7 +14,7 @@
 
 ### El problema que resuelve SMART
 
-FHIR define QUÉ datos se intercambian y CÓMO se consultan, pero no dice quién puede entrar ni con qué permisos. **SMART on FHIR** llena ese hueco: es un perfil de OAuth 2.0 estandarizado para salud, de modo que una misma app funcione contra cualquier EHR que lo implemente. Es la parte de seguridad (~20% del examen Advanced Developer) y el corazón de cualquier integración seria de DoctorSV con terceros.
+FHIR define QUÉ datos se intercambian y CÓMO se consultan, pero no dice quién puede entrar ni con qué permisos. **SMART on FHIR** llena ese hueco: es un perfil de OAuth 2.0 estandarizado para salud, de modo que una misma app funcione contra cualquier EHR que lo implemente. Es la parte de seguridad (~20% del examen Advanced Developer) y el corazón de cualquier integración seria de la integración nacional con terceros.
 
 ### Dos perfiles, dos escenarios
 
@@ -53,7 +53,7 @@ Ejemplos:
 - `system/Observation.rs` — leer y buscar observaciones a nivel sistema.
 - `patient/Patient.read` — estilo v1, aún común: leer al paciente en contexto.
 
-**Menor privilegio**: pide solo lo que tu app usa. Una app de DoctorSV que solo muestra signos vitales de un paciente pide `patient/Observation.rs` (quizá más `patient/Patient.read` para el encabezado) — no `patient/*.read` ni nada `system/`.
+**Menor privilegio**: pide solo lo que tu app usa. Una app de la integración nacional que solo muestra signos vitales de un paciente pide `patient/Observation.rs` (quizá más `patient/Patient.read` para el encabezado) — no `patient/*.read` ni nada `system/`.
 
 ### Descubrir la configuración de un servidor
 
@@ -82,7 +82,7 @@ Para practicar sin riesgo existe el sandbox de SMART Health IT (launch.smartheal
 
 ## Autoevaluación (sin mirar arriba)
 
-1. ¿Cuándo usas App Launch y cuándo Backend Services? Da un ejemplo de DoctorSV para cada uno.
+1. ¿Cuándo usas App Launch y cuándo Backend Services? Da un ejemplo de la integración nacional para cada uno.
 2. Enumera los 5 claims obligatorios del JWT de Backend Services y explica en una frase el propósito de cada uno.
 3. ¿Por qué Backend Services usa un JWT firmado con clave asimétrica en lugar de un client secret o contraseña?
 4. Descompón el scope `system/Observation.rs`: ¿qué significa cada parte y en qué perfil SMART lo verías?
@@ -105,7 +105,7 @@ Para practicar sin riesgo existe el sandbox de SMART Health IT (launch.smartheal
 
 ### Respuestas
 
-1. App Launch cuando hay usuario presente (ej. un médico de DoctorSV abre una app de gráficas desde el portal y autoriza ver a su paciente). Backend Services cuando es sistema a sistema sin usuario (ej. un job nocturno de DoctorSV que sincroniza observaciones con el servidor nacional).
+1. App Launch cuando hay usuario presente (ej. un médico de la integración nacional abre una app de gráficas desde el portal y autoriza ver a su paciente). Backend Services cuando es sistema a sistema sin usuario (ej. un job nocturno de la integración nacional que sincroniza observaciones con el servidor nacional).
 2. `iss`: quién emite (tu client_id). `sub`: sobre quién habla (tu client_id, igual a iss). `aud`: URL del endpoint de token, para que el JWT no sirva contra otro servidor. `exp`: expiración corta que limita la ventana de uso. `jti`: id único que impide reusar (replay) el mismo JWT.
 3. Porque la clave privada nunca viaja por la red: el servidor verifica la firma con la clave pública (JWKS). Un secreto compartido viaja en cada petición y quien lo capture lo reutiliza; el JWT además caduca en minutos y es de un solo uso por `jti`.
 4. `system/` = contexto de sistema, sin usuario; `Observation` = tipo de recurso; `.rs` = read + search. Lo verías en Backend Services.

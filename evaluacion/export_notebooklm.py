@@ -151,7 +151,7 @@ def bloque_practica(archivos: list[Path], carpeta: Path) -> str:
 def prompts_notebooklm_etiqueta(etiqueta: str, tema: str) -> str:
     return f"""Usa estos prompts en el chat de NotebookLM (con este documento como fuente):
 
-1. **Resumen ejecutivo:** "Resume los 5 conceptos clave de {etiqueta} ({tema}) en bullets cortos para alguien que implementa FHIR en DoctorSV."
+1. **Resumen ejecutivo:** "Resume los 5 conceptos clave de {etiqueta} ({tema}) en bullets cortos para alguien que implementa FHIR en la integración nacional."
 
 2. **Examen oral:** "Hazme 10 preguntas de dificultad creciente sobre {etiqueta}. Espera mi respuesta antes de corregir. Se exigente como un examen HL7."
 

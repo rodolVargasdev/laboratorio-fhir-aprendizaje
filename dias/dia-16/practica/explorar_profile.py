@@ -99,7 +99,7 @@ def main() -> None:
     paciente_mejor = {
         "resourceType": "Patient",
         "meta": {"profile": [US_CORE_PATIENT]},
-        "identifier": [{"system": "http://doctorsv.ejemplo.sv/mrn", "value": "MRN-001"}],
+        "identifier": [{"system": "http://integracion-nacional.ejemplo.sv/mrn", "value": "MRN-001"}],
         "name": [{"family": "Profile", "given": ["Dia16"], "use": "official"}],
         "gender": "unknown",
         "birthDate": "1990-01-01",

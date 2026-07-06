@@ -11,19 +11,19 @@ Desde https://synthea.mitre.org/downloads elige un bundle FHIR R4 pequeno
 
 ```powershell
 # Crear bucket (nombre unico globalmente)
-gsutil mb -l us-central1 gs://doctorsv-fhir-lab-TU_INICIALES/
+gsutil mb -l us-central1 gs://integracion-nacional-fhir-lab-TU_INICIALES/
 
 # Subir archivos
-gsutil cp .\ruta\a\synthea\*.ndjson gs://doctorsv-fhir-lab-TU_INICIALES/synthea/
+gsutil cp .\ruta\a\synthea\*.ndjson gs://integracion-nacional-fhir-lab-TU_INICIALES/synthea/
 ```
 
 ## Paso 3: importar al FHIR store
 
 ```powershell
-gcloud healthcare fhir-stores import gcs doctorsv-fhir-store `
-  --dataset=doctorsv-dataset `
+gcloud healthcare fhir-stores import gcs integracion-nacional-fhir-store `
+  --dataset=integracion-nacional-dataset `
   --location=us-central1 `
-  --gcs-uri=gs://doctorsv-fhir-lab-TU_INICIALES/synthea/*.ndjson `
+  --gcs-uri=gs://integracion-nacional-fhir-lab-TU_INICIALES/synthea/*.ndjson `
   --content-structure=resource
 ```
 
@@ -38,8 +38,8 @@ python dias\dia-20\practica\gcp_metricas.py
 ## Paso 5: limpiar (obligatorio)
 
 ```powershell
-gsutil -m rm -r gs://doctorsv-fhir-lab-TU_INICIALES/
-gcloud healthcare datasets delete doctorsv-dataset --location=us-central1
+gsutil -m rm -r gs://integracion-nacional-fhir-lab-TU_INICIALES/
+gcloud healthcare datasets delete integracion-nacional-dataset --location=us-central1
 ```
 
 Coste esperado con muestra pequena: $0 dentro de la capa gratuita.

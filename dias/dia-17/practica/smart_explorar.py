@@ -47,8 +47,8 @@ def jwt_backend_services_ejemplo() -> None:
     ahora = int(time.time())
     header = {"alg": "RS384", "typ": "JWT", "kid": "ejemplo-key-1"}
     payload = {
-        "iss": "https://backend.doctorsv.ejemplo.sv",
-        "sub": "https://backend.doctorsv.ejemplo.sv",
+        "iss": "https://backend.integracion-nacional.ejemplo.sv",
+        "sub": "https://backend.integracion-nacional.ejemplo.sv",
         "aud": "https://authorization.ejemplo.sv/oauth/token",
         "exp": ahora + 300,
         "jti": str(uuid.uuid4()),

@@ -66,7 +66,7 @@ Guia complementaria del sandbox (sin codigo obligatorio):
 https://bulk-data.smarthealthit.org/
 
 Reto: escribe en `PROGRESO.md` los scopes minimos que pedirias para una app de
-DoctorSV que solo muestra signos vitales de un paciente.
+la integración nacional que solo muestra signos vitales de un paciente.
 
 ## Reto Feynman
 
@@ -76,7 +76,7 @@ Services usa un JWT firmado en lugar de una contrasena.
 ## Prompt para Composer 2.5 (copia y pega)
 
 Actua como mi tutor del Dia 17. Tema: SMART on FHIR en practica (App Launch vs
-Backend Services, scopes, JWT). Soy desarrollador intermedio en DoctorSV, en
+Backend Services, scopes, JWT). Soy desarrollador intermedio en la integración nacional, en
 espanol. Sin darme respuestas directas, guiame paso a paso por el flujo Backend
 Services, los claims del JWT y como elegir scopes con menor privilegio. Errores
 a vigilar: confundir authn con authz, pedir scopes de mas, olvidar exp/jti en el

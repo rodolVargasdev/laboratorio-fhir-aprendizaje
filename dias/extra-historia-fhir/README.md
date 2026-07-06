@@ -156,7 +156,7 @@ FHIR base es el “lenguaje”. Los **IGs** son “dialectos acordados” para u
 - **IPS** (International Patient Summary).
 - Perfiles nacionales en Europa, Canada, Australia…
 
-DoctorSV eventualmente necesitara **perfiles locales o IGs regionales**, no solo FHIR core.
+la integración nacional eventualmente necesitara **perfiles locales o IGs regionales**, no solo FHIR core.
 
 ---
 
@@ -238,7 +238,7 @@ FHIR fue disenado asumiendo este mundo hibrido durante decadas.
 
 ---
 
-## 7. Lecciones para ti como implementador en DoctorSV
+## 7. Lecciones para ti como implementador en la integración nacional
 
 1. **FHIR es respuesta a dolor real**, no moda: v2 inconsistente + v3 pesado → recursos web.
 2. **“Resource-first”** cambia como piensas: de eventos a documentos consultables.
@@ -283,7 +283,7 @@ Ese **CapabilityStatement** es el resultado de ~10 anos de evolucion que acabas 
 
 ## Reto Feynman
 
-Explica en 8-10 frases, como si se lo contaras a un companero de DoctorSV:
+Explica en 8-10 frases, como si se lo contaras a un companero de Nacional:
 
 1. Por que HL7 v2 no bastaba para apps web modernas.
 2. Que aporto FHIR que v3 no logro en adopcion.
@@ -308,7 +308,7 @@ Apunta tu respuesta en `PROGRESO.md` seccion Extra.
 ## Prompt para Composer 2.5 (copia y pega)
 
 Actua como mi tutor del modulo Extra: Historia y nacimiento de FHIR. Soy desarrollador
-intermedio en DoctorSV, espanol. Guiame con recuperacion activa: preguntame primero que
+intermedio en la integración nacional, espanol. Guiame con recuperacion activa: preguntame primero que
 se de HL7 v2/v3 antes de explicar. Objetivos: (1) entender el dolor que FHIR resolvio,
 (2) ordenar hitos DSTU→R4, (3) explicar Argonaut y SMART en contexto historico,
 (4) relacionar esto con por que hoy uso REST+JSON en vez de pipes. Errores a vigilar:

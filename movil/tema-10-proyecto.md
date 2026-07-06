@@ -16,7 +16,7 @@
 
 Saber piezas sueltas (qué es un Patient, cómo hacer un GET) no es lo mismo que resolver un problema real. El mini-proyecto del laboratorio te obliga a encadenar todo: un script que **crea** un paciente ficticio, le **agrega** varias Observation y una Condition enlazadas por referencia, **lee de vuelta** del servidor y arma un **resumen clínico legible**. Es pequeño, pero contiene la anatomía de cualquier integración FHIR real.
 
-### El caso de uso DoctorSV
+### El caso de uso de integración nacional
 
 Imagina la consulta externa: llega un paciente nuevo. El sistema debe registrarlo, capturar sus signos vitales y su diagnóstico, y al final la enfermera quiere una hoja resumen. En FHIR eso es:
 
@@ -32,7 +32,7 @@ Este mismo esqueleto, con SMART para autenticación y un FHIR store de GCP como 
 
 ### Higiene de cierre: la limpieza en la nube
 
-Si practicaste con la vía GCP, el cierre del proyecto incluye borrar el dataset (`gcloud healthcare datasets delete doctorsv-dataset --location=us-central1`). Integrar también significa operar con disciplina de costos: el proyecto no termina cuando el script corre, sino cuando el entorno queda en $0.
+Si practicaste con la vía GCP, el cierre del proyecto incluye borrar el dataset (`gcloud healthcare datasets delete integracion-nacional-dataset --location=us-central1`). Integrar también significa operar con disciplina de costos: el proyecto no termina cuando el script corre, sino cuando el entorno queda en $0.
 
 ### Medirte de forma objetiva
 
@@ -59,7 +59,7 @@ Un simulacro sirve si lo tratas como diagnóstico:
 1. Hazlo **sin mirar apuntes** y a tiempo continuo, como el examen real.
 2. Registra el resultado (el historial queda en `evaluacion/resultados/historial.csv`) y observa la tendencia entre intentos, no un número aislado.
 3. Por cada fallo, escribe por qué era correcta la respuesta correcta — el error es el mejor material de estudio.
-4. Cierra con Feynman: si puedes dar una "clase" de 10 líneas sobre qué es FHIR, cómo se consulta y por qué importa, a un compañero nuevo de DoctorSV, lo dominas. Si te trabas, ahí está tu hueco.
+4. Cierra con Feynman: si puedes dar una "clase" de 10 líneas sobre qué es FHIR, cómo se consulta y por qué importa, a un compañero nuevo de la integración nacional, lo dominas. Si te trabas, ahí está tu hueco.
 
 ## Chuleta
 
@@ -70,7 +70,7 @@ Un simulacro sirve si lo tratas como diagnóstico:
 | Consulta por paciente | `GET {base}/Observation?subject=Patient/{id}` |
 | Códigos de éxito | 200 OK (lectura/update), 201 Created (creación) |
 | Edad del paciente | calcular desde `Patient.birthDate` |
-| Limpieza GCP | `gcloud healthcare datasets delete doctorsv-dataset --location=us-central1` |
+| Limpieza GCP | `gcloud healthcare datasets delete integracion-nacional-dataset --location=us-central1` |
 | Meta examen final | ≥ 80% en el acumulado mezclado |
 | Meta Leitner | mayoría de tarjetas en cajas 3-5 |
 | Simulacro acumulado | `python evaluacion\quiz_runner.py --repaso --n 20` |

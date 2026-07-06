@@ -27,7 +27,7 @@ Genera clave solo si la necesitas localmente; **nunca** la subas a GitHub.
 ```powershell
 gcloud auth print-access-token
 $env:TOKEN = gcloud auth print-access-token
-$env:FHIR_BASE_URL = "https://healthcare.googleapis.com/v1/projects/TU_PROYECTO/locations/us-central1/datasets/doctorsv-dataset/fhirStores/doctorsv-fhir-store/fhir"
+$env:FHIR_BASE_URL = "https://healthcare.googleapis.com/v1/projects/TU_PROYECTO/locations/us-central1/datasets/integracion-nacional-dataset/fhirStores/integracion-nacional-fhir-store/fhir"
 ```
 
 El token caduca en ~1 hora; renueva cuando recibas 401.

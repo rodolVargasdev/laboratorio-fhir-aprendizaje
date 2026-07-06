@@ -77,7 +77,7 @@ Quiz: `python evaluacion\quiz_runner.py --extra historia-fhir`
 
 ### Dia 12 - Primer contacto con el modelo FHIR
 - Teoria: recursos comunes (Patient, Observation, Encounter), referencias, Bundle.
-- Practica: recorrer un Bundle y mapear un caso de uso de DoctorSV a recursos.
+- Practica: recorrer un Bundle y mapear un caso de uso de la integración nacional a recursos.
 
 ### Dia 13 - Mini-proyecto integrador
 - Practica: pequeno script Python que lee de tu FHIR store en GCP, filtra y

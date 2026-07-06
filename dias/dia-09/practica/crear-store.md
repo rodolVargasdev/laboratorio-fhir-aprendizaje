@@ -6,14 +6,14 @@ habilitada, alerta de presupuesto en 1 dolar).
 ## Paso 1: crear el dataset
 
 ```powershell
-gcloud healthcare datasets create doctorsv-dataset --location=us-central1
+gcloud healthcare datasets create integracion-nacional-dataset --location=us-central1
 ```
 
 ## Paso 2: crear el FHIR store version R4
 
 ```powershell
-gcloud healthcare fhir-stores create doctorsv-fhir-store `
-  --dataset=doctorsv-dataset `
+gcloud healthcare fhir-stores create integracion-nacional-fhir-store `
+  --dataset=integracion-nacional-dataset `
   --location=us-central1 `
   --version=R4 `
   --enable-update-create
@@ -25,7 +25,7 @@ gcloud healthcare fhir-stores create doctorsv-fhir-store `
 
 ```powershell
 gcloud healthcare fhir-stores list `
-  --dataset=doctorsv-dataset `
+  --dataset=integracion-nacional-dataset `
   --location=us-central1
 ```
 
@@ -33,7 +33,7 @@ gcloud healthcare fhir-stores list `
 
 ```powershell
 $env:TOKEN = gcloud auth print-access-token
-$env:FHIR_BASE_URL = "https://healthcare.googleapis.com/v1/projects/$(gcloud config get-value project)/locations/us-central1/datasets/doctorsv-dataset/fhirStores/doctorsv-fhir-store/fhir"
+$env:FHIR_BASE_URL = "https://healthcare.googleapis.com/v1/projects/$(gcloud config get-value project)/locations/us-central1/datasets/integracion-nacional-dataset/fhirStores/integracion-nacional-fhir-store/fhir"
 ```
 
 El token caduca en ~1 hora; vuelve a ejecutar la primera linea si expira.
