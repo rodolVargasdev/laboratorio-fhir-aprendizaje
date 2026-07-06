@@ -1,9 +1,21 @@
 {
   "descripcion": "Mapa oficial del laboratorio: la ruta se organiza por TEMAS (no por dias). Cada tema agrupa los modulos existentes de dias/. Este archivo lo consumen RUTA.md (humanos) y docs/generar_datos.py (la app).",
   "etapas": [
-    { "id": 1, "nombre": "Cimientos", "meta": "Leer y hablar el idioma de FHIR: JSON, REST, seguridad basica." },
-    { "id": 2, "nombre": "El estandar FHIR", "meta": "Dominar el modelo de recursos, busqueda, terminologias y validacion (nucleo del examen Foundational)." },
-    { "id": 3, "nombre": "Practica real", "meta": "Implementar sobre Google Cloud y SMART; proyecto integrador estilo DoctorSV." }
+    {
+      "id": 1,
+      "nombre": "Cimientos",
+      "meta": "Leer y hablar el idioma de FHIR: JSON, REST, seguridad basica."
+    },
+    {
+      "id": 2,
+      "nombre": "El estandar FHIR",
+      "meta": "Dominar el modelo de recursos, busqueda, terminologias y validacion (nucleo del examen Foundational)."
+    },
+    {
+      "id": 3,
+      "nombre": "Practica real",
+      "meta": "Implementar sobre Google Cloud y SMART; proyecto integrador estilo DoctorSV."
+    }
   ],
   "temas": [
     {
@@ -12,9 +24,12 @@
       "slug": "tema-00-historia",
       "nombre": "Por que existe FHIR",
       "opcional": true,
-      "dias": ["extra-historia-fhir"],
+      "dias": [
+        "extra-historia-fhir"
+      ],
       "movil": "movil/tema-00-historia.md",
-      "resumen": "HL7 v2/v3, Argonaut, SMART y el nacimiento de FHIR hasta R4. Contexto que cae en preguntas conceptuales del examen."
+      "resumen": "HL7 v2/v3, Argonaut, SMART y el nacimiento de FHIR hasta R4. Contexto que cae en preguntas conceptuales del examen.",
+      "practica_institucional": "Diagnóstico: cómo comparte datos hoy DoctorSV y dónde está en la historia pre-FHIR."
     },
     {
       "id": 1,
@@ -22,9 +37,13 @@
       "slug": "tema-01-json-xml",
       "nombre": "JSON y XML: el lenguaje de los datos",
       "opcional": false,
-      "dias": [1, 2],
+      "dias": [
+        1,
+        2
+      ],
       "movil": "movil/tema-01-json-xml.md",
-      "resumen": "Objetos, arrays, rutas tipo Patient.name[0].family, JSON anidado y XML comparado."
+      "resumen": "Objetos, arrays, rutas tipo Patient.name[0].family, JSON anidado y XML comparado.",
+      "practica_institucional": "Escribe el Patient salvadoreño: DUI ficticio como identifier, dos apellidos, dirección con municipio."
     },
     {
       "id": 2,
@@ -32,9 +51,15 @@
       "slug": "tema-02-http-rest",
       "nombre": "HTTP y REST: hablar con un servidor FHIR",
       "opcional": false,
-      "dias": [3, 4, 5, 7],
+      "dias": [
+        3,
+        4,
+        5,
+        7
+      ],
       "movil": "movil/tema-02-http-rest.md",
-      "resumen": "Metodos GET/POST/PUT/DELETE, codigos de estado, busqueda basica, CRUD, idempotencia y consolidacion."
+      "resumen": "Metodos GET/POST/PUT/DELETE, codigos de estado, busqueda basica, CRUD, idempotencia y consolidacion.",
+      "practica_institucional": "Ciclo CRUD completo de tu expediente ficticio contra HAPI, documentando códigos de estado."
     },
     {
       "id": 3,
@@ -42,9 +67,12 @@
       "slug": "tema-03-seguridad",
       "nombre": "Seguridad: OAuth 2.0 y SMART on FHIR",
       "opcional": false,
-      "dias": [6],
+      "dias": [
+        6
+      ],
       "movil": "movil/tema-03-seguridad.md",
-      "resumen": "Autenticacion vs autorizacion, tokens, scopes y el perfil SMART on FHIR (concepto)."
+      "resumen": "Autenticacion vs autorizacion, tokens, scopes y el perfil SMART on FHIR (concepto).",
+      "practica_institucional": "Matriz de scopes SMART por actor de DoctorSV (médico, enfermería, farmacia, reportes MINSAL)."
     },
     {
       "id": 4,
@@ -52,9 +80,12 @@
       "slug": "tema-04-modelo-fhir",
       "nombre": "El modelo FHIR: recursos, referencias y Bundles",
       "opcional": false,
-      "dias": [12],
+      "dias": [
+        12
+      ],
       "movil": "movil/tema-04-modelo-fhir.md",
-      "resumen": "Patient, Observation, Encounter; tipos de datos; referencias entre recursos; Bundle."
+      "resumen": "Patient, Observation, Encounter; tipos de datos; referencias entre recursos; Bundle.",
+      "practica_institucional": "Modela una consulta externa completa: Patient, Encounter, Observations, Condition, MedicationRequest enlazados."
     },
     {
       "id": 5,
@@ -62,9 +93,12 @@
       "slug": "tema-05-busqueda",
       "nombre": "Busqueda avanzada",
       "opcional": false,
-      "dias": [18],
+      "dias": [
+        18
+      ],
       "movil": "movil/tema-05-busqueda.md",
-      "resumen": "Chaining, _include/_revinclude, modificadores, paginacion y parametros compuestos."
+      "resumen": "Chaining, _include/_revinclude, modificadores, paginacion y parametros compuestos.",
+      "practica_institucional": "Las 5 búsquedas operativas diarias de DoctorSV escritas y ejecutadas como URLs FHIR."
     },
     {
       "id": 6,
@@ -72,9 +106,13 @@
       "slug": "tema-06-terminologias",
       "nombre": "Terminologias clinicas",
       "opcional": false,
-      "dias": [11, 19],
+      "dias": [
+        11,
+        19
+      ],
       "movil": "movil/tema-06-terminologias.md",
-      "resumen": "LOINC, SNOMED CT, Coding vs CodeableConcept, bindings, CodeSystem/ValueSet/ConceptMap y operaciones ($expand, $lookup)."
+      "resumen": "LOINC, SNOMED CT, Coding vs CodeableConcept, bindings, CodeSystem/ValueSet/ConceptMap y operaciones ($expand, $lookup).",
+      "practica_institucional": "Catálogo base: 10 conceptos frecuentes con SNOMED/LOINC y mini-ValueSet de diagnósticos DoctorSV."
     },
     {
       "id": 7,
@@ -82,9 +120,13 @@
       "slug": "tema-07-validacion-profiles",
       "nombre": "Validacion y Profiles",
       "opcional": false,
-      "dias": [15, 16],
+      "dias": [
+        15,
+        16
+      ],
       "movil": "movil/tema-07-validacion-profiles.md",
-      "resumen": "$validate, OperationOutcome, StructureDefinition, profiles, differential vs snapshot, US Core."
+      "resumen": "$validate, OperationOutcome, StructureDefinition, profiles, differential vs snapshot, US Core.",
+      "practica_institucional": "Borrador del profile PacienteDoctorSV + $validate de tu paciente y análisis del OperationOutcome."
     },
     {
       "id": 8,
@@ -92,9 +134,15 @@
       "slug": "tema-08-gcp",
       "nombre": "FHIR en Google Cloud",
       "opcional": false,
-      "dias": [8, 9, 10, 20],
+      "dias": [
+        8,
+        9,
+        10,
+        20
+      ],
       "movil": "movil/tema-08-gcp.md",
-      "resumen": "Jerarquia GCP, Cloud Healthcare API, datasets y FHIR stores, carga de Synthea, import/export e IAM."
+      "resumen": "Jerarquia GCP, Cloud Healthcare API, datasets y FHIR stores, carga de Synthea, import/export e IAM.",
+      "practica_institucional": "Piloto en GCP: FHIR store doctorsv-piloto con tus recursos y búsquedas, cerrando en costo $0."
     },
     {
       "id": 9,
@@ -102,9 +150,12 @@
       "slug": "tema-09-smart-practica",
       "nombre": "SMART on FHIR en practica",
       "opcional": false,
-      "dias": [17],
+      "dias": [
+        17
+      ],
       "movil": "movil/tema-09-smart-practica.md",
-      "resumen": "App Launch y Backend Services de verdad: JWT firmado, JWKS, scopes granulares."
+      "resumen": "App Launch y Backend Services de verdad: JWT firmado, JWKS, scopes granulares.",
+      "practica_institucional": "Flujo Backend Services para reportes epidemiológicos nocturnos (JWT, scopes mínimos, sandbox)."
     },
     {
       "id": 10,
@@ -112,9 +163,13 @@
       "slug": "tema-10-proyecto",
       "nombre": "Proyecto integrador y examen",
       "opcional": false,
-      "dias": [13, 14],
+      "dias": [
+        13,
+        14
+      ],
       "movil": "movil/tema-10-proyecto.md",
-      "resumen": "Mini-proyecto end-to-end estilo DoctorSV + examen acumulado + plan hacia la certificacion."
+      "resumen": "Mini-proyecto end-to-end estilo DoctorSV + examen acumulado + plan hacia la certificacion.",
+      "practica_institucional": "Propuesta final: interoperabilidad FHIR para DoctorSV uniendo los 10 entregables anteriores."
     }
   ]
 }

@@ -338,6 +338,7 @@ function vRuta() {
             <h3>Tema ${t.id} · ${esc(t.nombre)} ${t.opcional ? '<span class="chip opcional">opcional</span>' : ""} ${esSig ? '<span class="chip">estás aquí</span>' : ""}</h3>
             <div class="desc">${esc(t.resumen)}</div>
             <div class="desc">💻 Módulos en PC: ${t.dias.map(d => typeof d === "number" ? "día " + d : "extra").join(", ")}</div>
+            ${t.practica_institucional ? `<div class="desc">🏥 DoctorSV: ${esc(t.practica_institucional)}</div>` : ""}
           </div>
         </div>
         <div class="acciones">
