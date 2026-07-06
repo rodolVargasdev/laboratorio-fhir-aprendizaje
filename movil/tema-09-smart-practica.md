@@ -1,4 +1,4 @@
-# 📱 Tema 9 · SMART on FHIR en práctica
+# Tema 9 · SMART on FHIR en práctica
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -28,11 +28,11 @@ Error común: intentar usar App Launch para un proceso batch "simulando" un usua
 
 1. **Par de claves**: tu sistema genera clave privada (secreta, nunca sale de tu servidor) y clave pública, que publicas en un **JWKS** (JSON Web Key Set), una URL con tus claves públicas. Al registrarte con el servidor de autorización le das esa URL.
 2. **Construyes un JWT** firmado con la privada (algoritmos asimétricos **RS384 o ES384**) con estos claims:
-   - `iss` (issuer): tu client_id — quién firma.
-   - `sub` (subject): también tu client_id — de quién habla el token (en Backend Services, iss = sub).
-   - `aud` (audience): la URL del endpoint de token — para quién es. Evita que un token robado se reutilice contra otro servidor.
-   - `exp` (expiration): expiración corta (máx. 5 minutos). Limita la ventana de ataque.
-   - `jti` (JWT ID): identificador único del token. Impide ataques de repetición (replay): el mismo JWT no se acepta dos veces.
+  - `iss` (issuer): tu client_id — quién firma.
+  - `sub` (subject): también tu client_id — de quién habla el token (en Backend Services, iss = sub).
+  - `aud` (audience): la URL del endpoint de token — para quién es. Evita que un token robado se reutilice contra otro servidor.
+  - `exp` (expiration): expiración corta (máx. 5 minutos). Limita la ventana de ataque.
+  - `jti` (JWT ID): identificador único del token. Impide ataques de repetición (replay): el mismo JWT no se acepta dos veces.
 3. **POST al endpoint de token** con `grant_type=client_credentials`, el JWT como `client_assertion`, y los scopes que pides.
 4. El servidor verifica la firma contra tu JWKS y responde con un **`access_token`** (y opcionalmente los scopes concedidos, que pueden ser menos de los pedidos).
 5. Llamas a FHIR con `Authorization: Bearer <access_token>`.
@@ -92,14 +92,14 @@ Para practicar sin riesgo existe el sandbox de SMART Health IT (launch.smartheal
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 9 SMART".
 2. Añade estos enlaces oficiales como fuentes:
-   - http://hl7.org/fhir/smart-app-launch/ — la especificación SMART App Launch, fuente primaria del tema.
-   - https://bulk-data.smarthealthit.org/ — sandbox de Backend Services/Bulk Data para ver el flujo JWT real.
-   - https://launch.smarthealthit.org — sandbox de App Launch para simular el lanzamiento desde un EHR.
-   - http://hl7.org/fhir/R4/http.html — la API REST que consumes una vez que tienes el token.
+  - http://hl7.org/fhir/smart-app-launch/ — la especificación SMART App Launch, fuente primaria del tema.
+  - https://bulk-data.smarthealthit.org/ — sandbox de Backend Services/Bulk Data para ver el flujo JWT real.
+  - https://launch.smarthealthit.org — sandbox de App Launch para simular el lanzamiento desde un EHR.
+  - http://hl7.org/fhir/R4/http.html — la API REST que consumes una vez que tienes el token.
 3. Prompts sugeridos:
-   - "Genera una tabla comparativa App Launch vs Backend Services: actor, flujo, tipo de credencial, scopes típicos y ejemplo de uso en una clínica."
-   - "Simula que soy el servidor de autorización: te presento JWTs con defectos (sin exp, aud incorrecto, jti repetido) y explícame por qué rechazarías cada uno."
-   - "Hazme 10 preguntas de examen sobre claims JWT y scopes SMART v2, corrigiéndome con la fuente."
+  - "Genera una tabla comparativa App Launch vs Backend Services: actor, flujo, tipo de credencial, scopes típicos y ejemplo de uso en una clínica."
+  - "Simula que soy el servidor de autorización: te presento JWTs con defectos (sin exp, aud incorrecto, jti repetido) y explícame por qué rechazarías cada uno."
+  - "Hazme 10 preguntas de examen sobre claims JWT y scopes SMART v2, corrigiéndome con la fuente."
 
 ---
 

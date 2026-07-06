@@ -1,4 +1,4 @@
-# 📱 Tema 7 · Validación y Profiles
+# Tema 7 · Validación y Profiles
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -49,13 +49,13 @@ Es el recurso estándar para comunicar errores y advertencias. Analogía: la tar
 
 ```json
 {
-  "resourceType": "OperationOutcome",
-  "issue": [{
-    "severity": "error",
-    "code": "required",
-    "diagnostics": "Patient.name: minimum required = 1, but only found 0",
-    "expression": ["Patient.name"]
-  }]
+ "resourceType": "OperationOutcome",
+ "issue": [{
+  "severity": "error",
+  "code": "required",
+  "diagnostics": "Patient.name: minimum required = 1, but only found 0",
+  "expression": ["Patient.name"]
+ }]
 }
 ```
 
@@ -128,15 +128,15 @@ US Core es la IG más estudiada y el ejemplo canónico en el examen. Un Patient 
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 7 Validación y Profiles".
 2. Añade estos enlaces oficiales como fuentes:
-   - http://hl7.org/fhir/R4/validation.html — las capas de validación y cómo funciona $validate.
-   - http://hl7.org/fhir/R4/operationoutcome.html — estructura de issue: severity, code, expression.
-   - https://hl7.org/fhir/us/core/ — US Core, la IG canónica para estudiar profiles reales.
-   - https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator — el validador oficial Java, para validar en local.
-   - https://fshschool.org/ — SUSHI/FSH: escribir profiles como código (mirando al Advanced).
+  - http://hl7.org/fhir/R4/validation.html — las capas de validación y cómo funciona $validate.
+  - http://hl7.org/fhir/R4/operationoutcome.html — estructura de issue: severity, code, expression.
+  - https://hl7.org/fhir/us/core/ — US Core, la IG canónica para estudiar profiles reales.
+  - https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator — el validador oficial Java, para validar en local.
+  - https://fshschool.org/ — SUSHI/FSH: escribir profiles como código (mirando al Advanced).
 3. Prompts sugeridos:
-   - "Muéstrame 5 OperationOutcome de ejemplo y pídeme diagnosticar y corregir el recurso en cada caso."
-   - "Explícame con el ejemplo de US Core Blood Pressure cómo funciona el slicing de Observation.component y su discriminator."
-   - "Hazme preguntas tipo examen sobre differential vs snapshot, must-support vs cardinalidad, y 200-con-issues vs 422."
+  - "Muéstrame 5 OperationOutcome de ejemplo y pídeme diagnosticar y corregir el recurso en cada caso."
+  - "Explícame con el ejemplo de US Core Blood Pressure cómo funciona el slicing de Observation.component y su discriminator."
+  - "Hazme preguntas tipo examen sobre differential vs snapshot, must-support vs cardinalidad, y 200-con-issues vs 422."
 
 ---
 

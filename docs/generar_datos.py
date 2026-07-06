@@ -2,17 +2,20 @@
 """Genera docs/datos.js: el paquete de datos que consume la app (docs/index.html).
 
 Une en un solo archivo JS:
-  - evaluacion/temas.json      (mapa de temas y etapas)
-  - dias/dia-XX/quiz.json      (quizzes de cada modulo)
-  - dias/extra-*/quiz.json     (quiz del modulo extra)
-  - evaluacion/flashcards.json (tarjetas Leitner)
-  - movil/tema-XX.md           (lecturas de celular)
+  - evaluacion/temas.json        (mapa de temas y etapas)
+  - dias/dia-XX/quiz.json        (quizzes de cada modulo)
+  - dias/extra-*/quiz.json       (quiz del modulo extra)
+  - evaluacion/flashcards.json   (tarjetas Leitner)
+  - movil/tema-XX.md             (lecturas de celular)
+  - PRACTICAS-DOCTORSV.md        (practica institucional completa por tema)
+  - recursos/enlaces-oficiales.md (pestana Recursos)
 
-Correr cada vez que cambie un quiz, una lectura movil o el mapa de temas:
+Correr cada vez que cambie cualquiera de esas fuentes:
 
     python docs\\generar_datos.py
 """
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -26,6 +29,8 @@ def leer_json(ruta):
 
 
 def leer_texto(ruta):
+    if not ruta.exists():
+        return ""
     with open(ruta, encoding="utf-8") as f:
         return f.read()
 
@@ -44,24 +49,50 @@ def quiz_de_dia(dia):
     return q
 
 
+def practicas_por_tema():
+    """Divide PRACTICAS-DOCTORSV.md en secciones '## Tema N ...' -> {n: markdown}."""
+    texto = leer_texto(RAIZ / "PRACTICAS-DOCTORSV.md")
+    if not texto:
+        return {}
+    secciones = {}
+    actual, cuerpo = None, []
+    for linea in texto.splitlines():
+        m = re.match(r"^## Tema (\d+)\b", linea)
+        if m:
+            if actual is not None:
+                secciones[actual] = "\n".join(cuerpo).strip()
+            actual, cuerpo = int(m.group(1)), [linea]
+        elif linea.startswith("## ") or linea.startswith("# ") or linea.strip() == "---":
+            if actual is not None:
+                secciones[actual] = "\n".join(cuerpo).strip()
+                actual, cuerpo = None, []
+        elif actual is not None:
+            cuerpo.append(linea)
+    if actual is not None:
+        secciones[actual] = "\n".join(cuerpo).strip()
+    return secciones
+
+
 def main():
     temas = leer_json(RAIZ / "evaluacion" / "temas.json")
     flashcards = leer_json(RAIZ / "evaluacion" / "flashcards.json")
+    practicas = practicas_por_tema()
 
     paquete = {
         "etapas": temas["etapas"],
         "temas": [],
         "flashcards": flashcards,
+        "recursos": leer_texto(RAIZ / "recursos" / "enlaces-oficiales.md"),
     }
 
     for tema in temas["temas"]:
         t = dict(tema)
-        # Lectura movil
-        ruta_movil = RAIZ / tema["movil"]
-        t["lectura"] = leer_texto(ruta_movil) if ruta_movil.exists() else ""
+        t["lectura"] = leer_texto(RAIZ / tema["movil"])
         if not t["lectura"]:
             print(f"  [aviso] sin lectura movil: {tema['movil']}")
-        # Quizzes de los modulos del tema
+        t["practica_detalle"] = practicas.get(tema["id"], "")
+        if not t["practica_detalle"]:
+            print(f"  [aviso] sin practica institucional: tema {tema['id']}")
         t["quizzes"] = [q for q in (quiz_de_dia(d) for d in tema["dias"]) if q]
         paquete["temas"].append(t)
 
@@ -71,9 +102,11 @@ def main():
     n_quizzes = sum(len(t["quizzes"]) for t in paquete["temas"])
     n_preguntas = sum(len(q["preguntas"]) for t in paquete["temas"] for q in t["quizzes"])
     n_lecturas = sum(1 for t in paquete["temas"] if t["lectura"])
+    n_practicas = sum(1 for t in paquete["temas"] if t["practica_detalle"])
     print(f"OK -> {SALIDA.relative_to(RAIZ)}")
-    print(f"  temas: {len(paquete['temas'])} | lecturas: {n_lecturas} | quizzes: {n_quizzes} "
-          f"({n_preguntas} preguntas) | tarjetas: {len(flashcards)}")
+    print(f"  temas: {len(paquete['temas'])} | lecturas: {n_lecturas} | practicas: {n_practicas} | "
+          f"quizzes: {n_quizzes} ({n_preguntas} preguntas) | tarjetas: {len(flashcards)} | "
+          f"recursos: {'si' if paquete['recursos'] else 'no'}")
     return 0
 
 

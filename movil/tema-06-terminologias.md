@@ -1,4 +1,4 @@
-# 📱 Tema 6 · Terminologías clínicas
+# Tema 6 · Terminologías clínicas
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -35,18 +35,18 @@ Truco memorable: LOINC responde "¿qué pregunta se hizo?" (la prueba); SNOMED r
 { "system": "http://loinc.org", "code": "8867-4", "display": "Heart rate" }
 ```
 
-  - `system`: la URL del vocabulario. Sin system, el código es ambiguo (¿8867-4 de quién?). Este es el bug número uno.
-  - `code`: el código en sí. `display`: el texto humano oficial.
+ - `system`: la URL del vocabulario. Sin system, el código es ambiguo (¿8867-4 de quién?). Este es el bug número uno.
+ - `code`: el código en sí. `display`: el texto humano oficial.
 
 - **CodeableConcept** = un concepto que puede llevar VARIOS coding (el mismo concepto en distintos vocabularios) más un `text` libre:
 
 ```json
 {
-  "coding": [
-    { "system": "http://snomed.info/sct", "code": "38341003", "display": "Hypertensive disorder" },
-    { "system": "http://hl7.org/fhir/sid/icd-10", "code": "I10" }
-  ],
-  "text": "Hipertensión arterial"
+ "coding": [
+  { "system": "http://snomed.info/sct", "code": "38341003", "display": "Hypertensive disorder" },
+  { "system": "http://hl7.org/fhir/sid/icd-10", "code": "I10" }
+ ],
+ "text": "Hipertensión arterial"
 }
 ```
 
@@ -83,7 +83,7 @@ Un servidor de terminología (público: `https://tx.fhir.org/r4`) expone operaci
 GET [base]/ValueSet/$expand?url=http://hl7.org/fhir/ValueSet/administrative-gender
 ```
 
-  Devuelve el ValueSet con `expansion.contains` lleno de códigos.
+ Devuelve el ValueSet con `expansion.contains` lleno de códigos.
 
 - **$lookup** — dado system + code, devuelve el display y propiedades del concepto:
 
@@ -134,14 +134,14 @@ Estas cuatro operaciones devuelven sus resultados como recurso `Parameters` (no 
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 6 Terminologías".
 2. Añade estos enlaces oficiales como fuentes:
-   - http://hl7.org/fhir/R4/terminologies.html — el módulo oficial de terminología: bindings y uso de códigos.
-   - http://hl7.org/fhir/R4/datatypes.html — definición formal de Coding, CodeableConcept y Quantity.
-   - http://hl7.org/fhir/R4/resourcelist.html — para ubicar CodeSystem, ValueSet y ConceptMap con sus operaciones.
-   - https://confluence.hl7.org/display/FHIR — FAQ y contexto de HL7 sobre el ecosistema de terminología.
+  - http://hl7.org/fhir/R4/terminologies.html — el módulo oficial de terminología: bindings y uso de códigos.
+  - http://hl7.org/fhir/R4/datatypes.html — definición formal de Coding, CodeableConcept y Quantity.
+  - http://hl7.org/fhir/R4/resourcelist.html — para ubicar CodeSystem, ValueSet y ConceptMap con sus operaciones.
+  - https://confluence.hl7.org/display/FHIR — FAQ y contexto de HL7 sobre el ecosistema de terminología.
 3. Prompts sugeridos:
-   - "Hazme 10 preguntas de opción múltiple sobre binding strength y corrige razonando cada una."
-   - "Dame 6 códigos con su system y pídeme clasificar si son LOINC, SNOMED, UCUM o RxNorm y para qué elemento FHIR servirían."
-   - "Explícame el flujo completo: definir un ValueSet de signos vitales, expandirlo con $expand y validar un código con $validate-code."
+  - "Hazme 10 preguntas de opción múltiple sobre binding strength y corrige razonando cada una."
+  - "Dame 6 códigos con su system y pídeme clasificar si son LOINC, SNOMED, UCUM o RxNorm y para qué elemento FHIR servirían."
+  - "Explícame el flujo completo: definir un ValueSet de signos vitales, expandirlo con $expand y validar un código con $validate-code."
 
 ---
 

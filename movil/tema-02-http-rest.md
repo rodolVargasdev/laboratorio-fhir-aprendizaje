@@ -1,4 +1,4 @@
-# 📱 Tema 2 · HTTP y REST: hablar con un servidor FHIR
+# Tema 2 · HTTP y REST: hablar con un servidor FHIR
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -21,7 +21,7 @@ Anatomía de una URL FHIR:
 
 ```
 https://hapi.fhir.org/baseR4 / Patient / 123
-\______ base del servidor __/  \_tipo_/  \id/
+\______ base del servidor __/ \_tipo_/ \id/
 ```
 
 Y las cabeceras que usarás siempre:
@@ -138,15 +138,15 @@ Para consolidar (esto integra la Semana 1): tu app obtiene autorización (Tema 3
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 2 HTTP y REST".
 2. Añade estos enlaces oficiales como fuentes:
-   - http://hl7.org/fhir/R4/http.html — la API REST de FHIR R4: interacciones, verbos, códigos de estado.
-   - http://hl7.org/fhir/R4/search.html — especificación completa de búsqueda: parámetros, prefijos, _include.
-   - http://hl7.org/fhir/R4/bundle.html — el recurso Bundle: searchset, entry, links de paginación.
-   - http://hl7.org/fhir/R4/operationoutcome.html — cómo reportan errores los servidores FHIR.
-   - https://hapi.fhir.org/baseR4 — servidor público de práctica para probar todo lo anterior (solo datos ficticios).
+  - http://hl7.org/fhir/R4/http.html — la API REST de FHIR R4: interacciones, verbos, códigos de estado.
+  - http://hl7.org/fhir/R4/search.html — especificación completa de búsqueda: parámetros, prefijos, _include.
+  - http://hl7.org/fhir/R4/bundle.html — el recurso Bundle: searchset, entry, links de paginación.
+  - http://hl7.org/fhir/R4/operationoutcome.html — cómo reportan errores los servidores FHIR.
+  - https://hapi.fhir.org/baseR4 — servidor público de práctica para probar todo lo anterior (solo datos ficticios).
 3. Prompts sugeridos:
-   - "Simula ser un servidor FHIR: yo te mando peticiones HTTP y tú respondes con el código de estado y cuerpo que corresponda, explicando por qué."
-   - "Hazme 10 preguntas tipo examen sobre idempotencia, códigos de estado y la diferencia entre read, vread y search."
-   - "Dame 5 búsquedas FHIR mal escritas (errores sutiles de prefijos, parámetros o rutas) y pídeme corregirlas una por una."
+  - "Simula ser un servidor FHIR: yo te mando peticiones HTTP y tú respondes con el código de estado y cuerpo que corresponda, explicando por qué."
+  - "Hazme 10 preguntas tipo examen sobre idempotencia, códigos de estado y la diferencia entre read, vread y search."
+  - "Dame 5 búsquedas FHIR mal escritas (errores sutiles de prefijos, parámetros o rutas) y pídeme corregirlas una por una."
 
 ---
 

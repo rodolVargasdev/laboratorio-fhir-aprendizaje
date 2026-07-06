@@ -1,4 +1,4 @@
-﻿# 📱 Tema 10 · Proyecto integrador y examen
+﻿# Tema 10 · Proyecto integrador y examen
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -89,15 +89,15 @@ Un simulacro sirve si lo tratas como diagnóstico:
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 10 Proyecto".
 2. Añade estos enlaces oficiales como fuentes:
-   - https://hl7.org/certification/fhir.cfm — página oficial de certificación FHIR de HL7, tu meta.
-   - https://www.hl7.org/training/fhir-exam.cfm — detalles del examen Foundational Implementer.
-   - https://www.hl7.org/training/fhir-foundational-prep.cfm — curso oficial de preparación del Foundational.
-   - http://hl7.org/fhir/R4/http.html — la API REST que el proyecto integra de punta a punta.
-   - http://hl7.org/fhir/R4/resourcelist.html — lista de recursos R4 para ubicar Patient, Observation y Condition.
+  - https://hl7.org/certification/fhir.cfm — página oficial de certificación FHIR de HL7, tu meta.
+  - https://www.hl7.org/training/fhir-exam.cfm — detalles del examen Foundational Implementer.
+  - https://www.hl7.org/training/fhir-foundational-prep.cfm — curso oficial de preparación del Foundational.
+  - http://hl7.org/fhir/R4/http.html — la API REST que el proyecto integra de punta a punta.
+  - http://hl7.org/fhir/R4/resourcelist.html — lista de recursos R4 para ubicar Patient, Observation y Condition.
 3. Prompts sugeridos:
-   - "Actúa como entrevistador técnico: hazme defender el diseño del mini-proyecto de resumen clínico paso a paso, cuestionando cada decisión (referencias, códigos, lecturas de verificación)."
-   - "Genera un simulacro de 15 preguntas estilo Foundational Implementer mezclando REST, referencias, terminologías y Bundles, y corrígeme citando las fuentes."
-   - "A partir de las fuentes, arma un plan de repaso de 4 semanas previo al examen Foundational, asumiendo 30 minutos diarios."
+  - "Actúa como entrevistador técnico: hazme defender el diseño del mini-proyecto de resumen clínico paso a paso, cuestionando cada decisión (referencias, códigos, lecturas de verificación)."
+  - "Genera un simulacro de 15 preguntas estilo Foundational Implementer mezclando REST, referencias, terminologías y Bundles, y corrígeme citando las fuentes."
+  - "A partir de las fuentes, arma un plan de repaso de 4 semanas previo al examen Foundational, asumiendo 30 minutos diarios."
 
 ---
 
