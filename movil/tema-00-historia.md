@@ -84,7 +84,7 @@ Con R4 también maduraron piezas que usarás todo el año: terminología como ci
 
 FHIR no es de ninguna empresa. **HL7 International** lo mantiene: los **Work Groups** proponen cambios, los **ballots** comunitarios los votan, y todo se publica gratis en hl7.org/fhir. Cualquiera implementa FHIR sin pagar licencia. La discusión abierta vive en Confluence y en chat.fhir.org (Zulip).
 
-Sobre esa base viven los **Implementation Guides (IGs)**: "dialectos acordados" por país o caso de uso. US Core (EE.UU.), IPS (resumen internacional del paciente), Da Vinci (pagadores). Lección para DoctorSV: la interoperabilidad real vive en los perfiles e IGs, no solo en FHIR core.
+Sobre esa base viven los **Implementation Guides (IGs)**: "dialectos acordados" por país o caso de uso. US Core (EE.UU.), IPS (resumen internacional del paciente), Da Vinci (pagadores). Lección para Nacional: la interoperabilidad real vive en los perfiles e IGs, no solo en FHIR core.
 
 ### Errores comunes de novato (y de examen)
 

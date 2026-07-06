@@ -1,7 +1,7 @@
 # Dia 12: El modelo FHIR (recursos, referencias y Bundle)
 
 Objetivo: conocer los recursos mas comunes, como se relacionan y como recorrer un
-Bundle; y mapear un caso de uso de DoctorSV a recursos FHIR.
+Bundle; y mapear un caso de uso de la integración nacional a recursos FHIR.
 Tiempo: 2-3 horas. Costo: $0.
 
 ## Rutina
@@ -42,7 +42,7 @@ Un Bundle agrupa recursos. Tipos frecuentes:
 Recorrer un Bundle = iterar su array `entry`, donde cada entrada tiene un
 `resource`.
 
-### Caso de uso DoctorSV (ejemplo a mapear)
+### Caso de uso la integración nacional (ejemplo a mapear)
 
 "Un paciente llega a consulta, el medico registra presion arterial y le
 diagnostica hipertension, y le receta un medicamento."
@@ -62,15 +62,15 @@ pertenece a que Patient siguiendo la referencia.
 
 ## Reto Feynman
 
-En `PROGRESO.md`, mapea con tus palabras un caso de uso real de DoctorSV (el que
+En `PROGRESO.md`, mapea con tus palabras un caso de uso real de la integración nacional (el que
 quieras) a recursos FHIR y sus referencias.
 
 ## Prompt para Composer 2.5 (copia y pega)
 
 Actua como mi tutor del Dia 12. Tema: modelo FHIR (Patient, Encounter,
 Observation, Condition, MedicationRequest), referencias y Bundle. Soy
-desarrollador intermedio en DoctorSV, en espanol, mentalidad GCP-first. Sin darme
+desarrollador intermedio en la integración nacional, en espanol, mentalidad GCP-first. Sin darme
 respuestas directas, hazme mapear casos de uso clinicos a recursos y referencias,
 y recorrer mentalmente un Bundle. Errores a vigilar: meter todo en un solo
 recurso, olvidar las referencias entre Encounter/Observation/Condition y Patient.
-Al final pideme mapear un caso de uso de DoctorSV a recursos FHIR (Feynman).
+Al final pideme mapear un caso de uso de la integración nacional a recursos FHIR (Feynman).

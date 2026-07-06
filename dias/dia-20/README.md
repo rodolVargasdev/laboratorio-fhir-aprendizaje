@@ -43,7 +43,7 @@ tamano almacenado. Sirve para estimar coste y verificar que la importacion llego
 
 Al terminar practicas en nube:
 
-    gcloud healthcare datasets delete doctorsv-dataset --location=us-central1
+    gcloud healthcare datasets delete integracion-nacional-dataset --location=us-central1
 
 Ver `dias/dia-14/practica/limpieza-gcp.md`.
 
@@ -69,7 +69,7 @@ una app que solo lee Observation.
 ## Prompt para Composer 2.5 (copia y pega)
 
 Actua como mi tutor del Dia 20. Tema: GCP Healthcare API avanzado (import
-Synthea, IAM, metricas, limpieza $0). Soy desarrollador en DoctorSV, en espanol.
+Synthea, IAM, metricas, limpieza $0). Soy desarrollador en la integración nacional, en espanol.
 Guiame con menor privilegio IAM, flujo import GCS->FHIR store, lectura de metricas
 y limpieza. Avisame de cualquier paso con riesgo de cobro. Al final pideme
 explicar el flujo import y la limpieza (Feynman).

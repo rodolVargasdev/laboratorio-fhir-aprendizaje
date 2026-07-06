@@ -48,13 +48,13 @@ Implementer, con micro-aprendizaje para los dias ocupados (`guias/MICRO-APRENDIZ
 ## Reto Feynman final
 
 En `PROGRESO.md`, escribe una "clase" de 10 lineas que le darias a un companero
-nuevo de DoctorSV para explicarle que es FHIR, como se consulta y por que importa.
+nuevo de la integración nacional para explicarle que es FHIR, como se consulta y por que importa.
 Si puedes explicarlo claro, lo dominas.
 
 ## Prompt para Composer 2.5 (copia y pega)
 
 Actua como mi evaluador del Dia 14. Tema: cierre de mis 2 semanas de cimientos
-para FHIR. Soy desarrollador intermedio en DoctorSV, en espanol. Tomame un repaso
+para FHIR. Soy desarrollador intermedio en la integración nacional, en espanol. Tomame un repaso
 final exigente e intercalado (mezclando todos los temas del dia 1 al 13), sin
 darme las respuestas de inmediato. Identifica mis 3 puntos mas debiles y dame un
 plan concreto para reforzarlos en las proximas semanas. Termina pidiendome que te

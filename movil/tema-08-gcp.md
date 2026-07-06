@@ -91,14 +91,14 @@ Nunca practiques con rol de Owner. Los roles de healthcare que debes conocer:
 - `roles/healthcare.fhirStoreAdmin` — administrar el store en sí (crear, borrar, configurar). Solo si lo necesitas.
 - `roles/healthcare.datasetViewer` — solo lectura de metadatos del dataset.
 
-El **principio de menor privilegio**: cada identidad recibe exactamente los permisos que su tarea exige, ni uno más. Una app de DoctorSV que solo lee observaciones no necesita poder borrar el store. Para scripts, lo correcto es una **cuenta de servicio** dedicada con el rol mínimo — y su clave JSON jamás se sube a git.
+El **principio de menor privilegio**: cada identidad recibe exactamente los permisos que su tarea exige, ni uno más. Una app de la integración nacional que solo lee observaciones no necesita poder borrar el store. Para scripts, lo correcto es una **cuenta de servicio** dedicada con el rol mínimo — y su clave JSON jamás se sube a git.
 
 ### Limpieza: el ritual de costo $0
 
 Al terminar cada sesión en la nube, borra el dataset (arrastra consigo sus stores y datos):
 
 ```
-gcloud healthcare datasets delete doctorsv-dataset --location=us-central1
+gcloud healthcare datasets delete integracion-nacional-dataset --location=us-central1
 ```
 
 Recrearlo mañana toma 2 minutos. Dejarlo vivo toda la noche consume GiB-hora sin darte nada. La limpieza no es paranoia: es un hábito profesional de gestión de costos.
@@ -108,15 +108,15 @@ Recrearlo mañana toma 2 minutos. Dejarlo vivo toda la noche consume GiB-hora si
 | Necesito... | Comando / dato |
 |---|---|
 | Token de acceso | `gcloud auth print-access-token` |
-| Crear dataset | `gcloud healthcare datasets create doctorsv-dataset --location=us-central1` |
-| Crear FHIR store R4 | `gcloud healthcare fhir-stores create mi-store --dataset=doctorsv-dataset --location=us-central1 --version=R4` |
+| Crear dataset | `gcloud healthcare datasets create integracion-nacional-dataset --location=us-central1` |
+| Crear FHIR store R4 | `gcloud healthcare fhir-stores create mi-store --dataset=integracion-nacional-dataset --location=us-central1 --version=R4` |
 | Endpoint FHIR | `https://healthcare.googleapis.com/v1/projects/P/locations/L/datasets/D/fhirStores/S/fhir` |
 | Leer un paciente | `curl -H "Authorization: Bearer $TOKEN" $BASE/Patient/123` |
 | Import desde GCS | operación import apuntando a `gs://bucket/*.ndjson` |
 | Métricas del store | método `fhirStores.getFHIRStoreMetrics` |
 | Rol para scripts CRUD | `roles/healthcare.fhirResourceEditor` |
 | Rol solo metadatos | `roles/healthcare.datasetViewer` |
-| Limpieza | `gcloud healthcare datasets delete doctorsv-dataset --location=us-central1` |
+| Limpieza | `gcloud healthcare datasets delete integracion-nacional-dataset --location=us-central1` |
 | Capa gratuita | 25,000 req/mes + 1 GiB-hora/mes |
 
 ## Autoevaluación (sin mirar arriba)
@@ -124,7 +124,7 @@ Recrearlo mañana toma 2 minutos. Dejarlo vivo toda la noche consume GiB-hora si
 1. Ordena de mayor a menor la jerarquía donde vive un FHIR store en GCP y di qué contiene cada nivel.
 2. ¿Por qué el endpoint de GCP exige `Authorization: Bearer <token>` y el HAPI público no? ¿Con qué comando obtienes el token?
 3. Describe el flujo de import masivo de Synthea: formato de archivo, dónde se sube y qué hace el Healthcare API.
-4. Una app de DoctorSV solo lee Observations. ¿Qué rol IAM le asignas y qué principio estás aplicando?
+4. Una app de la integración nacional solo lee Observations. ¿Qué rol IAM le asignas y qué principio estás aplicando?
 5. ¿Qué dos hábitos garantizan que tu práctica en la nube quede en $0, y cuáles son los límites de la capa gratuita?
 
 ## Para NotebookLM
@@ -139,7 +139,7 @@ Recrearlo mañana toma 2 minutos. Dejarlo vivo toda la noche consume GiB-hora si
 3. Prompts sugeridos:
   - "Hazme un cuestionario de 10 preguntas sobre la jerarquía proyecto > location > dataset > FHIR store y los roles IAM de healthcare."
   - "Explícame paso a paso, como si fuera un runbook, el flujo completo: crear dataset y store, obtener token, importar NDJSON desde Cloud Storage y borrar todo al final."
-  - "Compara el FHIR store de GCP con un servidor HAPI local: autenticación, costos, casos de uso. ¿Cuándo elegiría cada uno en DoctorSV?"
+  - "Compara el FHIR store de GCP con un servidor HAPI local: autenticación, costos, casos de uso. ¿Cuándo elegiría cada uno en la integración nacional?"
 
 ---
 

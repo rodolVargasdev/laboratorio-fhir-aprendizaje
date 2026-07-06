@@ -143,7 +143,7 @@ Objetivos por bloque:
 - Seguridad: IAM por roles, tokens que caducan, principio de menor privilegio.
 - Datos: importar Synthea; (opcional) exportar a BigQuery para analitica.
 
-Proyecto integrador DoctorSV (la prueba de fuego):
+Proyecto integrador la integración nacional (la prueba de fuego):
 - Disena e implementa un caso de uso end-to-end (p.ej. registro y consulta de
   signos vitales con resumen), backend en Python (o Go/NestJS si quieres).
 - Conecta tu backend a GCP (o HAPI local) con buenas practicas.
@@ -169,7 +169,7 @@ HL7 FHIR Advanced Developer Study Guide oficial):
 
 ## Mes 9: profiling profundo
 Objetivos: crear profiles con slicing y extensions; herramientas (Forge/Sushi).
-Practica: define un profile para un caso de DoctorSV y valida instancias contra el.
+Practica: define un profile para un caso de la integración nacional y valida instancias contra el.
 Compuerta: dominio `profiling` >= 70 con evidencia (un profile validando).
 
 ## Mes 10: SMART on FHIR en practica

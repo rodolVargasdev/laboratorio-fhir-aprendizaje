@@ -97,7 +97,7 @@ Differential vs snapshot es pregunta segura de examen: el differential es el "di
 
 ### US Core
 
-US Core es la IG más estudiada y el ejemplo canónico en el examen. Un Patient perfectamente válido en R4 base puede **fallar contra US Core** porque esta exige identifier, name y gender. Entrenarte leyendo US Core te prepara para leer cualquier IG (aunque DoctorSV esté en El Salvador).
+US Core es la IG más estudiada y el ejemplo canónico en el examen. Un Patient perfectamente válido en R4 base puede **fallar contra US Core** porque esta exige identifier, name y gender. Entrenarte leyendo US Core te prepara para leer cualquier IG (aunque la integración nacional esté en El Salvador).
 
 ## Chuleta
 

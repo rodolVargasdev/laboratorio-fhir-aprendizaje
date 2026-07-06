@@ -1,7 +1,7 @@
-# Laboratorio FHIR — de cero a experto, en línea recta
+﻿# Laboratorio FHIR — de cero a experto, en línea recta
 
 Laboratorio personal para dominar HL7 FHIR (rumbo a la certificación Foundational
-Implementer y más allá), como desarrollador e implementador de DoctorSV El Salvador.
+Implementer y más allá), como desarrollador de la integración nacional de salud en El Salvador.
 Metodología con evidencia: recuperación activa + repetición espaciada + intercalado,
 con medición objetiva. Costo total: $0.
 

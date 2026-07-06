@@ -48,7 +48,7 @@ Si la instancia no cumple el profile, OperationOutcome listara los issues.
 ### US Core (referencia para el examen)
 
 US Core es la Implementation Guide mas estudiada internacionalmente. Aunque
-DoctorSV no sea EE.UU., el examen usa US Core como ejemplo canonico de profiles.
+la integración nacional no sea EE.UU., el examen usa US Core como ejemplo canonico de profiles.
 Conocerlo te entrena para leer cualquier IG.
 
 ## Practica
@@ -72,7 +72,7 @@ que un Patient valido en R4 base puede fallar contra US Core.
 ## Prompt para Composer 2.5 (copia y pega)
 
 Actua como mi tutor del Dia 16. Tema: profiles y StructureDefinition. Soy
-desarrollador intermedio en DoctorSV, en espanol, mentalidad GCP-first. Sin darme
+desarrollador intermedio en la integración nacional, en espanol, mentalidad GCP-first. Sin darme
 respuestas directas, guiame a entender baseDefinition vs differential vs snapshot,
 como se identifica un profile por url, y como $validate con parametro profile
 detecta incumplimientos. Errores a vigilar: confundir profile con Implementation

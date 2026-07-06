@@ -54,9 +54,11 @@
   }
   nav.tabs button {
     background: none; border: none; cursor: pointer;
-    font-size: .74rem; color: var(--texto-2); font-family: inherit;
-    padding: 7px 8px; border-radius: 10px;
+    font-size: .68rem; color: var(--texto-2); font-family: inherit;
+    padding: 6px 8px; border-radius: 10px;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
   }
+  nav.tabs button svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   nav.tabs button.activo { color: var(--navy-2); font-weight: 700; background: var(--azul-suave); }
 
   /* ---- Componentes ---- */
@@ -191,7 +193,7 @@
   @media (min-width: 700px) {
     body { padding-bottom: 20px; }
     nav.tabs { position: sticky; top: 54px; bottom: auto; border-top: none; border-bottom: 1px solid var(--borde); justify-content: center; gap: 6px; }
-    nav.tabs button { font-size: .85rem; padding: 8px 16px; }
+    nav.tabs button { flex-direction: row; gap: 7px; font-size: .85rem; padding: 8px 16px; }
     .kpi .lbl { font-size: .7rem; }
   }
 </style>
@@ -205,12 +207,12 @@
 </header>
 
 <nav class="tabs" id="tabs">
-  <button data-v="ruta">Ruta</button>
-  <button data-v="lecturas">Lecturas</button>
-  <button data-v="quiz">Quiz</button>
-  <button data-v="tarjetas">Tarjetas</button>
-  <button data-v="recursos">Recursos</button>
-  <button data-v="progreso">Progreso</button>
+  <button data-v="ruta"><svg viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>Ruta</button>
+  <button data-v="lecturas"><svg viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>Lecturas</button>
+  <button data-v="quiz"><svg viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>Quiz</button>
+  <button data-v="tarjetas"><svg viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Tarjetas</button>
+  <button data-v="recursos"><svg viewBox="0 0 24 24"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg>Recursos</button>
+  <button data-v="progreso"><svg viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>Progreso</button>
 </nav>
 
 <main id="app"></main>
@@ -363,7 +365,7 @@ function vRuta() {
       <div class="fila"><strong class="crece">Tu linea recta</strong><span class="chip">${hechos}/${total}</span></div>
       <div class="barra" style="margin-top:8px"><div style="width:${total ? (hechos / total * 100) : 0}%"></div></div>
       ${sig ? `<p class="suave" style="margin-top:8px">Siguiente paso: <strong>Tema ${sig.id} - ${esc(sig.nombre)}</strong></p>` : `<p class="suave" style="margin-top:8px">Ruta completa. Corre <code>preparacion.py</code> y agenda tu examen.</p>`}
-      <p class="suave" style="margin-top:4px">Ciclo por tema: Lectura (celular) - Practica (PC) - Quiz (80 % o mas) - Practica DoctorSV - Tarjetas a diario.</p>
+      <p class="suave" style="margin-top:4px">Ciclo por tema: Lectura (celular) - Practica (PC) - Quiz (80 % o mas) - Practica nacional - Tarjetas a diario.</p>
     </div>`;
   D.etapas.forEach(et => {
     h += `<div class="etapa-titulo">Etapa ${et.id} - ${esc(et.nombre)}</div><p class="suave" style="margin-bottom:8px">${esc(et.meta)}</p>`;
@@ -383,12 +385,12 @@ function vRuta() {
             </h3>
             <div class="desc">${esc(t.resumen)}</div>
             <div class="desc"><span class="etq">PC:</span> ${t.dias.map(d => typeof d === "number" ? "dia " + d : "modulo extra").join(", ")}</div>
-            ${t.practica_institucional ? `<div class="desc"><span class="etq">DoctorSV:</span> ${esc(t.practica_institucional)}</div>` : ""}
+            ${t.practica_institucional ? `<div class="desc"><span class="etq">Nacional:</span> ${esc(t.practica_institucional)}</div>` : ""}
           </div>
         </div>
         <div class="acciones">
           <button class="btn secundario chico" data-acc="leer" data-id="${t.id}">Lectura</button>
-          <button class="btn secundario chico" data-acc="practica" data-id="${t.id}">Practica DoctorSV</button>
+          <button class="btn secundario chico" data-acc="practica" data-id="${t.id}">Practica nacional</button>
           <button class="btn chico" data-acc="quiz-tema" data-id="${t.id}">Quiz del tema</button>
         </div>
       </div>`;
@@ -408,13 +410,13 @@ function vLecturas() {
       <button class="btn fantasma chico" data-acc="volver-lecturas">Volver a lecturas</button>
       <div class="grupo-botones">
         <button class="btn chico ${!ctx.practica ? "" : "secundario"}" data-acc="leer" data-id="${t.id}">Lectura del tema</button>
-        <button class="btn chico ${ctx.practica ? "" : "secundario"}" data-acc="practica" data-id="${t.id}">Practica DoctorSV</button>
+        <button class="btn chico ${ctx.practica ? "" : "secundario"}" data-acc="practica" data-id="${t.id}">Practica nacional</button>
       </div>
       <div class="tarjeta" style="margin-top:12px"><div class="md">${cuerpo}</div></div>
       <button class="btn bloque" data-acc="quiz-tema" data-id="${t.id}">Hacer el quiz del tema ${t.id}</button>`;
   }
   let h = `<h2 class="seccion">Lecturas para el celular</h2>
-           <p class="suave" style="margin-bottom:10px">Cada pack incluye la lectura, una chuleta, autoevaluacion, la practica institucional DoctorSV y que subir a NotebookLM.</p>`;
+           <p class="suave" style="margin-bottom:10px">Cada pack incluye la lectura, una chuleta, autoevaluacion, la practica institucional la integración nacional y que subir a NotebookLM.</p>`;
   D.temas.forEach(t => {
     h += `<div class="tarjeta tema" data-acc="leer" data-id="${t.id}" style="cursor:pointer">
       <div class="fila">

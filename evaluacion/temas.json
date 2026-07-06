@@ -14,7 +14,7 @@
     {
       "id": 3,
       "nombre": "Practica real",
-      "meta": "Implementar sobre Google Cloud y SMART; proyecto integrador estilo DoctorSV."
+      "meta": "Implementar sobre Google Cloud y SMART; proyecto integrador de integración nacional."
     }
   ],
   "temas": [
@@ -29,7 +29,7 @@
       ],
       "movil": "movil/tema-00-historia.md",
       "resumen": "HL7 v2/v3, Argonaut, SMART y el nacimiento de FHIR hasta R4. Contexto que cae en preguntas conceptuales del examen.",
-      "practica_institucional": "Diagnóstico: cómo comparte datos hoy DoctorSV y dónde está en la historia pre-FHIR."
+      "practica_institucional": "Diagnóstico: cómo se comparten datos de salud hoy en el país y dónde encaja eso en la historia pre-FHIR."
     },
     {
       "id": 1,
@@ -72,7 +72,7 @@
       ],
       "movil": "movil/tema-03-seguridad.md",
       "resumen": "Autenticacion vs autorizacion, tokens, scopes y el perfil SMART on FHIR (concepto).",
-      "practica_institucional": "Matriz de scopes SMART por actor de DoctorSV (médico, enfermería, farmacia, reportes MINSAL)."
+      "practica_institucional": "Matriz de scopes SMART por actor de la integración nacional (médico, enfermería, farmacia, reportes MINSAL)."
     },
     {
       "id": 4,
@@ -98,7 +98,7 @@
       ],
       "movil": "movil/tema-05-busqueda.md",
       "resumen": "Chaining, _include/_revinclude, modificadores, paginacion y parametros compuestos.",
-      "practica_institucional": "Las 5 búsquedas operativas diarias de DoctorSV escritas y ejecutadas como URLs FHIR."
+      "practica_institucional": "Las 5 búsquedas operativas diarias de la integración nacional escritas y ejecutadas como URLs FHIR."
     },
     {
       "id": 6,
@@ -112,7 +112,7 @@
       ],
       "movil": "movil/tema-06-terminologias.md",
       "resumen": "LOINC, SNOMED CT, Coding vs CodeableConcept, bindings, CodeSystem/ValueSet/ConceptMap y operaciones ($expand, $lookup).",
-      "practica_institucional": "Catálogo base: 10 conceptos frecuentes con SNOMED/LOINC y mini-ValueSet de diagnósticos DoctorSV."
+      "practica_institucional": "Catálogo base: 10 conceptos frecuentes con SNOMED/LOINC y mini-ValueSet de diagnósticos nacionales."
     },
     {
       "id": 7,
@@ -126,7 +126,7 @@
       ],
       "movil": "movil/tema-07-validacion-profiles.md",
       "resumen": "$validate, OperationOutcome, StructureDefinition, profiles, differential vs snapshot, US Core.",
-      "practica_institucional": "Borrador del profile PacienteDoctorSV + $validate de tu paciente y análisis del OperationOutcome."
+      "practica_institucional": "Borrador del profile PacienteNacional + $validate de tu paciente y análisis del OperationOutcome."
     },
     {
       "id": 8,
@@ -142,7 +142,7 @@
       ],
       "movil": "movil/tema-08-gcp.md",
       "resumen": "Jerarquia GCP, Cloud Healthcare API, datasets y FHIR stores, carga de Synthea, import/export e IAM.",
-      "practica_institucional": "Piloto en GCP: FHIR store doctorsv-piloto con tus recursos y búsquedas, cerrando en costo $0."
+      "practica_institucional": "Piloto en GCP: FHIR store integracion-piloto con tus recursos y búsquedas, cerrando en costo $0."
     },
     {
       "id": 9,
@@ -168,8 +168,8 @@
         14
       ],
       "movil": "movil/tema-10-proyecto.md",
-      "resumen": "Mini-proyecto end-to-end estilo DoctorSV + examen acumulado + plan hacia la certificacion.",
-      "practica_institucional": "Propuesta final: interoperabilidad FHIR para DoctorSV uniendo los 10 entregables anteriores."
+      "resumen": "Mini-proyecto end-to-end de integración nacional + examen acumulado + plan hacia la certificacion.",
+      "practica_institucional": "Propuesta final: interoperabilidad FHIR para la integración nacional uniendo los 10 entregables anteriores."
     }
   ]
 }

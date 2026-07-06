@@ -67,7 +67,7 @@ Ideal despues de completar el dia, para fijar conceptos sin mirar pantalla.
 El export incluye prompts listos al final del `.md`. Ejemplos rapidos:
 
 - "Hazme un examen oral de 10 preguntas; corrige despues de cada respuesta."
-- "Explica App Launch vs Backend Services como si fuera para un dev de DoctorSV."
+- "Explica App Launch vs Backend Services como si fuera para un dev de la integración nacional."
 - "Que errores comunes cometeria al implementar esto en GCP Healthcare API?"
 
 ### Study Guide / FAQ

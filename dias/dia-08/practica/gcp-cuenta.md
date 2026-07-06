@@ -6,7 +6,7 @@ cobro, usa `servidor-local.md` en su lugar.
 ## Paso 1: Crear/seleccionar proyecto
 1. Entra a https://console.cloud.google.com/ con tu cuenta Google.
 2. En el selector de proyectos (arriba), pulsa "Nuevo proyecto".
-3. Nombre: `doctorsv-fhir-lab`. Crealo y seleccionalo.
+3. Nombre: `integracion-nacional-fhir-lab`. Crealo y seleccionalo.
 
 ## Paso 2: Activar facturacion (necesario aunque uses capa gratuita)
 1. Menu > Facturacion. Asocia una cuenta de facturacion al proyecto.
@@ -16,7 +16,7 @@ cobro, usa `servidor-local.md` en su lugar.
 ## Paso 3 (CLAVE): alerta de presupuesto en 1 dolar
 Esta es tu red de seguridad para no llevarte sorpresas.
 1. Facturacion > Presupuestos y alertas > Crear presupuesto.
-2. Ambito: el proyecto `doctorsv-fhir-lab`.
+2. Ambito: el proyecto `integracion-nacional-fhir-lab`.
 3. Importe objetivo: 1 (un dolar).
 4. Activa alertas al 50%, 90% y 100%. Te llegara correo si te acercas a 1 dolar.
 
@@ -29,7 +29,7 @@ borraremos los recursos al terminar (dia 13/14).
 
    ```powershell
    gcloud init
-   gcloud config set project doctorsv-fhir-lab
+   gcloud config set project integracion-nacional-fhir-lab
    gcloud config list
    ```
 

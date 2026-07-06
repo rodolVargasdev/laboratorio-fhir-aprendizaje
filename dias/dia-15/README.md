@@ -84,7 +84,7 @@ y que campos mirarias primero en un OperationOutcome.
 ## Prompt para Composer 2.5 (copia y pega)
 
 Actua como mi tutor del Dia 15. Tema: operacion $validate y OperationOutcome. Soy
-desarrollador intermedio en DoctorSV, en espanol, mentalidad GCP-first. Sin darme
+desarrollador intermedio en la integración nacional, en espanol, mentalidad GCP-first. Sin darme
 respuestas directas, hazme razonar como invocar $validate, que significa cada
 severity/code en issue, y como usar diagnostics/location para corregir un recurso.
 Errores a vigilar: confundir 200 HTTP con "sin errores", ignorar location,

@@ -6,7 +6,7 @@ publico de pruebas, no hay nada que limpiar.
 ## Paso 1: borrar el dataset (elimina sus FHIR stores)
 
 ```powershell
-gcloud healthcare datasets delete doctorsv-dataset --location=us-central1
+gcloud healthcare datasets delete integracion-nacional-dataset --location=us-central1
 ```
 
 Te pedira confirmacion. Esto borra el dataset y todo lo que contiene.
@@ -17,7 +17,7 @@ Te pedira confirmacion. Esto borra el dataset y todo lo que contiene.
 gcloud healthcare datasets list --location=us-central1
 ```
 
-No deberia aparecer doctorsv-dataset.
+No deberia aparecer integracion-nacional-dataset.
 
 ## Paso 3 (opcional): revisar facturacion
 

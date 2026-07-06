@@ -57,7 +57,7 @@ Explica la diferencia entre CodeSystem y ValueSet con un ejemplo de signos vital
 ## Prompt para Composer 2.5 (copia y pega)
 
 Actua como mi tutor del Dia 19. Tema: terminologia FHIR (CodeSystem, ValueSet,
-ConceptMap, $expand, $lookup). Soy desarrollador intermedio en DoctorSV, en
+ConceptMap, $expand, $lookup). Soy desarrollador intermedio en la integración nacional, en
 espanol. Sin respuestas directas: guiame a usar $expand y explicar binding.
 Errores: confundir CodeSystem con ValueSet, olvidar system en Coding.
 Al final pideme la diferencia CodeSystem vs ValueSet (Feynman).

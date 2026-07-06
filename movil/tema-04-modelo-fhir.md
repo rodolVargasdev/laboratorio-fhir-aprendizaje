@@ -9,7 +9,7 @@
 - Leer cardinalidades (0..1, 1..1, 0..*) y saber qué es obligatorio y qué es repetible.
 - Enlazar recursos entre sí con Reference (literal y lógica) y recorrer esas relaciones.
 - Distinguir los tipos de Bundle (searchset, transaction, batch, document, collection) y recorrer su `entry`.
-- Mapear un caso de uso real de DoctorSV a un grafo de recursos FHIR.
+- Mapear un caso de uso real de la integración nacional a un grafo de recursos FHIR.
 
 ## Lectura
 
@@ -84,7 +84,7 @@ Un **Bundle** es un recurso contenedor. Su campo `type` define el comportamiento
 
 Recorrer un Bundle = iterar el array `entry`; cada entrada tiene `resource` (el recurso en sí) y opcionalmente `fullUrl`, `search`, `request` o `response` según el tipo. En un searchset, `entry.search.mode` distingue `match` (coincide con la búsqueda) de `include` (vino por `_include`).
 
-### Caso DoctorSV, mapeado
+### Caso la integración nacional, mapeado
 
 "Un paciente llega a consulta, el médico registra presión arterial, diagnostica hipertensión y receta un medicamento":
 

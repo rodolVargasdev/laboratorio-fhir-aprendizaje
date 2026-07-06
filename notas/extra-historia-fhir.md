@@ -75,7 +75,7 @@
 5. FHIR (2011, Grahame Grieve) aposto por recursos modulares + HTTP + JSON — patrones que cualquier desarrollador web conoce.
 6. Ciclos DSTU/STU permitieron feedback de implementadores reales antes de congelar R4.
 7. Argonaut (2014-2016) alineo vendors gigantes y SMART — FHIR paso de "bonito en papel" a contrato de produccion.
-8. FHIR no reemplazo v2 de golpe: coexistencia con mappers v2→FHIR durante anos; tu rol en DoctorSV sera implementar en ese mundo hibrido.
+8. FHIR no reemplazo v2 de golpe: coexistencia con mappers v2→FHIR durante anos; tu rol en la integración nacional sera implementar en ese mundo hibrido.
 
 ---
 
