@@ -112,6 +112,19 @@ en `preparacion.py` → agenda el examen **HL7 FHIR Foundational Implementer**.
 
 ---
 
+## El norte: FHIR en tu institución (El Salvador)
+
+Esta ruta no es solo para el examen. Al cerrarla completa quedas a nivel
+**"amateur sólido" del estándar**: capaz de leer cualquier recurso R4, consultar y
+crear datos por REST, entender terminologías, validar contra profiles y montar un
+servidor FHIR en la nube. Con eso ya puedes empezar a **aplicarlo en DoctorSV**:
+
+- Al estudiar cada tema, pregúntate: *¿cómo se vería esto en nuestra institución?*
+  (ej. Tema 4: ¿qué recursos modelan una consulta en DoctorSV?; Tema 6: ¿qué
+  terminologías usaríamos en español?; Tema 7: ¿qué profile salvadoreño haría falta?).
+- Anota esas ideas en `PROGRESO.md` (sección de bitácora): serán la semilla del
+  proyecto integrador del Tema 10 y de la propuesta institucional real.
+
 ## Después del laboratorio (ruta larga)
 
 El detalle mes a mes hacia las 3 certificaciones (Foundational → competencia GCP →
