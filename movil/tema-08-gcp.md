@@ -1,4 +1,4 @@
-# 📱 Tema 8 · FHIR en Google Cloud
+# Tema 8 · FHIR en Google Cloud
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -131,15 +131,15 @@ Recrearlo mañana toma 2 minutos. Dejarlo vivo toda la noche consume GiB-hora si
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 8 GCP".
 2. Añade estos enlaces oficiales como fuentes:
-   - https://cloud.google.com/healthcare-api — página oficial de Cloud Healthcare API, el producto que estás aprendiendo.
-   - https://cloud.google.com/healthcare-api/docs/how-tos/fhir — guía oficial para crear y gestionar FHIR stores.
-   - https://cloud.google.com/free — detalle del nivel gratuito de GCP y sus límites.
-   - https://synthea.mitre.org/ — generador de datos sintéticos que usarás en los imports.
-   - http://hl7.org/fhir/R4/http.html — la API REST de FHIR R4 que tu store implementa.
+  - https://cloud.google.com/healthcare-api — página oficial de Cloud Healthcare API, el producto que estás aprendiendo.
+  - https://cloud.google.com/healthcare-api/docs/how-tos/fhir — guía oficial para crear y gestionar FHIR stores.
+  - https://cloud.google.com/free — detalle del nivel gratuito de GCP y sus límites.
+  - https://synthea.mitre.org/ — generador de datos sintéticos que usarás en los imports.
+  - http://hl7.org/fhir/R4/http.html — la API REST de FHIR R4 que tu store implementa.
 3. Prompts sugeridos:
-   - "Hazme un cuestionario de 10 preguntas sobre la jerarquía proyecto > location > dataset > FHIR store y los roles IAM de healthcare."
-   - "Explícame paso a paso, como si fuera un runbook, el flujo completo: crear dataset y store, obtener token, importar NDJSON desde Cloud Storage y borrar todo al final."
-   - "Compara el FHIR store de GCP con un servidor HAPI local: autenticación, costos, casos de uso. ¿Cuándo elegiría cada uno en DoctorSV?"
+  - "Hazme un cuestionario de 10 preguntas sobre la jerarquía proyecto > location > dataset > FHIR store y los roles IAM de healthcare."
+  - "Explícame paso a paso, como si fuera un runbook, el flujo completo: crear dataset y store, obtener token, importar NDJSON desde Cloud Storage y borrar todo al final."
+  - "Compara el FHIR store de GCP con un servidor HAPI local: autenticación, costos, casos de uso. ¿Cuándo elegiría cada uno en DoctorSV?"
 
 ---
 

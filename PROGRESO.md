@@ -6,35 +6,35 @@ objetiva de avance. Criterio de maestría: quiz ≥ 80 %. La ruta completa está
 
 Comandos:
 
-- Quiz de un módulo:     python evaluacion\quiz_runner.py --dia N
-- Quiz módulo extra:     python evaluacion\quiz_runner.py --extra historia-fhir
+- Quiz de un módulo:   python evaluacion\quiz_runner.py --dia N
+- Quiz módulo extra:   python evaluacion\quiz_runner.py --extra historia-fhir
 - Simulacro intercalado: python evaluacion\quiz_runner.py --repaso --n 25
-- Repaso espaciado:      python evaluacion\repaso.py
+- Repaso espaciado:   python evaluacion\repaso.py
 - Preparación (3 certs): python evaluacion\preparacion.py
 
 ## Etapa 1 — Cimientos
 
-- [ ] Tema 0 · Por qué existe FHIR (opcional)      quiz extra: ___%
+- [ ] Tema 0 · Por qué existe FHIR (opcional)   quiz extra: ___%
   - Lección: OK (2026-06-21). Notas: `notas/extra-historia-fhir.md`
   - **Pendiente:** quiz oficial (≥ 80 %) y Reto Feynman
-- [ ] Tema 1 · JSON y XML                          día 1: ___%  día 2: ___%
-- [ ] Tema 2 · HTTP y REST                         día 3: ___%  día 4: ___%  día 5: ___%  día 7: ___%
-- [ ] Tema 3 · Seguridad (OAuth/SMART concepto)    día 6: ___%
-- [ ] 🏁 Simulacro de cierre (--repaso --n 15):    ___%
+- [ ] Tema 1 · JSON y XML             día 1: ___% día 2: ___%
+- [ ] Tema 2 · HTTP y REST             día 3: ___% día 4: ___% día 5: ___% día 7: ___%
+- [ ] Tema 3 · Seguridad (OAuth/SMART concepto)  día 6: ___%
+- [ ] Simulacro de cierre (--repaso --n 15):  ___%
 
 ## Etapa 2 — El estándar FHIR
 
-- [ ] Tema 4 · Modelo FHIR (recursos, Bundle)      día 12: ___%
-- [ ] Tema 5 · Búsqueda avanzada                   día 18: ___%
-- [ ] Tema 6 · Terminologías                       día 11: ___%  día 19: ___%
-- [ ] Tema 7 · Validación y Profiles               día 15: ___%  día 16: ___%
-- [ ] 🏁 Simulacro de cierre (--repaso --n 25):    ___%
+- [ ] Tema 4 · Modelo FHIR (recursos, Bundle)   día 12: ___%
+- [ ] Tema 5 · Búsqueda avanzada          día 18: ___%
+- [ ] Tema 6 · Terminologías            día 11: ___% día 19: ___%
+- [ ] Tema 7 · Validación y Profiles        día 15: ___% día 16: ___%
+- [ ] Simulacro de cierre (--repaso --n 25):  ___%
 
 ## Etapa 3 — Práctica real
 
-- [ ] Tema 8 · FHIR en Google Cloud                día 8: ___%  día 9: ___%  día 10: ___%  día 20: ___%
-- [ ] Tema 9 · SMART on FHIR en práctica           día 17: ___%
-- [ ] Tema 10 · Proyecto integrador y examen       día 13: ___%  día 14: ___%
+- [ ] Tema 8 · FHIR en Google Cloud        día 8: ___% día 9: ___% día 10: ___% día 20: ___%
+- [ ] Tema 9 · SMART on FHIR en práctica      día 17: ___%
+- [ ] Tema 10 · Proyecto integrador y examen    día 13: ___% día 14: ___%
 
 ## Retos Feynman (explica con tus palabras, 3-4 líneas por tema)
 
@@ -56,7 +56,7 @@ Anota el puntaje compuesto (0-100) de cada meta para ver tu tendencia.
 
 | Fecha | Foundational | GCP | Advanced |
 | ----- | ------------ | --- | -------- |
-|       |              |     |          |
+|    |       |   |     |
 
 Recuerda: agenda un examen SOLO cuando su semáforo esté VERDE.
 

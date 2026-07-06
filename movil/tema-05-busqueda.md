@@ -1,4 +1,4 @@
-# 📱 Tema 5 · Búsqueda avanzada
+# Tema 5 · Búsqueda avanzada
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -30,9 +30,9 @@ La respuesta SIEMPRE es un Bundle de tipo `searchset`, aunque haya cero resultad
 Cada parámetro de búsqueda tiene un tipo: string, token, date, number, quantity, reference, uri. El tipo determina qué puedes hacer con él:
 
 - **date / number / quantity** aceptan prefijos: `eq`, `ne`, `gt`, `lt`, `ge`, `le` (y `sa`/`eb` para "empieza después"/"termina antes").
-  - `Observation?date=ge2024-01-01` → desde el 1 de enero de 2024 inclusive.
+ - `Observation?date=ge2024-01-01` → desde el 1 de enero de 2024 inclusive.
 - **token** busca códigos con la forma `system|code`:
-  - `Observation?code=http://loinc.org|8867-4` (frecuencia cardíaca). Solo `code=8867-4` busca el código en cualquier system.
+ - `Observation?code=http://loinc.org|8867-4` (frecuencia cardíaca). Solo `code=8867-4` busca el código en cualquier system.
 - **string** por defecto hace coincidencia "empieza por", insensible a mayúsculas y acentos.
 - **reference** acepta `subject=Patient/123`.
 
@@ -72,9 +72,9 @@ GET [base]/Patient?_has:Observation:patient:code=8867-4
 Sin includes, buscar 50 observaciones y luego pedir su paciente uno por uno son 51 peticiones. Con includes, un solo Bundle:
 
 - **_include** trae lo que los resultados **referencian**:
-  `Observation?_include=Observation:subject` → observaciones + sus Patient.
+ `Observation?_include=Observation:subject` → observaciones + sus Patient.
 - **_revinclude** trae lo que **referencia** a los resultados:
-  `Patient?_revinclude=Observation:subject` → pacientes + sus observaciones.
+ `Patient?_revinclude=Observation:subject` → pacientes + sus observaciones.
 
 Truco para no confundirlos: _include sigue la flecha hacia adelante; _revinclude la sigue en reversa. Los recursos incluidos llegan en el mismo Bundle con `entry.search.mode = "include"` (los que coinciden con la búsqueda llevan `"match"`), y NO cuentan en `total`.
 
@@ -84,8 +84,8 @@ El servidor decide el tamaño de página (puedes sugerir con `_count=10`). El Bu
 
 ```json
 "link": [
-  { "relation": "self", "url": "..." },
-  { "relation": "next", "url": "..." }
+ { "relation": "self", "url": "..." },
+ { "relation": "next", "url": "..." }
 ]
 ```
 
@@ -127,14 +127,14 @@ Para la siguiente página, sigue la URL de `relation: "next"` tal cual (es opaca
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 5 Búsqueda".
 2. Añade estos enlaces oficiales como fuentes:
-   - http://hl7.org/fhir/R4/search.html — la especificación completa de search: tipos de parámetro, modificadores, chaining.
-   - http://hl7.org/fhir/R4/http.html — API REST y códigos de estado que devuelve cada interacción.
-   - http://hl7.org/fhir/R4/bundle.html — estructura del searchset, total, entry.search.mode y link.
-   - https://hapi.fhir.org/baseR4 — servidor público para probar cada URL de este pack (solo datos sintéticos).
+  - http://hl7.org/fhir/R4/search.html — la especificación completa de search: tipos de parámetro, modificadores, chaining.
+  - http://hl7.org/fhir/R4/http.html — API REST y códigos de estado que devuelve cada interacción.
+  - http://hl7.org/fhir/R4/bundle.html — estructura del searchset, total, entry.search.mode y link.
+  - https://hapi.fhir.org/baseR4 — servidor público para probar cada URL de este pack (solo datos sintéticos).
 3. Prompts sugeridos:
-   - "Dame 8 escenarios clínicos y pídeme construir la URL de búsqueda; corrige mi sintaxis."
-   - "Explica paso a paso cómo resuelve el servidor `Observation?subject:Patient.name=Smith` y en qué se diferencia de `_has`."
-   - "Hazme un simulacro de examen sobre modificadores y prefijos: cuáles aplican a qué tipo de parámetro."
+  - "Dame 8 escenarios clínicos y pídeme construir la URL de búsqueda; corrige mi sintaxis."
+  - "Explica paso a paso cómo resuelve el servidor `Observation?subject:Patient.name=Smith` y en qué se diferencia de `_has`."
+  - "Hazme un simulacro de examen sobre modificadores y prefijos: cuáles aplican a qué tipo de parámetro."
 
 ---
 

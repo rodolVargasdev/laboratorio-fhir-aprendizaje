@@ -1,4 +1,4 @@
-# 📱 Tema 0 · Por qué existe FHIR
+# Tema 0 · Por qué existe FHIR
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -120,14 +120,14 @@ Sobre esa base viven los **Implementation Guides (IGs)**: "dialectos acordados" 
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 0 Historia".
 2. Añade estos enlaces oficiales como fuentes:
-   - https://confluence.hl7.org/display/FHIR — historia, proceso y FAQ oficiales de FHIR en HL7.
-   - http://hl7.org/fhir/overview.html — introducción oficial al estándar y su filosofía.
-   - http://hl7.org/fhir/R4/ — página raíz de la especificación R4, tu versión de examen.
-   - http://hl7.org/fhir/smart-app-launch/ — la especificación SMART, hija directa de la era Argonaut.
+  - https://confluence.hl7.org/display/FHIR — historia, proceso y FAQ oficiales de FHIR en HL7.
+  - http://hl7.org/fhir/overview.html — introducción oficial al estándar y su filosofía.
+  - http://hl7.org/fhir/R4/ — página raíz de la especificación R4, tu versión de examen.
+  - http://hl7.org/fhir/smart-app-launch/ — la especificación SMART, hija directa de la era Argonaut.
 3. Prompts sugeridos:
-   - "Hazme un examen oral de 10 preguntas sobre la historia de FHIR, de la más fácil a la más difícil, sin darme las respuestas hasta que yo intente."
-   - "Compara HL7 v2, v3/CDA y FHIR en una tabla: formato, estilo de intercambio, adopción y debilidades."
-   - "Enumera los 5 errores conceptuales más comunes al contar la historia de FHIR y explica por qué son errores."
+  - "Hazme un examen oral de 10 preguntas sobre la historia de FHIR, de la más fácil a la más difícil, sin darme las respuestas hasta que yo intente."
+  - "Compara HL7 v2, v3/CDA y FHIR en una tabla: formato, estilo de intercambio, adopción y debilidades."
+  - "Enumera los 5 errores conceptuales más comunes al contar la historia de FHIR y explica por qué son errores."
 
 ---
 

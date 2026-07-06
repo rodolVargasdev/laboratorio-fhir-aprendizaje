@@ -10,10 +10,10 @@ con medición objetiva. Costo total: $0.
 **Abre [RUTA.md](RUTA.md).** Es la línea recta: 3 etapas, 11 temas, siempre
 sabes cuál es el siguiente paso. Cada tema se estudia igual:
 
-1. 📱 **Celular** — lee el pack del tema en `movil/` (o en la app) y súbelo a NotebookLM.
-2. 💻 **PC** — haz la práctica de los módulos `dias/` con Composer como tutor.
-3. ✅ **Quiz** — meta ≥ 80 % (app o `quiz_runner.py`).
-4. 🃏 **Retención** — tarjetas Leitner 5-10 min al día (app o `repaso.py`).
+1. **Celular** — lee el pack del tema en `movil/` (o en la app) y súbelo a NotebookLM.
+2. **PC** — haz la práctica de los módulos `dias/` con Composer como tutor.
+3. **Quiz** — meta ≥ 80 % (app o `quiz_runner.py`).
+4. **Retención** — tarjetas Leitner 5-10 min al día (app o `repaso.py`).
 
 ## La app (estudiar desde el celular, gratis)
 
@@ -43,12 +43,12 @@ interactivos y tarjetas Leitner. Publícala gratis con GitHub Pages siguiendo
 cd C:\Users\JOSE-\applications_local_env\aprendizaje
 .\.venv\Scripts\Activate.ps1
 
-python evaluacion\quiz_runner.py --dia N     # quiz oficial de un módulo
-python evaluacion\repaso.py                  # repaso espaciado (Leitner)
-python evaluacion\quiz_runner.py --repaso --n 25   # simulacro semanal
-python evaluacion\preparacion.py             # ¿listo para agendar examen? (semáforo)
-python evaluacion\export_notebooklm.py --dia N     # export extra para NotebookLM
-python docs\generar_datos.py                 # regenerar datos de la app
+python evaluacion\quiz_runner.py --dia N   # quiz oficial de un módulo
+python evaluacion\repaso.py         # repaso espaciado (Leitner)
+python evaluacion\quiz_runner.py --repaso --n 25  # simulacro semanal
+python evaluacion\preparacion.py       # ¿listo para agendar examen? (semáforo)
+python evaluacion\export_notebooklm.py --dia N   # export extra para NotebookLM
+python docs\generar_datos.py         # regenerar datos de la app
 ```
 
 ## Cómo se mide que SÍ aprendiste
@@ -56,7 +56,7 @@ python docs\generar_datos.py                 # regenerar datos de la app
 - Quiz por tema con umbral de maestría (80 %) y desglose Bloom.
 - Tarjetas Leitner migrando a cajas 4-5 = retención real.
 - `preparacion.py`: puntaje compuesto 0-100 y semáforo por certificación;
-  agenda el examen solo en VERDE. Detalle: `guias/METODOLOGIA-APRENDIZAJE.md`.
+ agenda el examen solo en VERDE. Detalle: `guias/METODOLOGIA-APRENDIZAJE.md`.
 
 ## Seguridad y costo
 

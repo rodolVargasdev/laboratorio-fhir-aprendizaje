@@ -1,4 +1,4 @@
-# 📱 Tema 4 · El modelo FHIR: recursos, referencias y Bundles
+# Tema 4 · El modelo FHIR: recursos, referencias y Bundles
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -35,9 +35,9 @@ Una **Reference** es cómo un recurso apunta a otro. La forma más común es la 
 
 ```json
 {
-  "resourceType": "Observation",
-  "status": "final",
-  "subject": { "reference": "Patient/123", "display": "Ana Pérez" }
+ "resourceType": "Observation",
+ "status": "final",
+ "subject": { "reference": "Patient/123", "display": "Ana Pérez" }
 }
 ```
 
@@ -121,14 +121,14 @@ Si puedes hacer este mapeo de memoria con las flechas correctas, dominas el tema
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 4 Modelo FHIR".
 2. Añade estos enlaces oficiales como fuentes:
-   - http://hl7.org/fhir/R4/resourcelist.html — lista completa de recursos R4, para ubicar cualquier recurso que aparezca.
-   - http://hl7.org/fhir/R4/datatypes.html — definición formal de Identifier, HumanName, CodeableConcept, Quantity, Period.
-   - http://hl7.org/fhir/R4/bundle.html — tipos de Bundle y reglas de procesamiento.
-   - http://hl7.org/fhir/overview.html — introducción oficial que da contexto al modelo de recursos.
+  - http://hl7.org/fhir/R4/resourcelist.html — lista completa de recursos R4, para ubicar cualquier recurso que aparezca.
+  - http://hl7.org/fhir/R4/datatypes.html — definición formal de Identifier, HumanName, CodeableConcept, Quantity, Period.
+  - http://hl7.org/fhir/R4/bundle.html — tipos de Bundle y reglas de procesamiento.
+  - http://hl7.org/fhir/overview.html — introducción oficial que da contexto al modelo de recursos.
 3. Prompts sugeridos:
-   - "Hazme 10 preguntas tipo examen sobre tipos de Bundle y cardinalidad, y corrige mis respuestas."
-   - "Explícame con un ejemplo JSON completo cómo Encounter, Observation y Condition se enlazan a un Patient."
-   - "Compara Identifier vs id y Reference literal vs lógica; dame casos donde elegir mal causa bugs."
+  - "Hazme 10 preguntas tipo examen sobre tipos de Bundle y cardinalidad, y corrige mis respuestas."
+  - "Explícame con un ejemplo JSON completo cómo Encounter, Observation y Condition se enlazan a un Patient."
+  - "Compara Identifier vs id y Reference literal vs lógica; dame casos donde elegir mal causa bugs."
 
 ---
 

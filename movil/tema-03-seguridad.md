@@ -1,4 +1,4 @@
-# 📱 Tema 3 · Seguridad: OAuth 2.0 y SMART on FHIR
+# Tema 3 · Seguridad: OAuth 2.0 y SMART on FHIR
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -116,14 +116,14 @@ Ciclo de vida: los access tokens son de vida corta (minutos a una hora, mira `ex
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 3 Seguridad".
 2. Añade estos enlaces oficiales como fuentes:
-   - http://hl7.org/fhir/smart-app-launch/ — la especificación SMART App Launch: flujos, scopes, contexto.
-   - https://launch.smarthealthit.org — sandbox oficial para simular lanzamientos SMART sin instalar nada.
-   - https://bulk-data.smarthealthit.org/ — sandbox de Backend Services: JWKS, JWT firmado, scopes system/.
-   - http://hl7.org/fhir/R4/http.html — la API REST que estos tokens protegen (contexto de 401/403).
+  - http://hl7.org/fhir/smart-app-launch/ — la especificación SMART App Launch: flujos, scopes, contexto.
+  - https://launch.smarthealthit.org — sandbox oficial para simular lanzamientos SMART sin instalar nada.
+  - https://bulk-data.smarthealthit.org/ — sandbox de Backend Services: JWKS, JWT firmado, scopes system/.
+  - http://hl7.org/fhir/R4/http.html — la API REST que estos tokens protegen (contexto de 401/403).
 3. Prompts sugeridos:
-   - "Hazme un examen oral: descríbeme situaciones (app de paciente, job nocturno, médico en el EHR) y yo debo decir qué flujo SMART y qué scope exacto usar."
-   - "Compara en una tabla SMART App Launch vs SMART Backend Services: quién participa, cómo se autentica el cliente, qué scopes usa y un caso de uso de cada uno."
-   - "Dame 6 afirmaciones sobre OAuth/JWT donde algunas contengan errores conceptuales típicos (401 vs 403, base64 vs cifrado, OAuth = autenticación) y pídeme detectarlos y corregirlos."
+  - "Hazme un examen oral: descríbeme situaciones (app de paciente, job nocturno, médico en el EHR) y yo debo decir qué flujo SMART y qué scope exacto usar."
+  - "Compara en una tabla SMART App Launch vs SMART Backend Services: quién participa, cómo se autentica el cliente, qué scopes usa y un caso de uso de cada uno."
+  - "Dame 6 afirmaciones sobre OAuth/JWT donde algunas contengan errores conceptuales típicos (401 vs 403, base64 vs cifrado, OAuth = autenticación) y pídeme detectarlos y corregirlos."
 
 ---
 

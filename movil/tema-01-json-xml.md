@@ -1,4 +1,4 @@
-# 📱 Tema 1 · JSON y XML: el lenguaje de los datos
+# Tema 1 · JSON y XML: el lenguaje de los datos
 
 > Pack de lectura para celular. Estúdialo donde sea; la práctica en PC está en RUTA.md.
 
@@ -30,14 +30,14 @@ Un Patient mínimo:
 
 ```json
 {
-  "resourceType": "Patient",
-  "id": "ejemplo-1",
-  "active": true,
-  "name": [
-    { "use": "official", "family": "Hernandez", "given": ["Maria", "Jose"] }
-  ],
-  "gender": "female",
-  "birthDate": "1985-04-12"
+ "resourceType": "Patient",
+ "id": "ejemplo-1",
+ "active": true,
+ "name": [
+  { "use": "official", "family": "Hernandez", "given": ["Maria", "Jose"] }
+ ],
+ "gender": "female",
+ "birthDate": "1985-04-12"
 }
 ```
 
@@ -57,17 +57,17 @@ Los recursos reales anidan objetos dentro de objetos. Este es un signo vital:
 
 ```json
 {
-  "resourceType": "Observation",
-  "status": "final",
-  "code": {
-    "coding": [
-      { "system": "http://loinc.org", "code": "8867-4", "display": "Frecuencia cardiaca" }
-    ],
-    "text": "Frecuencia cardiaca"
-  },
-  "subject": { "reference": "Patient/123" },
-  "valueQuantity": { "value": 72, "unit": "latidos/min",
-    "system": "http://unitsofmeasure.org", "code": "/min" }
+ "resourceType": "Observation",
+ "status": "final",
+ "code": {
+  "coding": [
+   { "system": "http://loinc.org", "code": "8867-4", "display": "Frecuencia cardiaca" }
+  ],
+  "text": "Frecuencia cardiaca"
+ },
+ "subject": { "reference": "Patient/123" },
+ "valueQuantity": { "value": 72, "unit": "latidos/min",
+  "system": "http://unitsofmeasure.org", "code": "/min" }
 }
 ```
 
@@ -89,13 +89,13 @@ FHIR define el mismo contenido en XML. La misma Observation:
 
 ```xml
 <Observation xmlns="http://hl7.org/fhir">
-  <status value="final"/>
-  <code>
-    <coding>
-      <system value="http://loinc.org"/>
-      <code value="8867-4"/>
-    </coding>
-  </code>
+ <status value="final"/>
+ <code>
+  <coding>
+   <system value="http://loinc.org"/>
+   <code value="8867-4"/>
+  </coding>
+ </code>
 </Observation>
 ```
 
@@ -145,14 +145,14 @@ Al pedirle formato al servidor, el MIME type oficial es `application/fhir+json` 
 
 1. Sube este archivo como fuente a un cuaderno llamado "FHIR — Tema 1 JSON y XML".
 2. Añade estos enlaces oficiales como fuentes:
-   - http://hl7.org/fhir/R4/datatypes.html — todos los tipos de dato R4 (CodeableConcept, Quantity, Identifier…).
-   - http://hl7.org/fhir/R4/resourcelist.html — lista completa de recursos; útil para ver más ejemplos JSON.
-   - http://hl7.org/fhir/R4/ — raíz de la especificación R4; contexto general.
-   - http://hl7.org/fhir/overview.html — introducción oficial que conecta formatos con la filosofía de recursos.
+  - http://hl7.org/fhir/R4/datatypes.html — todos los tipos de dato R4 (CodeableConcept, Quantity, Identifier…).
+  - http://hl7.org/fhir/R4/resourcelist.html — lista completa de recursos; útil para ver más ejemplos JSON.
+  - http://hl7.org/fhir/R4/ — raíz de la especificación R4; contexto general.
+  - http://hl7.org/fhir/overview.html — introducción oficial que conecta formatos con la filosofía de recursos.
 3. Prompts sugeridos:
-   - "Muéstrame un JSON de Observation y hazme preguntas de rutas (tipo Observation.code.coding[0].code) hasta que acierte 5 seguidas."
-   - "Compara en tabla cómo se representa el mismo Patient en JSON y en XML FHIR, destacando el atributo value y los arrays."
-   - "Hazme un examen oral sobre CodeableConcept, Coding, Quantity, Reference e Identifier: definición, ejemplo y error común de cada uno."
+  - "Muéstrame un JSON de Observation y hazme preguntas de rutas (tipo Observation.code.coding[0].code) hasta que acierte 5 seguidas."
+  - "Compara en tabla cómo se representa el mismo Patient en JSON y en XML FHIR, destacando el atributo value y los arrays."
+  - "Hazme un examen oral sobre CodeableConcept, Coding, Quantity, Reference e Identifier: definición, ejemplo y error común de cada uno."
 
 ---
 
