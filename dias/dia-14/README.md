@@ -37,13 +37,13 @@ Tiempo: 2-3 horas. Costo objetivo: $0.
   Bundle, y un mini-proyecto funcionando.
 
 Si cumples esto, tienes los CIMIENTOS listos. El estandar FHIR a profundidad y el
-examen oficial son la siguiente etapa (ver `PLAN-RESTO-DEL-ANIO.md`).
+examen oficial son la siguiente etapa (ver `guias/PLAN-RESTO-DEL-ANIO.md`).
 
 ## Que sigue
 
-Abre `PLAN-RESTO-DEL-ANIO.md`: es tu hoja de ruta de varios meses para acumular
+Abre `guias/PLAN-RESTO-DEL-ANIO.md`: es tu hoja de ruta de varios meses para acumular
 la experiencia practica que HL7 recomienda antes del examen Foundational
-Implementer, con micro-aprendizaje para los dias ocupados (`MICRO-APRENDIZAJE.md`).
+Implementer, con micro-aprendizaje para los dias ocupados (`guias/MICRO-APRENDIZAJE.md`).
 
 ## Reto Feynman final
 

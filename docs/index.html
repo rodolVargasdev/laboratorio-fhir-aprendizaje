@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0E2E6E">
+<title>Lab FHIR — Ruta de estudio</title>
+<style>
+  :root {
+    --azul: #048DF3;
+    --azul-suave: #E7F3FE;
+    --navy: #0E2E6E;
+    --navy-2: #164096;
+    --fondo: #F5F7FA;
+    --blanco: #FFFFFF;
+    --texto: #0F172A;
+    --texto-2: #475569;
+    --borde: #E2E8F0;
+    --rojo: #DC2626;
+    --rojo-suave: #FEE2E2;
+    --ok: #048DF3;
+    --ok-suave: #E7F3FE;
+    --radio: 14px;
+    --sombra: 0 1px 3px rgba(15, 23, 42, .08), 0 4px 14px rgba(15, 23, 42, .05);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.55;
+    padding-bottom: 76px; /* espacio para la barra inferior */
+  }
+  header.app {
+    background: linear-gradient(135deg, var(--navy), var(--navy-2));
+    color: #fff;
+    padding: 14px 18px calc(14px + 2px);
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; gap: 10px;
+  }
+  header.app h1 { font-size: 1.05rem; font-weight: 700; letter-spacing: .2px; flex: 1; }
+  header.app .logo {
+    background: var(--azul); color: #fff; font-weight: 800; font-size: .8rem;
+    border-radius: 8px; padding: 4px 8px;
+  }
+  header.app .mini { font-size: .75rem; opacity: .85; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+
+  /* ---- Navegación inferior ---- */
+  nav.tabs {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+    background: var(--blanco); border-top: 1px solid var(--borde);
+    display: flex; justify-content: space-around;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+  }
+  nav.tabs button {
+    background: none; border: none; cursor: pointer;
+    font-size: .68rem; color: var(--texto-2);
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    padding: 4px 10px; border-radius: 10px; font-family: inherit;
+  }
+  nav.tabs button .ico { font-size: 1.25rem; line-height: 1; }
+  nav.tabs button.activo { color: var(--navy-2); font-weight: 700; background: var(--azul-suave); }
+
+  /* ---- Componentes ---- */
+  .tarjeta {
+    background: var(--blanco); border: 1px solid var(--borde);
+    border-radius: var(--radio); box-shadow: var(--sombra);
+    padding: 16px; margin-bottom: 12px;
+  }
+  .chip {
+    display: inline-block; font-size: .68rem; font-weight: 700;
+    padding: 2px 9px; border-radius: 999px;
+    background: var(--azul-suave); color: var(--navy-2);
+  }
+  .chip.opcional { background: var(--fondo); color: var(--texto-2); border: 1px dashed var(--borde); }
+  .chip.hecho { background: var(--navy); color: #fff; }
+  .btn {
+    display: inline-block; background: var(--azul); color: #fff; border: none;
+    font: inherit; font-weight: 700; font-size: .9rem;
+    padding: 10px 18px; border-radius: 10px; cursor: pointer;
+    transition: filter .15s;
+  }
+  .btn:active { filter: brightness(.9); }
+  .btn.secundario { background: var(--blanco); color: var(--navy-2); border: 1.5px solid var(--azul); }
+  .btn.fantasma { background: transparent; color: var(--texto-2); border: 1px solid var(--borde); }
+  .btn.bloque { display: block; width: 100%; text-align: center; margin-top: 8px; }
+  .barra { height: 8px; background: var(--borde); border-radius: 999px; overflow: hidden; }
+  .barra > div { height: 100%; background: linear-gradient(90deg, var(--azul), var(--navy-2)); border-radius: 999px; transition: width .3s; }
+  h2.seccion { font-size: 1.15rem; color: var(--navy); margin: 18px 0 10px; }
+  .suave { color: var(--texto-2); font-size: .85rem; }
+  .fila { display: flex; align-items: center; gap: 10px; }
+  .crece { flex: 1; }
+
+  /* ---- Ruta ---- */
+  .etapa-titulo {
+    font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--navy-2); margin: 22px 0 8px;
+  }
+  .tema { cursor: pointer; }
+  .tema .check {
+    width: 26px; height: 26px; min-width: 26px; border-radius: 8px;
+    border: 2px solid var(--borde); display: flex; align-items: center; justify-content: center;
+    font-size: .95rem; background: var(--blanco); color: transparent;
+  }
+  .tema.hecho .check { background: var(--azul); border-color: var(--azul); color: #fff; }
+  .tema.siguiente { border: 2px solid var(--azul); }
+  .tema h3 { font-size: .95rem; }
+  .tema .desc { font-size: .8rem; color: var(--texto-2); margin-top: 2px; }
+  .tema .acciones { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .tema .acciones .btn { font-size: .78rem; padding: 7px 12px; }
+
+  /* ---- Lectura (markdown) ---- */
+  .md h1 { font-size: 1.3rem; color: var(--navy); margin: 14px 0 10px; }
+  .md h2 { font-size: 1.1rem; color: var(--navy); margin: 18px 0 8px; padding-bottom: 4px; border-bottom: 2px solid var(--azul-suave); }
+  .md h3 { font-size: .98rem; color: var(--navy-2); margin: 14px 0 6px; }
+  .md p { margin: 8px 0; }
+  .md ul, .md ol { margin: 8px 0 8px 22px; }
+  .md li { margin: 3px 0; }
+  .md blockquote { border-left: 4px solid var(--azul); background: var(--azul-suave); padding: 8px 12px; border-radius: 0 10px 10px 0; margin: 10px 0; font-size: .9rem; }
+  .md code { background: var(--azul-suave); color: var(--navy-2); padding: 1px 5px; border-radius: 5px; font-size: .85em; font-family: Consolas, Menlo, monospace; }
+  .md pre { background: var(--navy); color: #DCEAFB; padding: 12px; border-radius: 10px; overflow-x: auto; margin: 10px 0; font-size: .8rem; }
+  .md pre code { background: none; color: inherit; padding: 0; }
+  .md table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: .82rem; display: block; overflow-x: auto; }
+  .md th, .md td { border: 1px solid var(--borde); padding: 6px 9px; text-align: left; }
+  .md th { background: var(--azul-suave); color: var(--navy-2); }
+  .md a { color: var(--azul); word-break: break-all; }
+  .md hr { border: none; border-top: 1px solid var(--borde); margin: 16px 0; }
+
+  /* ---- Quiz ---- */
+  .opcion {
+    display: block; width: 100%; text-align: left; font: inherit; font-size: .9rem;
+    background: var(--blanco); border: 1.5px solid var(--borde); border-radius: 10px;
+    padding: 11px 14px; margin: 7px 0; cursor: pointer;
+  }
+  .opcion:active { border-color: var(--azul); }
+  .opcion.correcta { border-color: var(--ok); background: var(--ok-suave); font-weight: 700; }
+  .opcion.incorrecta { border-color: var(--rojo); background: var(--rojo-suave); }
+  input.respuesta {
+    width: 100%; font: inherit; font-size: .95rem; padding: 10px 12px;
+    border: 1.5px solid var(--borde); border-radius: 10px; margin: 8px 0;
+  }
+  input.respuesta:focus { outline: none; border-color: var(--azul); }
+  .explica { background: var(--fondo); border-left: 4px solid var(--azul); padding: 9px 12px; border-radius: 0 10px 10px 0; font-size: .85rem; margin-top: 10px; }
+  .puntaje-grande { font-size: 2.6rem; font-weight: 800; color: var(--navy); text-align: center; }
+
+  /* ---- Flashcards ---- */
+  .flash {
+    background: linear-gradient(150deg, var(--navy), var(--navy-2)); color: #fff;
+    border-radius: var(--radio); padding: 26px 20px; min-height: 170px;
+    display: flex; flex-direction: column; justify-content: center; text-align: center;
+    box-shadow: var(--sombra); margin-bottom: 12px;
+  }
+  .flash .etiqueta { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; opacity: .75; margin-bottom: 10px; }
+  .flash .contenido { font-size: 1rem; font-weight: 600; }
+  .flash .reverso { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.25); font-weight: 400; font-size: .92rem; }
+  .botones-flash { display: flex; gap: 10px; }
+  .botones-flash .btn { flex: 1; }
+  .btn.no-sabia { background: var(--blanco); color: var(--rojo); border: 1.5px solid var(--rojo); }
+
+  /* ---- Progreso ---- */
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+  .kpi { background: var(--blanco); border: 1px solid var(--borde); border-radius: var(--radio); padding: 12px; text-align: center; }
+  .kpi .num { font-size: 1.5rem; font-weight: 800; color: var(--navy); }
+  .kpi .lbl { font-size: .68rem; color: var(--texto-2); }
+  .cajas { display: flex; gap: 6px; align-items: flex-end; height: 90px; margin: 10px 0 4px; }
+  .caja-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; height: 100%; }
+  .caja-col .bar { width: 100%; background: linear-gradient(180deg, var(--azul), var(--navy-2)); border-radius: 6px 6px 0 0; min-height: 3px; }
+  .caja-col .n { font-size: .7rem; font-weight: 700; color: var(--navy); }
+  .caja-col .t { font-size: .65rem; color: var(--texto-2); }
+  .hist-item { display: flex; justify-content: space-between; padding: 9px 2px; border-bottom: 1px solid var(--borde); font-size: .85rem; }
+  .hist-item .pct { font-weight: 800; }
+  .pct.alto { color: var(--navy-2); } .pct.bajo { color: var(--rojo); }
+
+  @media (min-width: 700px) {
+    body { padding-bottom: 20px; padding-top: 0; }
+    nav.tabs { position: sticky; top: 54px; bottom: auto; border-top: none; border-bottom: 1px solid var(--borde); justify-content: center; gap: 6px; }
+    nav.tabs button { flex-direction: row; font-size: .85rem; gap: 7px; padding: 8px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="app">
+  <span class="logo">FHIR</span>
+  <h1>Laboratorio de estudio</h1>
+  <span class="mini" id="miniProgreso"></span>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-v="ruta"><span class="ico">🧭</span>Ruta</button>
+  <button data-v="lecturas"><span class="ico">📖</span>Lecturas</button>
+  <button data-v="quiz"><span class="ico">✅</span>Quiz</button>
+  <button data-v="tarjetas"><span class="ico">🃏</span>Tarjetas</button>
+  <button data-v="progreso"><span class="ico">📊</span>Progreso</button>
+</nav>
+
+<main id="app"></main>
+
+<script src="datos.js"></script>
+<script>
+"use strict";
+/* ================= Estado (localStorage) ================= */
+const CLAVE = "fhirlab_estado_v1";
+const estado = cargarEstado();
+function cargarEstado() {
+  try {
+    const e = JSON.parse(localStorage.getItem(CLAVE)) || {};
+    return { temasHechos: e.temasHechos || {}, historial: e.historial || [], leitner: e.leitner || {} };
+  } catch { return { temasHechos: {}, historial: [], leitner: {} }; }
+}
+function guardar() { localStorage.setItem(CLAVE, JSON.stringify(estado)); pintarMini(); }
+function fechaISO(d) {  // fecha LOCAL (no UTC): en El Salvador el día no debe cambiar a las 6 pm
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+function hoyISO() { return fechaISO(new Date()); }
+
+const D = window.LAB_DATA || { etapas: [], temas: [], flashcards: [] };
+
+/* ================= Utilidades ================= */
+const $app = document.getElementById("app");
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function normalizar(s) {
+  return String(s).toLowerCase().trim().replace(/\s+/g, " ").normalize("NFD").replace(/[̀-ͯ]/g, "");
+}
+function pctClase(p) { return p >= 80 ? "alto" : "bajo"; }
+
+/* ================= Mini markdown ================= */
+function inlineMd(t) {
+  t = esc(t);
+  t = t.replace(/`([^`]+)`/g, "<code>$1</code>");
+  t = t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  t = t.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+  t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  return t;
+}
+function md(texto) {
+  const lineas = String(texto || "").replace(/\r\n/g, "\n").split("\n");
+  let html = "", i = 0;
+  const cerrarListas = { ul: false, ol: false };
+  function cierraListas() {
+    if (cerrarListas.ul) { html += "</ul>"; cerrarListas.ul = false; }
+    if (cerrarListas.ol) { html += "</ol>"; cerrarListas.ol = false; }
+  }
+  while (i < lineas.length) {
+    const l = lineas[i];
+    if (/^```/.test(l)) {                       // bloque de código
+      cierraListas();
+      let cuerpo = ""; i++;
+      while (i < lineas.length && !/^```/.test(lineas[i])) { cuerpo += lineas[i] + "\n"; i++; }
+      i++; html += "<pre><code>" + esc(cuerpo) + "</code></pre>"; continue;
+    }
+    if (/^\|/.test(l)) {                        // tabla
+      cierraListas();
+      const filas = [];
+      while (i < lineas.length && /^\|/.test(lineas[i])) { filas.push(lineas[i]); i++; }
+      const celdas = f => f.replace(/^\||\|$/g, "").split("|").map(c => inlineMd(c.trim()));
+      let cuerpo = filas.filter(f => !/^\|[\s:|-]+\|?$/.test(f));
+      if (cuerpo.length) {
+        html += "<table><tr>" + celdas(cuerpo[0]).map(c => `<th>${c}</th>`).join("") + "</tr>";
+        cuerpo.slice(1).forEach(f => { html += "<tr>" + celdas(f).map(c => `<td>${c}</td>`).join("") + "</tr>"; });
+        html += "</table>";
+      }
+      continue;
+    }
+    let m;
+    if ((m = l.match(/^(#{1,4})\s+(.*)/))) { cierraListas(); const n = m[1].length; html += `<h${n}>${inlineMd(m[2])}</h${n}>`; }
+    else if (/^---+\s*$/.test(l)) { cierraListas(); html += "<hr>"; }
+    else if ((m = l.match(/^>\s?(.*)/))) { cierraListas(); html += `<blockquote>${inlineMd(m[1])}</blockquote>`; }
+    else if ((m = l.match(/^\s*[-*]\s+(.*)/))) { if (!cerrarListas.ul) { cierraListas(); html += "<ul>"; cerrarListas.ul = true; } html += `<li>${inlineMd(m[1])}</li>`; }
+    else if ((m = l.match(/^\s*\d+\.\s+(.*)/))) { if (!cerrarListas.ol) { cierraListas(); html += "<ol>"; cerrarListas.ol = true; } html += `<li>${inlineMd(m[1])}</li>`; }
+    else if (l.trim() === "") { cierraListas(); }
+    else { cierraListas(); html += `<p>${inlineMd(l)}</p>`; }
+    i++;
+  }
+  cierraListas();
+  return html;
+}
+
+/* ================= Datos derivados ================= */
+function temasDe(etapaId) { return D.temas.filter(t => t.etapa === etapaId); }
+function temaSiguiente() { return D.temas.find(t => !t.opcional && !estado.temasHechos[t.id]); }
+function conteoHechos() { return D.temas.filter(t => estado.temasHechos[t.id]).length; }
+function tarjetasVencidas() {
+  const hoy = hoyISO();
+  return D.flashcards.filter(c => {
+    const st = estado.leitner[c.id];
+    return !st || st.proxima <= hoy;
+  });
+}
+function pintarMini() {
+  document.getElementById("miniProgreso").textContent =
+    `${conteoHechos()}/${D.temas.length} temas · ${tarjetasVencidas().length} tarjetas hoy`;
+}
+
+/* ================= Vistas ================= */
+let vista = "ruta";
+let ctx = {};   // contexto de la vista actual (tema abierto, quiz en curso, etc.)
+
+function ir(v, nuevoCtx) { vista = v; ctx = nuevoCtx || {}; render(); window.scrollTo(0, 0); }
+
+document.getElementById("tabs").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  ir(b.dataset.v);
+});
+
+function render() {
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("activo", b.dataset.v === vista));
+  const vistas = { ruta: vRuta, lecturas: vLecturas, quiz: vQuiz, tarjetas: vTarjetas, progreso: vProgreso };
+  $app.innerHTML = (vistas[vista] || vRuta)();
+  pintarMini();
+}
+
+/* ---------- RUTA ---------- */
+function vRuta() {
+  const sig = temaSiguiente();
+  const total = D.temas.filter(t => !t.opcional).length;
+  const hechos = D.temas.filter(t => !t.opcional && estado.temasHechos[t.id]).length;
+  let h = `
+    <div class="tarjeta">
+      <div class="fila"><strong class="crece">Tu línea recta</strong><span class="chip">${hechos}/${total}</span></div>
+      <div class="barra" style="margin-top:8px"><div style="width:${total ? (hechos / total * 100) : 0}%"></div></div>
+      ${sig ? `<p class="suave" style="margin-top:8px">Siguiente paso: <strong>Tema ${sig.id} · ${esc(sig.nombre)}</strong></p>` : `<p class="suave" style="margin-top:8px">🏁 ¡Ruta completa! Corre <code>preparacion.py</code> y agenda tu examen.</p>`}
+    </div>`;
+  D.etapas.forEach(et => {
+    h += `<div class="etapa-titulo">Etapa ${et.id} — ${esc(et.nombre)}</div><p class="suave" style="margin-bottom:8px">${esc(et.meta)}</p>`;
+    temasDe(et.id).forEach(t => {
+      const hecho = !!estado.temasHechos[t.id];
+      const esSig = sig && sig.id === t.id;
+      h += `
+      <div class="tarjeta tema ${hecho ? "hecho" : ""} ${esSig ? "siguiente" : ""}">
+        <div class="fila">
+          <div class="check" data-acc="marcar" data-id="${t.id}">✓</div>
+          <div class="crece">
+            <h3>Tema ${t.id} · ${esc(t.nombre)} ${t.opcional ? '<span class="chip opcional">opcional</span>' : ""} ${esSig ? '<span class="chip">estás aquí</span>' : ""}</h3>
+            <div class="desc">${esc(t.resumen)}</div>
+            <div class="desc">💻 Módulos en PC: ${t.dias.map(d => typeof d === "number" ? "día " + d : "extra").join(", ")}</div>
+          </div>
+        </div>
+        <div class="acciones">
+          <button class="btn secundario" data-acc="leer" data-id="${t.id}">📖 Lectura</button>
+          <button class="btn" data-acc="quiz-tema" data-id="${t.id}">✅ Quiz del tema</button>
+        </div>
+      </div>`;
+    });
+  });
+  return h;
+}
+
+/* ---------- LECTURAS ---------- */
+function vLecturas() {
+  if (ctx.temaId != null) {
+    const t = D.temas.find(x => x.id === ctx.temaId);
+    return `
+      <button class="btn fantasma" data-acc="volver-lecturas">← Todas las lecturas</button>
+      <div class="tarjeta" style="margin-top:12px"><div class="md">${t.lectura ? md(t.lectura) : "<p>Este pack aún no está generado. Corre <code>python docs\\generar_datos.py</code>.</p>"}</div></div>
+      <button class="btn bloque" data-acc="quiz-tema" data-id="${t.id}">✅ Hacer el quiz del tema ${t.id}</button>`;
+  }
+  let h = `<h2 class="seccion">📖 Lecturas para el celular</h2>
+           <p class="suave" style="margin-bottom:10px">Cada pack incluye la lectura, una chuleta, autoevaluación y qué subir a NotebookLM.</p>`;
+  D.temas.forEach(t => {
+    h += `<div class="tarjeta tema" data-acc="leer" data-id="${t.id}">
+      <div class="fila">
+        <div class="crece"><h3>Tema ${t.id} · ${esc(t.nombre)}</h3><div class="desc">${esc(t.resumen)}</div></div>
+        <span>›</span>
+      </div></div>`;
+  });
+  return h;
+}
+
+/* ---------- QUIZ ---------- */
+function preguntasDeTema(t) {
+  const pregs = [];
+  t.quizzes.forEach(q => q.preguntas.forEach(p => pregs.push({ ...p, origen: q.tema || q.origen })));
+  return pregs;
+}
+function barajar(a) {
+  a = a.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function iniciarQuiz(etiqueta, preguntas) {
+  ctx = { fase: "pregunta", etiqueta, preguntas: barajar(preguntas), idx: 0, aciertos: 0, revision: [], respondida: false };
+  vista = "quiz"; render();
+}
+function vQuiz() {
+  if (ctx.fase === "pregunta") return vQuizPregunta();
+  if (ctx.fase === "final") return vQuizFinal();
+  // Menú
+  let h = `<h2 class="seccion">✅ Quiz por tema</h2>
+    <p class="suave" style="margin-bottom:10px">Meta de maestría: <strong>80 %</strong>. Los resultados se guardan en este dispositivo.</p>
+    <div class="tarjeta">
+      <strong>Simulacro intercalado</strong>
+      <p class="suave">15 preguntas al azar de TODOS los temas (como el examen).</p>
+      <button class="btn bloque" data-acc="simulacro">🎲 Empezar simulacro</button>
+    </div>`;
+  D.temas.forEach(t => {
+    const n = preguntasDeTema(t).length;
+    if (!n) return;
+    h += `<div class="tarjeta">
+      <div class="fila"><div class="crece"><strong>Tema ${t.id} · ${esc(t.nombre)}</strong><div class="suave">${n} preguntas</div></div>
+      <button class="btn" data-acc="quiz-tema" data-id="${t.id}">Empezar</button></div></div>`;
+  });
+  return h;
+}
+function vQuizPregunta() {
+  const p = ctx.preguntas[ctx.idx];
+  const avance = `${ctx.idx + 1}/${ctx.preguntas.length}`;
+  let cuerpo = "";
+  if (p.tipo === "opcion_multiple") {
+    cuerpo = p.opciones.map((o, i) => `<button class="opcion" data-acc="responder" data-r="${i}">${esc(o)}</button>`).join("");
+  } else if (p.tipo === "verdadero_falso") {
+    cuerpo = `<button class="opcion" data-acc="responder" data-r="true">Verdadero</button>
+              <button class="opcion" data-acc="responder" data-r="false">Falso</button>`;
+  } else {
+    cuerpo = `<input class="respuesta" id="inpResp" placeholder="Escribe tu respuesta..." autocomplete="off">
+              <button class="btn bloque" data-acc="responder-corta">Responder</button>`;
+  }
+  return `
+    <div class="fila" style="margin-bottom:8px">
+      <span class="chip">${esc(ctx.etiqueta)}</span><span class="crece"></span><span class="suave">${avance}</span>
+    </div>
+    <div class="barra"><div style="width:${(ctx.idx) / ctx.preguntas.length * 100}%"></div></div>
+    <div class="tarjeta" style="margin-top:12px">
+      <p style="font-weight:700; margin-bottom:10px">${esc(p.pregunta)}</p>
+      <div id="zonaRespuesta">${cuerpo}</div>
+      <div id="zonaFeedback"></div>
+    </div>`;
+}
+function responder(valor) {
+  if (ctx.respondida) return;
+  const p = ctx.preguntas[ctx.idx];
+  let ok = false, correctaTxt = "";
+  if (p.tipo === "opcion_multiple") { ok = Number(valor) === p.respuesta; correctaTxt = p.opciones[p.respuesta]; }
+  else if (p.tipo === "verdadero_falso") { ok = (valor === "true") === p.respuesta; correctaTxt = p.respuesta ? "Verdadero" : "Falso"; }
+  else {
+    const validas = (p.respuestas_validas || []).map(normalizar);
+    ok = validas.includes(normalizar(valor));
+    correctaTxt = (p.respuestas_validas || [])[0] || "";
+  }
+  ctx.respondida = true;
+  if (ok) ctx.aciertos++;
+  ctx.revision.push({ pregunta: p.pregunta, ok, correcta: correctaTxt, explicacion: p.explicacion || "" });
+  // Feedback visual
+  const zona = document.getElementById("zonaRespuesta");
+  zona.querySelectorAll(".opcion").forEach(b => {
+    const r = b.dataset.r;
+    const esCorrecta = (p.tipo === "opcion_multiple" && Number(r) === p.respuesta) ||
+                       (p.tipo === "verdadero_falso" && (r === "true") === p.respuesta);
+    if (esCorrecta) b.classList.add("correcta");
+    else if (r === String(valor) && !ok) b.classList.add("incorrecta");
+    b.disabled = true;
+  });
+  const fb = document.getElementById("zonaFeedback");
+  fb.innerHTML = `
+    <div class="explica"><strong>${ok ? "✅ Correcto." : "❌ No."}</strong>
+    ${!ok && correctaTxt ? ` Respuesta: <strong>${esc(correctaTxt)}</strong>.` : ""}
+    ${p.explicacion ? "<br>" + esc(p.explicacion) : ""}</div>
+    <button class="btn bloque" data-acc="siguiente-pregunta">${ctx.idx + 1 < ctx.preguntas.length ? "Siguiente →" : "Ver resultado"}</button>`;
+}
+function vQuizFinal() {
+  const pct = Math.round(ctx.aciertos / ctx.preguntas.length * 100);
+  const paso = pct >= 80;
+  let h = `
+    <div class="tarjeta" style="text-align:center">
+      <p class="suave">${esc(ctx.etiqueta)}</p>
+      <div class="puntaje-grande">${pct}%</div>
+      <p class="suave">${ctx.aciertos} de ${ctx.preguntas.length} correctas</p>
+      <p style="margin-top:8px; font-weight:700; color:${paso ? "var(--navy-2)" : "var(--rojo)"}">
+        ${paso ? "🏆 Maestría alcanzada (≥ 80 %). Avanza al siguiente paso." : "Aún no llegas a 80 %. Repasa lo fallado y reinténtalo."}
+      </p>
+      <button class="btn bloque" data-acc="ir-quiz">Otro quiz</button>
+      <button class="btn secundario bloque" data-acc="ir-ruta">Volver a la ruta</button>
+    </div>`;
+  const fallos = ctx.revision.filter(r => !r.ok);
+  if (fallos.length) {
+    h += `<h2 class="seccion">Repasa esto</h2>`;
+    fallos.forEach(r => {
+      h += `<div class="tarjeta"><p style="font-weight:600">${esc(r.pregunta)}</p>
+            <div class="explica">Respuesta: <strong>${esc(r.correcta)}</strong>${r.explicacion ? "<br>" + esc(r.explicacion) : ""}</div></div>`;
+    });
+  }
+  return h;
+}
+
+/* ---------- TARJETAS (Leitner) ---------- */
+const INTERVALOS = { 1: 1, 2: 2, 3: 4, 4: 7, 5: 15 };
+function vTarjetas() {
+  const vencidas = tarjetasVencidas();
+  if (ctx.fase === "estudio" && ctx.cola && ctx.cola.length) return vFlashcard();
+  const porCaja = [0, 0, 0, 0, 0, 0];
+  D.flashcards.forEach(c => { porCaja[(estado.leitner[c.id] || { caja: 0 }).caja || 0]++; });
+  return `
+    <h2 class="seccion">🃏 Repaso espaciado (Leitner)</h2>
+    <div class="tarjeta">
+      <p><strong>${vencidas.length}</strong> tarjeta${vencidas.length === 1 ? "" : "s"} te tocan hoy.</p>
+      <p class="suave">Acierta → sube de caja (la ves menos). Falla → vuelve a la caja 1.</p>
+      ${vencidas.length ? `<button class="btn bloque" data-acc="empezar-flash">Empezar repaso</button>` : `<p class="suave" style="margin-top:8px">✅ Al día. Vuelve mañana.</p>`}
+    </div>
+    <div class="tarjeta">
+      <strong>Tus cajas</strong>
+      <div class="cajas">
+        ${[1, 2, 3, 4, 5].map(c => {
+          const n = porCaja[c] + (c === 1 ? porCaja[0] : 0);
+          const max = Math.max(...[1, 2, 3, 4, 5].map(x => porCaja[x] + (x === 1 ? porCaja[0] : 0)), 1);
+          return `<div class="caja-col"><span class="n">${n}</span><div class="bar" style="height:${Math.max(n / max * 100, 4)}%"></div><span class="t">Caja ${c}</span></div>`;
+        }).join("")}
+      </div>
+      <p class="suave">Meta: que la mayoría viva en las cajas 4-5 (cada 7 y 15 días). Eso es retención real.</p>
+    </div>`;
+}
+function vFlashcard() {
+  const c = ctx.cola[0];
+  return `
+    <div class="fila" style="margin-bottom:8px">
+      <span class="chip">${esc(c.tema || "FHIR")}</span><span class="crece"></span>
+      <span class="suave">${ctx.cola.length} pendiente${ctx.cola.length === 1 ? "" : "s"}</span>
+    </div>
+    <div class="flash">
+      <div class="etiqueta">${ctx.mostrando ? "Respuesta" : "Pregunta"}</div>
+      <div class="contenido">${esc(c.frente)}
+        ${ctx.mostrando ? `<div class="reverso">${esc(c.reverso)}</div>` : ""}
+      </div>
+    </div>
+    ${ctx.mostrando
+      ? `<div class="botones-flash">
+           <button class="btn no-sabia" data-acc="flash-mal">✗ No la sabía</button>
+           <button class="btn" data-acc="flash-bien">✓ La sabía</button>
+         </div>`
+      : `<button class="btn bloque" data-acc="flash-voltear">Mostrar respuesta</button>`}
+    <button class="btn fantasma bloque" data-acc="flash-salir">Terminar por hoy</button>`;
+}
+function calificarFlash(acierto) {
+  const c = ctx.cola.shift();
+  const st = estado.leitner[c.id] || { caja: 1 };
+  st.caja = acierto ? Math.min((st.caja || 1) + 1, 5) : 1;
+  const prox = new Date(); prox.setDate(prox.getDate() + INTERVALOS[st.caja]);
+  st.proxima = fechaISO(prox);
+  estado.leitner[c.id] = st;
+  guardar();
+  ctx.mostrando = false;
+  if (!ctx.cola.length) ctx.fase = "";
+  render();
+}
+
+/* ---------- PROGRESO ---------- */
+function vProgreso() {
+  const hist = estado.historial.slice().reverse();
+  const enAltas = D.flashcards.filter(c => (estado.leitner[c.id] || {}).caja >= 4).length;
+  let h = `
+    <h2 class="seccion">📊 Tu progreso</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="num">${conteoHechos()}</div><div class="lbl">temas completados</div></div>
+      <div class="kpi"><div class="num">${hist.length}</div><div class="lbl">quizzes hechos</div></div>
+      <div class="kpi"><div class="num">${enAltas}</div><div class="lbl">tarjetas en cajas 4-5</div></div>
+    </div>`;
+  if (hist.length) {
+    h += `<div class="tarjeta"><strong>Historial de quizzes</strong>`;
+    hist.slice(0, 25).forEach(x => {
+      h += `<div class="hist-item"><span>${esc(x.fecha)} · ${esc(x.etiqueta)}</span>
+            <span class="pct ${pctClase(x.pct)}">${x.pct}%</span></div>`;
+    });
+    h += `</div>`;
+  } else {
+    h += `<div class="tarjeta suave">Aún no hay quizzes registrados en este dispositivo. Haz el primero en la pestaña ✅ Quiz.</div>`;
+  }
+  h += `
+    <div class="tarjeta">
+      <strong>Nota</strong>
+      <p class="suave">Este progreso vive en ESTE dispositivo (localStorage). El registro oficial para el
+      calculador de preparación sigue siendo el de la PC (<code>quiz_runner.py</code> y <code>PROGRESO.md</code>).
+      Usa la app para estudiar en cualquier momento; usa la terminal para dejar evidencia formal.</p>
+      <button class="btn fantasma bloque" data-acc="reiniciar">Borrar progreso de este dispositivo</button>
+    </div>`;
+  return h;
+}
+
+/* ================= Acciones (delegadas: funcionan también en HTML inyectado) ================= */
+$app.addEventListener("click", ev => {
+  const el = ev.target.closest("[data-acc]");
+  if (!el) return;
+  const acc = el.dataset.acc, id = el.dataset.id != null ? Number(el.dataset.id) : null;
+      if (acc === "marcar") {
+        estado.temasHechos[id] = !estado.temasHechos[id];
+        if (!estado.temasHechos[id]) delete estado.temasHechos[id];
+        guardar(); render();
+      }
+      if (acc === "leer") ir("lecturas", { temaId: id });
+      if (acc === "volver-lecturas") ir("lecturas");
+      if (acc === "quiz-tema") {
+        const t = D.temas.find(x => x.id === id);
+        const pregs = preguntasDeTema(t);
+        if (pregs.length) iniciarQuiz(`Tema ${t.id}`, pregs);
+      }
+      if (acc === "simulacro") {
+        const todas = D.temas.flatMap(preguntasDeTema);
+        iniciarQuiz("Simulacro", barajar(todas).slice(0, 15));
+      }
+      if (acc === "responder") responder(el.dataset.r);
+      if (acc === "responder-corta") {
+        const inp = document.getElementById("inpResp");
+        if (inp && inp.value.trim()) responder(inp.value);
+      }
+      if (acc === "siguiente-pregunta") {
+        ctx.idx++; ctx.respondida = false;
+        if (ctx.idx >= ctx.preguntas.length) {
+          ctx.fase = "final";
+          const pct = Math.round(ctx.aciertos / ctx.preguntas.length * 100);
+          estado.historial.push({ fecha: hoyISO(), etiqueta: ctx.etiqueta, pct, aciertos: ctx.aciertos, total: ctx.preguntas.length });
+          guardar();
+        }
+        render();
+      }
+      if (acc === "ir-quiz") ir("quiz");
+      if (acc === "ir-ruta") ir("ruta");
+      if (acc === "empezar-flash") { ctx = { fase: "estudio", cola: barajar(tarjetasVencidas()), mostrando: false }; render(); }
+      if (acc === "flash-voltear") { ctx.mostrando = true; render(); }
+      if (acc === "flash-bien") calificarFlash(true);
+      if (acc === "flash-mal") calificarFlash(false);
+      if (acc === "flash-salir") { ctx = {}; render(); }
+      if (acc === "reiniciar") {
+        if (confirm("¿Borrar temas marcados, historial de quizzes y estado de tarjetas de ESTE dispositivo?")) {
+          localStorage.removeItem(CLAVE);
+          estado.temasHechos = {}; estado.historial = []; estado.leitner = {};
+          render();
+        }
+      }
+});
+
+// Enter en respuesta corta (delegado)
+$app.addEventListener("keydown", e => {
+  if (e.key === "Enter" && e.target.id === "inpResp" && e.target.value.trim()) responder(e.target.value);
+});
+
+render();
+</script>
+</body>
+</html>
