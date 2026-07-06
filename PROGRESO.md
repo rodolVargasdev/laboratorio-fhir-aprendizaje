@@ -1,94 +1,78 @@
 # Tablero de progreso
 
-Apunta el porcentaje del quiz de cada dia y tus dudas. Es tu evidencia objetiva
-de avance. Criterio de maestria: quiz >= 80%.
+Apunta el porcentaje del quiz de cada módulo y tus dudas. Es tu evidencia
+objetiva de avance. Criterio de maestría: quiz ≥ 80 %. La ruta completa está en
+`RUTA.md`; este archivo es solo el registro.
 
 Comandos:
-- Quiz del dia:        python evaluacion\quiz_runner.py --dia N
-- Quiz modulo extra:   python evaluacion\quiz_runner.py --extra historia-fhir
-- Repaso intercalado:  python evaluacion\quiz_runner.py --repaso
-- Repaso espaciado:    python evaluacion\repaso.py
-- Estado de tarjetas:  python evaluacion\repaso.py --estado
-- Preparacion (3 certs): python evaluacion\preparacion.py
-- Preparacion detalle:   python evaluacion\preparacion.py --cert foundational --detalle
 
-## Modulo extra (opcional, antes del Dia 1)
+- Quiz de un módulo:     python evaluacion\quiz_runner.py --dia N
+- Quiz módulo extra:     python evaluacion\quiz_runner.py --extra historia-fhir
+- Simulacro intercalado: python evaluacion\quiz_runner.py --repaso --n 25
+- Repaso espaciado:      python evaluacion\repaso.py
+- Preparación (3 certs): python evaluacion\preparacion.py
 
-- [x] Extra - Historia y nacimiento de FHIR (Dia 00)  quiz: ___%  maestria: pendiente
-  - Leccion: OK (2026-06-21)
-  - Secciones: v2/v3, nacimiento FHIR, Argonaut/SMART, R4, gobierno HL7
-  - Notas estudio: `notas/extra-historia-fhir.md` — OK
-  - NotebookLM: regenerar `evaluacion/exports/extra-historia-fhir-notebooklm.md`
-  - **Pendiente:** quiz oficial, % >= 80%, Reto Feynman en seccion abajo
-  - Checkpoint: `SESION.md`
+## Etapa 1 — Cimientos
 
-## Semana 1: Cimientos de software
+- [ ] Tema 0 · Por qué existe FHIR (opcional)      quiz extra: ___%
+  - Lección: OK (2026-06-21). Notas: `notas/extra-historia-fhir.md`
+  - **Pendiente:** quiz oficial (≥ 80 %) y Reto Feynman
+- [ ] Tema 1 · JSON y XML                          día 1: ___%  día 2: ___%
+- [ ] Tema 2 · HTTP y REST                         día 3: ___%  día 4: ___%  día 5: ___%  día 7: ___%
+- [ ] Tema 3 · Seguridad (OAuth/SMART concepto)    día 6: ___%
+- [ ] 🏁 Simulacro de cierre (--repaso --n 15):    ___%
 
-- [ ] Dia 1 - JSON + primer GET a FHIR            quiz: ___%
-- [ ] Dia 2 - JSON anidado + XML                  quiz: ___%
-- [ ] Dia 3 - HTTP y REST (lecturas)              quiz: ___%
-- [ ] Dia 4 - Estados y busqueda                  quiz: ___%
-- [ ] Dia 5 - CRUD e idempotencia                 quiz: ___%
-- [ ] Dia 6 - OAuth 2.0 y SMART on FHIR           quiz: ___%
-- [ ] Dia 7 - Consolidacion Semana 1              quiz: ___%
+## Etapa 2 — El estándar FHIR
 
-## Semana 2: GCP + terminologias + FHIR
+- [ ] Tema 4 · Modelo FHIR (recursos, Bundle)      día 12: ___%
+- [ ] Tema 5 · Búsqueda avanzada                   día 18: ___%
+- [ ] Tema 6 · Terminologías                       día 11: ___%  día 19: ___%
+- [ ] Tema 7 · Validación y Profiles               día 15: ___%  día 16: ___%
+- [ ] 🏁 Simulacro de cierre (--repaso --n 25):    ___%
 
-- [ ] Dia 8  - GCP: jerarquia y capa gratuita     quiz: ___%
-- [ ] Dia 9  - Dataset, FHIR store, metadata      quiz: ___%
-- [ ] Dia 10 - Cargar datos y referencias         quiz: ___%
-- [ ] Dia 11 - Terminologias (LOINC, SNOMED)      quiz: ___%
-- [ ] Dia 12 - Modelo FHIR y Bundle               quiz: ___%
-- [ ] Dia 13 - Mini-proyecto integrador           quiz: ___%
-- [ ] Dia 14 - Examen final acumulado             quiz: ___%
+## Etapa 3 — Práctica real
 
-## Modulos avanzados (plan anual)
+- [ ] Tema 8 · FHIR en Google Cloud                día 8: ___%  día 9: ___%  día 10: ___%  día 20: ___%
+- [ ] Tema 9 · SMART on FHIR en práctica           día 17: ___%
+- [ ] Tema 10 · Proyecto integrador y examen       día 13: ___%  día 14: ___%
 
-- [ ] Dia 15 - $validate y OperationOutcome       quiz: ___%
-- [ ] Dia 16 - Profiles y StructureDefinition    quiz: ___%
-- [ ] Dia 17 - SMART on FHIR en practica         quiz: ___%
-- [ ] Dia 18 - Busqueda avanzada                 quiz: ___%
-- [ ] Dia 19 - Terminologia avanzada             quiz: ___%
-- [ ] Dia 20 - GCP avanzado (import, IAM)        quiz: ___%
+## Retos Feynman (explica con tus palabras, 3-4 líneas por tema)
 
-## Retos Feynman (explica con tus palabras)
+- Tema 0:
+- Tema 1:
+- Tema 2:
+- Tema 3:
+- Tema 4:
+- Tema 5:
+- Tema 6:
+- Tema 7:
+- Tema 8:
+- Tema 9:
+- Tema 10:
 
-Extra Historia FHIR:
-(Pendiente: pegar aqui tu explicacion Feynman en 8-10 frases cuando la escribas)
-Dia 1:
-Dia 2:
-Dia 3:
-Dia 4:
-Dia 5:
-Dia 6:
-Dia 7:
-Dia 8:
-Dia 9:
-Dia 10:
-Dia 11:
-Dia 12:
-Dia 13:
-Dia 14:
-
-## Seguimiento de preparacion (corre preparacion.py 1 vez por semana)
+## Seguimiento de preparación (corre preparacion.py 1 vez por semana)
 
 Anota el puntaje compuesto (0-100) de cada meta para ver tu tendencia.
 
 | Fecha | Foundational | GCP | Advanced |
-|-------|-------------|-----|----------|
-|       |             |     |          |
+| ----- | ------------ | --- | -------- |
+|       |              |     |          |
 
-Recuerda: agenda un examen SOLO cuando su semaforo este VERDE.
+Recuerda: agenda un examen SOLO cuando su semáforo esté VERDE.
 
 ## Dudas para reforzar
 
 (Anota lo que quede flojo, con la fecha)
 
--
+- 2026-07-05 — resourceType: identifica el *tipo* de recurso (Patient, Observation…), no es sinónimo de "recurso".
+- 2026-07-05 — FHIR usa camelCase en campos (`birthDate`, no `birthdate`).
+- 2026-07-05 — Rutas JSON: índices empiezan en 0; cuidado con `[ ]` vs `{ }` al escribir rutas.
 
-## Bitacora rapida
+## Bitácora rápida
 
-(Una linea por dia: que hice y que aprendi)
+(Una línea por sesión: qué hice y qué aprendí)
 
-- 2026-06-21 — Dia 00 (Extra Historia FHIR): complete leccion de contexto v2/v3→FHIR→R4; notas y export NotebookLM preparados.
-- 2026-07-05 — Checkpoint sesion: auditoria Dia 00 (quiz/Feynman pendientes); handoff a Dia 1 en SESION.md.
+- 2026-06-21 — Tema 0 (Historia FHIR): completé lección de contexto v2/v3→FHIR→R4; notas y export NotebookLM preparados.
+- 2026-07-05 — Checkpoint sesión: auditoría Tema 0 (quiz/Feynman pendientes); handoff a Tema 1 en SESION.md.
+- 2026-07-05 Tema 1 / día 1 (parcial): ejercicio_1 OK (birthDate, gender desde JSON local); pendiente GET HAPI y quiz.
+- 2026-07-05 Reestructura: el lab ahora se navega por temas (RUTA.md) + app en docs/ + packs móviles en movil/.

@@ -33,8 +33,11 @@ def main() -> None:
     for contacto in paciente.get("telecom", []):
         print(f"  - {contacto['system']}: {contacto['value']} ({contacto['use']})")
 
+    print(f"Fecha de nacimiento: {paciente["birthDate"]}")
+    print(f"Genero: {paciente["gender"]}")
+
     # ----------------------------------------------------------------------
-    # RETO: imprime la fecha de nacimiento (birthDate) y el genero (gender).
+    # RETO: imprisme la fecha de nacimiento (birthDate) y el genero (gender).
     # Pista: son campos directos del paciente, como 'id'.
 
     # print(f"Fecha nacimiento: {paciente[...]}")

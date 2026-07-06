@@ -1,103 +1,67 @@
-# Checkpoint de sesion — Laboratorio FHIR
+# Sesión activa — laboratorio FHIR
 
-Archivo de continuidad entre conversaciones en Cursor. **Actualizar al cerrar cada sesion**
-o cada 2-3 secciones de estudio para no saturar la ventana de contexto.
+Archivo de continuidad entre conversaciones. **Actualizar al cerrar cada sesión**
+o cada 2-3 secciones de estudio.
 
-Ultima actualizacion: **2026-07-05**
-
----
+Última actualización: **2026-07-05**
 
 ## Estado actual
 
 | Campo | Valor |
 |-------|-------|
-| **Dia activo** | 1 (siguiente) |
-| **Ultimo dia cerrado** | 00 — Extra Historia FHIR |
-| **Dispositivo** | Una sola PC (local) |
-| **Idioma / tutor** | Espanol; recuperacion activa; yo registro progreso en PROGRESO.md |
-| **Umbral maestria** | Quiz >= 80% |
+| **Tema activo** | Tema 1 · JSON y XML (módulo `dias/dia-01`) |
+| **Último cerrado** | Tema 0 (lección; quiz y Feynman PENDIENTES) |
+| **Idioma / tutor** | Español; recuperación activa; el tutor registra progreso en PROGRESO.md |
+| **Umbral maestría** | Quiz ≥ 80 % |
 
----
+## Tema 0 — pendientes de cierre (antes o en paralelo al Tema 1)
 
-## Dia 00 — Extra Historia FHIR (auditoria)
+- Quiz oficial: `python evaluacion\quiz_runner.py --extra historia-fhir` (% a PROGRESO.md)
+- Reto Feynman (8-10 frases) en PROGRESO.md
+- Export NotebookLM: `python evaluacion\export_notebooklm.py --extra historia-fhir --notas notas\extra-historia-fhir.md`
+  (o usa directamente `movil/tema-00-historia.md`, ya listo para NotebookLM)
 
-| Item | Estado | Notas |
-|------|--------|-------|
-| Leccion leida | OK | Usuario confirmo finalizacion |
-| Practica linea_tiempo.py | ? | No confirmado en terminal |
-| Quiz `--extra historia-fhir` | **PENDIENTE** | % no registrado en PROGRESO.md |
-| Reto Feynman (8-10 frases) | **PENDIENTE** | Seccion vacia en PROGRESO.md |
-| Notas estudio | OK | `notas/extra-historia-fhir.md` |
-| Export NotebookLM | **Regenerar** | `evaluacion/exports/` vacio; correr script local |
-| historial.csv (quizzes) | **PENDIENTE** | Carpeta resultados vacia |
-| Dudas para reforzar | Vacio | Anotar si el quiz revela vacios |
+## Tema 1 en curso — módulo `dias/dia-01`
 
-**Cierre recomendado Dia 00 (antes o en paralelo al Dia 1):**
-```bash
-python evaluacion/quiz_runner.py --extra historia-fhir
-python evaluacion/export_notebooklm.py --extra historia-fhir --notas notas/extra-historia-fhir.md
-```
+- [x] Diagnóstico (JSON, REST, Patient)
+- [x] Teoría / rutas JSON
+- [x] Práctica local (`ejercicio_1_local.py` + RETO: birthDate y gender OK)
+- [ ] Primer GET servidor (`ejercicio_2_servidor.py`, HAPI `hapi.fhir.org/baseR4`)
+- [ ] Autoevaluación + Feynman
+- [ ] Quiz oficial (`--dia 1`)
+- Después: módulo `dias/dia-02` (JSON anidado + XML) y cierras el Tema 1.
 
----
+## Novedad de estructura (2026-07-05)
 
-## Dia 1 — JSON + primer GET a FHIR (proximo)
+El laboratorio se navega por TEMAS: la línea recta está en `RUTA.md`. Lecturas de
+celular en `movil/`, app en `docs/` (GitHub Pages), guías largas en `guias/`,
+prácticas institucionales DoctorSV en `PRACTICAS-DOCTORSV.md`. Los módulos `dias/`
+siguen siendo la práctica de PC y `quiz_runner.py --dia N` no cambió.
 
-- **Leccion:** `dias/dia-01/README.md`
-- **Practica:** `dias/dia-01/practica/ejercicio_1_local.py`, `ejercicio_2_servidor.py`
-- **Reto codigo:** imprimir `birthDate` y `gender` en ejercicio_1
-- **Quiz:** `python evaluacion/quiz_runner.py --dia 1`
-- **Export NotebookLM:** `python evaluacion/export_notebooklm.py --dia 1`
+## Notas de tutor (última sesión)
 
-### Objetivos Dia 1
-1. Leer JSON con soltura (objetos `{}`, arrays `[]`, clave:valor)
-2. Rutas: `Patient.name[0].family`, `Patient.name[0].given[0]`
-3. Campo `resourceType` siempre presente
-4. Primer GET a servidor publico HAPI (`hapi.fhir.org/baseR4`)
+- JSON y arrays: sólido. Rutas tipo `Patient.name[0].family`: correcto.
+- GET + Postman: experiencia previa útil.
+- Reforzar: `resourceType` identifica el tipo (no solo Patient); camelCase FHIR (`birthDate`).
 
-### Conexion desde Dia 00
-- FHIR nacio para APIs web REST + JSON → hoy lo tocas en la practica
-- Patient es un **Resource** → veras `resourceType: "Patient"`
-- `/metadata` (CapabilityStatement) lo mencionaste en historia; opcional en Dia 1
+## Preferencias del estudiante (mantener en cada sesión)
 
----
+1. El tutor registra progreso en `PROGRESO.md`, preguntando al cerrar cada sección.
+2. Checkpoint en `SESION.md` al final de sesión o cada 2-3 secciones.
+3. NotebookLM: usar los packs `movil/tema-XX.md` (y `evaluacion/exports/` si se regenera local).
 
-## Preferencias del estudiante (mantener en cada sesion)
+## Bitácora de sesiones
 
-1. Registrar progreso en `PROGRESO.md` **yo (el tutor)**, basado en preguntas al cerrar cada seccion.
-2. Checkpoint en `SESION.md` al final de sesion o cada 2-3 secciones.
-3. Una sola computadora por ahora.
-4. NotebookLM: material en `evaluacion/exports/` (generar local, no esta en git).
-
----
-
-## Bitacora de sesiones (Cursor)
-
-| Fecha | Sesion | Hecho | Siguiente |
+| Fecha | Sesión | Hecho | Siguiente |
 |-------|--------|-------|-----------|
-| 2026-06-21 | 1 | Setup, modulo historia, notas NotebookLM, push GitHub | Dia 1 |
-| 2026-07-05 | 2 | Auditoria Dia 00, checkpoint SESION.md, handoff Dia 1 | Empezar Dia 1 seccion 0 (diagnostico JSON) |
+| 2026-06-21 | 1 | Setup, módulo historia, notas NotebookLM, push GitHub | Día 1 |
+| 2026-07-05 | 2 | Auditoría Tema 0, checkpoint SESION.md, handoff Día 1 | Día 1 sección diagnóstico |
+| 2026-07-05 | 3 | Día 1 parcial (ejercicio_1 + RETO OK); reestructura por temas, app docs/, packs movil/ | GET a HAPI + quiz día 1 |
 
----
+## Prompt de continuación (copiar en chat nuevo)
 
-## Comandos utiles (Linux/macOS en este workspace)
-
-```bash
-source .venv/bin/activate   # si existe .venv
-python 00-setup/verificar_entorno.py
-python evaluacion/repaso.py
-python evaluacion/quiz_runner.py --dia 1
 ```
-
-Windows: ver `00-setup/README.md` (PowerShell, `.\.venv\Scripts\Activate.ps1`).
-
----
-
-## Archivos clave
-
-| Archivo | Rol |
-|---------|-----|
-| `PROGRESO.md` | Tablero oficial (% quiz, Feynman, dudas) |
-| `SESION.md` | **Este archivo** — handoff entre chats |
-| `notas/extra-historia-fhir.md` | Repaso Dia 00 |
-| `dias/dia-01/README.md` | Leccion Dia 1 |
-| `COMO-USAR-CON-COMPOSER.md` | Flujo diario con Composer |
+Continúo laboratorio FHIR. Lee SESION.md, RUTA.md y PROGRESO.md.
+Tema 1 (día 1) en curso — sección: [indica cuál].
+Reglas: español, recuperación activa, actualiza PROGRESO.md y SESION.md al cerrar sección.
+```
