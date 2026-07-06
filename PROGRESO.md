@@ -15,6 +15,8 @@ Comandos:
 ## Etapa 1 — Cimientos
 
 - [ ] Tema 0 · Por qué existe FHIR (opcional)      quiz extra: ___%
+  - Lección: OK (2026-06-21). Notas: `notas/extra-historia-fhir.md`
+  - **Pendiente:** quiz oficial (≥ 80 %) y Reto Feynman
 - [ ] Tema 1 · JSON y XML                          día 1: ___%  día 2: ___%
 - [ ] Tema 2 · HTTP y REST                         día 3: ___%  día 4: ___%  día 5: ___%  día 7: ___%
 - [ ] Tema 3 · Seguridad (OAuth/SMART concepto)    día 6: ___%
@@ -70,5 +72,7 @@ Recuerda: agenda un examen SOLO cuando su semáforo esté VERDE.
 
 (Una línea por sesión: qué hice y qué aprendí)
 
+- 2026-06-21 — Tema 0 (Historia FHIR): completé lección de contexto v2/v3→FHIR→R4; notas y export NotebookLM preparados.
+- 2026-07-05 — Checkpoint sesión: auditoría Tema 0 (quiz/Feynman pendientes); handoff a Tema 1 en SESION.md.
 - 2026-07-05 Tema 1 / día 1 (parcial): ejercicio_1 OK (birthDate, gender desde JSON local); pendiente GET HAPI y quiz.
 - 2026-07-05 Reestructura: el lab ahora se navega por temas (RUTA.md) + app en docs/ + packs móviles en movil/.
