@@ -3,7 +3,7 @@
 Este archivo es **el único que necesitas abrir para saber qué sigue**. Se lee de
 arriba hacia abajo: termina un tema, marca su casilla y pasa al siguiente. Nada más.
 
-> **¿Dónde voy?** → Tema 1 (JSON y XML), módulo `dias/dia-01`, sección "Primer GET al servidor".
+> **¿Dónde voy?** → `00-setup` (una vez) y luego Tema 0 (opcional) o Tema 1 (`dias/dia-01`).
 
 ---
 
@@ -41,12 +41,11 @@ GitHub Pages, gratis). Ahí tienes lecturas, quizzes y tarjetas sin PC.
 - Quiz: `python evaluacion\quiz_runner.py --extra historia-fhir`
 - [Práctica nacional](PRACTICAS-NACIONALES.md): diagnóstico de la interoperabilidad de salud actual del país.
 
-## Tema 1 · JSON y XML: el lenguaje de los datos ← **ESTÁS AQUÍ**
+## Tema 1 · JSON y XML: el lenguaje de los datos
 - Lectura: [movil/tema-01-json-xml.md](movil/tema-01-json-xml.md)
 - Práctica: [dias/dia-01](dias/dia-01/README.md) → [dias/dia-02](dias/dia-02/README.md)
 - Quiz: `--dia 1` y `--dia 2`
 - [Práctica nacional](PRACTICAS-NACIONALES.md): escribe el `Patient` salvadoreño (DUI ficticio, dos apellidos, municipio).
-- Pendiente hoy: `ejercicio_2_servidor.py`, Feynman y quiz del día 1.
 
 ## Tema 2 · HTTP y REST: hablar con un servidor FHIR
 - Lectura: [movil/tema-02-http-rest.md](movil/tema-02-http-rest.md)
