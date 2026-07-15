@@ -1,0 +1,21 @@
+{
+  "slug": "prerreq-00-terminal",
+  "numero": -15,
+  "nombre": "La terminal y tu entorno",
+  "resumen": "Que es la terminal, como abrirla y como corres los comandos del curso.",
+  "opcional": false,
+  "objetivos": [
+    "Abrir una terminal",
+    "Entender que es un comando",
+    "Copiar y pegar comandos con confianza"
+  ],
+  "enlaces": [
+    {
+      "titulo": "Que es la linea de comandos (MDN)",
+      "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line"
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "Bases — La terminal y tu entorno"
+  }
+}

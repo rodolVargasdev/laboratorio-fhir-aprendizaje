@@ -1,0 +1,20 @@
+{
+  "slug": "prerreq-01-json",
+  "numero": -14,
+  "nombre": "JSON en 10 minutos",
+  "resumen": "Que es JSON, objetos, listas y como se leen los datos anidados.",
+  "opcional": false,
+  "objetivos": [
+    "Reconocer un objeto y una lista en JSON",
+    "Leer un valor por su ruta"
+  ],
+  "enlaces": [
+    {
+      "titulo": "Introduccion a JSON (MDN)",
+      "url": "https://developer.mozilla.org/es/docs/Learn/JavaScript/Objects/JSON"
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "Bases — JSON en 10 minutos"
+  }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "claveLegacy": "d15-validate",
+    "frente": ".Como invocas la validacion de un Patient?",
+    "reverso": "POST [base]/Patient/$validate con el recurso en el cuerpo (operacion $validate)."
+  },
+  {
+    "claveLegacy": "d15-severity",
+    "frente": "En OperationOutcome.issue, .que significa severity 'error'?",
+    "reverso": "Problema que invalida el recurso o impide su uso; debe corregirse."
+  },
+  {
+    "claveLegacy": "d15-location",
+    "frente": "Campo de OperationOutcome que indica la ruta al elemento con problema",
+    "reverso": "location (o expression), ej. Patient.name."
+  },
+  {
+    "claveLegacy": "d16-profile",
+    "frente": ".Que es un profile en FHIR?",
+    "reverso": "Restriccion del estandar base para un caso de uso, definida en StructureDefinition."
+  },
+  {
+    "claveLegacy": "d16-sd",
+    "frente": ".Que recurso define formalmente un profile?",
+    "reverso": "StructureDefinition."
+  },
+  {
+    "claveLegacy": "d16-differential",
+    "frente": "differential vs snapshot en StructureDefinition",
+    "reverso": "differential = cambios vs base; snapshot = vista completa expandida del profile."
+  }
+]

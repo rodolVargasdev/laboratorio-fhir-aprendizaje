@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+/* Modo oscuro por clase (.dark) ademas del sistema; el toggle se agrega en Fase 9. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Paleta institucional (memoria del usuario):
+  azul #048DF3, navy #0E2E6E, grises/blanco. Sin verde ni morado.
+  Tipografia: Inter (sans) + JetBrains Mono (codigo).
+*/
+:root {
+  --background: #f5f7fa;
+  --foreground: #0f172a;
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --primary: #048df3;
+  --primary-foreground: #ffffff;
+  --primary-soft: #e7f3fe;
+
+  --navy: #0e2e6e;
+  --navy-2: #164096;
+
+  --muted: #eef2f7;
+  --muted-foreground: #475569;
+
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #048df3;
+
+  --success: #0e7a53;
+  --success-soft: #dcfce7;
+  --danger: #dc2626;
+  --danger-soft: #fee2e2;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+
+  --radius: 0.85rem;
+}
+
+.dark {
+  --background: #0b1220;
+  --foreground: #e6edf6;
+
+  --card: #111a2e;
+  --card-foreground: #e6edf6;
+
+  --primary: #3aa5f6;
+  --primary-foreground: #05203f;
+  --primary-soft: #10233f;
+
+  --navy: #9db8f0;
+  --navy-2: #b9ccf5;
+
+  --muted: #16213a;
+  --muted-foreground: #9fb0c6;
+
+  --border: #22304d;
+  --input: #22304d;
+  --ring: #3aa5f6;
+
+  --success: #34d399;
+  --success-soft: #0c2a20;
+  --danger: #f87171;
+  --danger-soft: #331414;
+  --warning: #fbbf24;
+  --warning-soft: #332409;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 0.25rem);
+  --radius-sm: calc(var(--radius) - 0.4rem);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Foco accesible y consistente */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* --------- Prosa (contenido markdown de lecciones) --------- */
+.prosa {
+  font-size: 1rem;
+  color: var(--foreground);
+  overflow-wrap: break-word;
+}
+.prosa > * + * { margin-top: 0.9rem; }
+.prosa h1 { font-size: 1.6rem; font-weight: 800; line-height: 1.2; margin-top: 1.6rem; }
+.prosa h2 { font-size: 1.3rem; font-weight: 800; line-height: 1.25; margin-top: 1.5rem; }
+.prosa h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1.2rem; }
+.prosa h1:first-child, .prosa h2:first-child, .prosa h3:first-child { margin-top: 0; }
+.prosa p { line-height: 1.7; }
+.prosa a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+.prosa ul, .prosa ol { padding-left: 1.4rem; }
+.prosa ul { list-style: disc; }
+.prosa ol { list-style: decimal; }
+.prosa li + li { margin-top: 0.3rem; }
+.prosa li::marker { color: var(--muted-foreground); }
+.prosa code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--muted);
+  padding: 0.1em 0.35em;
+  border-radius: 6px;
+}
+.prosa pre {
+  background: var(--navy);
+  color: #e6edf6;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.prosa pre code { background: transparent; padding: 0; color: inherit; }
+.prosa blockquote {
+  border-left: 4px solid var(--primary);
+  background: var(--primary-soft);
+  padding: 0.75rem 1rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  color: var(--foreground);
+}
+.prosa blockquote p { margin: 0; }
+.prosa table { width: 100%; border-collapse: collapse; font-size: 0.9rem; display: block; overflow-x: auto; }
+.prosa th, .prosa td { border: 1px solid var(--border); padding: 0.5rem 0.7rem; text-align: left; }
+.prosa th { background: var(--muted); font-weight: 700; }
+.prosa hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+.prosa img { max-width: 100%; height: auto; border-radius: var(--radius-md); }
+.prosa input[type="checkbox"] { margin-right: 0.5rem; accent-color: var(--primary); }
+.prosa ul:has(input[type="checkbox"]) { list-style: none; padding-left: 0.2rem; }

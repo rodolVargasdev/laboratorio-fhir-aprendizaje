@@ -1,0 +1,37 @@
+[
+  {
+    "claveLegacy": "d8-jerarquia-gcp",
+    "frente": ".Cual es la jerarquia basica de recursos en GCP?",
+    "reverso": "Organizacion > Proyecto > Recursos. Todo recurso vive dentro de un proyecto."
+  },
+  {
+    "claveLegacy": "d8-free-tier",
+    "frente": ".Que capa gratuita tiene Cloud Healthcare API?",
+    "reverso": "25,000 peticiones/mes gratis y 1 GiB-hora/mes de almacenamiento gratis. Suficiente para aprender."
+  },
+  {
+    "claveLegacy": "d9-jerarquia-fhir",
+    "frente": ".Jerarquia para un FHIR store en GCP?",
+    "reverso": "Proyecto > Localizacion > Dataset > FHIR store."
+  },
+  {
+    "claveLegacy": "d9-version",
+    "frente": ".Que versiones de FHIR soporta Cloud Healthcare API?",
+    "reverso": "DSTU2, STU3 y R4. Para certificacion usamos R4."
+  },
+  {
+    "claveLegacy": "d10-synthea",
+    "frente": ".Que es Synthea?",
+    "reverso": "Un generador de datos clinicos sinteticos (pacientes ficticios) en formato FHIR, ideal para practicar sin datos reales."
+  },
+  {
+    "claveLegacy": "d20-iam",
+    "frente": "Rol IAM minimo para solo LEER recursos FHIR",
+    "reverso": "roles/healthcare.fhirResourceReader."
+  },
+  {
+    "claveLegacy": "d20-metrics",
+    "frente": "Metodo para metricas del FHIR store",
+    "reverso": "fhirStores.getFHIRStoreMetrics."
+  }
+]

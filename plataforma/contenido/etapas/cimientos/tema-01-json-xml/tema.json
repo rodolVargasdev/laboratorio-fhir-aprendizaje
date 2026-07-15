@@ -1,0 +1,12 @@
+{
+  "slug": "tema-01-json-xml",
+  "numero": 1,
+  "nombre": "JSON y XML: el lenguaje de los datos",
+  "resumen": "Objetos, arrays, rutas tipo Patient.name[0].family, JSON anidado y XML comparado.",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — JSON y XML: el lenguaje de los datos"
+  }
+}

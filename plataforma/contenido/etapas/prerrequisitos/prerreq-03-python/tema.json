@@ -1,0 +1,20 @@
+{
+  "slug": "prerreq-03-python",
+  "numero": -12,
+  "nombre": "Python minimo",
+  "resumen": "Variables, imprimir, y correr un script; lo justo para las practicas.",
+  "opcional": false,
+  "objetivos": [
+    "Ejecutar un script .py",
+    "Leer variables y print"
+  ],
+  "enlaces": [
+    {
+      "titulo": "Tutorial oficial de Python (es)",
+      "url": "https://docs.python.org/es/3/tutorial/"
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "Bases — Python minimo"
+  }
+}

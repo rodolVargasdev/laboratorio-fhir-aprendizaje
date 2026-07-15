@@ -1,0 +1,12 @@
+{
+  "slug": "tema-02-http-rest",
+  "numero": 2,
+  "nombre": "HTTP y REST: hablar con un servidor FHIR",
+  "resumen": "Metodos GET/POST/PUT/DELETE, codigos de estado, busqueda basica, CRUD, idempotencia y consolidacion.",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — HTTP y REST: hablar con un servidor FHIR"
+  }
+}

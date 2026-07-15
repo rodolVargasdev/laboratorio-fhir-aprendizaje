@@ -1,0 +1,12 @@
+{
+  "slug": "tema-06-terminologias",
+  "numero": 6,
+  "nombre": "Terminologias clinicas",
+  "resumen": "LOINC, SNOMED CT, Coding vs CodeableConcept, bindings, CodeSystem/ValueSet/ConceptMap y operaciones ($expand, $lookup).",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — Terminologias clinicas"
+  }
+}

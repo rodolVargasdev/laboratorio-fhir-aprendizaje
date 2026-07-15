@@ -1,0 +1,14 @@
+[
+  {
+    "frente": ".Que hace SELECT?",
+    "reverso": "Elige las columnas que quieres traer."
+  },
+  {
+    "frente": ".Que hace WHERE?",
+    "reverso": "Filtra las filas segun una condicion."
+  },
+  {
+    "frente": ".Que es una fila en una tabla?",
+    "reverso": "Un registro individual."
+  }
+]

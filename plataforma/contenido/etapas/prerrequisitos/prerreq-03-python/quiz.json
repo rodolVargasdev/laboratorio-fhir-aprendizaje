@@ -1,0 +1,37 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "p3-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": ".Que hace print() en Python?",
+      "opciones": [
+        "Guarda un archivo",
+        "Muestra algo en pantalla",
+        "Borra datos",
+        "Abre el navegador"
+      ],
+      "respuesta": 1,
+      "explicacion": "print muestra texto en la terminal."
+    },
+    {
+      "id": "p3-2",
+      "tipo": "verdadero_falso",
+      "bloom": "recordar",
+      "pregunta": "En Python el texto va entre comillas.",
+      "respuesta": true,
+      "explicacion": "Los strings usan comillas."
+    },
+    {
+      "id": "p3-3",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": ".Que comando ejecuta el archivo hola.py?",
+      "respuestas_validas": [
+        "python hola.py"
+      ],
+      "explicacion": "python <archivo>."
+    }
+  ]
+}

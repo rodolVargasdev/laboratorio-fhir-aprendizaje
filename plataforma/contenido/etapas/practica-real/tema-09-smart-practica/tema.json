@@ -1,0 +1,12 @@
+{
+  "slug": "tema-09-smart-practica",
+  "numero": 9,
+  "nombre": "SMART on FHIR en practica",
+  "resumen": "App Launch y Backend Services de verdad: JWT firmado, JWKS, scopes granulares.",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — SMART on FHIR en practica"
+  }
+}

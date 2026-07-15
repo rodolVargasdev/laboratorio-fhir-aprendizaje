@@ -1,0 +1,41 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "p2-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": ".Que verbo HTTP se usa para LEER sin modificar?",
+      "opciones": [
+        "POST",
+        "GET",
+        "DELETE",
+        "PUT"
+      ],
+      "respuesta": 1,
+      "explicacion": "GET es de solo lectura."
+    },
+    {
+      "id": "p2-2",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "Un codigo 404 significa:",
+      "opciones": [
+        "Todo bien",
+        "No autorizado",
+        "No existe el recurso",
+        "Error del servidor"
+      ],
+      "respuesta": 2,
+      "explicacion": "404 = Not Found."
+    },
+    {
+      "id": "p2-3",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Los errores 5xx indican un fallo del servidor.",
+      "respuesta": true,
+      "explicacion": "5xx = lado servidor; 4xx = lado cliente."
+    }
+  ]
+}

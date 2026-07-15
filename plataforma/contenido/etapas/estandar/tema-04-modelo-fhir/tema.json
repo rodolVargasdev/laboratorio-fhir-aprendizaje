@@ -1,0 +1,12 @@
+{
+  "slug": "tema-04-modelo-fhir",
+  "numero": 4,
+  "nombre": "El modelo FHIR: recursos, referencias y Bundles",
+  "resumen": "Patient, Observation, Encounter; tipos de datos; referencias entre recursos; Bundle.",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — El modelo FHIR: recursos, referencias y Bundles"
+  }
+}

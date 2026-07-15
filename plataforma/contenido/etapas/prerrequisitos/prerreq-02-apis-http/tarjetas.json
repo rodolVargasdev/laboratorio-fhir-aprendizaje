@@ -1,0 +1,14 @@
+[
+  {
+    "frente": ".Que es una API?",
+    "reverso": "Un contrato para pedir y recibir datos entre un cliente y un servidor."
+  },
+  {
+    "frente": ".Diferencia entre 4xx y 5xx?",
+    "reverso": "4xx = error del cliente; 5xx = error del servidor."
+  },
+  {
+    "frente": ".Con que verbo se crea un recurso nuevo?",
+    "reverso": "POST."
+  }
+]

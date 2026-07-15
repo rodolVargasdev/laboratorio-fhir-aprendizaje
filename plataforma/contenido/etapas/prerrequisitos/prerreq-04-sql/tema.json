@@ -1,0 +1,20 @@
+{
+  "slug": "prerreq-04-sql",
+  "numero": -11,
+  "nombre": "SQL minimo",
+  "resumen": "Tablas, filas y una consulta SELECT basica.",
+  "opcional": false,
+  "objetivos": [
+    "Leer una tabla",
+    "Escribir un SELECT simple"
+  ],
+  "enlaces": [
+    {
+      "titulo": "SELECT basico (W3Schools, es)",
+      "url": "https://www.w3schools.com/sql/sql_select.asp"
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "Bases — SQL minimo"
+  }
+}

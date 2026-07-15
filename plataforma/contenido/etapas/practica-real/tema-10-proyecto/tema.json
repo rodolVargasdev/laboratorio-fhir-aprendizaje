@@ -1,0 +1,12 @@
+{
+  "slug": "tema-10-proyecto",
+  "numero": 10,
+  "nombre": "Proyecto integrador y examen",
+  "resumen": "Mini-proyecto end-to-end de integración nacional + examen acumulado + plan hacia la certificacion.",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — Proyecto integrador y examen"
+  }
+}

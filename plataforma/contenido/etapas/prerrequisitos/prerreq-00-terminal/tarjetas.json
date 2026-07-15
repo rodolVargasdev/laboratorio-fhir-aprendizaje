@@ -1,0 +1,14 @@
+[
+  {
+    "frente": ".Que es la terminal?",
+    "reverso": "Una ventana para darle ordenes a la computadora escribiendo comandos de texto."
+  },
+  {
+    "frente": ".Que haces si un comando muestra un error?",
+    "reverso": "Leerlo con calma o copiarlo y preguntarle al tutor; no rompe nada."
+  },
+  {
+    "frente": ".Con que tecla ejecutas un comando?",
+    "reverso": "Enter."
+  }
+]

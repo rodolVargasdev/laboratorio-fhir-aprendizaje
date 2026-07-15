@@ -1,0 +1,12 @@
+[
+  {
+    "claveLegacy": "d13-capability",
+    "frente": ".Que es el CapabilityStatement de un servidor FHIR?",
+    "reverso": "Describe que recursos, operaciones y busquedas soporta ese servidor. Se obtiene con GET [base]/metadata."
+  },
+  {
+    "claveLegacy": "d14-operationoutcome",
+    "frente": ".Que recurso devuelve un servidor FHIR para informar errores o validaciones?",
+    "reverso": "OperationOutcome."
+  }
+]

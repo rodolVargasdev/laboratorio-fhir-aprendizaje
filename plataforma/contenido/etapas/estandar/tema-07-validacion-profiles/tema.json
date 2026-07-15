@@ -1,0 +1,12 @@
+{
+  "slug": "tema-07-validacion-profiles",
+  "numero": 7,
+  "nombre": "Validacion y Profiles",
+  "resumen": "$validate, OperationOutcome, StructureDefinition, profiles, differential vs snapshot, US Core.",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — Validacion y Profiles"
+  }
+}

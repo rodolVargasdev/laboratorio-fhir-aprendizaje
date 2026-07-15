@@ -1,0 +1,12 @@
+{
+  "slug": "tema-03-seguridad",
+  "numero": 3,
+  "nombre": "Seguridad: OAuth 2.0 y SMART on FHIR",
+  "resumen": "Autenticacion vs autorizacion, tokens, scopes y el perfil SMART on FHIR (concepto).",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — Seguridad: OAuth 2.0 y SMART on FHIR"
+  }
+}

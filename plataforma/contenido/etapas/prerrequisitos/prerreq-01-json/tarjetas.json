@@ -1,0 +1,14 @@
+[
+  {
+    "frente": ".Que es un objeto en JSON?",
+    "reverso": "Un grupo de pares clave:valor entre llaves { }."
+  },
+  {
+    "frente": ".Que es una lista/array en JSON?",
+    "reverso": "Una secuencia ordenada de elementos entre corchetes [ ], que empieza en 0."
+  },
+  {
+    "frente": ".Como se escribe un texto en JSON?",
+    "reverso": "Entre comillas dobles, por ejemplo \"Maria\"."
+  }
+]

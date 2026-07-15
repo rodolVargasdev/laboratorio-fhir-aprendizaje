@@ -1,0 +1,14 @@
+[
+  {
+    "frente": ".Como se guarda un valor en Python?",
+    "reverso": "Con una variable: nombre = valor."
+  },
+  {
+    "frente": ".Que hace print()?",
+    "reverso": "Muestra un valor en la terminal."
+  },
+  {
+    "frente": ".Como se corre un script?",
+    "reverso": "python archivo.py"
+  }
+]

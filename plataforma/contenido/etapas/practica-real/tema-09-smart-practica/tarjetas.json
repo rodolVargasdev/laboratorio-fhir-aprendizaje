@@ -1,0 +1,12 @@
+[
+  {
+    "claveLegacy": "d17-backend",
+    "frente": "SMART Backend Services vs App Launch",
+    "reverso": "Backend = sistema a sistema con JWT; App Launch = usuario autoriza en el navegador."
+  },
+  {
+    "claveLegacy": "d17-jti",
+    "frente": "Claim JWT que evita replay de assertions",
+    "reverso": "jti (JWT ID), unico por emision."
+  }
+]

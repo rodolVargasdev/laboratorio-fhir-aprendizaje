@@ -1,0 +1,22 @@
+[
+  {
+    "claveLegacy": "d12-patient",
+    "frente": ".Que representa el recurso Patient?",
+    "reverso": "Datos demograficos y administrativos de una persona que recibe atencion."
+  },
+  {
+    "claveLegacy": "d12-observation",
+    "frente": ".Que representa el recurso Observation?",
+    "reverso": "Una medicion o hallazgo: signos vitales, resultados de laboratorio, etc."
+  },
+  {
+    "claveLegacy": "d12-reference",
+    "frente": ".Como enlaza una Observation con su paciente?",
+    "reverso": "Con una referencia: Observation.subject = { \"reference\": \"Patient/123\" }."
+  },
+  {
+    "claveLegacy": "d12-bundle",
+    "frente": ".Que es un Bundle en FHIR?",
+    "reverso": "Un contenedor que agrupa varios recursos (resultados de busqueda, transacciones, documentos)."
+  }
+]

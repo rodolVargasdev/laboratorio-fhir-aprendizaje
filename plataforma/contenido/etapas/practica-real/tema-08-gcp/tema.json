@@ -1,0 +1,12 @@
+{
+  "slug": "tema-08-gcp",
+  "numero": 8,
+  "nombre": "FHIR en Google Cloud",
+  "resumen": "Jerarquia GCP, Cloud Healthcare API, datasets y FHIR stores, carga de Synthea, import/export e IAM.",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — FHIR en Google Cloud"
+  }
+}

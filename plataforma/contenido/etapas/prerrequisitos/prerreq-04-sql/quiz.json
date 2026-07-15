@@ -1,0 +1,41 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "p4-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": ".Que palabra elige las columnas a traer?",
+      "opciones": [
+        "FROM",
+        "WHERE",
+        "SELECT",
+        "ORDER"
+      ],
+      "respuesta": 2,
+      "explicacion": "SELECT indica las columnas."
+    },
+    {
+      "id": "p4-2",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": ".Que hace la clausula WHERE?",
+      "opciones": [
+        "Ordena",
+        "Filtra filas por condicion",
+        "Borra la tabla",
+        "Une tablas"
+      ],
+      "respuesta": 1,
+      "explicacion": "WHERE filtra por condicion."
+    },
+    {
+      "id": "p4-3",
+      "tipo": "verdadero_falso",
+      "bloom": "recordar",
+      "pregunta": "Una fila representa un registro (por ejemplo, un paciente).",
+      "respuesta": true,
+      "explicacion": "Fila = registro; columna = campo."
+    }
+  ]
+}

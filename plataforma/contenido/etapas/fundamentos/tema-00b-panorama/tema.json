@@ -1,0 +1,23 @@
+{
+  "slug": "tema-00b-panorama",
+  "numero": 0,
+  "nombre": "Panorama actual de FHIR (2026)",
+  "resumen": "Version vigente (R4), R6 en balota, certificacion actual, IGs (US Core, IPS), SMART v2, terminologia y plataformas. Contexto de experto.",
+  "opcional": false,
+  "objetivos": [
+    "Saber que version se usa hoy y por que (R4) y hacia donde va (R6)",
+    "Nombrar la certificacion vigente y a cual reemplazo",
+    "Reconocer scopes SMART v2 y las IGs clave (US Core, IPS)",
+    "Evitar los gotchas mas comunes (transaction vs batch, must-support, scopes v1/v2)"
+  ],
+  "enlaces": [
+    { "titulo": "Especificacion FHIR R4 (raiz permanente)", "url": "http://hl7.org/fhir/R4/", "nota": "La version del examen y de produccion." },
+    { "titulo": "Build continuo (R6 en desarrollo)", "url": "https://build.fhir.org/", "nota": "Hacia donde va el estandar." },
+    { "titulo": "US Core (IG de EE. UU.)", "url": "https://hl7.org/fhir/us/core/", "nota": "Perfiles y must-support; version vigente." },
+    { "titulo": "SMART App Launch 2.x", "url": "http://hl7.org/fhir/smart-app-launch/", "nota": "Scopes v2 y Backend Services." },
+    { "titulo": "International Patient Summary (IPS)", "url": "https://www.hl7.org/fhir/uv/ips/", "nota": "Resumen del paciente para atencion transfronteriza." },
+    { "titulo": "Certificacion FHIR (HL7)", "url": "https://www.hl7.org/certification/fhir.cfm", "nota": "Examen Foundational Implementer." },
+    { "titulo": "Cursos oficiales HL7", "url": "https://courses.hl7.org/", "nota": "Curso de preparacion Foundational." }
+  ],
+  "notebooklm": { "nombreCuaderno": "FHIR - Panorama actual 2026" }
+}

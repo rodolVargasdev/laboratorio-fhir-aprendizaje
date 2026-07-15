@@ -1,0 +1,66 @@
+{
+  "etapas": [
+    {
+      "numero": -1,
+      "slug": "prerrequisitos",
+      "nombre": "Prerrequisitos: bases digitales",
+      "meta": "Antes de FHIR: terminal, JSON, APIs, Python y SQL en version minima y amable.",
+      "orden": 0,
+      "temas": [
+        "prerrequisitos/prerreq-00-terminal",
+        "prerrequisitos/prerreq-01-json",
+        "prerrequisitos/prerreq-02-apis-http",
+        "prerrequisitos/prerreq-03-python",
+        "prerrequisitos/prerreq-04-sql"
+      ]
+    },
+    {
+      "numero": 0,
+      "slug": "fundamentos",
+      "nombre": "Fundamentos e historia de FHIR",
+      "meta": "Por que existe FHIR: de HL7 v2/v3 a R4, Argonaut y SMART.",
+      "orden": 1,
+      "temas": [
+        "fundamentos/tema-00-historia",
+        "fundamentos/tema-00b-panorama"
+      ]
+    },
+    {
+      "numero": 1,
+      "slug": "cimientos",
+      "nombre": "Cimientos",
+      "meta": "Leer y hablar el idioma de FHIR: JSON/XML, HTTP/REST y seguridad basica.",
+      "orden": 2,
+      "temas": [
+        "cimientos/tema-01-json-xml",
+        "cimientos/tema-02-http-rest",
+        "cimientos/tema-03-seguridad"
+      ]
+    },
+    {
+      "numero": 2,
+      "slug": "estandar",
+      "nombre": "El estandar FHIR",
+      "meta": "Modelo de recursos, busqueda, terminologias y validacion (nucleo del examen).",
+      "orden": 3,
+      "temas": [
+        "estandar/tema-04-modelo-fhir",
+        "estandar/tema-05-busqueda",
+        "estandar/tema-06-terminologias",
+        "estandar/tema-07-validacion-profiles"
+      ]
+    },
+    {
+      "numero": 3,
+      "slug": "practica-real",
+      "nombre": "Practica real",
+      "meta": "FHIR en Google Cloud, SMART en practica y proyecto integrador.",
+      "orden": 4,
+      "temas": [
+        "practica-real/tema-08-gcp",
+        "practica-real/tema-09-smart-practica",
+        "practica-real/tema-10-proyecto"
+      ]
+    }
+  ]
+}

@@ -2,9 +2,17 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "plataforma",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "plataforma",
+      "autoPort": true,
+      "port": 3000
+    },
+    {
       "name": "app-fhir",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8642", "--directory", "docs"],
+      "runtimeArgs": ["-m", "http.server", "8642", "--directory", "legacy/docs"],
       "port": 8642
     }
   ]

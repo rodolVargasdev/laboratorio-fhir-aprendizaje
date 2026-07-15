@@ -1,0 +1,66 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d17q1",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "SMART Backend Services se usa cuando...",
+      "opciones": [
+        "Hay un usuario clickeando autorizar en el navegador",
+        "Un sistema backend necesita acceso sin usuario presente (machine-to-machine)",
+        "Solo para subir imagenes DICOM",
+        "No usa tokens"
+      ],
+      "respuesta": 1,
+      "explicacion": "Backend Services = flujo sistema a sistema con JWT firmado."
+    },
+    {
+      "id": "d17q2",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Claim JWT que evita reutilizar el mismo assertion (replay).",
+      "respuestas_validas": [
+        "jti",
+        "el jti"
+      ],
+      "explicacion": "jti = JWT ID, unico por emision."
+    },
+    {
+      "id": "d17q3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "El scope 'patient/Observation.read' permite...",
+      "opciones": [
+        "Borrar pacientes",
+        "Leer observaciones en contexto del paciente autorizado",
+        "Acceso total de administrador",
+        "Solo escribir en el servidor"
+      ],
+      "respuesta": 1,
+      "explicacion": "El scope limita recurso + operacion + contexto."
+    },
+    {
+      "id": "d17q4",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Tras obtener access_token, como lo envias a FHIR?",
+      "opciones": [
+        "Header Cookie",
+        "Authorization: Bearer <token>",
+        "Query ?password=",
+        "En el body del Patient"
+      ],
+      "respuesta": 1,
+      "explicacion": "Bearer token en cabecera Authorization."
+    },
+    {
+      "id": "d17q5",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "SMART App Launch requiere tipicamente interaccion del usuario para autorizar.",
+      "respuesta": true,
+      "explicacion": "App Launch = flujo con usuario; Backend Services = sin usuario."
+    }
+  ]
+}

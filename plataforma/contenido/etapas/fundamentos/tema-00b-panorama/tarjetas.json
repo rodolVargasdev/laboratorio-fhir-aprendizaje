@@ -1,0 +1,8 @@
+[
+  { "frente": ".Que version de FHIR usan hoy el examen y la produccion?", "reverso": "R4 (4.0.1): API REST y tipos normativos; objetivo regulatorio y de plataformas." },
+  { "frente": ".Cual es la certificacion FHIR vigente?", "reverso": "HL7 FHIR Foundational Implementer (reemplazo al R4 Proficiency, retirado en dic. 2024)." },
+  { "frente": ".Que significa el scope SMART v2 'patient/Observation.rs'?", "reverso": "Permite leer (r) y buscar (s) observaciones del paciente en contexto." },
+  { "frente": ".Diferencia entre Bundle transaction y batch?", "reverso": "transaction = atomico (todo o nada); batch = best-effort (cada entrada por separado)." },
+  { "frente": ".Que operacion expande los codigos de un ValueSet?", "reverso": "$expand (util para poblar UIs clinicas)." },
+  { "frente": ".Hacia que version salta US Core desde R4?", "reverso": "A R6, omitiendo R5 (v10 proyectada ~2027)." }
+]

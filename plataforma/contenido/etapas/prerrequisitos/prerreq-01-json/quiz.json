@@ -1,0 +1,37 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "p1-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "En JSON, .que simbolo abre un objeto?",
+      "opciones": [
+        "[",
+        "{",
+        "(",
+        "<"
+      ],
+      "respuesta": 1,
+      "explicacion": "El objeto se escribe entre llaves { }."
+    },
+    {
+      "id": "p1-2",
+      "tipo": "verdadero_falso",
+      "bloom": "recordar",
+      "pregunta": "Las listas en JSON empiezan a contar desde 0.",
+      "respuesta": true,
+      "explicacion": "El primer elemento es el indice 0."
+    },
+    {
+      "id": "p1-3",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe la ruta del primer elemento de una lista llamada correos.",
+      "respuestas_validas": [
+        "correos[0]"
+      ],
+      "explicacion": "Indice 0 para el primero."
+    }
+  ]
+}

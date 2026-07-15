@@ -1,0 +1,41 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "p0-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": ".Que hace la tecla Enter tras escribir un comando?",
+      "opciones": [
+        "Borra el comando",
+        "Ejecuta el comando",
+        "Abre el navegador",
+        "Cierra la terminal"
+      ],
+      "respuesta": 1,
+      "explicacion": "Enter ejecuta el comando escrito."
+    },
+    {
+      "id": "p0-2",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Un mensaje de error significa que danaste la computadora.",
+      "respuesta": false,
+      "explicacion": "Un error es solo informacion; no rompe nada."
+    },
+    {
+      "id": "p0-3",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": ".En Windows, que programa usamos como terminal?",
+      "opciones": [
+        "Word",
+        "PowerShell",
+        "Excel",
+        "Paint"
+      ],
+      "respuesta": 1,
+      "explicacion": "PowerShell es la terminal recomendada en Windows."
+    }
+  ]
+}

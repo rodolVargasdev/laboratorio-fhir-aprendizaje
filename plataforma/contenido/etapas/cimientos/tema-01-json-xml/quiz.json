@@ -1,0 +1,138 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "d1q1",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "En un recurso FHIR en JSON, .que campo indica el tipo de recurso?",
+      "opciones": [
+        "type",
+        "resourceType",
+        "kind",
+        "id"
+      ],
+      "respuesta": 1,
+      "explicacion": "FHIR usa 'resourceType' (por ejemplo \"resourceType\": \"Patient\")."
+    },
+    {
+      "id": "d1q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Por que 'name' suele ser un array [ ] en un Patient?",
+      "opciones": [
+        "Porque JSON obliga a que todo sea array",
+        "Porque una persona puede tener varios nombres",
+        "Porque el nombre siempre tiene dos partes",
+        "Por un error del estandar"
+      ],
+      "respuesta": 1,
+      "explicacion": "El array permite representar varios nombres (oficial, apodo, anterior...)."
+    },
+    {
+      "id": "d1q3",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Escribe la ruta para el PRIMER nombre de pila de un Patient.",
+      "respuestas_validas": [
+        "Patient.name[0].given[0]",
+        "name[0].given[0]"
+      ],
+      "explicacion": "name es array (indice 0) y given tambien es array (indice 0)."
+    },
+    {
+      "id": "d1q4",
+      "bloom": "recordar",
+      "tipo": "verdadero_falso",
+      "pregunta": "En JSON, los valores de texto van entre comillas dobles.",
+      "respuesta": true,
+      "explicacion": "Los strings van entre comillas dobles; numeros y booleanos no."
+    },
+    {
+      "id": "d1q5",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Cual es la diferencia entre un objeto { } y un array [ ]?",
+      "opciones": [
+        "No hay diferencia",
+        "El objeto es una lista ordenada; el array son pares clave:valor",
+        "El objeto son pares clave:valor; el array es una lista ordenada",
+        "El array solo guarda numeros"
+      ],
+      "respuesta": 2,
+      "explicacion": "Objeto = pares clave:valor; array = lista ordenada de elementos."
+    },
+    {
+      "id": "d1q6",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Para leer un Patient con id 123 por REST en FHIR, la URL es:",
+      "opciones": [
+        "GET [base]/Patient?id=123",
+        "GET [base]/Patient/123",
+        "POST [base]/Patient/123",
+        "GET [base]/123/Patient"
+      ],
+      "respuesta": 1,
+      "explicacion": "La lectura por id es GET [base]/Patient/123."
+    },
+    {
+      "id": "d2q1",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Ruta para el codigo LOINC de una Observation (primer coding).",
+      "respuestas_validas": [
+        "Observation.code.coding[0].code",
+        "code.coding[0].code"
+      ],
+      "explicacion": "code es un CodeableConcept; coding es un array; tomamos [0].code."
+    },
+    {
+      "id": "d2q2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": ".Que contiene un CodeableConcept?",
+      "opciones": [
+        "Solo un texto libre",
+        "Solo un codigo",
+        "Uno o varios 'coding' (codigos) y opcionalmente un 'text'",
+        "Una referencia a otro recurso"
+      ],
+      "respuesta": 2,
+      "explicacion": "CodeableConcept = lista de coding + texto legible opcional."
+    },
+    {
+      "id": "d2q3",
+      "bloom": "recordar",
+      "tipo": "verdadero_falso",
+      "pregunta": "FHIR puede representarse tanto en JSON como en XML.",
+      "respuesta": true,
+      "explicacion": "Ambos formatos son validos; JSON es el mas usado."
+    },
+    {
+      "id": "d2q4",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "En XML de FHIR, .donde suele ir el valor de un elemento simple?",
+      "opciones": [
+        "Entre las etiquetas, como texto",
+        "En el atributo 'value' de la etiqueta",
+        "En un comentario",
+        "En el nombre de la etiqueta"
+      ],
+      "respuesta": 1,
+      "explicacion": "FHIR XML usa atributos value, p.ej. <status value=\"final\"/>."
+    },
+    {
+      "id": "d2q5",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Ruta para el valor numerico de una Observation con valueQuantity.",
+      "respuestas_validas": [
+        "Observation.valueQuantity.value",
+        "valueQuantity.value"
+      ],
+      "explicacion": "El numero medido vive en valueQuantity.value."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "slug": "tema-00-historia",
+  "numero": 0,
+  "nombre": "Por que existe FHIR",
+  "resumen": "HL7 v2/v3, Argonaut, SMART y el nacimiento de FHIR hasta R4. Contexto que cae en preguntas conceptuales del examen.",
+  "opcional": true,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — Por que existe FHIR"
+  }
+}

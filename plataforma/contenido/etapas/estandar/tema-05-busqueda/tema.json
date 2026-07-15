@@ -1,0 +1,12 @@
+{
+  "slug": "tema-05-busqueda",
+  "numero": 5,
+  "nombre": "Busqueda avanzada",
+  "resumen": "Chaining, _include/_revinclude, modificadores, paginacion y parametros compuestos.",
+  "opcional": false,
+  "objetivos": [],
+  "enlaces": [],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — Busqueda avanzada"
+  }
+}

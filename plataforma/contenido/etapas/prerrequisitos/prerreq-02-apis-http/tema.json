@@ -1,0 +1,20 @@
+{
+  "slug": "prerreq-02-apis-http",
+  "numero": -13,
+  "nombre": "Que es una API y HTTP",
+  "resumen": "Cliente y servidor, peticiones HTTP y por que FHIR es una API web.",
+  "opcional": false,
+  "objetivos": [
+    "Explicar cliente/servidor",
+    "Reconocer GET y POST"
+  ],
+  "enlaces": [
+    {
+      "titulo": "Que es una API (MDN)",
+      "url": "https://developer.mozilla.org/es/docs/Learn/JavaScript/Client-side_web_APIs/Introduction"
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "Bases — Que es una API y HTTP"
+  }
+}

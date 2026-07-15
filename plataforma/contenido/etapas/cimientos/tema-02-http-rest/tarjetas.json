@@ -1,0 +1,57 @@
+[
+  {
+    "claveLegacy": "d3-rest",
+    "frente": ".Que es una API REST?",
+    "reverso": "Un estilo de comunicacion cliente-servidor sobre HTTP donde operas sobre recursos identificados por URLs usando metodos (GET, POST, PUT, DELETE)."
+  },
+  {
+    "claveLegacy": "d3-get",
+    "frente": ".Que metodo HTTP se usa para LEER un recurso sin modificarlo?",
+    "reverso": "GET. Es de solo lectura y no debe cambiar datos."
+  },
+  {
+    "claveLegacy": "d3-read-fhir",
+    "frente": ".Como se lee un Patient con id 123 por REST en FHIR?",
+    "reverso": "GET [base]/Patient/123"
+  },
+  {
+    "claveLegacy": "d3-content-type",
+    "frente": ".Que cabecera pides para recibir FHIR en JSON?",
+    "reverso": "Accept: application/fhir+json"
+  },
+  {
+    "claveLegacy": "d4-200",
+    "frente": ".Que significa un codigo de estado 200?",
+    "reverso": "OK: la peticion fue exitosa."
+  },
+  {
+    "claveLegacy": "d4-404",
+    "frente": ".Que significa un codigo 404?",
+    "reverso": "Not Found: el recurso no existe en esa URL."
+  },
+  {
+    "claveLegacy": "d4-4xx-5xx",
+    "frente": ".Diferencia entre errores 4xx y 5xx?",
+    "reverso": "4xx = error del cliente (peticion mal hecha); 5xx = error del servidor."
+  },
+  {
+    "claveLegacy": "d4-search",
+    "frente": ".Como buscas pacientes por apellido 'Perez' en FHIR?",
+    "reverso": "GET [base]/Patient?family=Perez"
+  },
+  {
+    "claveLegacy": "d5-post",
+    "frente": ".Que metodo crea un recurso nuevo dejando que el servidor asigne el id?",
+    "reverso": "POST a [base]/Patient. El servidor devuelve el id asignado."
+  },
+  {
+    "claveLegacy": "d5-put",
+    "frente": ".Que metodo actualiza (o crea con id conocido) un recurso?",
+    "reverso": "PUT a [base]/Patient/123. Es idempotente."
+  },
+  {
+    "claveLegacy": "d5-idempotente",
+    "frente": ".Que significa que una operacion sea idempotente?",
+    "reverso": "Repetirla varias veces produce el mismo resultado que hacerla una vez (ej. PUT, DELETE)."
+  }
+]

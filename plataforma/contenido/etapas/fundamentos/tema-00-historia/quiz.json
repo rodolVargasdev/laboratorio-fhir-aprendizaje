@@ -1,0 +1,128 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "ehq1",
+      "bloom": "recordar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Que significa el acronimo FHIR (en ingles)?",
+      "respuestas_validas": [
+        "fast healthcare interoperability resources",
+        "fast healthcare interoperability resource"
+      ],
+      "explicacion": "Fast Healthcare Interoperability Resources — recursos intercambiables por APIs web."
+    },
+    {
+      "id": "ehq2",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Cual fue el principal problema practico de HL7 v2 en implementaciones reales?",
+      "opciones": [
+        "Era imposible transmitir por TCP",
+        "Opcionalidad y variaciones locales hacian que cada sitio interpretara distinto",
+        "Solo funcionaba en JSON",
+        "No podia representar pacientes"
+      ],
+      "respuesta": 1,
+      "explicacion": "v2 es ubiquo pero inconsistente entre organizaciones."
+    },
+    {
+      "id": "ehq3",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Por que HL7 v3 / RIM tuvo adopcion limitada frente a lo que buscaba el mercado?",
+      "opciones": [
+        "Era demasiado simple",
+        "Complejidad alta, costo de implementacion y curva de aprendizaje muy pronunciados",
+        "Prohibia XML",
+        "No tenia modelo de datos"
+      ],
+      "respuesta": 1,
+      "explicacion": "v3 es semanticamente riguroso pero pesado para despliegues agiles."
+    },
+    {
+      "id": "ehq4",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Aproximadamente en que ano arranco el trabajo que llevo a FHIR?",
+      "opciones": [
+        "1989",
+        "1995",
+        "2011",
+        "2019"
+      ],
+      "respuesta": 2,
+      "explicacion": "El trabajo moderno de Resources/FHIR comenzo alrededor de 2011."
+    },
+    {
+      "id": "ehq5",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "FHIR fue disenado desde el inicio para usar patrones web como HTTP REST y JSON.",
+      "respuesta": true,
+      "explicacion": "Principio central: APIs web familiares para desarrolladores."
+    },
+    {
+      "id": "ehq6",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Que version de FHIR es la referencia normativa clave para el examen Foundational (R4)?",
+      "opciones": [
+        "DSTU2",
+        "STU3",
+        "R4",
+        "R5 unicamente"
+      ],
+      "respuesta": 2,
+      "explicacion": "R4 (2019) es la base normativa del ecosistema y del examen."
+    },
+    {
+      "id": "ehq7",
+      "bloom": "comprender",
+      "tipo": "respuesta_corta",
+      "pregunta": "Proyecto (2014-2016) que acelero adopcion con Epic, Cerner y perfiles OAuth+FHIR.",
+      "respuestas_validas": [
+        "argonaut",
+        "proyecto argonaut",
+        "argonaut project"
+      ],
+      "explicacion": "Argonaut alineo vendors grandes y SMART on FHIR."
+    },
+    {
+      "id": "ehq8",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "Que significa que FHIR modela datos como 'Resources'?",
+      "opciones": [
+        "Solo archivos PDF clinicos",
+        "Entidades identificables (Patient, Observation...) intercambiables individualmente por API",
+        "Mensajes pipe-delimited",
+        "Solo bases de datos SQL"
+      ],
+      "respuesta": 1,
+      "explicacion": "Cada recurso tiene tipo, id y ciclo de vida propio via REST."
+    },
+    {
+      "id": "ehq9",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "En la mayoria de hospitales, FHIR reemplazo por completo a HL7 v2 de la noche a la manana.",
+      "respuesta": false,
+      "explicacion": "Coexistencia: mappers v2->FHIR durante anos de migracion gradual."
+    },
+    {
+      "id": "ehq10",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Un CapabilityStatement en /metadata es ejemplo de...",
+      "opciones": [
+        "Un estandar previo a HTTP",
+        "Herencia del enfoque FHIR: servidor que se autodescribe para clientes",
+        "Solo aplica a HL7 v2",
+        "Un tipo de mensaje ADT"
+      ],
+      "respuesta": 1,
+      "explicacion": "El servidor declara recursos, operaciones y seguridad soportadas."
+    }
+  ]
+}

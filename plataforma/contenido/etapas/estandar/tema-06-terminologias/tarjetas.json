@@ -1,0 +1,32 @@
+[
+  {
+    "claveLegacy": "d11-loinc",
+    "frente": ".Para que sirve LOINC?",
+    "reverso": "Codificar observaciones y pruebas de laboratorio (que se midio), p.ej. tipo de analisis de sangre."
+  },
+  {
+    "claveLegacy": "d11-snomed",
+    "frente": ".Para que sirve SNOMED CT?",
+    "reverso": "Codificar conceptos clinicos: diagnosticos, hallazgos, procedimientos."
+  },
+  {
+    "claveLegacy": "d11-coding-vs-codeable",
+    "frente": ".Diferencia entre 'Coding' y 'CodeableConcept'?",
+    "reverso": "Coding es un solo codigo (system+code+display). CodeableConcept puede tener varios Coding mas un texto libre."
+  },
+  {
+    "claveLegacy": "d11-binding",
+    "frente": ".Que es la 'fuerza de binding' de un value set?",
+    "reverso": "Que tan obligatorio es usar codigos de ese value set: required, extensible, preferred o example."
+  },
+  {
+    "claveLegacy": "d19-cs-vs-vs",
+    "frente": "CodeSystem vs ValueSet",
+    "reverso": "CodeSystem = diccionario; ValueSet = subconjunto seleccionado de codigos."
+  },
+  {
+    "claveLegacy": "d19-expand",
+    "frente": "Operacion para listar codigos de un ValueSet",
+    "reverso": "$expand."
+  }
+]

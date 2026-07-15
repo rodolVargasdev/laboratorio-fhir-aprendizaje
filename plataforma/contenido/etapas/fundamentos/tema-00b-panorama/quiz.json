@@ -1,0 +1,65 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "pan-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": ".Que version de FHIR evalua el examen y usa la produccion hoy?",
+      "opciones": ["R5", "R4", "R6", "R4B"],
+      "respuesta": 1,
+      "explicacion": "R4 (4.0.1): sus partes son normativas y es el objetivo regulatorio y de las plataformas."
+    },
+    {
+      "id": "pan-2",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": ".Como se llama la certificacion vigente que reemplazo al R4 Proficiency?",
+      "opciones": ["FHIR Advanced Developer", "FHIR Foundational Implementer", "FHIR Analyst", "FHIR Core Exam"],
+      "respuesta": 1,
+      "explicacion": "El R4 Proficiency se retiro en dic. 2024; ahora es el Foundational Implementer."
+    },
+    {
+      "id": "pan-3",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe un scope SMART v2 para LEER y BUSCAR observaciones de un paciente.",
+      "respuestas_validas": ["patient/Observation.rs", "patient/observation.rs"],
+      "explicacion": "r = read, s = search. En v2 los verbos son granulares (cruds)."
+    },
+    {
+      "id": "pan-4",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Un Bundle de tipo 'transaction' es atomico: si una entrada falla, no se aplica ninguna.",
+      "respuesta": true,
+      "explicacion": "transaction = todo o nada; batch es best-effort (independiente por entrada)."
+    },
+    {
+      "id": "pan-5",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Un elemento marcado 'must-support' es obligatorio (cardinalidad 1..).",
+      "respuesta": false,
+      "explicacion": "must-support NO es lo mismo que obligatorio; obligatorio es cardinalidad minima 1."
+    },
+    {
+      "id": "pan-6",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": ".Que operacion de terminologia usarias para poblar un desplegable con los codigos de un ValueSet?",
+      "opciones": ["$lookup", "$translate", "$expand", "$validate-code"],
+      "respuesta": 2,
+      "explicacion": "$expand genera la lista de codigos de un ValueSet (paginada/filtrada)."
+    },
+    {
+      "id": "pan-7",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "Sobre US Core, .que ruta de versiones se anuncio?",
+      "opciones": ["Se queda en R4 para siempre", "Salta de R4 a R6, omitiendo R5", "Migra a R5 y luego R6", "Solo existe para R5"],
+      "respuesta": 1,
+      "explicacion": "US Core saltara de R4 a R6, omitiendo R5 (v10 proyectada ~2027)."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "claveLegacy": "d1-resourcetype",
+    "frente": "En un recurso FHIR en JSON, .que campo indica de que tipo de recurso se trata?",
+    "reverso": "El campo 'resourceType' (por ejemplo, \"resourceType\": \"Patient\")."
+  },
+  {
+    "claveLegacy": "d1-objeto-array",
+    "frente": "Diferencia entre objeto { } y array [ ] en JSON",
+    "reverso": "El objeto agrupa pares clave:valor; el array es una lista ordenada de elementos."
+  },
+  {
+    "claveLegacy": "d1-ruta-given",
+    "frente": "Ruta para el primer nombre de pila de un Patient",
+    "reverso": "Patient.name[0].given[0]"
+  },
+  {
+    "claveLegacy": "d1-tipos",
+    "frente": "Tipos de valor permitidos en JSON",
+    "reverso": "Texto (string), numero, booleano (true/false), null, objeto { } y array [ ]."
+  },
+  {
+    "claveLegacy": "d2-xml-vs-json",
+    "frente": ".Que formatos admite FHIR para representar recursos?",
+    "reverso": "JSON y XML. JSON es el mas usado hoy; el examen espera que sepas LEER ambos."
+  },
+  {
+    "claveLegacy": "d2-anidamiento",
+    "frente": ".Que significa que un JSON este 'anidado'?",
+    "reverso": "Que un objeto o array contiene otros objetos/arrays dentro (estructura en arbol)."
+  },
+  {
+    "claveLegacy": "d2-coding",
+    "frente": ".Que es un campo de tipo 'CodeableConcept'?",
+    "reverso": "Un concepto codificado: contiene uno o varios 'coding' (system, code, display) y un 'text' libre."
+  }
+]

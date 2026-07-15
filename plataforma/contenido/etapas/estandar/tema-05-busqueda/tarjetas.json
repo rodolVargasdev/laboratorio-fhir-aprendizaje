@@ -1,0 +1,12 @@
+[
+  {
+    "claveLegacy": "d18-include",
+    "frente": "Parametro para incluir recursos referenciados en el Bundle",
+    "reverso": "_include (ej. Observation?_include=Observation:subject)."
+  },
+  {
+    "claveLegacy": "d18-revinclude",
+    "frente": "_include vs _revinclude",
+    "reverso": "_include = lo referenciado; _revinclude = recursos que referencian al resultado."
+  }
+]
