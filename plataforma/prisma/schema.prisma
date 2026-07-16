@@ -25,6 +25,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  password      String? // hash bcrypt para login por correo+contrasena (opcional)
   rol           Rol       @default(ESTUDIANTE)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt

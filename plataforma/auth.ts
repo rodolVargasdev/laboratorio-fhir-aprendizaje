@@ -2,67 +2,98 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
-import { esCorreoPermitido } from "@/lib/allowlist";
 
-/**
- * Login de prueba SOLO en desarrollo, para poder verificar el flujo sin las
- * credenciales de Google. En produccion no existe (el proveedor no se registra).
- */
+/** Correo del unico administrador (puede crear usuarios). */
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL ?? "").trim().toLowerCase();
+
+/** Login de prueba sin contrasena SOLO en desarrollo. */
 const devLoginHabilitado =
   process.env.NODE_ENV !== "production" &&
   process.env.AUTH_ENABLE_DEV_LOGIN === "true";
+
+function normalizar(email?: string | null): string {
+  return (email ?? "").trim().toLowerCase();
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   trustHost: true,
-  pages: {
-    signIn: "/login",
-  },
+  pages: { signIn: "/login" },
   providers: [
-    Google({
-      allowDangerousEmailAccountLinking: true,
+    Google({ allowDangerousEmailAccountLinking: true }),
+
+    // Correo + contrasena: valido en produccion. Autentica contra el hash del usuario.
+    // Funciona "anidado" a Google: si el usuario ya existe (creado por el admin o por un
+    // login previo con Google), puede entrar tambien con su contrasena una vez definida.
+    Credentials({
+      id: "password",
+      name: "Correo y contrasena",
+      credentials: {
+        email: { label: "Correo", type: "email" },
+        password: { label: "Contrasena", type: "password" },
+      },
+      async authorize(cred) {
+        const email = normalizar(cred?.email as string);
+        const password = String(cred?.password ?? "");
+        if (!email || !password) return null;
+        const u = await prisma.user.findUnique({ where: { email } });
+        if (!u || !u.password) return null;
+        const ok = await bcrypt.compare(password, u.password);
+        if (!ok) return null;
+        return { id: u.id, email: u.email, name: u.name, image: u.image, rol: u.rol };
+      },
     }),
+
+    // Acceso de prueba (solo local): entra por correo sin contrasena.
     ...(devLoginHabilitado
       ? [
           Credentials({
             id: "dev",
             name: "Acceso de desarrollo",
-            credentials: {
-              email: { label: "Correo", type: "email" },
-            },
+            credentials: { email: { label: "Correo", type: "email" } },
             async authorize(cred) {
-              const email = String(cred?.email ?? "").trim().toLowerCase();
+              const email = normalizar(cred?.email as string);
               if (!email) return null;
-              // Crea/recupera un usuario real para tener un id estable en la BD.
-              const user = await prisma.user.upsert({
+              const u = await prisma.user.upsert({
                 where: { email },
                 update: {},
-                create: { email, name: email.split("@")[0], rol: "ADMIN" },
+                create: {
+                  email,
+                  name: email.split("@")[0],
+                  rol: email === ADMIN_EMAIL ? "ADMIN" : "ESTUDIANTE",
+                },
               });
-              return {
-                id: user.id,
-                email: user.email,
-                name: user.name,
-                image: user.image,
-              };
+              return { id: u.id, email: u.email, name: u.name, rol: u.rol };
             },
           }),
         ]
       : []),
   ],
   callbacks: {
+    // Google: solo entran el admin o usuarios YA creados por el admin. Los credentials
+    // ya se validaron en authorize.
     async signIn({ user, account }) {
-      // El login de prueba ya valido; para OAuth aplicamos la lista blanca.
-      if (account?.provider === "dev") return true;
-      return esCorreoPermitido(user.email);
+      if (account?.provider === "password" || account?.provider === "dev") return true;
+      const email = normalizar(user.email);
+      if (!email) return false;
+      if (email === ADMIN_EMAIL) return true;
+      const existe = await prisma.user.findUnique({ where: { email }, select: { id: true } });
+      return !!existe;
     },
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id as string;
-        // El rol viene del usuario en BD (dev) o se asigna por defecto.
-        token.rol = (user as { rol?: string }).rol ?? "ESTUDIANTE";
+        token.id = (user as { id?: string }).id ?? token.id;
+        const email = normalizar((user.email as string) ?? (token.email as string));
+        if (email === ADMIN_EMAIL) {
+          token.rol = "ADMIN";
+          // Asegura el rol ADMIN en la BD (idempotente, solo al iniciar sesion).
+          await prisma.user.updateMany({ where: { email }, data: { rol: "ADMIN" } });
+        } else {
+          token.rol = (user as { rol?: string }).rol ?? "ESTUDIANTE";
+        }
       }
       return token;
     },
