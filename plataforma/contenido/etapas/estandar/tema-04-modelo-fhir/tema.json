@@ -1,0 +1,69 @@
+{
+  "slug": "tema-04-modelo-fhir",
+  "numero": 4,
+  "nombre": "El modelo FHIR: recursos, referencias y Bundles",
+  "resumen": "Jerarquía Resource/DomainResource, elementos comunes y modifierExtension, tipos de datos (Identifier vs id, Quantity, CodeableConcept), choice types, las cinco formas de Reference, recursos clínicos nucleares con sus campos de examen y Bundle a fondo (transaction atómico, urn:uuid, document/message).",
+  "opcional": false,
+  "objetivos": [
+    "Recitar la jerarquía Resource -> DomainResource y explicar por qué Bundle no admite extensiones en su raíz.",
+    "Aplicar la regla de modifierExtension: decidir cuándo un recurso no debe procesarse.",
+    "Distinguir Identifier de id lógico y diseñar systems de identificadores institucionales.",
+    "Serializar correctamente choice types (value[x]) y extensiones sobre primitivos (_prop) en JSON.",
+    "Elegir entre referencia literal, lógica, versionada, contained y urn:uuid, y resolver referencias dentro de un Bundle usando fullUrl.",
+    "Modelar una consulta clínica completa (Patient, Encounter, Observation con component, Condition, MedicationRequest) con referencias correctas.",
+    "Construir un Bundle transaction idempotente con urn:uuid e ifNoneExist y predecir el orden de procesamiento del servidor.",
+    "Diagnosticar recursos inválidos: obs-6, dateTime sin zona horaria, elementos vacíos, contained ilegales."
+  ],
+  "enlaces": [
+    {
+      "titulo": "Lista de recursos R4",
+      "url": "http://hl7.org/fhir/R4/resourcelist.html",
+      "nota": "Mapa completo de recursos con su nivel de madurez; úsalo para ubicar cualquier recurso nuevo."
+    },
+    {
+      "titulo": "DomainResource",
+      "url": "http://hl7.org/fhir/R4/domainresource.html",
+      "nota": "Elementos comunes e invariantes dom-1..dom-6 (reglas de contained)."
+    },
+    {
+      "titulo": "Tipos de datos R4",
+      "url": "http://hl7.org/fhir/R4/datatypes.html",
+      "nota": "Referencia exacta de primitivos, Identifier, HumanName, Quantity, Period y compañía."
+    },
+    {
+      "titulo": "References",
+      "url": "http://hl7.org/fhir/R4/references.html",
+      "nota": "Referencias literales, lógicas, contained y reglas de resolución."
+    },
+    {
+      "titulo": "Bundle",
+      "url": "http://hl7.org/fhir/R4/bundle.html",
+      "nota": "Tipos de Bundle, fullUrl, procesamiento de transaction/batch y resolución interna."
+    },
+    {
+      "titulo": "Extensibility",
+      "url": "http://hl7.org/fhir/R4/extensibility.html",
+      "nota": "Extensiones simples, complejas, sobre primitivos y modificadoras."
+    },
+    {
+      "titulo": "Observation",
+      "url": "http://hl7.org/fhir/R4/observation.html",
+      "nota": "Campos, invariantes obs-6/obs-7 y uso de component."
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — El modelo FHIR: recursos, referencias y Bundles",
+    "fuentes": [
+      { "titulo": "Tipos de datos R4", "url": "http://hl7.org/fhir/R4/datatypes.html" },
+      { "titulo": "References R4", "url": "http://hl7.org/fhir/R4/references.html" },
+      { "titulo": "Bundle R4", "url": "http://hl7.org/fhir/R4/bundle.html" },
+      { "titulo": "DomainResource R4", "url": "http://hl7.org/fhir/R4/domainresource.html" }
+    ],
+    "prompts": [
+      "Hazme un examen de 12 preguntas tipo certificación sobre elementos comunes, tipos de datos y Bundle; no me des la respuesta hasta que yo intente.",
+      "Dame 5 fragmentos JSON de recursos con un error cada uno (obs-6, contained ilegal, choice type duplicado, dateTime sin zona, elemento vacío) y pídeme diagnosticarlos.",
+      "Explícame la resolución de referencias dentro de un Bundle transaction con urn:uuid, paso a paso, usando solo las fuentes.",
+      "Compara Identifier vs id y referencia literal vs lógica con casos donde elegir mal causa duplicación de pacientes."
+    ]
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "py-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "En Python, ¿qué tipo de dato representa la ausencia deliberada de un valor (por ejemplo, un segundo nombre no registrado)?",
+      "opciones": [
+        "0",
+        "\"\" (string vacío)",
+        "None",
+        "False"
+      ],
+      "respuesta": 2,
+      "explicacion": "None significa 'este dato no existe'. Cero es un número válido, el string vacío es texto válido y False es un booleano; ninguno expresa ausencia de dato, algo constante en registros clínicos incompletos."
+    },
+    {
+      "id": "py-2",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Por qué se dice que el diccionario de Python es 'el JSON de Python'?",
+      "opciones": [
+        "Porque solo puede guardar texto, igual que JSON",
+        "Porque su estructura de pares clave-valor anidables espeja la de un objeto JSON, y json.loads convierte uno en otro directamente",
+        "Porque los diccionarios se guardan siempre en archivos .json",
+        "Porque JSON fue inventado a partir de Python"
+      ],
+      "respuesta": 1,
+      "explicacion": "Un recurso FHIR en JSON se convierte con json.loads en un diccionario con la misma forma: claves, valores, listas y anidamiento. Las otras opciones son falsas: los dicts guardan cualquier tipo, viven en memoria y JSON nace de JavaScript."
+    },
+    {
+      "id": "py-3",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Dado p = {\"name\": [{\"family\": \"Rivas\", \"given\": [\"Marta\", \"Luisa\"]}]}, ¿qué expresión devuelve \"Luisa\"?",
+      "opciones": [
+        "p[\"name\"][\"given\"][1]",
+        "p[\"name\"][0][\"given\"][1]",
+        "p[\"name\"][1][\"given\"][0]",
+        "p[\"given\"][1]"
+      ],
+      "respuesta": 1,
+      "explicacion": "name es una lista: primero se toma su elemento 0 (un diccionario), luego la clave given (otra lista) y su elemento 1. La opción a olvida el índice de la lista; la c invierte los índices; la d salta un nivel de anidamiento."
+    },
+    {
+      "id": "py-4",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un script muere con: KeyError: 'telecom'. ¿Cuál es la causa y la corrección más adecuada si el campo puede faltar legítimamente?",
+      "opciones": [
+        "Falta instalar una librería; corrección: pip install telecom",
+        "Se accedió con corchetes a una clave ausente; corrección: usar paciente.get(\"telecom\", \"sin dato\")",
+        "La indentación está mal; corrección: agregar 4 espacios",
+        "Faltan los dos puntos en un if; corrección: agregar ':'"
+      ],
+      "respuesta": 1,
+      "explicacion": "KeyError siempre significa 'clave inexistente en un diccionario'. .get() con valor por defecto permite continuar. Las otras causas producen ModuleNotFoundError, IndentationError y SyntaxError respectivamente."
+    },
+    {
+      "id": "py-5",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Ejecutas un script y aparece: ModuleNotFoundError: No module named 'requests', aunque ayer lo instalaste. ¿Qué es lo más probable que falta?",
+      "opciones": [
+        "Reiniciar la computadora",
+        "Escribir import requests con mayúscula",
+        "Activar el entorno virtual donde se instaló (el prompt debe mostrar (.venv))",
+        "Conectarse a internet, porque requests solo existe en línea"
+      ],
+      "respuesta": 2,
+      "explicacion": "Las librerías instaladas dentro de un venv solo existen con ese venv activo. Si abres una terminal nueva sin activar .venv, Python usa la instalación global donde requests no está. La importación es en minúscula y no requiere internet una vez instalada."
+    },
+    {
+      "id": "py-6",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "¿Qué imprime este código? datos = [2, 5, 8] seguido de: for n in datos: / (indentado) if n > 4: / (indentado) print(n)",
+      "opciones": [
+        "2 5 8",
+        "5 8",
+        "8",
+        "Nada, da SyntaxError"
+      ],
+      "respuesta": 1,
+      "explicacion": "El for recorre los tres números y el if filtra los mayores que 4: se imprimen 5 y 8. El 2 no cumple la condición. La sintaxis es válida porque cada bloque lleva sus dos puntos e indentación."
+    },
+    {
+      "id": "py-7",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Cuál es la diferencia entre json.loads() y json.load()?",
+      "opciones": [
+        "loads es más lento pero más seguro",
+        "loads convierte un string JSON en memoria; load lee y convierte directamente desde un archivo abierto",
+        "load es para escribir y loads para leer",
+        "Son idénticos; la s es opcional"
+      ],
+      "respuesta": 1,
+      "explicacion": "La s final es de string. loads trabaja con texto que ya tienes en una variable; load recibe un archivo abierto. Para escribir existen sus espejos dumps (a string) y dump (a archivo)."
+    },
+    {
+      "id": "py-8",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "En el script contra HAPI FHIR, ¿qué hace la línea: entradas = bundle.get(\"entry\", []) ?",
+      "opciones": [
+        "Borra la clave entry del Bundle",
+        "Obtiene la lista de resultados y, si el Bundle no trae entry (búsqueda sin resultados), devuelve una lista vacía en vez de lanzar KeyError",
+        "Convierte entry en texto JSON",
+        "Cuenta cuántas entradas hay"
+      ],
+      "respuesta": 1,
+      "explicacion": "Un Bundle sin resultados puede venir sin la clave entry. Con .get(..., []) el for posterior recorre una lista vacía y el script termina limpio. Contar se hace con len(); convertir a texto, con json.dumps."
+    },
+    {
+      "id": "py-9",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "En Python la indentación es solo una convención estética: el código funciona igual con o sin ella.",
+      "respuesta": false,
+      "explicacion": "Falso. La indentación es sintaxis: define qué líneas pertenecen a un bloque (if, for, def). Quitarla o moverla produce IndentationError o cambia la lógica del programa."
+    },
+    {
+      "id": "py-10",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Un traceback de Python se lee de abajo hacia arriba: la última línea indica el tipo de error y las anteriores indican archivo y línea donde ocurrió.",
+      "respuesta": true,
+      "explicacion": "Verdadero. La última línea (por ejemplo KeyError: 'telecom') dice qué pasó; las líneas File \"script.py\", line N dicen dónde. Esa rutina de lectura es la base de la depuración."
+    },
+    {
+      "id": "py-11",
+      "tipo": "verdadero_falso",
+      "bloom": "recordar",
+      "pregunta": "Si una función definida con def no incluye return, llamar a la función devuelve None.",
+      "respuesta": true,
+      "explicacion": "Verdadero. Sin return explícito, toda función devuelve None. Por eso una función que 'solo imprime' no sirve para asignar su resultado a una variable útil."
+    },
+    {
+      "id": "py-12",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe el comando de pip que instala la librería para hacer peticiones HTTP usada en este tema.",
+      "respuestas_validas": [
+        "pip install requests",
+        "pip3 install requests",
+        "python -m pip install requests"
+      ],
+      "explicacion": "requests se instala con pip install requests (idealmente con el entorno virtual activo, para que quede aislada en el proyecto)."
+    },
+    {
+      "id": "py-13",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Tienes la respuesta de requests en la variable r y quieres el cuerpo JSON convertido a diccionarios y listas de Python. ¿Qué expresión usas?",
+      "respuestas_validas": [
+        "r.json()",
+        "respuesta.json()",
+        "r.json"
+      ],
+      "explicacion": "r.json() convierte el texto JSON de la respuesta en estructuras de Python; equivale a json.loads(r.text). Antes conviene verificar que r.status_code sea 200."
+    },
+    {
+      "id": "py-14",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "¿Qué comando crea un entorno virtual llamado .venv en la carpeta actual?",
+      "respuestas_validas": [
+        "python -m venv .venv",
+        "python3 -m venv .venv",
+        "py -m venv .venv"
+      ],
+      "explicacion": "python -m venv .venv crea la carpeta .venv con una copia aislada de Python. Después se activa con .venv\\Scripts\\Activate.ps1 en PowerShell o source .venv/bin/activate en bash."
+    }
+  ]
+}

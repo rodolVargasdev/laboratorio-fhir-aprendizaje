@@ -1,0 +1,205 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "tema-01-json-xml-1",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "Un paciente migra del servidor del hospital A al del hospital B. ¿Qué se conserva y qué cambia?",
+      "opciones": [
+        "Se conservan id y identifier: ambos son globales",
+        "Cambia el id lógico (lo asigna cada servidor); el identifier (p. ej. DUI, system+value) identifica en el mundo real y se conserva",
+        "Cambia el identifier; el id es universal",
+        "Ambos cambian siempre"
+      ],
+      "respuesta": 1,
+      "explicacion": "id es el identificador técnico DEL recurso EN ese servidor (parte de la URL); identifier es del mundo real (system+value) y sobrevive a migraciones. Confundirlos es el error número uno del tema."
+    },
+    {
+      "id": "tema-01-json-xml-2",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "¿Cuál de estos valores es un dateTime R4 INVÁLIDO?",
+      "opciones": [
+        "1985",
+        "2026-07",
+        "2026-07-10T08:30:00",
+        "2026-07-10T08:30:00-06:00"
+      ],
+      "respuesta": 2,
+      "explicacion": "dateTime admite precisión parcial (año, año-mes, fecha), pero si incluye hora la zona horaria es OBLIGATORIA. '2026-07-10T08:30:00' tiene hora y no tiene zona: inválido."
+    },
+    {
+      "id": "tema-01-json-xml-3",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Por qué meta.lastUpdated es de tipo instant y no dateTime?",
+      "opciones": [
+        "Porque instant permite precisión parcial y dateTime no",
+        "Porque instant es un timestamp de máquina: exige fecha, hora al menos a segundos y zona horaria siempre, sin parciales",
+        "Porque dateTime no admite milisegundos",
+        "Es indistinto: son el mismo tipo con dos nombres"
+      ],
+      "respuesta": 1,
+      "explicacion": "instant es para marcas de tiempo de sistema: completo y con zona, siempre. dateTime es para tiempos clínicos que pueden ser imprecisos ('en 1985'). Patient.birthDate es date; Observation.effectiveDateTime es dateTime; meta.lastUpdated es instant."
+    },
+    {
+      "id": "tema-01-json-xml-4",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Una Observation trae simultáneamente valueQuantity y valueString. ¿Qué dictamina la especificación?",
+      "opciones": [
+        "Es válido: value[x] admite múltiples representaciones del mismo valor",
+        "Es inválido: value[x] es un choice type y solo UNA variante puede estar presente",
+        "Es válido solo si ambas coinciden semánticamente",
+        "Depende del servidor"
+      ],
+      "respuesta": 1,
+      "explicacion": "Los choice types ([x]) permiten elegir el tipo pero prohíben la coexistencia: una sola variante por instancia. Aplica igual a effective[x], deceased[x], medication[x]. Distractor clásico de examen."
+    },
+    {
+      "id": "tema-01-json-xml-5",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "El elemento Observation.effective[x] se instancia con un Period. ¿Cómo se llama exactamente la propiedad JSON?",
+      "respuestas_validas": ["effectivePeriod"],
+      "explicacion": "Regla de nombre de los choice: nombre del elemento + tipo con inicial mayúscula. effective[x] con Period = effectivePeriod; con dateTime = effectiveDateTime."
+    },
+    {
+      "id": "tema-01-json-xml-6",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Para qué existe la propiedad hermana _birthDate en JSON?",
+      "opciones": [
+        "Es un campo calculado con la edad",
+        "Transporta id y extensiones del primitivo birthDate, que como valor JSON pelado no puede contenerlos",
+        "Es el formato XML embebido del campo",
+        "Marca el campo como obsoleto"
+      ],
+      "respuesta": 1,
+      "explicacion": "En XML las extensiones van dentro del elemento (<birthDate value=...><extension.../></birthDate>); en JSON el primitivo es un valor sin estructura, así que la extensión viaja en la propiedad hermana _birthDate. En arrays de primitivos, _propiedad corre en paralelo usando null para alinear posiciones."
+    },
+    {
+      "id": "tema-01-json-xml-7",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "En JSON FHIR, null está prohibido salvo un caso: alinear posiciones en los arrays paralelos del patrón _propiedad.",
+      "respuesta": true,
+      "explicacion": "'Sin valor' se expresa omitiendo la propiedad. La única excepción es el array _propiedad de primitivos repetidos, donde null rellena las posiciones sin extensión para mantener la correspondencia posicional."
+    },
+    {
+      "id": "tema-01-json-xml-8",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "¿Cómo se representa en XML el JSON \"given\": [\"Maria\", \"Jose\"]?",
+      "opciones": [
+        "<given value=\"Maria,Jose\"/>",
+        "<given><item>Maria</item><item>Jose</item></given>",
+        "<given value=\"Maria\"/><given value=\"Jose\"/>",
+        "<givenList><given>Maria</given><given>Jose</given></givenList>"
+      ],
+      "respuesta": 2,
+      "explicacion": "XML no tiene sintaxis de array: los elementos repetibles se representan repitiendo la etiqueta, cada una con su atributo value. Además el orden de los elementos en XML es significativo, a diferencia de las propiedades JSON."
+    },
+    {
+      "id": "tema-01-json-xml-9",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "En XML FHIR, ¿dónde vive el valor de un elemento primitivo como gender?",
+      "opciones": [
+        "Como texto interno: <gender>female</gender>",
+        "En el atributo value: <gender value=\"female\"/>",
+        "En un atributo val: <gender val=\"female\"/>",
+        "En un elemento hijo <value>"
+      ],
+      "respuesta": 1,
+      "explicacion": "Los primitivos van en el atributo value= de su elemento. El texto interno de las etiquetas no se usa en FHIR XML, con la única excepción del div XHTML de la narrativa."
+    },
+    {
+      "id": "tema-01-json-xml-10",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "text.status vale 'additional' en un recurso recibido. ¿Qué implica para tu sistema consumidor?",
+      "opciones": [
+        "Nada: la narrativa siempre es redundante con los datos",
+        "El div contiene información clínica que NO está en los campos estructurados; ignorarlo pierde contenido",
+        "El recurso está incompleto y debe rechazarse con 400",
+        "La narrativa fue generada automáticamente por el servidor"
+      ],
+      "respuesta": 1,
+      "explicacion": "generated = derivada de los datos; extensions = incluye extensiones; additional = hay contenido humano extra no estructurado; empty = sin narrativa. Con additional, la narrativa es parte del mensaje clínico. Por eso muchos perfiles nacionales la restringen."
+    },
+    {
+      "id": "tema-01-json-xml-11",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Cuál de estas afirmaciones sobre recursos contained es FALSA?",
+      "opciones": [
+        "Se referencian con #id desde el recurso contenedor",
+        "No llevan meta.versionId ni meta.lastUpdated propios",
+        "Pueden consultarse directamente con GET [base]/Medication/[id-contenido]",
+        "No pueden contener a su vez otros recursos contained"
+      ],
+      "respuesta": 2,
+      "explicacion": "Un contained no tiene existencia independiente: no es direccionable por URL propia ni buscable por separado. Las otras tres afirmaciones son reglas reales. Si el dato merece identidad propia, va como recurso normal + Reference."
+    },
+    {
+      "id": "tema-01-json-xml-12",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué distingue a code, Coding y CodeableConcept?",
+      "opciones": [
+        "Son tres nombres del mismo tipo",
+        "code = valor pelado de un conjunto fijo; Coding = system+code+display; CodeableConcept = lista de coding + text libre",
+        "code es para JSON, Coding para XML y CodeableConcept para ambos",
+        "CodeableConcept solo admite un coding"
+      ],
+      "respuesta": 1,
+      "explicacion": "Observation.status es code ('final'); cada elemento de code.coding es un Coding (LOINC, SNOMED...); Observation.code completo es CodeableConcept, que admite VARIOS coding del mismo concepto más el text que vio el humano."
+    },
+    {
+      "id": "tema-01-json-xml-13",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Tu middleware convierte '1.50' (decimal FHIR) a float y lo reserializa como '1.5'. ¿Por qué es un problema de conformidad?",
+      "opciones": [
+        "No es problema: 1.50 y 1.5 son el mismo número",
+        "En el tipo decimal la precisión es significativa (comunica la precisión del dato clínico); alterarla en el round-trip pierde información",
+        "Los float están prohibidos en JSON",
+        "Porque el servidor rechazará el valor con 422"
+      ],
+      "respuesta": 1,
+      "explicacion": "FHIR exige preservar la precisión del decimal: 2.0 y 2.00 no son representaciones intercambiables. Las bibliotecas serias usan aritmética decimal. Numéricamente iguales, semánticamente distintos: bug silencioso típico de integraciones."
+    },
+    {
+      "id": "tema-01-json-xml-14",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Que un recurso declare meta.profile con la URL de un perfil garantiza que la instancia cumple ese perfil.",
+      "respuesta": false,
+      "explicacion": "meta.profile es una DECLARACIÓN de conformidad. La conformidad real se comprueba validando la instancia contra el StructureDefinition (p. ej. con $validate o el validador oficial). Declarar no es cumplir."
+    },
+    {
+      "id": "tema-01-json-xml-15",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe la ruta exacta para el código LOINC de la primera codificación del código de una Observation.",
+      "respuestas_validas": ["Observation.code.coding[0].code", "code.coding[0].code"],
+      "explicacion": "code es un CodeableConcept, coding es un array (índices desde 0) y code es el símbolo del Coding. Ruta canónica que debes escribir sin pensar."
+    },
+    {
+      "id": "tema-01-json-xml-16",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué diferencia a uri, url y canonical en R4?",
+      "opciones": [
+        "Ninguna: son alias",
+        "uri identifica (puede ser urn:oid:...); url además es una dirección accesible; canonical referencia artefactos canónicos (perfiles, ValueSets) y admite |versión",
+        "url es el tipo genérico y uri el específico",
+        "canonical solo se usa en XML"
+      ],
+      "respuesta": 1,
+      "explicacion": "Toda url es uri pero no al revés. canonical apunta a la URL canónica de artefactos de conformidad y puede fijar versión: http://hl7.org/fhir/StructureDefinition/Patient|4.0.1. Aparece en meta.profile y en todos los IGs."
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "api-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "En el modelo cliente/servidor, ¿qué es exactamente una API?",
+      "opciones": [
+        "El programa que guarda los datos en el servidor",
+        "El contrato que define qué se puede pedir, con qué formato y qué se recibe",
+        "El cable o red física que conecta cliente y servidor",
+        "La base de datos donde viven los recursos"
+      ],
+      "respuesta": 1,
+      "explicacion": "La API es el contrato, no la implementación. Por eso dos sistemas escritos en lenguajes distintos pueden interoperar: ambos respetan el mismo contrato, sin importar cómo esté hecho cada uno por dentro."
+    },
+    {
+      "id": "api-2",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "En la URL https://hapi.fhir.org/baseR4/Patient?name=garcia&_count=5, ¿qué es /baseR4/Patient?",
+      "opciones": [
+        "La query string",
+        "El host",
+        "El path (ruta) dentro del servidor",
+        "El esquema"
+      ],
+      "respuesta": 2,
+      "explicacion": "El esquema es https, el host es hapi.fhir.org, el path es /baseR4/Patient (qué recurso pides) y la query string es ?name=garcia&_count=5 (cómo afinas la petición)."
+    },
+    {
+      "id": "api-3",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Debes corregir SOLO el teléfono de Patient/123 sin alterar el resto de sus datos. ¿Cuál es el método más adecuado?",
+      "opciones": [
+        "PUT enviando solo el campo del teléfono",
+        "POST con el paciente completo",
+        "PATCH con el cambio del teléfono",
+        "GET con el teléfono en la query string"
+      ],
+      "respuesta": 2,
+      "explicacion": "PATCH modifica parcialmente. PUT con solo el teléfono reemplazaría el recurso completo y borraría los demás campos; POST crearía un paciente nuevo; GET nunca modifica datos."
+    },
+    {
+      "id": "api-4",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Por qué PUT es idempotente y POST no?",
+      "opciones": [
+        "Porque PUT es más rápido que POST",
+        "Porque repetir un PUT deja el mismo estado final, mientras cada POST puede crear un recurso nuevo",
+        "Porque POST requiere autenticación y PUT no",
+        "Porque PUT no lleva cuerpo en la petición"
+      ],
+      "respuesta": 1,
+      "explicacion": "PUT dice 'el recurso con este id debe quedar exactamente así': repetirlo no cambia nada. POST dice 'crea uno nuevo': cada repetición puede generar un duplicado. Por eso reintentar un PUT tras un fallo de red es seguro y reintentar un POST a ciegas no."
+    },
+    {
+      "id": "api-5",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Tu aplicación recibe un 401 al llamar a la API FHIR del hospital. ¿Cuál es la acción correcta?",
+      "opciones": [
+        "Reportar una caída del servidor al proveedor",
+        "Pedir que te asignen más permisos sobre ese recurso",
+        "Obtener o renovar el token de autenticación y repetir la petición",
+        "Cambiar el método de POST a GET"
+      ],
+      "respuesta": 2,
+      "explicacion": "401 Unauthorized significa credenciales ausentes, inválidas o expiradas: se resuelve con un token válido. Si fuera 403, el problema sería de permisos y renovar el token no ayudaría."
+    },
+    {
+      "id": "api-6",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Envías un recurso Patient sintácticamente correcto, pero el servidor responde 422 con un OperationOutcome. ¿Qué pasó?",
+      "opciones": [
+        "El JSON estaba malformado",
+        "El contenido viola reglas de validación del servidor, aunque la sintaxis es correcta",
+        "El servidor se cayó procesando la petición",
+        "La URL no existe"
+      ],
+      "respuesta": 1,
+      "explicacion": "422 Unprocessable Entity: el servidor entendió la petición (sintaxis válida) pero el contenido no pasa sus reglas, algo típico en validación FHIR. Un JSON malformado daría 400; una caída daría 5xx; una ruta inexistente, 404."
+    },
+    {
+      "id": "api-7",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Qué devuelve GET https://hapi.fhir.org/baseR4/metadata?",
+      "opciones": [
+        "Un Bundle con todos los pacientes del servidor",
+        "Un CapabilityStatement: la declaración de qué recursos y operaciones soporta el servidor",
+        "Un OperationOutcome con los errores recientes",
+        "La documentación HTML del servidor"
+      ],
+      "respuesta": 1,
+      "explicacion": "metadata es la carta de presentación de todo servidor FHIR: responde un CapabilityStatement con la versión de FHIR, los recursos soportados y las operaciones permitidas. Es siempre tu primera petición ante un servidor desconocido."
+    },
+    {
+      "id": "api-8",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué significa el media type application/fhir+json?",
+      "opciones": [
+        "JSON comprimido para viajar más rápido",
+        "Un formato binario exclusivo de HAPI FHIR",
+        "JSON que además cumple las reglas de estructura de FHIR",
+        "XML convertido automáticamente a JSON"
+      ],
+      "respuesta": 2,
+      "explicacion": "El sufijo +json indica que es JSON válido (cualquier parser JSON lo lee) y el prefijo fhir indica que además sigue las reglas de FHIR. Se declara en Accept (lo que quieres recibir) y en Content-Type (lo que envías)."
+    },
+    {
+      "id": "api-9",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "En una API REST, el servidor guarda una sesión con el estado de tus peticiones anteriores para entender la siguiente.",
+      "respuesta": false,
+      "explicacion": "REST es sin estado (stateless): cada petición es autocontenida y lleva todo lo necesario (URL, headers, token). Esto permite que cualquier servidor de un clúster atienda cualquier petición y facilita escalar."
+    },
+    {
+      "id": "api-10",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Un código 404 al pedir Patient/no-existe-999 indica que el servidor FHIR está caído.",
+      "respuesta": false,
+      "explicacion": "Todo lo contrario: el servidor funcionó y respondió con precisión que ese recurso no existe, normalmente acompañado de un OperationOutcome. Una caída se manifestaría como 5xx o como ausencia total de respuesta."
+    },
+    {
+      "id": "api-11",
+      "tipo": "verdadero_falso",
+      "bloom": "recordar",
+      "pregunta": "Desde la barra de direcciones del navegador solo puedes ejecutar peticiones GET.",
+      "respuesta": true,
+      "explicacion": "Escribir una URL y presionar Enter siempre ejecuta GET. Para elegir método, agregar headers o enviar un cuerpo necesitas herramientas como curl o el Laboratorio de la app."
+    },
+    {
+      "id": "api-12",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Quieres buscar pacientes con apellido garcia limitando a 5 resultados en la base /baseR4. Escribe SOLO la query string completa (desde el signo de interrogación) que agregarías a /baseR4/Patient.",
+      "respuestas_validas": [
+        "?name=garcia&_count=5",
+        "?_count=5&name=garcia",
+        "name=garcia&_count=5",
+        "_count=5&name=garcia"
+      ],
+      "explicacion": "La query string inicia con ? y une parámetros clave=valor con &: ?name=garcia&_count=5. El orden de los parámetros no importa."
+    },
+    {
+      "id": "api-13",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Un sistema externo necesita CREAR un paciente nuevo en tu servidor FHIR y que el servidor asigne el id. ¿Qué método HTTP debe usar? (una palabra)",
+      "respuestas_validas": [
+        "POST",
+        "post",
+        "Post"
+      ],
+      "explicacion": "POST sobre la colección (POST /Patient) crea el recurso y el servidor asigna el id, respondiendo 201 Created con la URL del nuevo recurso en el header Location. PUT se usaría si el cliente decidiera el id."
+    },
+    {
+      "id": "api-14",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Tras un POST exitoso para crear una Observation, ¿qué combinación de respuesta esperas del servidor?",
+      "opciones": [
+        "200 con el cuerpo vacío",
+        "201 Created, con el header Location apuntando al recurso nuevo",
+        "204 No Content, con el recurso en el cuerpo",
+        "304 Not Modified, indicando que ya existía"
+      ],
+      "respuesta": 1,
+      "explicacion": "La creación exitosa responde 201 Created y el header Location indica la URL del recurso recién creado. 204 es éxito sin cuerpo (típico de DELETE) y 304 se usa en caché, no en creación."
+    }
+  ]
+}

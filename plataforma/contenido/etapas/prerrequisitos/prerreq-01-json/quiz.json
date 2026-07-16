@@ -1,0 +1,183 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "json-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Cuáles son los seis tipos de valor que existen en JSON?",
+      "opciones": [
+        "string, number, boolean, null, object, array",
+        "string, integer, float, boolean, object, array",
+        "text, number, date, boolean, object, list",
+        "string, number, boolean, undefined, object, array"
+      ],
+      "respuesta": 0,
+      "explicacion": "JSON define exactamente seis tipos: string, number, boolean, null, object y array. No distingue entero de decimal (todo es number), no tiene tipo fecha (las fechas son strings) y 'undefined' no existe en JSON, solo en JavaScript."
+    },
+    {
+      "id": "json-2",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "¿Qué error de sintaxis tiene este fragmento? { \"nombre\": \"Carmen\", \"edad\": 37, }",
+      "opciones": [
+        "Falta una comilla en la clave nombre",
+        "Hay una coma final después del último par clave-valor",
+        "Los números deben ir entre comillas",
+        "Las llaves están desbalanceadas"
+      ],
+      "respuesta": 1,
+      "explicacion": "La coma después de 37 es una coma final (trailing comma), prohibida en JSON. JavaScript y Python la toleran en su propio código, por eso es un error tan frecuente al escribir JSON a mano."
+    },
+    {
+      "id": "json-3",
+      "tipo": "verdadero_falso",
+      "bloom": "recordar",
+      "pregunta": "En JSON se pueden escribir comentarios con // para documentar el contenido.",
+      "respuesta": false,
+      "explicacion": "JSON no admite comentarios de ningún tipo (ni //, ni /* */, ni #). Es una decisión deliberada del formato: solo transporta datos. Cualquier anotación debe ir en un campo de datos o fuera del documento."
+    },
+    {
+      "id": "json-4",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Por qué { 'nombre': 'Carmen' } es JSON inválido?",
+      "opciones": [
+        "Porque falta el campo resourceType",
+        "Porque los objetos no pueden tener un solo par clave-valor",
+        "Porque usa comillas simples en lugar de comillas dobles",
+        "Porque la clave y el valor no pueden ser ambos texto"
+      ],
+      "respuesta": 2,
+      "explicacion": "JSON exige comillas dobles en toda clave y todo string, sin excepción. Las comillas simples son válidas en Python o JavaScript, pero no en JSON: es una de las confusiones más comunes al copiar código."
+    },
+    {
+      "id": "json-5",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Dado {\"name\":[{\"use\":\"official\",\"given\":[\"Carmen\",\"Elena\"]},{\"use\":\"usual\",\"given\":[\"Carmencita\"]}]}, ¿qué devuelve name[0].given[1]?",
+      "opciones": [
+        "\"Carmen\"",
+        "\"Elena\"",
+        "\"Carmencita\"",
+        "\"official\""
+      ],
+      "respuesta": 1,
+      "explicacion": "name[0] es el primer objeto del array (el nombre oficial) y given[1] es el segundo elemento de su lista de nombres de pila: \"Elena\". Recuerda que los índices empiezan en 0."
+    },
+    {
+      "id": "json-6",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Con el mismo JSON de la pregunta anterior, ¿qué devuelve name[1].given[0]?",
+      "opciones": [
+        "\"Elena\"",
+        "\"Carmen\"",
+        "\"Carmencita\"",
+        "Nada: esa ruta no existe"
+      ],
+      "respuesta": 2,
+      "explicacion": "name[1] es el segundo objeto del array (el nombre de uso cotidiano) y given[0] es el primer elemento de su lista: \"Carmencita\". La ruta sí existe; la que no existiría es name[1].family, porque ese objeto no tiene esa clave."
+    },
+    {
+      "id": "json-7",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "En un recurso FHIR en JSON, la forma correcta de indicar que no se conoce la fecha de nacimiento es enviar \"birthDate\": null.",
+      "respuesta": false,
+      "explicacion": "FHIR prohíbe las propiedades con valor null en sus recursos (salvo una excepción técnica avanzada en arrays con extensiones). Si un dato no se registró, el campo se omite por completo: campo ausente significa 'no se registró'."
+    },
+    {
+      "id": "json-8",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un sistema recibe { \"telefono\": null } de un hospital y { } de otro. ¿Cuál es la interpretación más precisa de la diferencia?",
+      "opciones": [
+        "Son equivalentes: en ambos casos no hay teléfono",
+        "El primero afirma deliberadamente que el valor está vacío; el segundo no dice nada sobre el teléfono",
+        "El primero es JSON inválido y el segundo válido",
+        "El segundo es JSON inválido porque un objeto no puede estar vacío"
+      ],
+      "respuesta": 1,
+      "explicacion": "Ambos son JSON sintácticamente válidos, pero significan cosas distintas: null es un vacío intencional (alguien escribió que no hay valor) y el campo ausente es silencio (nadie registró nada). En datos de salud esa diferencia importa, y por eso FHIR opta por omitir campos en lugar de usar null."
+    },
+    {
+      "id": "json-9",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Cuál es la diferencia práctica entre \"edad\": 37 y \"edad\": \"37\"?",
+      "opciones": [
+        "Ninguna: los validadores los tratan igual",
+        "El primero es un number con el que se puede operar; el segundo es un string que habría que convertir",
+        "El segundo es JSON inválido porque los números no llevan comillas",
+        "El primero solo es válido dentro de un array"
+      ],
+      "respuesta": 1,
+      "explicacion": "Ambos son JSON válido, pero de tipos distintos. \"37\" con comillas es texto: un sistema no puede compararlo ni calcular con él sin conversión, y un servidor FHIR puede rechazarlo si el campo espera un número. El tipo forma parte del dato."
+    },
+    {
+      "id": "json-10",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "¿Cuál de estos fragmentos es JSON válido?",
+      "opciones": [
+        "{ activo: true }",
+        "{ \"activo\": True }",
+        "{ \"activo\": true }",
+        "{ \"activo\": true, }"
+      ],
+      "respuesta": 2,
+      "explicacion": "La opción correcta tiene clave entre comillas dobles, booleano en minúsculas y sin coma final. Las otras fallan por clave sin comillas, True con mayúscula (eso es Python) y coma final, respectivamente."
+    },
+    {
+      "id": "json-11",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "En un array JSON el orden de los elementos es significativo, mientras que en un objeto el orden de las claves no lo es.",
+      "respuesta": true,
+      "explicacion": "Los arrays son secuencias ordenadas: [\"a\",\"b\"] y [\"b\",\"a\"] son datos distintos. En los objetos, {\"a\":1,\"b\":2} y {\"b\":2,\"a\":1} representan lo mismo. Por eso FHIR usa arrays cuando la posición importa, como el nombre preferente en name[0]."
+    },
+    {
+      "id": "json-12",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe la ruta (con índices) para obtener \"Carmen\" en este JSON: {\"name\":[{\"given\":[\"Carmen\",\"Elena\"],\"family\":\"Ramírez\"}]}",
+      "respuestas_validas": [
+        "name[0].given[0]",
+        "Patient.name[0].given[0]",
+        ".name[0].given[0]"
+      ],
+      "explicacion": "Se entra al array name (primer elemento, índice 0), luego a su array given (primer elemento, índice 0): name[0].given[0]. Esta es exactamente la forma en que se navegan los recursos FHIR."
+    },
+    {
+      "id": "json-13",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Este fragmento tiene un único error de sintaxis. Escribe qué error es (en pocas palabras): { \"alergias\": [\"penicilina\", \"sulfas\",] }",
+      "respuestas_validas": [
+        "coma final",
+        "trailing comma",
+        "coma extra",
+        "sobra una coma",
+        "coma despues del ultimo elemento",
+        "coma después del último elemento",
+        "coma al final del array"
+      ],
+      "explicacion": "La coma después de \"sulfas\" es una coma final: el último elemento de un array (o el último par de un objeto) nunca lleva coma. Es el error de sintaxis más frecuente al editar JSON a mano."
+    },
+    {
+      "id": "json-14",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Por qué las APIs modernas, incluida la API REST de FHIR, prefieren JSON sobre XML?",
+      "opciones": [
+        "Porque JSON permite comentarios y XML no",
+        "Porque JSON es menos verboso, declara tipos en su sintaxis y mapea directo a las estructuras de los lenguajes de programación",
+        "Porque XML no puede representar datos anidados",
+        "Porque JSON permite ejecutar código dentro de los datos"
+      ],
+      "respuesta": 1,
+      "explicacion": "JSON transporta lo mismo con menos caracteres, sus tipos (number, boolean) son explícitos en la sintaxis y se convierte sin fricción en diccionarios y objetos de cualquier lenguaje. XML sí representa anidación, JSON no admite comentarios y ningún formato de datos ejecuta código."
+    }
+  ]
+}

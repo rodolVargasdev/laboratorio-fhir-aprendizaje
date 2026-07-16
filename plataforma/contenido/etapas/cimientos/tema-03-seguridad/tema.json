@@ -1,0 +1,41 @@
+{
+  "slug": "tema-03-seguridad",
+  "numero": 3,
+  "nombre": "Seguridad: OAuth 2.0 y SMART on FHIR",
+  "resumen": "El stack de seguridad completo: autenticacion vs autorizacion (401/403), OAuth 2.0 a fondo (roles, authorization code + PKCE paso a paso, client credentials, refresh), anatomia y validacion de JWT (RS256 vs HS256, JWKS), OpenID Connect, SMART App Launch 2.2 (EHR vs standalone, contexto, scopes v1 vs v2 con parametros), Backend Services, TLS, amenazas tipicas y auditoria (AuditEvent, Provenance).",
+  "opcional": false,
+  "objetivos": [
+    "Distinguir autenticacion de autorizacion y diagnosticar 401 vs 403 con la accion correcta para cada uno",
+    "Narrar el flujo authorization code + PKCE completo, explicando que protege state, PKCE y el redirect_uri exacto",
+    "Diseccionar un JWT (header/payload/firma), validar iss/aud/exp/firma y explicar RS256 vs HS256 y el papel del JWKS",
+    "Diferenciar access token, refresh token e id_token (OIDC) por proposito, vida y scope que los solicita",
+    "Leer y escribir scopes SMART v2 (verbos cruds, contextos patient/user/system, parametros embebidos) y reconocer los v1",
+    "Explicar EHR launch vs standalone launch y como llega el contexto (launch, launch/patient, fhirContext)",
+    "Reproducir el flujo Backend Services: registro con JWKS, client assertion con claims exactos y token con scopes system/",
+    "Mapear las amenazas tipicas (token leakage, open redirect, CSRF, phishing de consentimiento, validacion perezosa) con su mitigacion y el papel de AuditEvent/Provenance"
+  ],
+  "enlaces": [
+    { "titulo": "SMART App Launch (especificacion)", "url": "http://hl7.org/fhir/smart-app-launch/", "nota": "La fuente de verdad: flujos, scopes v2, Backend Services y smart-configuration." },
+    { "titulo": "OAuth 2.0 (oauth.net)", "url": "https://oauth.net/2/", "nota": "El indice canonico del framework: grants, PKCE y mejores practicas de seguridad." },
+    { "titulo": "JWT.io", "url": "https://jwt.io", "nota": "Decodificador interactivo: disecciona header/payload/firma de tokens de prueba." },
+    { "titulo": "SMART App Launcher (sandbox)", "url": "https://launch.smarthealthit.org", "nota": "Simula EHR launch y standalone con tokens de practica, sin instalar nada." },
+    { "titulo": "Seguridad en FHIR R4", "url": "http://hl7.org/fhir/R4/security.html", "nota": "El marco oficial: TLS, etiquetas de seguridad y su relacion con OAuth." },
+    { "titulo": "AuditEvent R4", "url": "http://hl7.org/fhir/R4/auditevent.html", "nota": "El recurso de auditoria que una plataforma nacional debe emitir en cada acceso." },
+    { "titulo": "HTTP en MDN (espaniol)", "url": "https://developer.mozilla.org/es/docs/Web/HTTP", "nota": "El sustrato: esquema Bearer, cabecera Authorization y los codigos 401/403." }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR - Seguridad: OAuth 2.0 y SMART on FHIR",
+    "fuentes": [
+      { "titulo": "SMART App Launch", "url": "http://hl7.org/fhir/smart-app-launch/" },
+      { "titulo": "OAuth 2.0", "url": "https://oauth.net/2/" },
+      { "titulo": "FHIR R4 Security", "url": "http://hl7.org/fhir/R4/security.html" },
+      { "titulo": "JWT.io", "url": "https://jwt.io" }
+    ],
+    "prompts": [
+      "Dame escenarios (app de paciente, medico en el EHR, job nocturno, integracion entre ministerios) y yo respondo el flujo SMART y el scope v2 exacto de minimo privilegio; corrige con detalle.",
+      "Hazme un examen oral de 12 preguntas sobre JWT: claims, RS256 vs HS256, JWKS, validaciones obligatorias y los ataques que bloquea cada una.",
+      "Compara en tabla SMART App Launch vs Backend Services: quien participa, como se autentica el cliente, que scopes usa, y un caso de uso de cada uno.",
+      "Dame 8 afirmaciones sobre OAuth/JWT/SMART donde algunas contengan errores tipicos (401 vs 403, base64 vs cifrado, id_token para la API, scope pedido = concedido) y pideme detectarlas y corregirlas."
+    ]
+  }
+}

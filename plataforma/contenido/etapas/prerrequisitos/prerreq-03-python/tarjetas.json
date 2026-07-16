@@ -1,0 +1,50 @@
+[
+  {
+    "frente": "¿Cuáles son los cinco tipos básicos de Python y qué guarda cada uno?",
+    "reverso": "str (texto entre comillas), int (enteros), float (decimales), bool (True/False) y None (ausencia deliberada de valor, típico en campos clínicos no registrados)."
+  },
+  {
+    "frente": "¿Por qué el diccionario de Python es 'el JSON de Python'?",
+    "reverso": "Porque su estructura de pares clave-valor anidables espeja un objeto JSON: json.loads convierte texto JSON en un dict con la misma forma, y json.dumps hace el camino inverso."
+  },
+  {
+    "frente": "Diferencia entre paciente[\"gender\"] y paciente.get(\"gender\", \"sin dato\")",
+    "reverso": "Los corchetes lanzan KeyError si la clave no existe (el script muere). .get() devuelve None o el valor por defecto y el script continúa. En FHIR, donde los campos opcionales abundan, .get() es la opción defensiva."
+  },
+  {
+    "frente": "En p = {\"name\": [{\"given\": [\"Ana\"], \"family\": \"Ruiz\"}]}, ¿cómo llegas a \"Ana\"?",
+    "reverso": "p[\"name\"][0][\"given\"][0] — se lee de izquierda a derecha: clave name (lista), elemento 0 (dict), clave given (lista), elemento 0 (string). Los índices empiezan en 0."
+  },
+  {
+    "frente": "¿Qué papel juega la indentación en Python?",
+    "reverso": "Es sintaxis, no estética: los 4 espacios definen qué líneas pertenecen al bloque de un if, for o def. Indentar mal produce IndentationError o cambia la lógica del programa."
+  },
+  {
+    "frente": "Sintaxis mínima de una función con retorno",
+    "reverso": "def nombre(parametros): con el cuerpo indentado y return resultado al final. Sin return, la función devuelve None. Definirla no la ejecuta: hay que llamarla."
+  },
+  {
+    "frente": "json.loads vs json.load vs json.dumps vs json.dump",
+    "reverso": "La s es de string. loads: texto JSON a dict; dumps: dict a texto JSON (con indent=2 queda legible). load y dump hacen lo mismo pero leyendo o escribiendo directamente un archivo abierto."
+  },
+  {
+    "frente": "Los tres pasos de un GET con requests a un servidor FHIR",
+    "reverso": "1) r = requests.get(url). 2) Verificar r.status_code == 200 antes de seguir. 3) r.json() para convertir el cuerpo en diccionarios y listas de Python."
+  },
+  {
+    "frente": "¿Dónde viven los pacientes dentro del Bundle que devuelve una búsqueda FHIR?",
+    "reverso": "En la lista entry: cada elemento es un dict cuyo campo resource contiene el Patient. Se recorre con for entrada in bundle.get(\"entry\", []) y se accede con entrada[\"resource\"]."
+  },
+  {
+    "frente": "Comandos para crear y activar un entorno virtual e instalar requests",
+    "reverso": "python -m venv .venv; en PowerShell: .venv\\Scripts\\Activate.ps1; en bash: source .venv/bin/activate; luego pip install requests. El prompt muestra (.venv) cuando está activo."
+  },
+  {
+    "frente": "¿Cómo se lee un traceback de Python?",
+    "reverso": "De abajo hacia arriba: la última línea dice el tipo de error (KeyError, SyntaxError...); las líneas File \"...\", line N dicen archivo y línea exacta. Nunca ignores el número de línea."
+  },
+  {
+    "frente": "Diagnóstico rápido: KeyError vs IndentationError vs ModuleNotFoundError vs SyntaxError",
+    "reverso": "KeyError: clave inexistente en un dict (usa .get). IndentationError: bloque mal indentado tras if/for/def. ModuleNotFoundError: librería no instalada en el entorno activo (pip install con el venv activo). SyntaxError: casi siempre faltan los dos puntos."
+  }
+]

@@ -1,0 +1,40 @@
+{
+  "slug": "tema-02-http-rest",
+  "numero": 2,
+  "nombre": "HTTP y REST: hablar con un servidor FHIR",
+  "resumen": "La API RESTful completa de R4: interacciones instance/type/system, URLs con _history, headers FHIR (Accept, Prefer, ETag/If-Match, If-None-Exist), operaciones condicionales y bloqueo optimista, tabla de codigos de estado por interaccion, busqueda con Bundle searchset y paginacion opaca, y batch vs transaction con urn:uuid.",
+  "opcional": false,
+  "objetivos": [
+    "Nombrar y ejecutar las interacciones oficiales: read, vread, update, patch, delete, history, create, search, capabilities, batch/transaction",
+    "Descomponer URLs [base]/[type]/[id]/_history/[vid] y construirlas de memoria",
+    "Usar los headers del contrato: Accept/Content-Type application/fhir+json, Prefer return=..., ETag/If-Match, If-None-Exist",
+    "Implementar bloqueo optimista (ETag + If-Match + 412) y creates/updates/deletes condicionales",
+    "Diagnosticar por codigo de estado: 400 vs 422 vs 404, 401 vs 403, 404 vs 410, 405, 409/412, leyendo el OperationOutcome",
+    "Construir busquedas con prefijos (ge, le...), logica Y/O y parametros de control (_count, _sort, _include, _revinclude)",
+    "Navegar un Bundle searchset: total, search.mode match/include y paginacion opaca por link next",
+    "Diseniar Bundles batch y transaction con urn:uuid, explicando atomicidad, orden de procesamiento y cuando usar cada uno"
+  ],
+  "enlaces": [
+    { "titulo": "API RESTful FHIR R4", "url": "http://hl7.org/fhir/R4/http.html", "nota": "La pagina central del tema: cada interaccion con sus codigos, headers y condicionales." },
+    { "titulo": "Busqueda R4", "url": "http://hl7.org/fhir/R4/search.html", "nota": "Parametros, prefijos, modificadores, _include/_revinclude: la especificacion completa." },
+    { "titulo": "Recurso Bundle R4", "url": "http://hl7.org/fhir/R4/bundle.html", "nota": "searchset, history, batch/transaction, reglas de fullUrl y resolucion de referencias." },
+    { "titulo": "OperationOutcome R4", "url": "http://hl7.org/fhir/R4/operationoutcome.html", "nota": "La anatomia de los errores: issue.severity, code y diagnostics." },
+    { "titulo": "HTTP en MDN (espaniol)", "url": "https://developer.mozilla.org/es/docs/Web/HTTP", "nota": "El sustrato web: metodos, headers, codigos y cache fuera del contexto FHIR." },
+    { "titulo": "Servidor publico HAPI R4", "url": "https://hapi.fhir.org/baseR4", "nota": "Tu laboratorio para ejecutar todo el contrato (solo datos ficticios)." }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR - HTTP y REST: hablar con un servidor FHIR",
+    "fuentes": [
+      { "titulo": "FHIR R4 HTTP", "url": "http://hl7.org/fhir/R4/http.html" },
+      { "titulo": "FHIR R4 Search", "url": "http://hl7.org/fhir/R4/search.html" },
+      { "titulo": "FHIR R4 Bundle", "url": "http://hl7.org/fhir/R4/bundle.html" },
+      { "titulo": "FHIR R4 OperationOutcome", "url": "http://hl7.org/fhir/R4/operationoutcome.html" }
+    ],
+    "prompts": [
+      "Simula ser un servidor FHIR R4: yo te mando peticiones HTTP (con headers) y tu respondes el codigo de estado y cuerpo exactos, explicando por que.",
+      "Hazme 12 preguntas tipo examen sobre codigos de estado (400/422/404/410/401/403/405/412) con escenarios realistas y distractores plausibles.",
+      "Dame 6 busquedas FHIR mal escritas (prefijos, parametros, paginacion manual) y pideme corregirlas una por una.",
+      "Explica batch vs transaction con un Bundle de ejemplo con urn:uuid: atomicidad, orden de procesamiento y reescritura de referencias."
+    ]
+  }
+}

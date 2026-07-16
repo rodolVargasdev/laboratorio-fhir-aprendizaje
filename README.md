@@ -1,4 +1,20 @@
-﻿# Laboratorio FHIR — de cero a experto, en línea recta
+﻿> ## Nueva plataforma: `plataforma/`
+>
+> Este repositorio ahora incluye una **plataforma web de aprendizaje adaptativo**
+> (Next.js + Postgres + tutor con IA) que reemplaza el flujo manual descrito abajo.
+> Es una sola app donde inicias sesión con Google y estudias paso a paso: lecturas
+> en el celular, práctica en la PC, NotebookLM obligatorio por tema, quizzes con
+> maestría, repaso espaciado, simulacros y un tutor integrado.
+>
+> **Empieza aquí:** [plataforma/README.md](plataforma/README.md) (instalación, base de
+> datos, credenciales y despliegue en Cloud Run).
+>
+> El material original (abajo) se conserva como referencia y es la fuente que se
+> migró a la plataforma (ver `plataforma/contenido/`).
+
+---
+
+# Laboratorio FHIR — de cero a experto, en línea recta (versión original)
 
 Laboratorio autodirigido para dominar **HL7 FHIR** (rumbo a la certificación
 Foundational Implementer y más allá). Metodología con evidencia científica:

@@ -1,0 +1,200 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "tema-06-terminologias-1",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Por qué Observation.status es de tipo code mientras que Observation.code es CodeableConcept?",
+      "opciones": [
+        "Por compatibilidad con HL7 v2",
+        "status viene de un conjunto fijado por la especificación (basta el código pelado); code representa conceptos clínicos que pueden necesitar varios sistemas y texto",
+        "Porque status nunca se valida",
+        "Es arbitrario: podrían intercambiarse"
+      ],
+      "respuesta": 1,
+      "explicacion": "code se usa cuando el sistema está fijado por FHIR (binding required a códigos propios); CodeableConcept cubre el caso clínico general con coding[] + text."
+    },
+    {
+      "id": "tema-06-terminologias-2",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un CodeableConcept trae dos codings: SNOMED 38341003 (hipertensión) y el código local HTA-01 (hipertensión). ¿Es correcto?",
+      "opciones": [
+        "No: solo se permite un coding por CodeableConcept",
+        "Sí: los codings representan el mismo concepto en sistemas distintos, que es exactamente el uso previsto",
+        "No: los códigos locales no pueden convivir con SNOMED",
+        "Solo si ambos tienen el mismo display"
+      ],
+      "respuesta": 1,
+      "explicacion": "Varios codings del MISMO concepto en distintos sistemas es el patrón recomendado (y clave en integraciones nacionales). Lo incorrecto sería mezclar conceptos distintos."
+    },
+    {
+      "id": "tema-06-terminologias-3",
+      "tipo": "respuesta_corta",
+      "bloom": "recordar",
+      "pregunta": "Escribe la URI canónica del sistema SNOMED CT.",
+      "respuestas_validas": [
+        "http://snomed.info/sct",
+        "snomed.info/sct"
+      ],
+      "explicacion": "Los systems son URIs exactas: http://snomed.info/sct. Escribir 'SNOMED' o variantes rompe la comparación de códigos."
+    },
+    {
+      "id": "tema-06-terminologias-4",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Qué papel juega cada sistema? LOINC / SNOMED CT / UCUM / ICD-10",
+      "opciones": [
+        "Diagnósticos / unidades / laboratorio / procedimientos",
+        "Qué se midió (lab, signos vitales) / significado clínico (diagnósticos, hallazgos) / unidades computables / clasificación administrativa y epidemiológica",
+        "Medicamentos / diagnósticos / laboratorio / unidades",
+        "Documentos / imágenes / unidades / facturación"
+      ],
+      "respuesta": 1,
+      "explicacion": "LOINC codifica la pregunta (qué prueba), SNOMED el significado clínico, UCUM las unidades y ICD la agregación administrativa; conviven, no compiten."
+    },
+    {
+      "id": "tema-06-terminologias-5",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "En un CodeSystem, ¿qué significa content = not-present?",
+      "opciones": [
+        "El sistema fue retirado",
+        "El recurso solo declara metadatos y los conceptos no están enumerados dentro (típico de SNOMED: viven en el servidor de terminología)",
+        "El sistema no tiene códigos todavía",
+        "Los códigos están en un archivo adjunto"
+      ],
+      "respuesta": 1,
+      "explicacion": "content indica cuánto contenido lleva el recurso: complete, fragment, not-present, example o supplement."
+    },
+    {
+      "id": "tema-06-terminologias-6",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "El mismo ValueSet (compose con filtro is-a sobre SNOMED) produce hoy una expansión distinta a la de hace un año, sin que nadie editara el ValueSet. ¿Por qué?",
+      "opciones": [
+        "El servidor tiene un bug de caché",
+        "Las expansiones son aleatorias por diseño",
+        "El CodeSystem subyacente evolucionó (nueva edición de SNOMED) y el filtro capturó conceptos nuevos: misma definición, expansión distinta",
+        "Los ValueSets caducan a los 12 meses"
+      ],
+      "respuesta": 2,
+      "explicacion": "compose es intensional; la expansión se materializa contra versiones concretas de los CodeSystems. Para reproducibilidad se fijan versiones."
+    },
+    {
+      "id": "tema-06-terminologias-7",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Un elemento tiene binding extensible y el concepto que necesitas SÍ está en el ValueSet, pero tu sistema legado usa otro código. ¿Qué es conforme?",
+      "opciones": [
+        "Enviar solo el código legado: extensible significa recomendado",
+        "Enviar solo text, para no comprometerte",
+        "Usar el código del ValueSet (y opcionalmente añadir el legado como coding adicional del mismo CodeableConcept)",
+        "Cambiar el binding a preferred en tu perfil"
+      ],
+      "respuesta": 2,
+      "explicacion": "extensible obliga a usar el código del conjunto cuando el concepto está cubierto; solo conceptos no cubiertos justifican salirse. Los perfiles pueden endurecer bindings, nunca relajarlos."
+    },
+    {
+      "id": "tema-06-terminologias-8",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "Ordena las fuerzas de binding de más a menos rígida:",
+      "opciones": [
+        "extensible > required > preferred > example",
+        "required > extensible > preferred > example",
+        "required > preferred > extensible > example",
+        "example > preferred > extensible > required"
+      ],
+      "respuesta": 1,
+      "explicacion": "required (obligatorio), extensible (obligatorio si el concepto está cubierto), preferred (recomendado), example (ilustrativo)."
+    },
+    {
+      "id": "tema-06-terminologias-9",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "¿Qué operación y parámetros implementan un autocompletado que muestra hasta 10 diagnósticos al teclear 'hiperten'?",
+      "opciones": [
+        "ValueSet/$validate-code?filter=hiperten&max=10",
+        "CodeSystem/$lookup?display=hiperten&count=10",
+        "ValueSet/$expand?url={valueset}&filter=hiperten&count=10",
+        "ConceptMap/$translate?text=hiperten&limit=10"
+      ],
+      "respuesta": 2,
+      "explicacion": "$expand con filter y count es el patrón estándar de typeahead clínico contra el servidor de terminología."
+    },
+    {
+      "id": "tema-06-terminologias-10",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "GET CodeSystem/$subsumes?system=http://snomed.info/sct&codeA=73211009&codeB=44054006 devuelve outcome=subsumes. ¿Qué significa?",
+      "opciones": [
+        "codeA (diabetes mellitus) es ancestro/más general que codeB (diabetes tipo 2) en la jerarquía",
+        "codeA y codeB son sinónimos exactos",
+        "codeB fue retirado del sistema",
+        "codeA pertenece al ValueSet de codeB"
+      ],
+      "respuesta": 0,
+      "explicacion": "subsumes = A subsume a B (A es más general). Otros outcomes: subsumed-by, equivalent, not-subsumed."
+    },
+    {
+      "id": "tema-06-terminologias-11",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Mapeas tu código local 'dolor abdominal agudo' a SNOMED 'dolor abdominal'. ¿Qué equivalence declaras en el ConceptMap (R4) y qué riesgo tiene el mapeo?",
+      "opciones": [
+        "equivalent; sin riesgo",
+        "wider (el destino es más amplio); si descartas el código origen pierdes especificidad de forma irrecuperable",
+        "narrower (el destino es más específico); riesgo de duplicados",
+        "unmatched; el mapeo es imposible"
+      ],
+      "respuesta": 1,
+      "explicacion": "El destino cubre más que el origen: wider. Por eso el patrón nacional conserva ambos codings en el CodeableConcept."
+    },
+    {
+      "id": "tema-06-terminologias-12",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "El display de un Coding puede usarse como identidad del concepto para comparar códigos entre sistemas.",
+      "respuesta": false,
+      "explicacion": "La identidad es system + code (+ version cuando aplica). El display es informativo y varía por idioma y edición."
+    },
+    {
+      "id": "tema-06-terminologias-13",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "¿Qué operación ejecuta internamente un validador para comprobar que Observation.status='finalizado' viola su binding required?",
+      "opciones": [
+        "CodeSystem/$lookup",
+        "ValueSet/$expand",
+        "ValueSet/$validate-code (result=false)",
+        "ConceptMap/$translate"
+      ],
+      "respuesta": 2,
+      "explicacion": "$validate-code responde Parameters con result booleano y message; es la operación detrás de la validación de bindings."
+    },
+    {
+      "id": "tema-06-terminologias-14",
+      "tipo": "verdadero_falso",
+      "bloom": "recordar",
+      "pregunta": "tx.fhir.org es el servidor de terminología de referencia que usa el validador oficial de HL7 por defecto, y terminology.hl7.org publica los CodeSystems y ValueSets propios de HL7.",
+      "respuesta": true,
+      "explicacion": "Dos piezas distintas del ecosistema: tx.fhir.org opera ($expand, $validate-code...); THO publica los artefactos http://terminology.hl7.org/..."
+    },
+    {
+      "id": "tema-06-terminologias-15",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Estrategia nacional para catálogos legados de laboratorio: ¿cuál es el orden correcto?",
+      "opciones": [
+        "Borrar los catálogos locales y forzar LOINC en cada hospital desde el día uno",
+        "Publicar cada catálogo como CodeSystem nacional, definir el ValueSet nacional sobre LOINC, crear ConceptMaps local->LOINC y persistir ambos codings al traducir",
+        "Guardar todo como text y traducir después con IA",
+        "Crear un ValueSet por hospital y compararlos manualmente"
+      ],
+      "respuesta": 1,
+      "explicacion": "El patrón conserva el dato origen (coding local) y añade el coding computable nacional (LOINC) vía $translate: sin pérdida y con computabilidad."
+    }
+  ]
+}

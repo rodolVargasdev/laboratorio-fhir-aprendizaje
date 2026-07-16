@@ -1,0 +1,60 @@
+{
+  "slug": "prerreq-03-python",
+  "numero": -12,
+  "nombre": "Python para interoperabilidad",
+  "resumen": "Tipos, diccionarios como espejo del JSON de FHIR, bucles, funciones, módulo json, entorno virtual y un script real con requests contra HAPI FHIR, con depuración de los errores más comunes.",
+  "opcional": false,
+  "objetivos": [
+    "Escribir y ejecutar scripts .py que usan variables de tipos str, int, float, bool y None",
+    "Construir y navegar diccionarios anidados que espejan un recurso Patient, accediendo con corchetes y con .get() para campos ausentes",
+    "Recorrer listas de diccionarios con for y filtrar con if/elif/else respetando la indentación como sintaxis",
+    "Definir funciones con def, parámetros y return que extraen datos de un recurso FHIR",
+    "Convertir entre texto JSON y estructuras de Python con json.loads, json.load y json.dumps(indent=2)",
+    "Crear y activar un entorno virtual con venv, e instalar requests con pip",
+    "Diagnosticar por su traceback un KeyError, IndentationError, ModuleNotFoundError o SyntaxError y corregir la causa"
+  ],
+  "enlaces": [
+    {
+      "titulo": "Tutorial oficial de Python (español)",
+      "url": "https://docs.python.org/es/3/tutorial/",
+      "nota": "Referencia canónica; los capítulos 3 a 5 profundizan tipos, listas y diccionarios."
+    },
+    {
+      "titulo": "Módulo json — documentación oficial (español)",
+      "url": "https://docs.python.org/es/3/library/json.html",
+      "nota": "Todos los parámetros de loads, dumps, load y dump usados en este tema."
+    },
+    {
+      "titulo": "Documentación oficial de requests",
+      "url": "https://requests.readthedocs.io/en/latest/",
+      "nota": "Guía de inicio rápido de la librería HTTP que usarás en todos los temas FHIR."
+    },
+    {
+      "titulo": "Servidor HAPI FHIR público (baseR4)",
+      "url": "https://hapi.fhir.org/baseR4",
+      "nota": "El servidor de pruebas contra el que corre el script de la lección; ábrelo en el navegador para ver el JSON crudo."
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "Bases - Python para interoperabilidad",
+    "fuentes": [
+      {
+        "titulo": "Tutorial oficial de Python (español)",
+        "url": "https://docs.python.org/es/3/tutorial/"
+      },
+      {
+        "titulo": "Módulo json — documentación oficial (español)",
+        "url": "https://docs.python.org/es/3/library/json.html"
+      },
+      {
+        "titulo": "Documentación oficial de requests",
+        "url": "https://requests.readthedocs.io/en/latest/"
+      }
+    ],
+    "prompts": [
+      "Explícame con un ejemplo clínico la diferencia entre acceder a un diccionario con corchetes y con .get(), y cuándo conviene cada uno al procesar recursos FHIR con campos opcionales.",
+      "Genera 5 fragmentos cortos de código Python con un error cada uno (KeyError, IndentationError, SyntaxError por dos puntos, ModuleNotFoundError, IndexError) y pídeme diagnosticar el tipo de error antes de mostrarme la solución.",
+      "Hazme un examen oral de 8 preguntas sobre json.loads/dumps, requests.get, status_code y la estructura entry/resource de un Bundle FHIR, corrigiendo mis respuestas con detalle."
+    ]
+  }
+}

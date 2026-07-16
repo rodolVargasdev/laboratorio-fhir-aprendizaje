@@ -1,0 +1,211 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "t8q01",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "¿Cuál es la jerarquía correcta donde vive un FHIR store en Cloud Healthcare API?",
+      "opciones": [
+        "Proyecto > Dataset > Location > FHIR store",
+        "Proyecto > Location > Dataset > FHIR store",
+        "Organización > FHIR store > Dataset",
+        "Location > Proyecto > FHIR store > Dataset"
+      ],
+      "respuesta": 1,
+      "explicacion": "El dataset es regional (vive en una location dentro del proyecto) y contiene los stores FHIR, DICOM y HL7v2."
+    },
+    {
+      "id": "t8q02",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Un integrador hace PUT Patient/dui-04567890-1 en un store recién creado y recibe error porque el recurso no existe. ¿Qué configuración resuelve el caso de uso 'el sistema origen gobierna los IDs'?",
+      "opciones": [
+        "disableReferentialIntegrity",
+        "enableUpdateCreate",
+        "disableResourceVersioning",
+        "notificationConfig con Pub/Sub"
+      ],
+      "respuesta": 1,
+      "explicacion": "enableUpdateCreate convierte el PUT a un ID inexistente en un upsert: crea el recurso con ese ID."
+    },
+    {
+      "id": "t8q03",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Decides desactivar la integridad referencial en un store de aterrizaje (staging). ¿Qué efecto colateral aceptas?",
+      "opciones": [
+        "El store deja de versionar recursos",
+        "Las búsquedas dejan de funcionar por completo",
+        "Pueden quedar referencias colgantes y _include o búsquedas encadenadas devolverán resultados incompletos",
+        "Ya no se puede exportar a BigQuery"
+      ],
+      "respuesta": 2,
+      "explicacion": "Sin integridad referencial el servidor acepta referencias a recursos inexistentes; el hueco aparece silenciosamente al navegar o encadenar referencias."
+    },
+    {
+      "id": "t8q04",
+      "bloom": "aplicar",
+      "tipo": "verdadero_falso",
+      "pregunta": "La versión FHIR de un store (por ejemplo R4) puede cambiarse después de crearlo con un comando update.",
+      "respuesta": false,
+      "explicacion": "La versión es inmutable: para cambiar de versión se crea un store nuevo y se re-ingesta la información."
+    },
+    {
+      "id": "t8q05",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "¿Con qué comando obtienes el access token OAuth 2.0 de tu identidad para llamar al endpoint FHIR con curl?",
+      "respuestas_validas": [
+        "gcloud auth print-access-token"
+      ],
+      "explicacion": "gcloud auth print-access-token imprime un token de corta duración (~1 hora) que se envía como Authorization: Bearer."
+    },
+    {
+      "id": "t8q06",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "A media sesión tus curl empiezan a devolver 401 Unauthorized sin que hayas cambiado nada. Causa más probable:",
+      "opciones": [
+        "Perdiste el rol IAM",
+        "El access token expiró (~1 hora); hay que regenerarlo",
+        "El store fue borrado automáticamente",
+        "La API se deshabilitó sola"
+      ],
+      "respuesta": 1,
+      "explicacion": "401 = autenticación. El token de gcloud expira; si fuera un problema de permisos verías 403."
+    },
+    {
+      "id": "t8q07",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Con token recién generado recibes 403 PERMISSION_DENIED al leer un Patient. ¿Qué revisas primero?",
+      "opciones": [
+        "Que el JSON del Patient sea válido",
+        "El rol IAM de tu identidad y a qué nivel (proyecto, dataset o store) fue otorgado",
+        "La versión FHIR del store",
+        "El Content-Type de la petición"
+      ],
+      "respuesta": 1,
+      "explicacion": "403 es autorización: identidad correcta pero permisos insuficientes o otorgados sobre otro recurso."
+    },
+    {
+      "id": "t8q08",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Tu import desde GCS falla con un error de permisos aunque tu usuario es Owner. ¿Qué falta?",
+      "opciones": [
+        "Darte a ti roles/storage.admin",
+        "Dar roles/storage.objectViewer al service agent del Healthcare API sobre el bucket",
+        "Regenerar el access token",
+        "Activar enableUpdateCreate"
+      ],
+      "respuesta": 1,
+      "explicacion": "Quien lee el bucket durante el import es la cuenta de servicio del servicio Healthcare, no tu usuario."
+    },
+    {
+      "id": "t8q09",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Vas a importar archivos donde cada línea es un recurso FHIR individual (salida bulk de Synthea). ¿Qué bandera usas?",
+      "opciones": [
+        "--content-structure=bundle",
+        "--content-structure=resource",
+        "--schema-type=analytics",
+        "--enable-update-create"
+      ],
+      "respuesta": 1,
+      "explicacion": "resource declara NDJSON con un recurso por línea; bundle esperaría un Bundle completo por línea."
+    },
+    {
+      "id": "t8q10",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "¿Qué diferencia el schema-type analytics del lossless al exportar a BigQuery?",
+      "opciones": [
+        "analytics aplana a un esquema SQL consultable; lossless conserva el JSON íntegro sin pérdida",
+        "analytics es gratuito y lossless de pago",
+        "lossless solo funciona con R5",
+        "No hay diferencia práctica"
+      ],
+      "respuesta": 0,
+      "explicacion": "analytics sirve para BI y epidemiología con SQL; lossless para respaldo y reproceso fiel del recurso."
+    },
+    {
+      "id": "t8q11",
+      "bloom": "aplicar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Rol IAM de mínimo privilegio para una app que SOLO lee recursos FHIR (escribe el nombre completo del rol):",
+      "respuestas_validas": [
+        "roles/healthcare.fhirResourceReader",
+        "healthcare.fhirResourceReader",
+        "fhirResourceReader"
+      ],
+      "explicacion": "fhirResourceReader permite lectura de recursos; fhirResourceEditor sería excesivo para solo lectura."
+    },
+    {
+      "id": "t8q12",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Actualizas un Patient con If-Match: W/\"1\" y recibes 412 Precondition Failed. ¿Qué pasó y qué haces?",
+      "opciones": [
+        "El servidor está caído; reintentas idéntico",
+        "Otro proceso ya creó la versión 2; relees el recurso y reintentas sobre la versión actual",
+        "El token expiró; regeneras token",
+        "Falta el rol fhirStoreAdmin"
+      ],
+      "respuesta": 1,
+      "explicacion": "Es la concurrencia optimista: tu precondición de versión ya no coincide; evita pisar el cambio ajeno."
+    },
+    {
+      "id": "t8q13",
+      "bloom": "comprender",
+      "tipo": "verdadero_falso",
+      "pregunta": "Una alerta de presupuesto en GCP detiene automáticamente el gasto cuando se alcanza el umbral.",
+      "respuesta": false,
+      "explicacion": "Solo notifica. El freno real es borrar los recursos (dataset, bucket, BigQuery) al terminar cada sesión."
+    },
+    {
+      "id": "t8q14",
+      "bloom": "evaluar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Para una red nacional dirigida por eventos (recalcular indicadores cuando llegan Observations), la pieza correcta del store es:",
+      "opciones": [
+        "Labels",
+        "Notificaciones a un tópico Pub/Sub configurado en el store",
+        "disableResourceVersioning",
+        "Export nocturno a GCS"
+      ],
+      "respuesta": 1,
+      "explicacion": "El store publica un mensaje por cada cambio; los suscriptores reaccionan sin hacer polling."
+    },
+    {
+      "id": "t8q15",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "¿Qué registran los Data Access logs (a diferencia de los Admin Activity logs) y qué debes hacer para tenerlos?",
+      "opciones": [
+        "Cambios de IAM; están siempre activos",
+        "Lecturas y escrituras de recursos FHIR; hay que habilitarlos explícitamente y facturan volumen de logging",
+        "Solo errores 5xx; se activan con una label",
+        "Nada relacionado con FHIR"
+      ],
+      "respuesta": 1,
+      "explicacion": "Admin Activity (administración) siempre está activo; Data Access (acceso a datos clínicos) se habilita aparte y es clave para auditoría nacional."
+    },
+    {
+      "id": "t8q16",
+      "bloom": "evaluar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Terminas una sesión con store poblado, bucket con NDJSON y dataset de BigQuery. ¿Cuál es la secuencia de limpieza correcta para quedar en $0?",
+      "opciones": [
+        "Basta con cerrar sesión de gcloud",
+        "Borrar solo los archivos NDJSON locales",
+        "gcloud healthcare datasets delete + gcloud storage rm -r del bucket + bq rm -r -f del dataset analítico",
+        "Deshabilitar la Healthcare API sin borrar datos"
+      ],
+      "respuesta": 2,
+      "explicacion": "El costo corre por almacenamiento: hay que eliminar el dataset de healthcare (arrastra los stores), el bucket y el dataset de BigQuery."
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "frente": "Terminal vs shell",
+    "reverso": "Terminal: la ventana que muestra texto y captura el teclado. Shell: el intérprete (PowerShell, bash) que ejecuta los comandos dentro de ella."
+  },
+  {
+    "frente": "Anatomía de un comando",
+    "reverso": "programa + argumentos (sobre qué actuar) + flags (cómo actuar). Ej.: python script.py --verbose. Los espacios separan las piezas; las comillas protegen los espacios internos."
+  },
+  {
+    "frente": "Ruta absoluta vs relativa",
+    "reverso": "Absoluta: desde la raíz (C:\\Users\\ana\\fhir). Relativa: desde el directorio de trabajo actual (fhir\\lab). `.` es la carpeta actual y `..` la carpeta padre."
+  },
+  {
+    "frente": "¿Qué es el PATH?",
+    "reverso": "Lista de carpetas donde el shell busca los ejecutables, en orden. Si escribes `python` y ninguna carpeta del PATH lo contiene, obtienes 'no se reconoce'."
+  },
+  {
+    "frente": "\"'python' no se reconoce\": diagnóstico",
+    "reverso": "1) No está instalado, 2) está instalado pero fuera del PATH, o 3) la terminal estaba abierta durante la instalación (reabrir). Verificar con where.exe python / which python."
+  },
+  {
+    "frente": "stdout y stderr",
+    "reverso": "Dos canales de salida separados: stdout lleva los resultados normales y stderr los errores. Se mezclan en pantalla pero pueden redirigirse por separado."
+  },
+  {
+    "frente": "Código de salida",
+    "reverso": "Número con el que termina todo programa: 0 = éxito, distinto de 0 = fallo. Se consulta con $LASTEXITCODE (PowerShell) o $? (bash). Los scripts deciden con él."
+  },
+  {
+    "frente": "Pipe |",
+    "reverso": "Conecta la salida de un programa con la entrada del siguiente. Ej.: curl -s URL | python -m json.tool descarga JSON y lo imprime formateado."
+  },
+  {
+    "frente": "Redirección > y >>",
+    "reverso": "`>` manda la salida a un archivo sobrescribiéndolo; `>>` agrega al final sin borrar. Ej.: python informe.py > resultado.txt."
+  },
+  {
+    "frente": "Método para leer un error",
+    "reverso": "1) No rompiste nada. 2) Lee primera y última línea. 3) Busca los nombres que tú escribiste (archivo, carpeta, comando). 4) Si pides ayuda, copia el mensaje completo."
+  },
+  {
+    "frente": "Atajos esenciales",
+    "reverso": "Tab: autocompleta (y confirma que la ruta existe). Flecha arriba: historial. Ctrl+C: cancela el proceso. Ctrl+L / clear: limpia pantalla."
+  },
+  {
+    "frente": "Navegación básica",
+    "reverso": "pwd: dónde estoy. ls: qué hay aquí. cd nombre: entrar. cd ..: subir. mkdir nombre: crear carpeta. cat archivo: ver contenido."
+  }
+]

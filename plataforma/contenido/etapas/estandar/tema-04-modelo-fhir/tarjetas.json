@@ -1,0 +1,58 @@
+[
+  {
+    "frente": "¿Qué elementos define Resource y cuáles añade DomainResource?",
+    "reverso": "Resource: id, meta, implicitRules, language. DomainResource añade: text, contained, extension, modifierExtension."
+  },
+  {
+    "frente": "modifierExtension desconocida: ¿qué debe hacer el receptor?",
+    "reverso": "No procesar el recurso como si no existiera: rechazarlo o tratarlo como excepción, porque cambia el significado (p. ej. una negación)."
+  },
+  {
+    "frente": "Identifier vs id lógico",
+    "reverso": "id: técnico, asignado por cada servidor, no portable. Identifier: de negocio (system+value, p. ej. DUI), viaja con la entidad entre sistemas."
+  },
+  {
+    "frente": "Reglas de un recurso contained",
+    "reverso": "Sin narrativa, sin contained anidados, sin meta.versionId/lastUpdated, y debe ser referenciado desde el contenedor con #id."
+  },
+  {
+    "frente": "Formas de Reference",
+    "reverso": "Literal relativa (Patient/123), absoluta (https://...), versionada (/_history/n), lógica (identifier system+value), interna (#id), urn:uuid dentro de Bundle."
+  },
+  {
+    "frente": "Resolución de referencias dentro de un Bundle",
+    "reverso": "La referencia se compara contra el fullUrl de las entries; las relativas se resuelven usando el fullUrl de la entry origen como base."
+  },
+  {
+    "frente": "Presión arterial 120/80 en FHIR",
+    "reverso": "Un Observation con code LOINC 85354-9 y dos component: 8480-6 (sistólica) y 8462-4 (diastólica), cada uno con valueQuantity en mm[Hg]. Sin value[x] en la raíz."
+  },
+  {
+    "frente": "Invariante obs-6 de Observation",
+    "reverso": "dataAbsentReason solo puede estar presente si value[x] está ausente: valor o razón de ausencia, nunca ambos."
+  },
+  {
+    "frente": "Condition: clinicalStatus vs verificationStatus",
+    "reverso": "clinicalStatus = curso clínico (active, remission, resolved...). verificationStatus = certeza (provisional, confirmed, refuted...). Ambos son modificadores."
+  },
+  {
+    "frente": "transaction vs batch",
+    "reverso": "transaction: atómico (todo o nada), entradas pueden enlazarse con urn:uuid. batch: entradas independientes, sin dependencias entre sí."
+  },
+  {
+    "frente": "Orden de procesamiento en una transaction",
+    "reverso": "DELETE, luego POST, luego PUT/PATCH, luego GET/HEAD; las referencias urn:uuid se reescriben con los ids reales."
+  },
+  {
+    "frente": "Primera entry obligatoria de Bundle document y message",
+    "reverso": "document: Composition. message: MessageHeader."
+  },
+  {
+    "frente": "Choice type value[x]: reglas",
+    "reverso": "Un solo tipo presente a la vez; nombre serializado = value + Tipo capitalizado (valueQuantity); no repetible."
+  },
+  {
+    "frente": "Quantity vs SimpleQuantity",
+    "reverso": "Quantity admite comparator (<, <=, >=, >), que es modificador. SimpleQuantity es Quantity con comparator prohibido (dosis, componentes)."
+  }
+]

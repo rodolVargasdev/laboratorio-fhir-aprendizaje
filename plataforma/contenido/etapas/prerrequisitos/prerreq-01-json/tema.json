@@ -1,0 +1,56 @@
+{
+  "slug": "prerreq-01-json",
+  "numero": -14,
+  "nombre": "JSON a fondo",
+  "resumen": "Sintaxis completa de JSON (los seis tipos de valor), anidación, rutas con índices, null frente a campo ausente y validación: la base sobre la que se lee y escribe todo recurso FHIR.",
+  "opcional": false,
+  "objetivos": [
+    "Explicar los seis tipos de valor de JSON y las reglas de sintaxis (comillas dobles, sin comas finales, sin comentarios)",
+    "Escribir de memoria objetos JSON válidos con anidación y arrays de objetos, verificados con un validador",
+    "Diagnosticar y corregir los errores de sintaxis típicos (coma final, comillas simples, clave sin comillas, llaves desbalanceadas) usando los mensajes del validador",
+    "Leer cualquier valor de un JSON anidado mediante rutas con índices, como Patient.name[0].given[0]",
+    "Distinguir null de campo ausente y aplicar la regla de FHIR: campo ausente significa 'no se registró' y casi nunca se usa null",
+    "Comparar JSON con XML sobre el mismo dato clínico y argumentar por qué las APIs modernas prefieren JSON",
+    "Validar documentos JSON con jsonlint.com, el editor de la plataforma o VS Code"
+  ],
+  "enlaces": [
+    {
+      "titulo": "JSON en MDN (español)",
+      "url": "https://developer.mozilla.org/es/docs/Learn/JavaScript/Objects/JSON",
+      "nota": "El mejor recorrido guiado en español, con ejemplos interactivos de lectura de datos anidados."
+    },
+    {
+      "titulo": "Especificación de JSON en español (json.org)",
+      "url": "https://www.json.org/json-es.html",
+      "nota": "Todo el formato en una página con los diagramas de sintaxis oficiales; la referencia definitiva."
+    },
+    {
+      "titulo": "JSONLint",
+      "url": "https://jsonlint.com",
+      "nota": "Validador en línea usado en toda la práctica del tema; señala la línea exacta de cada error."
+    },
+    {
+      "titulo": "Servidor FHIR de pruebas HAPI (baseR4)",
+      "url": "https://hapi.fhir.org/baseR4",
+      "nota": "JSON de FHIR real para practicar lectura de rutas; prueba /Patient?_count=1 en el navegador."
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "Bases - JSON a fondo",
+    "fuentes": [
+      {
+        "titulo": "JSON en MDN (español)",
+        "url": "https://developer.mozilla.org/es/docs/Learn/JavaScript/Objects/JSON"
+      },
+      {
+        "titulo": "Especificación de JSON en español (json.org)",
+        "url": "https://www.json.org/json-es.html"
+      }
+    ],
+    "prompts": [
+      "Explícame la diferencia entre un objeto y un array en JSON con un ejemplo de datos de un paciente, y dime en cuál de los dos importa el orden y por qué.",
+      "Hazme un examen de 8 preguntas sobre errores de sintaxis en JSON (comas finales, comillas simples, claves sin comillas, mayúsculas en true/false/null): muéstrame fragmentos y pídeme identificar el error antes de darme la respuesta.",
+      "A partir de las fuentes, explícame qué significa null en JSON y contrástalo con omitir un campo por completo; luego pregúntame cómo debería representarse en un sistema de salud que la fecha de nacimiento de un paciente no fue registrada."
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "slug": "prerreq-00-terminal",
+  "numero": -15,
+  "nombre": "La terminal y tu entorno",
+  "resumen": "Terminal vs interfaz gráfica, shells, comandos, rutas, PATH, errores y pipes: la base para operar cualquier herramienta FHIR.",
+  "opcional": false,
+  "objetivos": [
+    "Explicar la diferencia entre terminal, shell y prompt, y entre CLI y GUI",
+    "Descomponer cualquier comando en programa, argumentos y flags",
+    "Navegar el sistema de archivos con rutas absolutas y relativas (pwd, cd, ls, mkdir)",
+    "Diagnosticar el error 'no se reconoce como comando' explicando qué es el PATH",
+    "Distinguir stdout de stderr e interpretar códigos de salida",
+    "Encadenar programas con pipes y guardar salidas con redirección",
+    "Leer un mensaje de error completo e identificar su causa sin ayuda"
+  ],
+  "enlaces": [
+    {
+      "titulo": "Línea de comandos — curso intensivo (MDN)",
+      "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line",
+      "nota": "El mejor recorrido corto y neutral por la terminal, del proyecto Mozilla."
+    },
+    {
+      "titulo": "¿Qué es PowerShell? (Microsoft Learn, español)",
+      "url": "https://learn.microsoft.com/es-es/powershell/scripting/overview",
+      "nota": "Referencia oficial del shell que usarás a diario en Windows."
+    },
+    {
+      "titulo": "Guía de instalación del curso",
+      "url": "/setup",
+      "nota": "Deja tu terminal, Python y herramientas listos con pasos verificados."
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "Bases - La terminal y tu entorno",
+    "fuentes": [
+      {
+        "titulo": "Command line crash course (MDN)",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line"
+      },
+      {
+        "titulo": "¿Qué es PowerShell? (Microsoft Learn)",
+        "url": "https://learn.microsoft.com/es-es/powershell/scripting/overview"
+      }
+    ],
+    "prompts": [
+      "Explícame con una analogía la diferencia entre terminal, shell y prompt, y pregúntame después tres casos para clasificar.",
+      "Hazme un simulacro: dame cinco mensajes de error típicos de la terminal (PATH, ruta inexistente, espacios sin comillas) y pídeme diagnosticar la causa de cada uno.",
+      "Genera un examen oral de 8 preguntas sobre rutas absolutas y relativas, PATH, pipes y códigos de salida, y corrige mis respuestas."
+    ]
+  }
+}

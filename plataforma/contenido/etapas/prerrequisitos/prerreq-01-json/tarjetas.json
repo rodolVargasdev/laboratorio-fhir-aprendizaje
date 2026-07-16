@@ -1,0 +1,50 @@
+[
+  {
+    "frente": "¿Cuáles son los seis tipos de valor de JSON?",
+    "reverso": "string, number, boolean, null, object y array. No hay más: no existe tipo fecha (son strings) ni distinción entre entero y decimal."
+  },
+  {
+    "frente": "¿Qué es un objeto en JSON y cuál es su analogía?",
+    "reverso": "Pares \"clave\": valor entre llaves { }. Como un formulario clínico con casillas etiquetadas: cada casilla tiene nombre y contenido. El orden de las claves no significa nada."
+  },
+  {
+    "frente": "¿Qué es un array en JSON y qué lo diferencia de un objeto?",
+    "reverso": "Una secuencia ordenada de valores entre corchetes [ ], indexada desde 0. A diferencia del objeto, aquí el orden sí es significativo: [\"a\",\"b\"] y [\"b\",\"a\"] son datos distintos."
+  },
+  {
+    "frente": "Reglas de las comillas en JSON",
+    "reverso": "Comillas dobles obligatorias en toda clave y todo string. Las comillas simples y las claves sin comillas son válidas en JavaScript o Python, pero invalidan un documento JSON."
+  },
+  {
+    "frente": "¿Se pueden escribir comentarios en JSON?",
+    "reverso": "No. JSON no admite //, /* */ ni #. Solo transporta datos; cualquier anotación va en un campo de datos (en FHIR, por ejemplo, el campo note) o fuera del documento."
+  },
+  {
+    "frente": "¿Qué es una coma final (trailing comma) y por qué es traicionera?",
+    "reverso": "Una coma después del último elemento de un array u objeto: [1, 2, 3,]. Invalida el JSON completo, pero JavaScript y Python la toleran en su propio código, por eso se cuela tanto."
+  },
+  {
+    "frente": "Diferencia entre \"telefono\": null y omitir el campo telefono",
+    "reverso": "null = vacío intencional: alguien afirmó que no hay valor. Campo ausente = silencio: nadie registró nada. Son afirmaciones distintas sobre el dato, y en salud esa diferencia importa."
+  },
+  {
+    "frente": "Regla de FHIR sobre null",
+    "reverso": "FHIR casi nunca usa null: si un dato no se registró, el campo se omite por completo. Enviar \"birthDate\": null hace inválido el recurso. Campo ausente significa 'no se registró'."
+  },
+  {
+    "frente": "¿Qué devuelve Patient.name[0].given[0]?",
+    "reverso": "Del array name, el primer objeto (índice 0: normalmente el nombre oficial); de su array given, el primer nombre de pila. Los índices siempre empiezan en 0."
+  },
+  {
+    "frente": "Diferencia entre \"edad\": 37 y \"edad\": \"37\"",
+    "reverso": "37 es number: se puede comparar y calcular. \"37\" es string: texto que exige conversión, y un servidor puede rechazarlo si el campo espera número. El tipo forma parte del dato."
+  },
+  {
+    "frente": "Tres ventajas de JSON sobre XML para APIs de salud",
+    "reverso": "1) Menos verboso: no repite etiquetas de apertura y cierre. 2) Tipos explícitos en la sintaxis (true, 37). 3) Mapea directo a diccionarios y objetos de los lenguajes modernos."
+  },
+  {
+    "frente": "¿Cómo validar un JSON antes de usarlo?",
+    "reverso": "Nunca a ojo: jsonlint.com (pegar y validar), el editor de la plataforma, o VS Code con extensión .json (subraya errores en vivo y formatea con Shift+Alt+F). Un solo carácter mal invalida todo."
+  }
+]

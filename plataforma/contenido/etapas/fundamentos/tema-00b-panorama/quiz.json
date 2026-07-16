@@ -1,0 +1,189 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "tema-00b-panorama-1",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Qué versión de FHIR evalúa el examen Foundational Implementer y usa la producción hoy?",
+      "opciones": ["R5 (5.0.0)", "R4 (4.0.1)", "R6 (6.0.0)", "R4B (4.3.0)"],
+      "respuesta": 1,
+      "explicacion": "R4 4.0.1: sus partes clave (API REST, formatos, datatypes, Patient, Observation) son normativas y es el objetivo de reguladores, IGs y plataformas. R5 quedó como Trial Use minoritaria y R6 sigue en balota."
+    },
+    {
+      "id": "tema-00b-panorama-2",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "Estás estudiando en hl7.org/fhir/ (sin sufijo de versión). ¿Cuál es el riesgo?",
+      "opciones": [
+        "Ninguno: esa URL siempre sirve R4",
+        "Estás leyendo la versión 'current' publicada (hoy R5), no la del examen; tu ancla debe ser hl7.org/fhir/R4/",
+        "Esa URL es el borrador diario de R6",
+        "Esa URL requiere membresía de HL7"
+      ],
+      "respuesta": 1,
+      "explicacion": "Tres URL parecidas, tres versiones: hl7.org/fhir/R4/ es la publicación congelada de R4 (tu ancla); hl7.org/fhir/ sirve la current (R5); build.fhir.org sirve el build continuo camino a R6. Estudiar en la equivocada introduce diferencias sutiles."
+    },
+    {
+      "id": "tema-00b-panorama-3",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Cuál es la certificación de entrada vigente de HL7 para FHIR y qué pasó con el R4 Proficiency?",
+      "opciones": [
+        "FHIR Advanced Developer; el R4 Proficiency sigue vigente en paralelo",
+        "FHIR Foundational Implementer; reemplazó al R4 Proficiency, retirado en diciembre de 2024",
+        "FHIR R5 Proficiency; sustituyó al de R4 en 2023",
+        "No existe certificación oficial de HL7 para FHIR"
+      ],
+      "respuesta": 1,
+      "explicacion": "El Foundational Implementer (aprox. 100 preguntas, ~180 minutos, umbral cercano al 60 %; confirma en la ficha oficial) es el examen de entrada desde el retiro del R4 Proficiency en dic-2024. El Advanced Developer exige tener vigente el Foundational."
+    },
+    {
+      "id": "tema-00b-panorama-4",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe el scope SMART v2 mínimo para que una app en contexto de paciente pueda LEER y BUSCAR observaciones.",
+      "respuestas_validas": ["patient/Observation.rs", "patient/observation.rs"],
+      "explicacion": "En scopes v2 los verbos son granulares y van en orden c-r-u-d-s: .rs concede read y search. El equivalente v1 (patient/Observation.read) no distinguía search de read."
+    },
+    {
+      "id": "tema-00b-panorama-5",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Una app solo debe acceder a los signos vitales del paciente, no a toda Observation. ¿Qué mecanismo de SMART 2.2 lo expresa?",
+      "opciones": [
+        "No es posible: los scopes solo llegan a nivel de tipo de recurso",
+        "Un parámetro embebido en el scope: patient/Observation.rs?category=vital-signs",
+        "Un scope v1 especial: patient/VitalSigns.read",
+        "Un header HTTP X-Scope-Filter en cada petición"
+      ],
+      "respuesta": 1,
+      "explicacion": "SMART 2.x permite parámetros de búsqueda embebidos en el scope para acotar el permiso a un subconjunto del tipo. No existe el recurso VitalSigns ni headers de filtrado estándar; los scopes v1 no tienen esta granularidad."
+    },
+    {
+      "id": "tema-00b-panorama-6",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Un Bundle de tipo 'transaction' es atómico: si una entrada falla, el servidor no aplica ninguna.",
+      "respuesta": true,
+      "explicacion": "transaction = todo o nada (y resuelve referencias internas entre entradas). El best-effort es batch, donde cada entrada se procesa de forma independiente. Confundirlos es de los errores de examen más clásicos."
+    },
+    {
+      "id": "tema-00b-panorama-7",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Si un perfil de US Core marca un elemento como must-support, toda instancia debe traer ese elemento poblado.",
+      "respuesta": false,
+      "explicacion": "Must-support obliga al SISTEMA a ser capaz de producir/consumir el elemento según las reglas del IG; no obliga a cada instancia a traerlo. La obligatoriedad por instancia la da la cardinalidad mínima 1 del perfil."
+    },
+    {
+      "id": "tema-00b-panorama-8",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Necesitas notificaciones en tiempo real (modelo topic-based) pero tu plataforma nacional es R4 y no puedes migrar. ¿Qué haces?",
+      "opciones": [
+        "Migrar a R5, única forma de tener SubscriptionTopic",
+        "Usar el Subscriptions R5 Backport IG sobre R4/R4B",
+        "Usar polling con GET cada minuto: R4 no soporta nada más",
+        "Esperar a R6"
+      ],
+      "respuesta": 1,
+      "explicacion": "El Backport IG trae el modelo topic-based de R5 al mundo R4/R4B. Es el ejemplo canónico del patrón 'la comunidad backportea lo urgente vía IG en vez de forzar migraciones de versión'."
+    },
+    {
+      "id": "tema-00b-panorama-9",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué ruta de versiones anunció US Core?",
+      "opciones": [
+        "Quedarse en R4 indefinidamente",
+        "Migrar a R5 y después a R6",
+        "Saltar de R4 a R6, omitiendo R5",
+        "Publicar en paralelo para R4, R5 y R6"
+      ],
+      "respuesta": 2,
+      "explicacion": "US Core saltará de R4 a R6 sin pasar por R5, señal fuerte de que R5 queda como versión de transición histórica y de que el evento estratégico del bienio es la balota normativa de R6."
+    },
+    {
+      "id": "tema-00b-panorama-10",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "El ministerio quiere alimentar cada noche su tablero analítico con los datos de todos los hospitales. ¿Cuál es el mecanismo estándar correcto?",
+      "opciones": [
+        "Miles de GET Patient/[id] en un bucle",
+        "SMART Bulk Data ($export asíncrono, salida NDJSON, autenticado con Backend Services)",
+        "Un Bundle transaction gigante con todos los pacientes",
+        "Exportar la base de datos SQL de cada hospital"
+      ],
+      "respuesta": 1,
+      "explicacion": "Bulk Data separa el plano analítico (export asíncrono poblacional en NDJSON con scopes system/) del transaccional (REST síncrono). Consultar paciente por paciente no escala y un transaction gigante no es un mecanismo de exportación."
+    },
+    {
+      "id": "tema-00b-panorama-11",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Qué operación de terminología usarías para poblar un desplegable clínico con los códigos permitidos de un ValueSet?",
+      "opciones": ["$lookup", "$translate", "$expand", "$validate-code"],
+      "respuesta": 2,
+      "explicacion": "$expand materializa la lista de códigos de un ValueSet (con filtro y paginación). $lookup da metadata de un código, $validate-code comprueba pertenencia y $translate mapea entre sistemas vía ConceptMap."
+    },
+    {
+      "id": "tema-00b-panorama-12",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un ValueSet tiene binding 'extensible' sobre un campo y ningún código del ValueSet describe el concepto real del paciente. ¿Qué es conforme?",
+      "opciones": [
+        "Dejar el campo vacío siempre",
+        "Usar un código de otro sistema, ya que ninguno del ValueSet aplica",
+        "Usar cualquier código aunque uno del ValueSet sí aplique",
+        "Está prohibido: extensible equivale a required"
+      ],
+      "respuesta": 1,
+      "explicacion": "extensible: si un código del ValueSet aplica al concepto, DEBES usarlo; solo cuando ninguno aplica puedes usar otro código. required no admite códigos externos; preferred y example son progresivamente más laxos."
+    },
+    {
+      "id": "tema-00b-panorama-13",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Por qué 'nuestro servidor es R4 conforme' NO garantiza interoperabilidad con otro servidor R4 conforme?",
+      "opciones": [
+        "Porque R4 tiene errores de especificación conocidos",
+        "Porque la conformidad real depende del CapabilityStatement de cada uno: búsqueda, operaciones, validación de perfiles y comportamiento pueden diferir",
+        "Porque uno puede estar en JSON y otro en XML, formatos incompatibles",
+        "Sí lo garantiza: mismo número de versión, misma conducta"
+      ],
+      "respuesta": 1,
+      "explicacion": "Dos servidores R4 pueden implementar subconjuntos distintos de interacciones, parámetros de búsqueda y operaciones, y validar perfiles diferentes. El contrato real es el CapabilityStatement (y el IG común), no el número de versión. JSON y XML son intercambiables, no incompatibles."
+    },
+    {
+      "id": "tema-00b-panorama-14",
+      "tipo": "respuesta_corta",
+      "bloom": "recordar",
+      "pregunta": "¿Qué recurso nuevo introduce R5 para combinar 'un código O una referencia' en un solo campo? (nombre del tipo)",
+      "respuestas_validas": ["CodeableReference", "codeablereference"],
+      "explicacion": "CodeableReference unifica el patrón que en R4 exigía dos campos paralelos (p. ej. medicationCodeableConcept / medicationReference). Ejemplo de cómo el estándar consolida patrones repetidos en tipos reutilizables."
+    },
+    {
+      "id": "tema-00b-panorama-15",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "¿Por qué R5/R6 extraen la traza de estados de Encounter al recurso EncounterHistory?",
+      "opciones": [
+        "Porque statusHistory embebido en R4 obliga a reescribir el Encounter completo en cada cambio de estado, generando versiones ruidosas e ineficientes",
+        "Porque R4 no permitía registrar cambios de estado de ninguna forma",
+        "Por razones puramente estéticas de nomenclatura",
+        "Porque EncounterHistory reemplaza al recurso Encounter"
+      ],
+      "respuesta": 0,
+      "explicacion": "En R4, statusHistory/classHistory viven dentro de Encounter: cada transición reescribe el recurso entero. Separar 'estado actual' de 'traza histórica' en un recurso propio es una lección de diseño general que verás repetirse en la evolución del estándar."
+    },
+    {
+      "id": "tema-00b-panorama-16",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "R5 introdujo una gran cantidad de contenido normativo nuevo, por eso la industria está migrando aceleradamente.",
+      "respuesta": false,
+      "explicacion": "Doble error: R5 no trajo contenido normativo nuevo (todo Trial Use) y la industria NO migró: reguladores e IGs siguen en R4 esperando la balota normativa de R6. En estándares de salud, la regulación y los IGs arrastran la adopción, no la novedad."
+    }
+  ]
+}

@@ -1,0 +1,318 @@
+// Esquema Prisma — Plataforma de aprendizaje FHIR
+// Prisma 7 (query compiler + driver adapter). La URL se lee en prisma.config.ts.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ===========================================================================
+// Autenticacion (contrato de @auth/prisma-adapter — nombres en ingles a proposito)
+// ===========================================================================
+
+enum Rol {
+  ESTUDIANTE
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  rol           Rol       @default(ESTUDIANTE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts        Account[]
+  sessions        Session[]
+  progresoTemas   ProgresoTema[]
+  progresoPasos   ProgresoPaso[]
+  intentos        IntentoQuiz[]
+  estadisticas    EstadisticaPregunta[]
+  repasos         RepasoTarjeta[]
+  diagnosticos    Diagnostico[]
+  conversaciones  ConversacionTutor[]
+
+  @@map("usuarios")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("cuentas")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sesiones")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("tokens_verificacion")
+}
+
+// ===========================================================================
+// Contenido (se siembra desde /contenido; editable en git)
+// ===========================================================================
+
+enum TipoPaso {
+  LECTURA
+  NOTEBOOKLM
+  PRACTICA
+  QUIZ
+  PRACTICA_NACIONAL
+  TARJETAS
+}
+
+enum TipoPregunta {
+  OPCION_MULTIPLE
+  VERDADERO_FALSO
+  RESPUESTA_CORTA
+}
+
+enum EstadoTema {
+  NO_INICIADO
+  EN_PROGRESO
+  COMPLETADO
+}
+
+model Etapa {
+  id     String @id @default(cuid())
+  slug   String @unique
+  numero Int // -1, 0, 1, 2, 3
+  nombre String
+  meta   String?
+  orden  Int
+
+  temas Tema[]
+
+  @@map("etapas")
+}
+
+model Tema {
+  id         String  @id @default(cuid())
+  slug       String  @unique
+  etapaId    String
+  numero     Int
+  nombre     String
+  resumen    String?
+  opcional   Boolean @default(false)
+  orden      Int
+  objetivos  String[]
+  enlaces    Json? // [{ titulo, url, nota }]
+  notebooklm Json? // { nombreCuaderno, fuentes: [], prompts: [] }
+
+  etapa     Etapa          @relation(fields: [etapaId], references: [id], onDelete: Cascade)
+  pasos     Paso[]
+  preguntas Pregunta[]
+  tarjetas  Tarjeta[]
+  progresos ProgresoTema[]
+  intentos  IntentoQuiz[]
+
+  @@map("temas")
+}
+
+model Paso {
+  id          String   @id @default(cuid())
+  temaId      String
+  tipo        TipoPaso
+  titulo      String
+  contenido   String? // markdown (LECTURA / PRACTICA / PRACTICA_NACIONAL / NOTEBOOKLM)
+  orden       Int
+  obligatorio Boolean  @default(true)
+
+  tema      Tema           @relation(fields: [temaId], references: [id], onDelete: Cascade)
+  progresos ProgresoPaso[]
+
+  @@unique([temaId, tipo])
+  @@map("pasos")
+}
+
+model Pregunta {
+  id                String       @id @default(cuid())
+  temaId            String
+  claveLegacy       String? // id original (ej "d1q1")
+  tipo              TipoPregunta
+  enunciado         String
+  opciones          Json? // string[]
+  respuestaIndice   Int? // OPCION_MULTIPLE
+  respuestaBool     Boolean? // VERDADERO_FALSO
+  respuestasValidas String[] // RESPUESTA_CORTA
+  explicacion       String?
+  bloom             String?
+  orden             Int
+
+  tema         Tema                  @relation(fields: [temaId], references: [id], onDelete: Cascade)
+  estadisticas EstadisticaPregunta[]
+
+  @@map("preguntas")
+}
+
+model Tarjeta {
+  id          String  @id @default(cuid())
+  temaId      String
+  claveLegacy String?
+  frente      String
+  reverso     String
+
+  tema    Tema            @relation(fields: [temaId], references: [id], onDelete: Cascade)
+  repasos RepasoTarjeta[]
+
+  @@map("tarjetas")
+}
+
+// ===========================================================================
+// Progreso y estado por usuario (se escribe en tiempo de ejecucion)
+// ===========================================================================
+
+model ProgresoTema {
+  id           String     @id @default(cuid())
+  usuarioId    String
+  temaId       String
+  estado       EstadoTema @default(NO_INICIADO)
+  completadoEn DateTime?
+  actualizado  DateTime   @updatedAt
+
+  usuario User @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  tema    Tema @relation(fields: [temaId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, temaId])
+  @@map("progreso_temas")
+}
+
+model ProgresoPaso {
+  id           String    @id @default(cuid())
+  usuarioId    String
+  pasoId       String
+  completado   Boolean   @default(false)
+  datos        Json? // p.ej. checklist de NotebookLM
+  completadoEn DateTime?
+  actualizado  DateTime  @updatedAt
+
+  usuario User @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  paso    Paso @relation(fields: [pasoId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, pasoId])
+  @@map("progreso_pasos")
+}
+
+model IntentoQuiz {
+  id         String   @id @default(cuid())
+  usuarioId  String
+  temaId     String
+  porcentaje Int
+  aciertos   Int
+  total      Int
+  detalle    Json?
+  creado     DateTime @default(now())
+
+  usuario User @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  tema    Tema @relation(fields: [temaId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId, temaId])
+  @@map("intentos_quiz")
+}
+
+model EstadisticaPregunta {
+  id            String    @id @default(cuid())
+  usuarioId     String
+  preguntaId    String
+  vecesVista    Int       @default(0)
+  vecesFallada  Int       @default(0)
+  vecesAcertada Int       @default(0)
+  ultima        DateTime?
+
+  usuario  User     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  pregunta Pregunta @relation(fields: [preguntaId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, preguntaId])
+  @@map("estadisticas_pregunta")
+}
+
+model RepasoTarjeta {
+  id              String   @id @default(cuid())
+  usuarioId       String
+  tarjetaId       String
+  caja            Int      @default(1) // Leitner 1..5
+  factorFacilidad Float    @default(2.5) // SM-2
+  intervalo       Int      @default(0) // dias
+  repeticiones    Int      @default(0)
+  proximaRevision DateTime @default(now())
+
+  usuario User    @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  tarjeta Tarjeta @relation(fields: [tarjetaId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, tarjetaId])
+  @@index([usuarioId, proximaRevision])
+  @@map("repaso_tarjetas")
+}
+
+model Diagnostico {
+  id        String   @id @default(cuid())
+  usuarioId String
+  datos     Json
+  creado    DateTime @default(now())
+
+  usuario User @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@map("diagnosticos")
+}
+
+model ConversacionTutor {
+  id        String   @id @default(cuid())
+  usuarioId String
+  temaId    String?
+  titulo    String?
+  creado    DateTime @default(now())
+
+  usuario  User           @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  mensajes MensajeTutor[]
+
+  @@index([usuarioId])
+  @@map("conversaciones_tutor")
+}
+
+model MensajeTutor {
+  id             String   @id @default(cuid())
+  conversacionId String
+  rol            String // user | assistant | system
+  contenido      String
+  creado         DateTime @default(now())
+
+  conversacion ConversacionTutor @relation(fields: [conversacionId], references: [id], onDelete: Cascade)
+
+  @@index([conversacionId])
+  @@map("mensajes_tutor")
+}

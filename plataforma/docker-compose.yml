@@ -1,0 +1,23 @@
+# Postgres local para desarrollo/verificacion. No se usa en produccion (alli va Neon).
+#   docker compose up -d
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: fhir_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fhir
+      POSTGRES_PASSWORD: fhir
+      POSTGRES_DB: fhir
+    ports:
+      - "5433:5432"
+    volumes:
+      - fhir_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fhir"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  fhir_pgdata:

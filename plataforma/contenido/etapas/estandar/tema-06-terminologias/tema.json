@@ -1,0 +1,74 @@
+{
+  "slug": "tema-06-terminologias",
+  "numero": 6,
+  "nombre": "Terminologias clinicas",
+  "resumen": "La capa semántica de FHIR: code vs Coding vs CodeableConcept, LOINC/SNOMED CT/UCUM/ICD, CodeSystem (content, supplements), ValueSet (compose vs expansion y por qué cambia), ConceptMap (equivalence), las cuatro fuerzas de binding con el matiz exacto de extensible, y las operaciones $lookup, $validate-code, $expand, $translate y $subsumes contra servidores de terminología.",
+  "opcional": false,
+  "objetivos": [
+    "Elegir entre code, Coding y CodeableConcept según el binding y el caso de uso, sin dudar.",
+    "Escribir de memoria las URIs canónicas de LOINC, SNOMED CT, UCUM e ICD-10 y explicar el rol de cada sistema.",
+    "Leer y crear CodeSystems (content complete/fragment/not-present/supplement) y ValueSets (compose con include/exclude/filter).",
+    "Explicar por qué una expansión puede cambiar sin que cambie el ValueSet y cuándo fijar versiones.",
+    "Construir ConceptMaps con equivalences honestas (equivalent/wider/narrower) y detectar la pérdida de especificidad.",
+    "Aplicar el significado exacto de cada fuerza de binding, en especial extensible.",
+    "Ejecutar $lookup, $validate-code, $expand (con filter para typeahead), $translate y $subsumes con sus parámetros reales.",
+    "Diseñar la estrategia terminológica institucional: catálogos legados -> CodeSystem + ConceptMap + doble coding."
+  ],
+  "enlaces": [
+    {
+      "titulo": "Using Codes (terminologies) R4",
+      "url": "http://hl7.org/fhir/R4/terminologies.html",
+      "nota": "Bindings, fuerzas y reglas de uso de códigos en recursos: la página madre del tema."
+    },
+    {
+      "titulo": "ValueSet R4",
+      "url": "http://hl7.org/fhir/R4/valueset.html",
+      "nota": "compose (include/exclude/filter) vs expansion, y la operación $expand."
+    },
+    {
+      "titulo": "CodeSystem R4",
+      "url": "http://hl7.org/fhir/R4/codesystem.html",
+      "nota": "content, jerarquía de conceptos, propiedades y supplements."
+    },
+    {
+      "titulo": "ConceptMap R4",
+      "url": "http://hl7.org/fhir/R4/conceptmap.html",
+      "nota": "groups source->target, equivalence y $translate."
+    },
+    {
+      "titulo": "Terminología de HL7 (THO)",
+      "url": "https://terminology.hl7.org/",
+      "nota": "Los CodeSystems y ValueSets propios de HL7 (los http://terminology.hl7.org/... que ves en category y tags)."
+    },
+    {
+      "titulo": "tx.fhir.org",
+      "url": "https://tx.fhir.org",
+      "nota": "Servidor de terminología de referencia; soporta SNOMED y LOINC completos para practicar operaciones."
+    },
+    {
+      "titulo": "LOINC",
+      "url": "https://loinc.org",
+      "nota": "El sistema para 'qué se midió'; estructura de seis partes de cada código."
+    },
+    {
+      "titulo": "SNOMED International",
+      "url": "https://www.snomed.org",
+      "nota": "Jerarquías, ediciones nacionales y licenciamiento de SNOMED CT."
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR — Terminologias clinicas",
+    "fuentes": [
+      { "titulo": "Using Codes (terminologies) R4", "url": "http://hl7.org/fhir/R4/terminologies.html" },
+      { "titulo": "ValueSet R4", "url": "http://hl7.org/fhir/R4/valueset.html" },
+      { "titulo": "CodeSystem R4", "url": "http://hl7.org/fhir/R4/codesystem.html" },
+      { "titulo": "ConceptMap R4", "url": "http://hl7.org/fhir/R4/conceptmap.html" }
+    ],
+    "prompts": [
+      "Hazme un examen de 12 preguntas sobre bindings (con énfasis en extensible), compose vs expansion y las operaciones de terminología.",
+      "Dame 6 CodeableConcepts con errores (system inventado, dos conceptos mezclados, solo display) y pídeme corregirlos.",
+      "Explícame con un caso paso a paso cómo mapear un catálogo local de laboratorio a LOINC con ConceptMap y qué equivalence usar en cada caso.",
+      "Simula una entrevista técnica: defiendo la arquitectura de un servidor de terminología nacional y tú cuestionas mis decisiones."
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "slug": "tema-00-historia",
+  "numero": 0,
+  "nombre": "Por que existe FHIR",
+  "resumen": "De HL7 v2 (segmentos, ACK, dialectos locales) y v3/RIM/CDA al nacimiento de FHIR en 2011: la regla 80/20, la linea DSTU1-R4, Argonaut y SMART, y la gobernanza HL7 (ballots, FMM, IGs). El contexto que explica cada decision de diseno del estandar.",
+  "opcional": true,
+  "objetivos": [
+    "Distinguir interoperabilidad sintactica de semantica y explicar que aporta FHIR a cada una",
+    "Leer un mensaje HL7 v2 basico (MSH, PID, delimitadores, ACK) y explicar sus tres males cronicos",
+    "Explicar por que v3/RIM fracaso en adopcion y por que CDA/C-CDA persiste en produccion",
+    "Narrar el nacimiento de FHIR (Grieve, 2011) y recitar sus principios de diseno, incluida la regla 80/20",
+    "Reconstruir la linea de tiempo DSTU1-R6 con el aporte de cada version y el papel de Argonaut y SMART",
+    "Describir la gobernanza HL7: Work Groups, ballots STU/Normative y el modelo de madurez FMM 0-5+N",
+    "Explicar por que la interoperabilidad nacional vive en los Implementation Guides y no solo en FHIR core",
+    "Justificar arquitecturas de coexistencia v2/FHIR en un hospital o red nacional"
+  ],
+  "enlaces": [
+    { "titulo": "Overview oficial de FHIR R4", "url": "http://hl7.org/fhir/R4/overview.html", "nota": "La introduccion tecnica del estandar: conecta la historia con la arquitectura de la especificacion." },
+    { "titulo": "Raiz de la especificacion R4", "url": "http://hl7.org/fhir/R4/", "nota": "Tu version de examen y produccion; marca esta URL, no la raiz sin version." },
+    { "titulo": "Lista de recursos R4 con FMM", "url": "http://hl7.org/fhir/R4/resourcelist.html", "nota": "Verifica la madurez (FMM/Normative) de cualquier recurso antes de construir sobre el." },
+    { "titulo": "Confluence de HL7 FHIR", "url": "https://confluence.hl7.org/spaces/FHIR/overview", "nota": "La gobernanza en vivo: Work Groups, connectathons, proceso de cambios." },
+    { "titulo": "chat.fhir.org (Zulip)", "url": "https://chat.fhir.org/", "nota": "La comunidad global de implementadores; el stream 'implementers' es oro para dudas reales." },
+    { "titulo": "SMART App Launch", "url": "http://hl7.org/fhir/smart-app-launch/", "nota": "La especificacion hija de la era Argonaut; base de tu tema de seguridad." },
+    { "titulo": "US Core", "url": "https://hl7.org/fhir/us/core/", "nota": "El IG descendiente de Argonaut: ejemplo de dialecto nacional maduro." },
+    { "titulo": "Certificacion HL7 FHIR", "url": "https://www.hl7.org/certification/fhir.cfm", "nota": "Ficha oficial del examen Foundational Implementer (sucesor del R4 Proficiency)." }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR - Por que existe FHIR",
+    "fuentes": [
+      { "titulo": "FHIR R4 Overview", "url": "http://hl7.org/fhir/R4/overview.html" },
+      { "titulo": "FHIR R4 Summary", "url": "http://hl7.org/fhir/R4/summary.html" },
+      { "titulo": "HL7 FHIR Confluence", "url": "https://confluence.hl7.org/spaces/FHIR/overview" },
+      { "titulo": "SMART App Launch", "url": "http://hl7.org/fhir/smart-app-launch/" }
+    ],
+    "prompts": [
+      "Hazme un examen oral de 10 preguntas sobre la historia de FHIR (v2, v3/RIM, CDA, Argonaut, FMM, ballots), de facil a dificil, sin darme las respuestas hasta que yo intente.",
+      "Compara HL7 v2, v3/CDA y FHIR en una tabla: formato, estilo de intercambio, mecanismo de extension, adopcion y debilidades.",
+      "Explica la regla 80/20 de FHIR y por que corrige a la vez los errores de v2 y de v3, con ejemplos concretos.",
+      "Simula que soy director de la integracion nacional: hazme 5 preguntas de decision (coexistencia v2/FHIR, FMM, IGs) y evalua mis respuestas."
+    ]
+  }
+}

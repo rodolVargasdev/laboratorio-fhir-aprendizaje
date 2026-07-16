@@ -1,0 +1,58 @@
+[
+  {
+    "frente": "Descubrimiento SMART de un servidor",
+    "reverso": "GET [base]/.well-known/smart-configuration: authorization_endpoint, token_endpoint, capabilities (permission-v2, launch-ehr...), algoritmos de firma soportados."
+  },
+  {
+    "frente": "Parámetros del authorize (App Launch)",
+    "reverso": "response_type=code, client_id, redirect_uri (coincidencia exacta), scope, state (anti-CSRF), aud (base FHIR destino), launch (solo EHR launch), code_challenge + code_challenge_method=S256 (PKCE)."
+  },
+  {
+    "frente": "¿Qué resuelve PKCE?",
+    "reverso": "Un code interceptado no sirve: al canjearlo hay que presentar el code_verifier cuyo S256 coincide con el code_challenge enviado al inicio. Obligatorio para clientes públicos en SMART 2.x."
+  },
+  {
+    "frente": "Launch context en la respuesta del token",
+    "reverso": "Campos junto al access_token: patient (paciente en contexto), encounter, y fhirContext (2.2, referencias genéricas). Se piden con launch/patient, launch/encounter o llegan del parámetro launch."
+  },
+  {
+    "frente": "Scopes v2: sintaxis y orden",
+    "reverso": "contexto/Recurso.cruds con letras en orden fijo c-r-u-d-s. Ej: patient/Observation.rs, user/Patient.cruds, system/Observation.c. Admite parámetros embebidos (?category=...)."
+  },
+  {
+    "frente": "patient/ vs user/ vs system/",
+    "reverso": "patient/: acotado al paciente del launch context. user/: lo que el usuario autenticado puede ver. system/: sin usuario, exclusivo de Backend Services."
+  },
+  {
+    "frente": "offline_access vs online_access",
+    "reverso": "offline_access: refresh token utilizable aunque el usuario ya no tenga sesión. online_access: solo refresca mientras la sesión del usuario siga activa."
+  },
+  {
+    "frente": "openid + fhirUser",
+    "reverso": "Activan OIDC: llega un id_token cuyo claim fhirUser referencia al usuario como recurso FHIR (Practitioner/123, Patient/456...). Responden QUIÉN es el usuario, no qué puede hacer."
+  },
+  {
+    "frente": "Client assertion de Backend Services: los 5 claims",
+    "reverso": "iss = sub = client_id; aud = URL exacta del token endpoint; exp máximo 5 minutos; jti único por assertion (anti-replay). Firmado RS384/ES384 con kid presente en el JWKS publicado."
+  },
+  {
+    "frente": "Token request de Backend Services",
+    "reverso": "POST al token endpoint: grant_type=client_credentials, scope=system/..., client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer, client_assertion=<JWT firmado>."
+  },
+  {
+    "frente": "Rotación de claves sin caídas",
+    "reverso": "Publicar la clave nueva en el JWKS junto a la vieja (dos kid), firmar con la nueva, esperar el periodo de gracia (cachés, tokens en vuelo) y retirar la vieja."
+  },
+  {
+    "frente": "Async Request Pattern de Bulk Data",
+    "reverso": "GET $export + Prefer: respond-async -> 202 + Content-Location. Polling: 202 + Retry-After/X-Progress mientras corre; 200 + manifiesto al terminar. DELETE a la URL de estado cancela/limpia."
+  },
+  {
+    "frente": "Manifiesto del export",
+    "reverso": "transactionTime, request, requiresAccessToken (descargar con bearer token), output[] {type, url, count} y error[] (NDJSON de OperationOutcome: revisarlo siempre)."
+  },
+  {
+    "frente": "Errores típicos de Backend Services",
+    "reverso": "aud = base FHIR en vez del token endpoint; exp > 5 min; algoritmo no soportado (RS256 vs RS384); kid ausente del JWKS tras rotar; reloj desviado; scope concedido menor al pedido (leer el scope de la respuesta)."
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "frente": "¿Qué es una clave primaria?",
+    "reverso": "El identificador único e inmutable de cada fila de una tabla (por ejemplo, paciente.id). Dos filas nunca la comparten: es el número de expediente del archivero."
+  },
+  {
+    "frente": "¿Qué es una clave foránea?",
+    "reverso": "Una columna que guarda la clave primaria de otra tabla para señalarla. consulta.paciente_id apunta a paciente.id: así se conectan las tablas sin copiar datos."
+  },
+  {
+    "frente": "¿Por qué dos tablas (paciente y consulta) en lugar de una gigante?",
+    "reverso": "Para guardar cada hecho una sola vez (normalización): se evita repetir datos, se previenen inconsistencias al actualizar y no se pierden los pacientes sin consultas."
+  },
+  {
+    "frente": "Estructura básica de una consulta SQL",
+    "reverso": "SELECT columnas FROM tabla WHERE condicion; SELECT elige columnas, FROM indica la tabla, WHERE filtra filas."
+  },
+  {
+    "frente": "Comodines de LIKE: % y _",
+    "reverso": "% representa cero o más caracteres; _ representa exactamente uno. 'R%' encuentra Ramirez y Rivas; '_na' encuentra Ana pero no Elena."
+  },
+  {
+    "frente": "¿Para qué sirven IN y BETWEEN?",
+    "reverso": "IN comprueba pertenencia a una lista (municipio IN ('Apopa', 'Ilopango')); BETWEEN define un rango inclusivo en ambos extremos (fecha BETWEEN '2026-01-01' AND '2026-06-30')."
+  },
+  {
+    "frente": "ORDER BY y LIMIT",
+    "reverso": "ORDER BY ordena el resultado (ASC ascendente por defecto, DESC descendente); LIMIT recorta a n filas después de ordenar. Sin ORDER BY, LIMIT devuelve filas arbitrarias."
+  },
+  {
+    "frente": "Diferencia entre COUNT(*) y COUNT(columna)",
+    "reverso": "COUNT(*) cuenta todas las filas; COUNT(columna) cuenta solo las filas donde esa columna no es NULL. La diferencia entre ambos es el número de nulos."
+  },
+  {
+    "frente": "¿Qué hace GROUP BY y qué es HAVING?",
+    "reverso": "GROUP BY parte la tabla en grupos y calcula la agregación por grupo (una fila por municipio, por ejemplo). HAVING filtra grupos ya agregados; WHERE filtra filas antes de agrupar."
+  },
+  {
+    "frente": "¿Qué devuelve un INNER JOIN cuando un paciente no tiene consultas?",
+    "reverso": "Nada para ese paciente: INNER JOIN solo devuelve las parejas que existen y descarta las filas sin correspondencia, sin avisar. LEFT JOIN lo conservaría con las columnas de consulta en NULL."
+  },
+  {
+    "frente": "¿Por qué NULL = NULL no funciona?",
+    "reverso": "NULL es un desconocido, no un valor: comparar dos desconocidos no puede dar verdadero. Para detectar nulos se usa IS NULL y para excluirlos IS NOT NULL."
+  },
+  {
+    "frente": "Equivalencias mentales SQL y FHIR",
+    "reverso": "Tabla = tipo de recurso; fila = un recurso (Patient/123); clave foránea = referencia; WHERE = parámetros de búsqueda; ORDER BY = _sort; LIMIT = _count."
+  }
+]

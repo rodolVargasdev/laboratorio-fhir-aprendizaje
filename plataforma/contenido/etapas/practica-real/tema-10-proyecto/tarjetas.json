@@ -1,0 +1,58 @@
+[
+  {
+    "frente": "Arquitectura de referencia de la red nacional",
+    "reverso": "Fuentes legacy (v2/CSV) -> capa de integración (mapeo terminológico + $validate en la puerta + cola de rechazos) -> servidor FHIR nacional R4 con terminología e IG -> consumidores: apps SMART, Bulk Data/$export y BI."
+  },
+  {
+    "frente": "Por qué R4 y no R5/R6 para el núcleo nacional",
+    "reverso": "R4 tiene el contenido normativo, los IGs maduros (US Core, IPS, SMART, Bulk), las certificaciones y el soporte universal de servidores. R6 sigue en balota; perfiles delgados hacen barata la migración futura."
+  },
+  {
+    "frente": "DUI en el modelo FHIR",
+    "reverso": "Slice de Patient.identifier con system canónico propio (https://fhir.salud.gob.sv/identificadores/dui), 0..1 MS (no todos tienen DUI). Nunca como Patient.id: ese es el id lógico del servidor."
+  },
+  {
+    "frente": "Proceso de perfilado nacional",
+    "reverso": "Adoptar core R4 y metodología probada (US Core como referencia) -> perfilar lo mínimo con justificación -> escribir en FSH -> compilar con SUSHI -> publicar IG con IG Publisher bajo canonical propio."
+  },
+  {
+    "frente": "HAPI vs GCP vs Azure (decisión del piloto)",
+    "reverso": "HAPI: máxima personalización, tú operas. GCP: operación administrada, BigQuery nativo, IAM/auditoría maduros. Azure: equivalente en ecosistema Microsoft. Piloto razonable: GCP núcleo + HAPI local para desarrollo/validación."
+  },
+  {
+    "frente": "Mitigación del lock-in de nube",
+    "reverso": "El contrato de datos es el estándar: todo entra y sale como FHIR R4 + NDJSON. Export completo e import a cualquier otro servidor R4 = salida de emergencia permanente."
+  },
+  {
+    "frente": "Terminología nacional: piezas",
+    "reverso": "LOINC (laboratorio/vitales), SNOMED CT (problemas/procedimientos, revisar licencia país), CIE-10 (administrativo), ValueSets nacionales para lo local y ConceptMap + $translate para catálogos legados; servido por un tx server institucional."
+  },
+  {
+    "frente": "Seguridad entre instituciones de la red",
+    "reverso": "Cada sistema es cliente SMART Backend Services: registro formal, JWKS propio, client assertion RS384, scopes system/ mínimos. Humanos por App Launch (user/ o patient/). Cero credenciales compartidas."
+  },
+  {
+    "frente": "Provenance vs AuditEvent",
+    "reverso": "Provenance: de dónde salió y quién transformó cada recurso (vital cuando la integración reescribe v2). AuditEvent: quién consultó qué y cuándo. Juntos + Data Access logs = trazabilidad exigible a un sistema público."
+  },
+  {
+    "frente": "Doble barrera de calidad",
+    "reverso": "Runtime: $validate contra perfiles nacionales antes de escribir; rechazos a cola con OperationOutcome. CI: SUSHI + IG Publisher + validator oficial sobre los ejemplos en cada commit; Inferno como modelo de pruebas de conformidad."
+  },
+  {
+    "frente": "IPS (International Patient Summary)",
+    "reverso": "IG de HL7: Bundle tipo document (Composition + secciones mínimas: alergias, medicación, problemas). Adoptarlo como resumen nacional da contenido consensuado y compatibilidad transfronteriza sin diseñar un formato propio."
+  },
+  {
+    "frente": "Los 10 entregables del proyecto",
+    "reverso": "1 diagnóstico, 2 perfil PacienteNacional, 3 matriz de scopes, 4 consulta externa modelada, 5 cinco búsquedas operativas, 6 catálogo terminológico, 7 validación demostrada, 8 piloto GCP, 9 flujo Backend Services, 10 propuesta ejecutiva."
+  },
+  {
+    "frente": "Criterio para agendar el Foundational",
+    "reverso": "Simulacros cronometrados ≥65% en dos o más días distintos (margen sobre el umbral real cercano al 60%). El Advanced exige el Foundational aprobado como prerrequisito."
+  },
+  {
+    "frente": "Temario estimado del Advanced Developer",
+    "reverso": "Profiling y extensiones ~25%, búsqueda avanzada ~20%, SMART/seguridad ~20%, terminología ~15%, conformance ~10%, clientes/Bundles ~10%. Estudiar extra: FSH avanzado, invariantes FHIRPath, chaining/_revinclude."
+  }
+]

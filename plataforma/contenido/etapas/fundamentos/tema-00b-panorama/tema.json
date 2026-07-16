@@ -1,0 +1,42 @@
+{
+  "slug": "tema-00b-panorama",
+  "numero": 0,
+  "nombre": "Panorama actual de FHIR (2026)",
+  "resumen": "El mapa estrategico del estandar hoy: R4 como version de examen y produccion, R6 en balota normativa, como evoluciona FHIR (ballots, FMM, backports), la certificacion Foundational Implementer, los IGs que mandan (US Core, IPS, Da Vinci, mCODE, Bulk Data), SMART 2.2 con scopes v2 y la terminologia operativa.",
+  "opcional": false,
+  "objetivos": [
+    "Justificar por que examen y produccion usan R4 (4.0.1) y decidir que version usar en un proyecto con la tabla de decision",
+    "Distinguir las URLs hl7.org/fhir/R4/, hl7.org/fhir/ y build.fhir.org y anclar el estudio a R4",
+    "Describir el ciclo de evolucion del estandar: ballots STU/Normative, FMM por artefacto y el patron de backports (Subscriptions R5 Backport)",
+    "Nombrar la certificacion vigente (Foundational Implementer), su relacion con el retirado R4 Proficiency y el requisito del Advanced Developer",
+    "Situar los IGs clave (US Core, IPS, Da Vinci, mCODE, Bulk Data) y explicar que resuelve cada uno",
+    "Leer y escribir scopes SMART v2 con verbos cruds, contextos y parametros embebidos",
+    "Aplicar las operaciones de terminologia ($expand, $lookup, $validate-code, $translate) y los binding strengths",
+    "Detectar los gotchas de examen: transaction vs batch, must-support vs obligatorio, scopes v1 vs v2, paginacion opaca"
+  ],
+  "enlaces": [
+    { "titulo": "Especificacion FHIR R4 (raiz permanente)", "url": "http://hl7.org/fhir/R4/", "nota": "Tu ancla de estudio: la version del examen y de produccion." },
+    { "titulo": "Build continuo (camino a R6)", "url": "https://build.fhir.org/", "nota": "El borrador diario del estandar; para anticipar cambios, no para estudiar el examen." },
+    { "titulo": "US Core", "url": "https://hl7.org/fhir/us/core/", "nota": "El IG nacional de referencia mundial: perfiles, must-support y alineacion con USCDI." },
+    { "titulo": "International Patient Summary (IPS)", "url": "https://www.hl7.org/fhir/uv/ips/", "nota": "El modelo natural para un resumen nacional del paciente (Bundle document + Composition)." },
+    { "titulo": "SMART App Launch", "url": "http://hl7.org/fhir/smart-app-launch/", "nota": "Scopes v2, contextos de lanzamiento y Backend Services de primera fuente." },
+    { "titulo": "terminology.hl7.org (THO)", "url": "https://terminology.hl7.org/", "nota": "CodeSystems y ValueSets que HL7 publica fuera del core; base de los bindings." },
+    { "titulo": "Registro de IGs y paquetes FHIR", "url": "https://registry.fhir.org/", "nota": "Explora que IGs existen (p. ej. Subscriptions Backport) antes de inventar perfiles propios." },
+    { "titulo": "Certificacion FHIR de HL7", "url": "https://www.hl7.org/certification/fhir.cfm", "nota": "Ficha oficial del Foundational Implementer y del Advanced Developer; verifica parametros vigentes." }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR - Panorama actual 2026",
+    "fuentes": [
+      { "titulo": "FHIR R4 (raiz de la especificacion)", "url": "http://hl7.org/fhir/R4/" },
+      { "titulo": "SMART App Launch", "url": "http://hl7.org/fhir/smart-app-launch/" },
+      { "titulo": "US Core", "url": "https://hl7.org/fhir/us/core/" },
+      { "titulo": "International Patient Summary", "url": "https://www.hl7.org/fhir/uv/ips/" }
+    ],
+    "prompts": [
+      "Comparame R4, R4B, R5 y R6 en una tabla: ano, estado normativo, adopcion y que significa para un proyecto en 2026.",
+      "Hazme 10 preguntas tipo examen sobre scopes SMART v2 (verbos cruds, contextos, parametros embebidos) y corrige mis respuestas con detalle.",
+      "Explica el patron de backports con el caso Subscriptions R5 Backport: que problema resuelve y por que la industria lo prefiere a migrar de version.",
+      "Lista los 8 gotchas mas comunes (transaction vs batch, must-support, scopes v1/v2, paginacion, URLs de la spec) con un ejemplo de pregunta tramposa cada uno."
+    ]
+  }
+}

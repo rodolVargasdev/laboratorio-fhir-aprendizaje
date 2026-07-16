@@ -1,0 +1,60 @@
+{
+  "slug": "prerreq-02-apis-http",
+  "numero": -13,
+  "nombre": "APIs y HTTP",
+  "resumen": "El modelo cliente/servidor, la anatomía de una URL, los métodos y códigos de estado de HTTP, y por qué FHIR es ante todo una API REST que habla application/fhir+json.",
+  "opcional": false,
+  "objetivos": [
+    "Explicar el modelo cliente/servidor y definir una API como un contrato entre sistemas",
+    "Desglosar cualquier URL en esquema, host, puerto, path y query string con sus parámetros",
+    "Elegir el método HTTP correcto (GET, POST, PUT, PATCH, DELETE) para leer, crear, reemplazar, modificar o borrar un recurso FHIR",
+    "Interpretar los códigos de estado más comunes (2xx, 3xx, 4xx, 5xx) y decidir qué hacer ante cada uno, distinguiendo 401 de 403 y 400 de 422",
+    "Justificar por qué PUT es idempotente y POST no, y qué implica al reintentar peticiones tras un fallo de red",
+    "Usar los headers Accept, Content-Type y Authorization, y explicar qué es application/fhir+json",
+    "Ejecutar peticiones GET reales contra https://hapi.fhir.org/baseR4 con el navegador, curl y el Laboratorio, empezando por metadata y su CapabilityStatement"
+  ],
+  "enlaces": [
+    {
+      "titulo": "Visión general de HTTP (MDN)",
+      "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Overview",
+      "nota": "Cómo funciona una petición y una respuesta HTTP, explicado en español por la referencia web más confiable."
+    },
+    {
+      "titulo": "Códigos de estado HTTP (MDN)",
+      "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Status",
+      "nota": "Catálogo completo de códigos; consúltalo cada vez que una API te devuelva uno que no reconozcas."
+    },
+    {
+      "titulo": "Introducción a las APIs web (MDN)",
+      "url": "https://developer.mozilla.org/es/docs/Learn/JavaScript/Client-side_web_APIs/Introduction",
+      "nota": "Qué es una API desde cero, con ejemplos prácticos del lado del cliente."
+    },
+    {
+      "titulo": "Servidor HAPI FHIR público",
+      "url": "https://hapi.fhir.org/baseR4",
+      "nota": "El servidor FHIR de pruebas contra el que harás toda la práctica de este tema; guárdalo en favoritos."
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "Bases - APIs y HTTP",
+    "fuentes": [
+      {
+        "titulo": "Visión general de HTTP (MDN)",
+        "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Overview"
+      },
+      {
+        "titulo": "Códigos de estado HTTP (MDN)",
+        "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Status"
+      },
+      {
+        "titulo": "Introducción a las APIs web (MDN)",
+        "url": "https://developer.mozilla.org/es/docs/Learn/JavaScript/Client-side_web_APIs/Introduction"
+      }
+    ],
+    "prompts": [
+      "Explícame la diferencia entre los códigos 400, 401, 403, 404 y 422 con un ejemplo de cada uno en el contexto de una API de salud, y qué debería hacer el cliente ante cada caso.",
+      "Hazme un examen oral de 10 preguntas sobre métodos HTTP (GET, POST, PUT, PATCH, DELETE) e idempotencia: dame un escenario y pídeme elegir el método correcto justificando la respuesta.",
+      "A partir de las fuentes, resume en una tabla las partes de una URL (esquema, host, puerto, path, query string) y luego pídeme desglosar tres URLs de ejemplo que tú inventes."
+    ]
+  }
+}
