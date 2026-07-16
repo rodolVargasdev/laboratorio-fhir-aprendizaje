@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcryptjs";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { UMBRAL_MAESTRIA } from "@/lib/contenido";
@@ -10,6 +11,40 @@ async function usuarioActual() {
   const sesion = await auth();
   if (!sesion?.user?.id) throw new Error("No autenticado");
   return sesion.user.id;
+}
+
+async function exigirAdmin() {
+  const sesion = await auth();
+  if (sesion?.user?.rol !== "ADMIN") throw new Error("Solo el administrador puede hacer esto");
+  return sesion.user.id;
+}
+
+/** El admin crea (o reactiva) un usuario con correo, nombre y contrasena inicial. */
+export async function crearUsuario(input: {
+  email: string;
+  nombre: string;
+  password: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  await exigirAdmin();
+  const email = input.email.trim().toLowerCase();
+  const nombre = input.nombre.trim();
+  const password = input.password;
+
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { ok: false, error: "Correo invalido" };
+  if (password.length < 8) return { ok: false, error: "La contrasena debe tener al menos 8 caracteres" };
+
+  const hash = await bcrypt.hash(password, 10);
+  try {
+    await prisma.user.upsert({
+      where: { email },
+      update: { name: nombre || undefined, password: hash },
+      create: { email, name: nombre || email.split("@")[0], password: hash, rol: "ESTUDIANTE" },
+    });
+  } catch {
+    return { ok: false, error: "No se pudo crear el usuario" };
+  }
+  revalidatePath("/admin/usuarios");
+  return { ok: true };
 }
 
 /** Recalcula el estado del tema a partir de los pasos obligatorios completados. */

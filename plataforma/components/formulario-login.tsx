@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { Boton } from "@/components/ui/button";
 
-/** Boton de Google + (solo en desarrollo) acceso de prueba por correo. */
+/** Google + correo/contrasena + (solo local) acceso de prueba por correo. */
 export function FormularioLogin({
   devHabilitado,
   callbackUrl,
@@ -13,7 +13,26 @@ export function FormularioLogin({
   callbackUrl: string;
 }) {
   const [email, setEmail] = useState("");
-  const [cargando, setCargando] = useState<"google" | "dev" | null>(null);
+  const [emailDev, setEmailDev] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [cargando, setCargando] = useState<"google" | "password" | "dev" | null>(null);
+
+  const input =
+    "h-10 rounded-md border border-input bg-card px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring";
+
+  async function entrarConPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setCargando("password");
+    const r = await signIn("password", { email, password, redirect: false });
+    if (r?.error) {
+      setError("Correo o contrasena incorrectos.");
+      setCargando(null);
+    } else {
+      window.location.href = callbackUrl;
+    }
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -34,32 +53,56 @@ export function FormularioLogin({
         {cargando === "google" ? "Redirigiendo…" : "Continuar con Google"}
       </Boton>
 
+      <div className="flex items-center gap-3 text-xs text-muted-foreground">
+        <span className="h-px flex-1 bg-border" /> o con tu correo <span className="h-px flex-1 bg-border" />
+      </div>
+
+      <form className="flex flex-col gap-2" onSubmit={entrarConPassword}>
+        <input
+          type="email"
+          required
+          autoComplete="username"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="tu-correo@correo.com"
+          className={input}
+        />
+        <input
+          type="password"
+          required
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Contrasena"
+          className={input}
+        />
+        {error && <p className="text-sm text-danger">{error}</p>}
+        <Boton type="submit" variante="secundario" tamano="bloque" disabled={cargando !== null}>
+          {cargando === "password" ? "Entrando…" : "Entrar con correo"}
+        </Boton>
+      </form>
+
       {devHabilitado && (
         <form
           className="flex flex-col gap-2 rounded-md border border-dashed border-border bg-muted/50 p-3"
           onSubmit={(e) => {
             e.preventDefault();
             setCargando("dev");
-            signIn("dev", { email, callbackUrl });
+            signIn("dev", { email: emailDev, callbackUrl });
           }}
         >
           <label className="text-xs font-semibold text-muted-foreground">
-            Acceso de desarrollo (solo local)
+            Acceso de desarrollo (solo local, sin contrasena)
           </label>
           <input
             type="email"
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={emailDev}
+            onChange={(e) => setEmailDev(e.target.value)}
             placeholder="tu-correo@ejemplo.com"
-            className="h-10 rounded-md border border-input bg-card px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className={input}
           />
-          <Boton
-            type="submit"
-            variante="secundario"
-            tamano="bloque"
-            disabled={cargando !== null}
-          >
+          <Boton type="submit" variante="fantasma" tamano="bloque" disabled={cargando !== null}>
             Entrar sin Google
           </Boton>
         </form>
