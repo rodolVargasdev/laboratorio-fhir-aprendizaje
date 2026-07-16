@@ -2,40 +2,170 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "p0-1",
+      "id": "term-1",
       "tipo": "opcion_multiple",
-      "bloom": "recordar",
-      "pregunta": ".Que hace la tecla Enter tras escribir un comando?",
+      "bloom": "comprender",
+      "pregunta": "¿Cuál es la diferencia correcta entre terminal y shell?",
       "opciones": [
-        "Borra el comando",
-        "Ejecuta el comando",
-        "Abre el navegador",
-        "Cierra la terminal"
+        "Son exactamente lo mismo, dos nombres para un programa",
+        "La terminal es la ventana que muestra texto; el shell es el intérprete que ejecuta los comandos dentro de ella",
+        "El shell es la ventana y la terminal es el lenguaje de comandos",
+        "La terminal solo existe en Linux y el shell solo en Windows"
       ],
       "respuesta": 1,
-      "explicacion": "Enter ejecuta el comando escrito."
+      "explicacion": "La terminal (Windows Terminal, Terminal de macOS) dibuja el texto y captura el teclado; el shell (PowerShell, bash) interpreta y ejecuta lo que escribes. Puedes cambiar de shell dentro de la misma terminal."
     },
     {
-      "id": "p0-2",
+      "id": "term-2",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "En el comando `python analisis.py --verbose`, ¿qué es `--verbose`?",
+      "opciones": [
+        "El programa que se ejecuta",
+        "Un argumento con el archivo a procesar",
+        "Un flag que modifica el comportamiento del programa",
+        "Un subcomando de Python"
+      ],
+      "respuesta": 2,
+      "explicacion": "El programa es `python`, el argumento es `analisis.py` y `--verbose` es un flag (opción): no dice sobre qué actuar sino cómo actuar. Los flags largos suelen llevar dos guiones."
+    },
+    {
+      "id": "term-3",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Estás en `C:\\Users\\ana` y ejecutas `cd fhir\\lab`. ¿A qué carpeta llegas?",
+      "opciones": [
+        "C:\\fhir\\lab",
+        "C:\\Users\\ana\\fhir\\lab",
+        "C:\\Users\\fhir\\lab",
+        "El comando falla siempre porque la ruta no empieza con C:\\"
+      ],
+      "respuesta": 1,
+      "explicacion": "Es una ruta relativa: se interpreta desde el directorio de trabajo actual. Solo fallaría si `fhir\\lab` no existe dentro de `C:\\Users\\ana`, no por ser relativa."
+    },
+    {
+      "id": "term-4",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Escribes `python --version` y obtienes \"'python' no se reconoce como nombre de un cmdlet\". ¿Cuál es la explicación técnica correcta?",
+      "opciones": [
+        "Python está dañado y hay que reinstalar Windows",
+        "El shell buscó un ejecutable llamado python en las carpetas del PATH y no lo encontró en ninguna",
+        "Escribiste mal el flag --version",
+        "PowerShell no puede ejecutar programas externos, solo cmdlets"
+      ],
+      "respuesta": 1,
+      "explicacion": "El shell resuelve los nombres de programa recorriendo las carpetas listadas en la variable de entorno PATH. Si ninguna contiene python.exe, responde que no lo reconoce: falta instalarlo, agregarlo al PATH o reabrir la terminal."
+    },
+    {
+      "id": "term-5",
       "tipo": "verdadero_falso",
       "bloom": "comprender",
-      "pregunta": "Un mensaje de error significa que danaste la computadora.",
-      "respuesta": false,
-      "explicacion": "Un error es solo informacion; no rompe nada."
+      "pregunta": "Si instalas Python con la terminal abierta, esa misma sesión puede seguir sin reconocer el comando `python` aunque la instalación haya sido exitosa.",
+      "respuesta": true,
+      "explicacion": "La terminal lee las variables de entorno (incluido el PATH) al abrirse. Una sesión ya abierta conserva el PATH viejo; basta cerrarla y abrir una nueva."
     },
     {
-      "id": "p0-3",
+      "id": "term-6",
       "tipo": "opcion_multiple",
       "bloom": "recordar",
-      "pregunta": ".En Windows, que programa usamos como terminal?",
+      "pregunta": "¿Qué significa un código de salida igual a 0?",
       "opciones": [
-        "Word",
-        "PowerShell",
-        "Excel",
-        "Paint"
+        "El programa no produjo ninguna salida en pantalla",
+        "El programa terminó correctamente, sin error",
+        "El programa fue cancelado con Ctrl+C",
+        "El programa devolvió cero resultados de búsqueda"
       ],
       "respuesta": 1,
-      "explicacion": "PowerShell es la terminal recomendada en Windows."
+      "explicacion": "Por convención universal, 0 = éxito y cualquier valor distinto = fallo. Los scripts de automatización usan este número para decidir si continuar; no tiene relación con cuánto texto se imprimió."
+    },
+    {
+      "id": "term-7",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Cuál es la diferencia entre stdout y stderr?",
+      "opciones": [
+        "stdout es para Windows y stderr para Linux",
+        "stdout muestra texto en pantalla y stderr lo guarda en archivos",
+        "Son dos canales separados: stdout lleva los resultados normales y stderr los mensajes de error",
+        "stderr solo existe cuando el programa termina con código 0"
+      ],
+      "respuesta": 2,
+      "explicacion": "Aunque en pantalla se mezclen, son canales independientes. Eso permite, por ejemplo, redirigir los resultados a un archivo mientras los errores siguen visibles en la terminal."
+    },
+    {
+      "id": "term-8",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "¿Qué hace el comando `curl -s https://hapi.fhir.org/baseR4/metadata | python -m json.tool`?",
+      "opciones": [
+        "Descarga el JSON del servidor FHIR y se lo pasa a Python, que lo imprime formateado",
+        "Ejecuta dos comandos independientes, uno después del otro",
+        "Guarda la respuesta del servidor en un archivo llamado json.tool",
+        "Compara la salida de curl con la salida de Python"
+      ],
+      "respuesta": 0,
+      "explicacion": "El pipe `|` conecta la salida estándar de curl con la entrada estándar de Python. No es ejecución secuencial (eso sería `;`) ni redirección a archivo (eso sería `>`)."
+    },
+    {
+      "id": "term-9",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Ejecutas `cd C:\\Mis Documentos\\fhir` y falla, pero la carpeta existe. ¿Cuál es la causa más probable?",
+      "opciones": [
+        "cd no acepta rutas absolutas",
+        "El espacio en \"Mis Documentos\" parte la ruta en dos argumentos; falta encerrarla entre comillas",
+        "Las rutas en Windows deben escribirse con / en lugar de \\",
+        "Hay que ejecutar primero pwd para habilitar cd"
+      ],
+      "respuesta": 1,
+      "explicacion": "El shell separa argumentos por espacios, así que ve `C:\\Mis` y `Documentos\\fhir` como dos cosas distintas. `cd \"C:\\Mis Documentos\\fhir\"` funciona."
+    },
+    {
+      "id": "term-10",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "El operador `>>` sobrescribe el contenido del archivo de destino cada vez que se ejecuta.",
+      "respuesta": false,
+      "explicacion": "`>>` agrega al final del archivo conservando lo anterior; el que sobrescribe (o crea) es `>`. Confundirlos es una causa clásica de bitácoras perdidas."
+    },
+    {
+      "id": "term-11",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Un script se quedó colgado y quieres cancelarlo sin cerrar la terminal. ¿Qué combinación de teclas usas?",
+      "respuestas_validas": ["Ctrl+C", "ctrl c", "control c", "ctrl+c"],
+      "explicacion": "Ctrl+C interrumpe el proceso en ejecución y te devuelve el prompt. No cierra la ventana ni borra nada."
+    },
+    {
+      "id": "term-12",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "¿Qué comando escribes en PowerShell para saber en qué carpeta está parada tu terminal?",
+      "respuestas_validas": ["pwd", "Get-Location", "get-location"],
+      "explicacion": "`pwd` (alias de Get-Location en PowerShell, comando nativo en bash) imprime el directorio de trabajo actual. Es el primer reflejo cuando una ruta relativa falla."
+    },
+    {
+      "id": "term-13",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Qué hace la tecla Tab mientras escribes un comando?",
+      "opciones": [
+        "Ejecuta el comando inmediatamente",
+        "Autocompleta nombres de archivos, carpetas y comandos",
+        "Borra la línea completa",
+        "Cambia de PowerShell a bash"
+      ],
+      "respuesta": 1,
+      "explicacion": "Tab completa el nombre a partir de lo que llevas escrito. Además de ahorrar tecleo, confirma que la ruta existe: si no completa, algo anda mal con el nombre."
+    },
+    {
+      "id": "term-14",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Ver un mensaje de error en rojo en la terminal significa que dañaste algo en el sistema.",
+      "respuesta": false,
+      "explicacion": "Un error es un informe: el programa te dice qué no pudo hacer y por qué. El método es leer la primera y la última línea, ubicar los nombres que tú escribiste y corregir."
     }
   ]
 }

@@ -1,12 +1,58 @@
 [
   {
-    "claveLegacy": "d18-include",
-    "frente": "Parametro para incluir recursos referenciados en el Bundle",
-    "reverso": "_include (ej. Observation?_include=Observation:subject)."
+    "frente": "AND vs OR en búsqueda FHIR",
+    "reverso": "Parámetros repetidos o distintos con & = AND. Valores separados por coma dentro de un parámetro = OR."
   },
   {
-    "claveLegacy": "d18-revinclude",
+    "frente": "Las 4 formas de un valor token",
+    "reverso": "code (cualquier sistema), system|code (la segura), |code (sin system declarado), system| (cualquier código de ese sistema)."
+  },
+  {
+    "frente": "Prefijos de búsqueda ordenada",
+    "reverso": "eq ne gt lt ge le sa eb ap. Las fechas son rangos implícitos según su precisión; los prefijos comparan rangos contra rangos."
+  },
+  {
+    "frente": "sa / eb vs gt / lt en fechas",
+    "reverso": "sa: el rango del recurso empieza después de que termina el del parámetro; eb: termina antes de que empiece. Exigen separación total; gt/lt aceptan solape parcial."
+  },
+  {
+    "frente": "string por defecto vs :exact vs :contains",
+    "reverso": "Default: empieza-por, insensible a mayúsculas y acentos. :exact: igualdad sensible. :contains: subcadena en cualquier posición."
+  },
+  {
+    "frente": ":missing",
+    "reverso": "param:missing=true -> el elemento está ausente; =false -> presente. Aplica a todos los tipos de parámetro."
+  },
+  {
+    "frente": "Trampa de :not",
+    "reverso": "status:not=final también matchea recursos donde el elemento falta: es negación del match, no 'presente y distinto'."
+  },
+  {
+    "frente": "Chaining tipado",
+    "reverso": "Observation?subject:Patient.name=ana — cruza la referencia subject restringida a Patient y filtra por el SearchParameter name de Patient. Cada eslabón es un parámetro, no un elemento."
+  },
+  {
+    "frente": "Sintaxis de _has",
+    "reverso": "_has:TipoQueReferencia:paramDeReferencia:paramCriterio=valor. Ej.: Patient?_has:Observation:patient:code=8867-4 (anidable con doble _has)."
+  },
+  {
+    "frente": "Parámetro composite",
+    "reverso": "Valores unidos con $ correlacionados en la misma repetición: component-code-value-quantity=http://loinc.org|8480-6$gt140. Dos parámetros sueltos dan falsos positivos."
+  },
+  {
     "frente": "_include vs _revinclude",
-    "reverso": "_include = lo referenciado; _revinclude = recursos que referencian al resultado."
+    "reverso": "_include: trae lo que los matches referencian. _revinclude: trae lo que referencia a los matches. :iterate lo hace transitivo. Entradas marcadas con search.mode=include."
+  },
+  {
+    "frente": "Valores de _summary y _total",
+    "reverso": "_summary: true, text, data, count, false. _total: none, estimate, accurate."
+  },
+  {
+    "frente": "Regla de paginación",
+    "reverso": "Seguir Bundle.link relation=next hasta que desaparezca. La URL next es opaca: nunca construir páginas a mano."
+  },
+  {
+    "frente": "Parámetros desconocidos: lenient vs strict",
+    "reverso": "Por defecto el servidor puede ignorarlos (lenient) — audita link.self para ver lo aplicado. Prefer: handling=strict fuerza error ante lo desconocido."
   }
 ]

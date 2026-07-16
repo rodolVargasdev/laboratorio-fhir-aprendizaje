@@ -1,157 +1,96 @@
-> **Como practicar este tema:** varios ejercicios puedes hacerlos en el navegador desde el [Laboratorio](/laboratorio). Los que piden tu PC usan los scripts en `legacy/dias/`; prepara tu entorno una sola vez con la [guia de setup](/setup).
+# Practica
 
-# Dia 15: Validacion con $validate y OperationOutcome
+## Objetivo
 
-Objetivo: entender como un servidor FHIR valida recursos, interpretar errores en
-OperationOutcome y corregir instancias invalidas. Clave para Foundational
-(troubleshooting 13-19%) y GCP (rechazo de datos mal formados).
-Tiempo: 2-3 horas. Costo: $0.
+Validar recursos reales con `$validate` y con el validador oficial Java, leer OperationOutcomes con criterio (severity, code, expression), inspeccionar StructureDefinitions (differential vs snapshot, slicing) y dar los primeros pasos de autoría con FSH.
 
-## Rutina
+## En el navegador (Laboratorio)
 
-1. `python evaluacion\repaso.py`
-2. Leccion (con Composer si quieres).
-3. Practica.
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 15`
+Contra `https://hapi.fhir.org/baseR4`; escribe solo el path.
 
-## Teoria
+1. **El contrato del servidor.** Consulta:
+   `metadata?_summary=true`
+   Qué observar: `kind` (instance), `fhirVersion`, y en `rest.resource` las `interaction` y `searchParam` de Patient. Respuesta esperada: un CapabilityStatement — el documento que deberías leer antes de programar contra cualquier servidor.
 
-### Por que validar
+2. **Leer una StructureDefinition base.** Consulta:
+   `StructureDefinition?url=http://hl7.org/fhir/StructureDefinition/Patient&_elements=url,kind,abstract,type,baseDefinition,derivation`
+   Respuesta esperada: `kind: resource`, `derivation: specialization`, `baseDefinition` apuntando a DomainResource. Compárala mentalmente con un perfil (derivation constraint).
 
-Un recurso FHIR puede ser JSON valido pero **invalido como FHIR** (falta un campo
-obligatorio, tipo incorrecto, referencia rota). Los servidores y el examen esperan
-que sepas detectar y corregir esos problemas.
+3. **Buscar perfiles publicados.** Consulta:
+   `StructureDefinition?derivation=constraint&type=Patient&_count=5&_elements=url,name,baseDefinition`
+   Qué observar: perfiles de Patient subidos por la comunidad; cada `baseDefinition` muestra el eslabón anterior de la cadena. Respuesta esperada: varias canónicas distintas de la base.
 
-### La operacion $validate
+4. **Conformidad afirmada.** Consulta:
+   `Patient?_profile=http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient&_count=3`
+   Respuesta esperada: pacientes cuyo `meta.profile` **afirma** US Core (puede haber cero). Punto clave: esto no prueba que lo cumplan — es claimed, no validated.
 
-Invocas la operacion de validacion enviando el recurso en el cuerpo:
+5. **Observa un OperationOutcome real.** Pide un recurso inexistente:
+   `Patient/no-existe-xyz`
+   Respuesta esperada: HTTP 404 con un OperationOutcome (`issue.code: not-found` o similar). Identifica severity, code y diagnostics: es la misma estructura que devuelve la validación.
 
-    POST [base]/Patient/$validate
-    Content-Type: application/fhir+json
+6. **Differential vs snapshot en vivo.** Consulta:
+   `StructureDefinition?type=Observation&derivation=constraint&_count=1`
+   Abre el recurso devuelto y compara el tamaño de `differential.element` con el de `snapshot.element` (si el autor lo subió). Qué observar: el differential lista solo los paths tocados; el snapshot repite TODOS los elementos de Observation con las restricciones fusionadas. Respuesta esperada: entiendes por qué un validador no puede trabajar solo con el differential.
 
-Opcionalmente puedes pedir validacion contra un **profile**:
+## En la PC
 
-    POST [base]/Patient/$validate?profile=http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient
+Requiere [Setup](/setup) con Java 17+ para el validador.
 
-El servidor responde con un **OperationOutcome** (aunque el HTTP sea 200).
+1. **$validate con recurso inválido (curl).** Guarda como `obs-mala.json` una Observation SIN `status` y con `valueQuantity` + `dataAbsentReason` a la vez. Ejecuta:
 
-### OperationOutcome (como leer errores)
-
-```json
-{
-  "resourceType": "OperationOutcome",
-  "issue": [
-    {
-      "severity": "error",
-      "code": "required",
-      "diagnostics": "Patient.name: minimum required = 1, but only found 0",
-      "location": ["Patient.name"]
-    }
-  ]
-}
+```bash
+curl -s -X POST "https://hapi.fhir.org/baseR4/Observation/\$validate" \
+  -H "Content-Type: application/fhir+json" -d @obs-mala.json
 ```
 
-Campos clave de cada `issue`:
-- **severity**: fatal | error | warning | information
-- **code**: tipo de problema (required, invalid, structure, ...)
-- **diagnostics**: mensaje legible (tu mejor amigo para depurar)
-- **location**: ruta al elemento problematico (ej. Patient.name)
+Salida esperada: HTTP 200 (la validación corrió) con OperationOutcome que contiene al menos dos issues `error`: uno `required` sobre `Observation.status` y uno de invariante (obs-6). Anota las `expression`: son tu mapa de corrección. Corrige el archivo y repite hasta que solo queden warnings/information.
 
-Analogia: OperationOutcome es el "informe de revision" del profesor cuando entregas
-una tarea con errores marcados en rojo.
+2. **Validador oficial Java.** Descarga `validator_cli.jar` (enlace en la guía oficial del validador) y ejecuta:
 
-### Errores HTTP vs OperationOutcome
-
-- **422 Unprocessable Entity**: el servidor rechazo crear/actualizar el recurso.
-  Suele incluir OperationOutcome en el cuerpo.
-- **200 con OperationOutcome**: en $validate, "ok" puede significar "procesado";
-  mira si hay issues con severity error/fatal.
-
-## Practica
-
-```powershell
-python legacy\dias\dia-15\practica\validar_recursos.py
+```bash
+java -jar validator_cli.jar obs-mala.json -version 4.0.1
 ```
 
-El script valida un Patient **valido** y uno **invalido** (sin name) y muestra
-como leer el OperationOutcome. Reto: agrega una tercera prueba con un Observation
-sin `status` y corrige el JSON hasta que pase.
+Salida esperada: mismo tipo de hallazgos, con formato `Error @ Observation.status ...`. Luego valida contra un perfil de US Core:
+
+```bash
+java -jar validator_cli.jar paciente.json -version 4.0.1 \
+  -ig hl7.fhir.us.core#7.0.0 \
+  -profile http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient
+```
+
+Salida esperada: errores nuevos que la base no exigía (identifier, name, gender según el perfil): acabas de ver la diferencia entre válido-base y conforme-a-perfil.
+
+3. **Primer perfil en FSH.** Instala SUSHI (`npm install -g fsh-sushi`), crea un proyecto (`sushi init`) y define en `input/fsh/paciente.fsh`:
+
+```
+Profile: PacienteNacional
+Parent: Patient
+Id: sv-paciente
+* identifier 1..* MS
+* gender 1..1
+```
+
+Ejecuta `sushi .`. Salida esperada: `fsh-generated/resources/StructureDefinition-sv-paciente.json` con `derivation: constraint` y tu differential. Valida un paciente sin identifier contra él con el validador (`-ig ./fsh-generated -profile .../sv-paciente`) y observa el error `required`.
+
+## Retos
+
+1. Provoca y clasifica 4 issues distintos (structure, required, code-invalid, invariant) con recursos deliberadamente rotos vía `$validate`. Éxito: identificas el `code` de cada issue sin mirar la lección.
+2. Diferencia 200-con-errores de 400/422: envía la Observation inválida a `POST /Observation` (create real) y compara con `$validate`. Éxito: explicas por qué los códigos HTTP difieren.
+3. Descarga la StructureDefinition de us-core-patient (de hl7.org/fhir/us/core) y localiza en su JSON: un mustSupport, un binding y el slicing de identifier o telecom. Éxito: señalas differential vs snapshot del mismo elemento.
+4. Amplía tu perfil FSH con el slice del DUI (discriminator value sobre system, slice 1..1 con fixedUri). Éxito: SUSHI compila y el validador rechaza pacientes sin DUI.
+5. Añade a tu perfil una invariante FHIRPath (`name.exists() implies name.family.exists() or name.given.exists()`) con severity error. Éxito: una instancia con `name` vacío la dispara.
+6. Escribe el CapabilityStatement `kind: requirements` mínimo de un actor "registro nacional de pacientes": interactions y searchParams exigidos para Patient. Éxito: otro compañero podría implementar contra él sin preguntarte nada.
 
 ## Reto Feynman
 
-En `PROGRESO.md`, explica la diferencia entre "JSON valido" y "recurso FHIR valido",
-y que campos mirarias primero en un OperationOutcome.
+Explica a un gerente de proyecto, sin jerga: por qué "el proveedor dice que ya es compatible con FHIR" no significa nada verificable hasta que hay un perfil publicado y un validador que su sistema pasa, y qué papel juegan el IG y el banco de pruebas en el contrato. Máximo 8 frases.
 
----
+## Criterio de completado
 
-# Dia 16: Profiles y StructureDefinition
-
-Objetivo: entender que es un profile, como se representa con StructureDefinition y
-como validar una instancia contra un profile (base del Advanced Developer).
-Tiempo: 2-3 horas. Costo: $0.
-
-## Rutina
-
-1. `python evaluacion\repaso.py`
-2. Leccion.
-3. Practica.
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 16`
-
-## Teoria
-
-### El estandar base vs un profile
-
-El estandar FHIR R4 define recursos **generales** (Patient, Observation...). En la
-practica real, cada pais, sistema o guia (Implementation Guide) **restringe** el
-estandar: "nuestro Patient debe tener estos campos obligatorios adicionales".
-
-Eso es un **profile**: una StructureDefinition que dice como debe verse un recurso
-para un caso de uso concreto.
-
-Analogia: el estandar base es el molde generico de galleta; el profile es el
-cortador con forma especifica que encaja en una receta concreta (US Core, IPS...).
-
-### StructureDefinition (piezas clave)
-
-- **url**: identificador canonico del profile (ej.
-  `http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient`).
-- **type**: a que recurso aplica (Patient, Observation...).
-- **baseDefinition**: de que recurso/profile hereda (casi siempre el R4 base).
-- **kind**: `resource` para profiles de recursos.
-- **differential**: que cambia respecto al base (elementos restringidos, nuevos
-  obligatorios, extensiones permitidas).
-- **snapshot**: vista completa expandida del profile (util para validadores).
-
-### Validar contra un profile
-
-Puedes pedir al servidor que valide una instancia contra un profile concreto:
-
-    POST [base]/Patient/$validate?profile=http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient
-
-Si la instancia no cumple el profile, OperationOutcome listara los issues.
-
-### US Core (referencia para el examen)
-
-US Core es la Implementation Guide mas estudiada internacionalmente. Aunque
-la integración nacional no sea EE.UU., el examen usa US Core como ejemplo canonico de profiles.
-Conocerlo te entrena para leer cualquier IG.
-
-## Practica
-
-```powershell
-python legacy\dias\dia-16\practica\explorar_profile.py
-```
-
-El script:
-1. Descarga metadatos del profile US Core Patient desde el servidor publico.
-2. Valida un Patient minimo contra ese profile y muestra el OperationOutcome.
-
-Reto: corrige el Patient hasta que el validador reporte cero issues con severity
-error (puede quedar warnings; discute con Composer que significan).
-
-## Reto Feynman
-
-En `PROGRESO.md`, explica que es un profile, que aporta StructureDefinition y por
-que un Patient valido en R4 base puede fallar contra US Core.
+- [ ] Ejecuté los 6 ejercicios de Laboratorio y sé leer un CapabilityStatement.
+- [ ] Validé recursos con $validate y con validator_cli.jar, y corregí usando expression.
+- [ ] Distingo differential/snapshot, fixed/pattern y claimed/validated con ejemplos propios.
+- [ ] Compilé un perfil FSH con SUSHI y validé instancias contra él.
+- [ ] Construí un slicing con discriminator y una invariante FHIRPath que funcionan.
+- [ ] Completé al menos 4 de los 6 retos y el Reto Feynman.

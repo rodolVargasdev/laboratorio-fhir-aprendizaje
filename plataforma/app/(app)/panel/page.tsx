@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { ArrowRight, Check, Compass } from "lucide-react";
+import { ArrowRight, Check, Compass, Map, Award } from "lucide-react";
 import { auth } from "@/auth";
 import { obtenerCurriculo, siguienteAccion, nivelPreparacion, type TemaVista } from "@/lib/contenido";
 import { ultimoDiagnostico } from "@/lib/adaptive";
@@ -48,6 +48,24 @@ export default async function PanelPage() {
           Tu ruta para aprender FHIR paso a paso. Avanza de arriba hacia abajo.
         </p>
       </section>
+
+      {/* Primera vez: recorrido por la plataforma */}
+      {completados === 0 && (
+        <Link
+          href="/como-funciona"
+          className="flex items-center gap-3 rounded-lg border border-navy/20 bg-card p-4 transition-colors hover:bg-muted"
+        >
+          <Map className="h-5 w-5 shrink-0 text-navy" />
+          <div className="flex-1 text-sm">
+            <span className="font-semibold">Nuevo aqui?</span>{" "}
+            <span className="text-muted-foreground">
+              Haz el recorrido: como funciona cada seccion, la metodologia de aprendizaje y
+              que necesitas antes de empezar.
+            </span>
+          </div>
+          <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+        </Link>
+      )}
 
       {/* Siguiente accion */}
       {siguiente ? (
@@ -106,6 +124,12 @@ export default async function PanelPage() {
         <span className="text-muted-foreground">Temas {prep.completos}/{prep.total}</span>
         <span className="text-muted-foreground">Promedio quiz {prep.promedioQuiz}%</span>
         <span className="text-muted-foreground">Retencion {prep.retencion}%</span>
+        <Link
+          href="/certificaciones"
+          className="ml-auto inline-flex items-center gap-1 font-semibold text-primary hover:underline"
+        >
+          <Award className="h-4 w-4" /> Las 3 certificaciones
+        </Link>
       </div>
 
       {/* Etapas y temas */}

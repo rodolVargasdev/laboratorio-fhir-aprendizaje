@@ -2,276 +2,204 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "d3q1",
-      "bloom": "recordar",
+      "id": "tema-02-http-rest-1",
       "tipo": "opcion_multiple",
-      "pregunta": ".Que metodo HTTP se usa para LEER sin modificar?",
+      "bloom": "recordar",
+      "pregunta": "¿Qué URL corresponde a la interacción vread?",
       "opciones": [
-        "POST",
-        "GET",
-        "PUT",
-        "DELETE"
+        "GET [base]/Patient/123",
+        "GET [base]/Patient/123/_history",
+        "GET [base]/Patient/123/_history/2",
+        "GET [base]/Patient/_history"
       ],
-      "respuesta": 1,
-      "explicacion": "GET es de solo lectura y no debe cambiar datos."
+      "respuesta": 2,
+      "explicacion": "vread lee UNA versión concreta: [base]/[type]/[id]/_history/[vid]. Sin [vid] es la interacción history de la instancia (Bundle de versiones); sin _history es un read del estado actual."
     },
     {
-      "id": "d3q2",
-      "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Escribe la peticion para leer el Patient con id 123 (metodo y ruta relativa).",
-      "respuestas_validas": [
-        "GET Patient/123",
-        "GET /Patient/123",
-        "Patient/123"
-      ],
-      "explicacion": "Read = GET [base]/Patient/123."
-    },
-    {
-      "id": "d3q3",
+      "id": "tema-02-http-rest-2",
+      "tipo": "opcion_multiple",
       "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Que devuelve una operacion 'search' en FHIR?",
+      "pregunta": "Tras un create exitoso (POST), ¿qué devuelve el servidor?",
       "opciones": [
-        "Un recurso unico",
-        "Un Bundle con los resultados",
-        "Un codigo de estado solamente",
-        "Un OperationOutcome siempre"
+        "200 OK sin cabeceras especiales",
+        "201 Created con Location: [base]/[type]/[id]/_history/[vid]",
+        "204 No Content siempre",
+        "201 Created con el id en un header X-Resource-Id"
       ],
       "respuesta": 1,
-      "explicacion": "search devuelve un Bundle de tipo searchset con entradas."
+      "explicacion": "201 + Location apuntando al recurso nuevo incluida su versión. El cuerpo depende de Prefer: return=minimal (vacío), representation (el recurso con id/meta) u OperationOutcome."
     },
     {
-      "id": "d3q4",
-      "bloom": "recordar",
+      "id": "tema-02-http-rest-3",
       "tipo": "opcion_multiple",
-      "pregunta": ".Que cabecera pide la respuesta en JSON de FHIR?",
+      "bloom": "aplicar",
+      "pregunta": "Tu app reintenta automáticamente los POST que dan timeout. ¿Cuál es el riesgo y la mitigación estándar FHIR?",
+      "opciones": [
+        "Riesgo de 404; mitigar con vread",
+        "Riesgo de duplicados (POST no es idempotente); mitigar con create condicional If-None-Exist sobre un identifier bien gobernado",
+        "Ninguno: los servidores deduplican automáticamente",
+        "Riesgo de 500; mitigar con PATCH"
+      ],
+      "respuesta": 1,
+      "explicacion": "Cada POST repetido crea otro recurso. If-None-Exist hace que el servidor busque primero: 0 matches crea (201), 1 match devuelve el existente (200), varios responde 412. GET/PUT/DELETE son idempotentes; POST no."
+    },
+    {
+      "id": "tema-02-http-rest-4",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Haces PUT de Patient/123 con If-Match: W/\"3\" y recibes 412 Precondition Failed. ¿Qué pasó y qué haces?",
+      "opciones": [
+        "El recurso fue borrado; hago POST para recrearlo",
+        "Otro cliente actualizó el recurso (la versión ya no es 3); releo, fusiono cambios y reintento con el ETag nuevo",
+        "El JSON está mal formado; corrijo la sintaxis",
+        "Me falta el token; me reautentico"
+      ],
+      "respuesta": 1,
+      "explicacion": "412 con If-Match es el bloqueo optimista funcionando: evita el lost update. Sintaxis rota sería 400, falta de token 401, borrado 410. El flujo correcto es read -> merge -> retry."
+    },
+    {
+      "id": "tema-02-http-rest-5",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un POST de Observation devuelve 422 Unprocessable Entity. ¿Cuál de estos escenarios lo explica?",
+      "opciones": [
+        "El JSON tiene una coma colgante",
+        "El endpoint /Observation no existe en el servidor",
+        "El JSON es válido pero falta el campo obligatorio status (cardinalidad 1..1)",
+        "El token expiró"
+      ],
+      "respuesta": 2,
+      "explicacion": "422 = sintaxis correcta, contenido que viola reglas FHIR o del perfil. Coma colgante = 400; endpoint inexistente = 404; token expirado = 401. La tripleta 400/422/404 es la distinción estrella del examen."
+    },
+    {
+      "id": "tema-02-http-rest-6",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "Haces GET de un Patient que fue eliminado ayer con DELETE. ¿Qué código esperas?",
+      "opciones": ["404 Not Found", "410 Gone", "204 No Content", "400 Bad Request"],
+      "respuesta": 1,
+      "explicacion": "410 Gone = existió y fue borrado (el servidor conserva esa memoria); 404 = no existe o nunca existió ahí. El delete en sí responde 200 o 204."
+    },
+    {
+      "id": "tema-02-http-rest-7",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué header usas para pedir que el update NO devuelva el recurso completo en el cuerpo?",
       "opciones": [
         "Accept: application/fhir+json",
-        "Content-Length: json",
-        "Authorization: json",
-        "Host: fhir"
+        "Prefer: return=minimal",
+        "Content-Type: minimal",
+        "If-None-Match: *"
       ],
-      "respuesta": 0,
-      "explicacion": "Accept indica el formato que quieres recibir."
+      "respuesta": 1,
+      "explicacion": "Prefer controla el cuerpo de respuesta en create/update: return=minimal (vacío), return=representation (el recurso resultante), return=OperationOutcome (avisos). Accept negocia formato, no presencia del cuerpo."
     },
     {
-      "id": "d3q5",
-      "bloom": "comprender",
+      "id": "tema-02-http-rest-8",
       "tipo": "verdadero_falso",
-      "pregunta": "Una peticion GET puede usarse para crear un recurso nuevo.",
-      "respuesta": false,
-      "explicacion": "Crear es POST (o PUT con id). GET es solo lectura."
-    },
-    {
-      "id": "d4q1",
-      "bloom": "recordar",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Que indica un codigo 201?",
-      "opciones": [
-        "No encontrado",
-        "Created (recurso creado)",
-        "Error del servidor",
-        "No autorizado"
-      ],
-      "respuesta": 1,
-      "explicacion": "201 Created se devuelve tras crear un recurso (POST/PUT)."
-    },
-    {
-      "id": "d4q2",
       "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "Un error 4xx significa que...",
-      "opciones": [
-        "Fallo el servidor",
-        "El problema esta en la peticion del cliente",
-        "Todo salio bien",
-        "Hubo una redireccion"
-      ],
-      "respuesta": 1,
-      "explicacion": "4xx = error del cliente; 5xx = error del servidor."
-    },
-    {
-      "id": "d4q3",
-      "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Escribe la busqueda (ruta relativa) de pacientes con apellido Perez.",
-      "respuestas_validas": [
-        "Patient?family=Perez",
-        "/Patient?family=Perez",
-        "GET Patient?family=Perez"
-      ],
-      "explicacion": "search por apellido: Patient?family=Perez."
-    },
-    {
-      "id": "d4q4",
-      "bloom": "aplicar",
-      "tipo": "opcion_multiple",
-      "pregunta": "Para buscar observaciones con fecha mayor o igual a 2024-01-01:",
-      "opciones": [
-        "Observation?date=2024-01-01",
-        "Observation?date=ge2024-01-01",
-        "Observation?date>2024-01-01",
-        "Observation?date=min2024-01-01"
-      ],
-      "respuesta": 1,
-      "explicacion": "El prefijo 'ge' significa 'greater or equal' (mayor o igual)."
-    },
-    {
-      "id": "d4q5",
-      "bloom": "comprender",
-      "tipo": "verdadero_falso",
-      "pregunta": "El resultado de una busqueda FHIR es un Bundle con un campo 'total' y 'entry'.",
+      "pregunta": "En un PUT de actualización, el id debe ir en la URL y en el cuerpo del recurso, y ambos deben coincidir.",
       "respuesta": true,
-      "explicacion": "Es un Bundle searchset; total cuenta coincidencias, entry trae la pagina."
+      "explicacion": "Si difieren, el servidor responde 400. Contrasta con create (POST), donde el cuerpo NO lleva id porque lo asigna el servidor. Y recuerda: PUT reemplaza el recurso COMPLETO; lo no enviado se pierde."
     },
     {
-      "id": "d5q1",
-      "bloom": "recordar",
+      "id": "tema-02-http-rest-9",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe la búsqueda (path relativo) de observaciones con código 8867-4 desde el 1 de enero de 2024, máximo 5 por página.",
+      "respuestas_validas": [
+        "Observation?code=8867-4&date=ge2024-01-01&_count=5",
+        "/Observation?code=8867-4&date=ge2024-01-01&_count=5",
+        "Observation?date=ge2024-01-01&code=8867-4&_count=5",
+        "Observation?code=8867-4&_count=5&date=ge2024-01-01"
+      ],
+      "explicacion": "Los prefijos (ge = mayor o igual) van PEGADOS al valor, no como operadores sueltos. Varios parámetros con & se combinan con Y lógico; _count controla el tamaño de página."
+    },
+    {
+      "id": "tema-02-http-rest-10",
       "tipo": "opcion_multiple",
-      "pregunta": ".Que metodo crea un recurso dejando que el servidor asigne el id?",
+      "bloom": "comprender",
+      "pregunta": "En un Bundle searchset, ¿qué distingue una entry con search.mode 'include' de una 'match'?",
       "opciones": [
-        "PUT",
-        "POST",
-        "GET",
-        "PATCH"
+        "include indica recursos borrados",
+        "match cumple el criterio de búsqueda y cuenta en total; include vino arrastrado por _include/_revinclude y NO cuenta en total",
+        "include son los resultados de la página siguiente",
+        "No hay diferencia funcional"
       ],
       "respuesta": 1,
-      "explicacion": "POST crea y el servidor asigna el id (responde 201 Created)."
+      "explicacion": "Con Observation?_include=Observation:patient, las observaciones son match y los pacientes referenciados viajan como include en el mismo Bundle. Contarlos juntos infla tus métricas: gotcha real de implementación."
     },
     {
-      "id": "d5q2",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Cual de estas operaciones NO es idempotente?",
-      "opciones": [
-        "GET",
-        "PUT",
-        "DELETE",
-        "POST"
-      ],
-      "respuesta": 3,
-      "explicacion": "Dos POST iguales crean dos recursos distintos; no es idempotente."
-    },
-    {
-      "id": "d5q3",
-      "bloom": "comprender",
+      "id": "tema-02-http-rest-11",
       "tipo": "verdadero_falso",
-      "pregunta": "PUT requiere enviar el recurso completo, no solo el campo a cambiar.",
+      "bloom": "aplicar",
+      "pregunta": "Para obtener la página 2 de una búsqueda, lo correcto es tomar la URL del link con relation 'next' y seguirla tal cual, sin modificarla.",
       "respuesta": true,
-      "explicacion": "PUT reemplaza el recurso entero. Para cambios parciales existe PATCH."
+      "explicacion": "La paginación FHIR es opaca: el link next lleva tokens de la sesión de búsqueda del servidor. Construir 'página 2' a mano (offsets propios) no es interoperable y se rompe entre servidores."
     },
     {
-      "id": "d5q4",
-      "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Metodo y ruta relativa para borrar el Patient con id 999.",
-      "respuestas_validas": [
-        "DELETE Patient/999",
-        "DELETE /Patient/999",
-        "Patient/999"
+      "id": "tema-02-http-rest-12",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un Bundle transaction crea un Patient (fullUrl urn:uuid:AAA) y una Observation cuyo subject.reference es urn:uuid:AAA. ¿Qué hace el servidor?",
+      "opciones": [
+        "Rechaza el Bundle: las urn no son referencias válidas",
+        "Persiste la Observation con la urn tal cual",
+        "Asigna un id real al Patient y reescribe subject.reference con él (p. ej. Patient/789) antes de persistir; todo de forma atómica",
+        "Crea la Observation primero y el Patient después"
       ],
-      "explicacion": "Delete = DELETE [base]/Patient/999."
+      "respuesta": 2,
+      "explicacion": "La resolución de referencias internas es una capacidad clave del transaction (batch NO la tiene). Además procesa en orden seguro: DELETE, POST, PUT/PATCH, GET, y si algo falla revierte todo."
     },
     {
-      "id": "d5q5",
+      "id": "tema-02-http-rest-13",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Cargarás 50 000 recursos independientes donde un fallo individual es tolerable y reprocesable. ¿Batch o transaction, y por qué?",
+      "opciones": [
+        "Transaction: garantiza que no se pierda nada",
+        "Batch (en trozos): las entradas son independientes, el best-effort permite fallo parcial y evitas transacciones gigantes que agotan memoria y locks",
+        "Transaction único con las 50 000 entradas",
+        "Ni uno ni otro: FHIR no permite operaciones múltiples"
+      ],
+      "respuesta": 1,
+      "explicacion": "Transaction es para grafos coherentes que deben nacer juntos, y su costo (atomicidad, locks) crece con el tamaño. Para volumen independiente: batch en lotes + reproceso de fallos. Para LECTURA masiva, Bulk Data."
+    },
+    {
+      "id": "tema-02-http-rest-14",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Cuándo tiene sentido usar POST [base]/Patient/_search en lugar de GET con query string?",
+      "opciones": [
+        "Nunca: la búsqueda solo se define con GET",
+        "Cuando los parámetros contienen datos sensibles que no deben quedar en logs de URL, o la query es muy larga",
+        "Cuando quieres crear un paciente y buscarlo a la vez",
+        "Solo cuando el servidor no soporta GET"
+      ],
+      "respuesta": 1,
+      "explicacion": "POST _search con cuerpo application/x-www-form-urlencoded es búsqueda legítima (misma semántica que GET): las URLs terminan en logs de proxies y servidores; nombres e identificadores no deberían viajar ahí en un entorno serio."
+    },
+    {
+      "id": "tema-02-http-rest-15",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Intentas PUT [base]/Patient/mi-id-propio en un servidor que NO permite ids definidos por el cliente y el recurso no existe. ¿Qué respuesta es la esperable?",
+      "opciones": [
+        "201 Created siempre: PUT crea si no existe",
+        "405 Method Not Allowed (update-as-create deshabilitado) o 400 según la política del servidor",
+        "410 Gone",
+        "204 No Content"
+      ],
+      "respuesta": 1,
+      "explicacion": "Update-as-create es OPCIONAL: el CapabilityStatement lo declara en updateCreate. Si está deshabilitado, el servidor rechaza (405 es el código canónico para interacción no permitida). Lección: lee el metadata antes de asumir capacidades."
+    },
+    {
+      "id": "tema-02-http-rest-16",
+      "tipo": "respuesta_corta",
       "bloom": "recordar",
-      "tipo": "opcion_multiple",
-      "pregunta": "Tras un POST exitoso, .que codigo de estado esperas?",
-      "opciones": [
-        "200 OK",
-        "201 Created",
-        "404 Not Found",
-        "500 Internal Server Error"
-      ],
-      "respuesta": 1,
-      "explicacion": "201 Created, con la cabecera Location del nuevo recurso."
-    },
-    {
-      "id": "d7q1",
-      "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Ruta para el apellido oficial de un Patient (primer name).",
-      "respuestas_validas": [
-        "Patient.name[0].family",
-        "name[0].family"
-      ],
-      "explicacion": "name es array; tomamos [0].family."
-    },
-    {
-      "id": "d7q2",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "Una busqueda FHIR devuelve...",
-      "opciones": [
-        "un recurso unico",
-        "un Bundle",
-        "un JWT",
-        "un CapabilityStatement"
-      ],
-      "respuesta": 1,
-      "explicacion": "search devuelve un Bundle searchset."
-    },
-    {
-      "id": "d7q3",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "Un 403 significa...",
-      "opciones": [
-        "creado",
-        "no autorizado (prohibido)",
-        "error de servidor",
-        "ok"
-      ],
-      "respuesta": 1,
-      "explicacion": "403 Forbidden: autenticado pero sin permiso."
-    },
-    {
-      "id": "d7q4",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Cual es idempotente?",
-      "opciones": [
-        "POST",
-        "PUT",
-        "ninguno",
-        "todos menos GET"
-      ],
-      "respuesta": 1,
-      "explicacion": "PUT (y GET, DELETE) son idempotentes; POST no."
-    },
-    {
-      "id": "d7q5",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "SMART on FHIR se construye sobre...",
-      "opciones": [
-        "FTP",
-        "OAuth 2.0",
-        "SOAP",
-        "GraphQL"
-      ],
-      "respuesta": 1,
-      "explicacion": "SMART es un perfil de OAuth 2.0 para salud."
-    },
-    {
-      "id": "d7q6",
-      "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Busqueda (ruta relativa) de Observation con codigo LOINC 8867-4.",
-      "respuestas_validas": [
-        "Observation?code=8867-4",
-        "/Observation?code=8867-4"
-      ],
-      "explicacion": "search por code: Observation?code=8867-4."
-    },
-    {
-      "id": "d7q7",
-      "bloom": "recordar",
-      "tipo": "verdadero_falso",
-      "pregunta": "El campo resourceType identifica el tipo de recurso en JSON.",
-      "respuesta": true,
-      "explicacion": "Siempre presente en cada recurso FHIR."
+      "pregunta": "¿Qué recurso devuelve un servidor FHIR en el cuerpo cuando una interacción falla, para explicar el motivo?",
+      "respuestas_validas": ["OperationOutcome", "operationoutcome", "operation outcome"],
+      "explicacion": "OperationOutcome transporta issue[] con severity (fatal/error/warning/information), code y diagnostics. Leerlo siempre es el reflejo profesional: ahí está el porqué del 4xx/5xx."
     }
   ]
 }

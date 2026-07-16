@@ -1,11 +1,8 @@
-# NotebookLM — La terminal y tu entorno
+# NotebookLM - La terminal y tu entorno
 
-> Paso obligatorio. Consolida el tema en un cuaderno de NotebookLM.
+Consolida el tema con un cuaderno propio en [notebooklm.google.com](https://notebooklm.google.com).
 
-## Pasos
-
-- [ ] Abrir [notebooklm.google.com](https://notebooklm.google.com) con tu cuenta Google.
-- [ ] Crear un cuaderno: **Bases — La terminal y tu entorno**.
-- [ ] Subir la lectura de este tema como fuente.
-- [ ] Generar el Audio Overview y escucharlo.
-- [ ] Pedir un examen oral de 8 preguntas y responderlo sin mirar.
+- Crea el cuaderno con el nombre que indica la app y agrega como fuentes las URLs sugeridas (las ves en la pestaña del tema; la app las toma de la configuración del tema).
+- Genera el Audio Overview y escúchalo mientras repasas la chuleta.
+- Usa los tres prompts de estudio sugeridos por la app; el objetivo es explicar PATH, rutas y pipes sin mirar la lección.
+- Cierra pidiendo un examen oral de 8 preguntas y respóndelo en voz alta.

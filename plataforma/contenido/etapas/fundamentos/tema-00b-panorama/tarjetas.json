@@ -1,8 +1,16 @@
 [
-  { "frente": ".Que version de FHIR usan hoy el examen y la produccion?", "reverso": "R4 (4.0.1): API REST y tipos normativos; objetivo regulatorio y de plataformas." },
-  { "frente": ".Cual es la certificacion FHIR vigente?", "reverso": "HL7 FHIR Foundational Implementer (reemplazo al R4 Proficiency, retirado en dic. 2024)." },
-  { "frente": ".Que significa el scope SMART v2 'patient/Observation.rs'?", "reverso": "Permite leer (r) y buscar (s) observaciones del paciente en contexto." },
-  { "frente": ".Diferencia entre Bundle transaction y batch?", "reverso": "transaction = atomico (todo o nada); batch = best-effort (cada entrada por separado)." },
-  { "frente": ".Que operacion expande los codigos de un ValueSet?", "reverso": "$expand (util para poblar UIs clinicas)." },
-  { "frente": ".Hacia que version salta US Core desde R4?", "reverso": "A R6, omitiendo R5 (v10 proyectada ~2027)." }
+  { "frente": "¿Qué versión de FHIR usan hoy el examen y la producción?", "reverso": "R4 (4.0.1): API REST, formatos y datatypes normativos; objetivo de reguladores, IGs y plataformas. Ancla de estudio: hl7.org/fhir/R4/." },
+  { "frente": "Las tres URL que no debes confundir", "reverso": "hl7.org/fhir/R4/ = publicación congelada de R4 (tu ancla); hl7.org/fhir/ = versión current (hoy R5); build.fhir.org = build continuo camino a R6." },
+  { "frente": "Estado de R4B, R5 y R6 (2026)", "reverso": "R4B (4.3.0, 2022): transicional, poco adoptada. R5 (5.0.0, 2023): Trial Use, adopción minoritaria. R6: en balota normativa 2026-27, el evento estratégico del bienio." },
+  { "frente": "Certificación FHIR vigente", "reverso": "HL7 FHIR Foundational Implementer (reemplazó al R4 Proficiency, retirado dic-2024; ~100 preguntas / ~180 min / umbral ~60 %, confirmar en la ficha). El Advanced Developer exige el Foundational vigente." },
+  { "frente": "Scope SMART v2: gramática", "reverso": "contexto/Recurso.verbos con verbos granulares en orden c-r-u-d-s y parámetros opcionales. Ej.: patient/Observation.rs?category=vital-signs. Contextos: patient/, user/, system/." },
+  { "frente": "¿Cómo reconocer un scope v1 vs v2?", "reverso": "v1 usa .read/.write/.* (patient/Observation.read); v2 usa combinaciones cruds (.rs, .cud). SMART 2.2 espera v2; v1 queda como legado." },
+  { "frente": "SMART Backend Services (resumen)", "reverso": "Sistema-a-sistema sin usuario: grant client_credentials, el cliente se autentica con JWT firmado con su clave privada, el servidor verifica contra el JWKS registrado; scopes system/. Base de Bulk Data." },
+  { "frente": "Bundle transaction vs batch", "reverso": "transaction = atómico (todo o nada, resuelve referencias internas); batch = best-effort (cada entrada independiente). Gotcha de examen clásico." },
+  { "frente": "must-support vs obligatorio", "reverso": "must-support: el sistema debe poder producir/consumir el elemento según el IG. Obligatorio: cardinalidad mínima 1 (toda instancia debe traerlo). No son sinónimos; cada IG define su semántica de must-support." },
+  { "frente": "Subscriptions: R4 vs R5 y el backport", "reverso": "R4: criteria-based (cadena de búsqueda en Subscription). R5: topic-based (SubscriptionTopic define el disparador). El Subscriptions R5 Backport IG trae el modelo nuevo a R4/R4B." },
+  { "frente": "CodeableReference y EncounterHistory", "reverso": "Ejemplos de evolución en R5/R6: CodeableReference unifica 'código O referencia' en un tipo; EncounterHistory separa la traza de estados del Encounter (en R4 statusHistory embebido obliga a reescribir todo el recurso)." },
+  { "frente": "Operaciones de terminología", "reverso": "$expand: materializa los códigos de un ValueSet (desplegables). $lookup: metadata de un código. $validate-code: pertenencia. $translate: mapear entre sistemas vía ConceptMap." },
+  { "frente": "Binding strengths (de más a menos estricto)", "reverso": "required (solo códigos del ValueSet) > extensible (úsalo si aplica; si ninguno aplica, otro código) > preferred (recomendado) > example (ilustrativo)." },
+  { "frente": "SMART Bulk Data en una frase", "reverso": "Exportación poblacional asíncrona ($export) en NDJSON autenticada con Backend Services: separa el plano analítico del transaccional; clave para tableros y analítica nacional." }
 ]

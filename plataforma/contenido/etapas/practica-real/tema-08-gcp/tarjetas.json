@@ -1,37 +1,58 @@
 [
   {
-    "claveLegacy": "d8-jerarquia-gcp",
-    "frente": ".Cual es la jerarquia basica de recursos en GCP?",
-    "reverso": "Organizacion > Proyecto > Recursos. Todo recurso vive dentro de un proyecto."
+    "frente": "Jerarquía de datos de salud en GCP",
+    "reverso": "Proyecto > Location > Dataset > FHIR store. La location fija la residencia física de los datos; el dataset puede contener stores FHIR, DICOM y HL7v2."
   },
   {
-    "claveLegacy": "d8-free-tier",
-    "frente": ".Que capa gratuita tiene Cloud Healthcare API?",
-    "reverso": "25,000 peticiones/mes gratis y 1 GiB-hora/mes de almacenamiento gratis. Suficiente para aprender."
+    "frente": "Comando para habilitar la Healthcare API en un proyecto",
+    "reverso": "gcloud services enable healthcare.googleapis.com (requiere facturación vinculada al proyecto)."
   },
   {
-    "claveLegacy": "d9-jerarquia-fhir",
-    "frente": ".Jerarquia para un FHIR store en GCP?",
-    "reverso": "Proyecto > Localizacion > Dataset > FHIR store."
+    "frente": "enableUpdateCreate",
+    "reverso": "Hace que un PUT a un ID inexistente CREE el recurso (upsert). Necesario cuando el sistema origen gobierna los identificadores, como un ID nacional."
   },
   {
-    "claveLegacy": "d9-version",
-    "frente": ".Que versiones de FHIR soporta Cloud Healthcare API?",
-    "reverso": "DSTU2, STU3 y R4. Para certificacion usamos R4."
+    "frente": "disableReferentialIntegrity: cuándo y riesgo",
+    "reverso": "Se fija al crear el store (inmutable). Útil para ingesta masiva/staging sin orden garantizado. Riesgo: referencias colgantes permanentes y resultados incompletos en _include y búsquedas encadenadas."
   },
   {
-    "claveLegacy": "d10-synthea",
-    "frente": ".Que es Synthea?",
-    "reverso": "Un generador de datos clinicos sinteticos (pacientes ficticios) en formato FHIR, ideal para practicar sin datos reales."
+    "frente": "Versionado de recursos en el store",
+    "reverso": "Activo por defecto: cada update sube meta.versionId y se consulta con GET .../Patient/{id}/_history. Desactivarlo ahorra almacenamiento pero elimina trazabilidad."
   },
   {
-    "claveLegacy": "d20-iam",
-    "frente": "Rol IAM minimo para solo LEER recursos FHIR",
-    "reverso": "roles/healthcare.fhirResourceReader."
+    "frente": "Token para hablar con el endpoint FHIR de GCP",
+    "reverso": "TOKEN=$(gcloud auth print-access-token); se envía como Authorization: Bearer $TOKEN. Expira en ~1 hora: un 401 repentino se arregla regenerándolo."
   },
   {
-    "claveLegacy": "d20-metrics",
-    "frente": "Metodo para metricas del FHIR store",
-    "reverso": "fhirStores.getFHIRStoreMetrics."
+    "frente": "Import masivo desde Cloud Storage",
+    "reverso": "gcloud healthcare fhir-stores import gcs STORE --gcs-uri=gs://bucket/*.ndjson --content-structure=resource. Es una operación de larga duración; el service agent necesita storage.objectViewer sobre el bucket."
+  },
+  {
+    "frente": "Export analítico a BigQuery",
+    "reverso": "gcloud healthcare fhir-stores export bq ... --bq-dataset=bq://PROYECTO.dataset --schema-type=analytics. analytics aplana para SQL; lossless conserva el JSON íntegro."
+  },
+  {
+    "frente": "Synthea: generar 50 pacientes reproducibles en NDJSON",
+    "reverso": "java -jar synthea-with-dependencies.jar -p 50 -s SEMILLA --exporter.fhir.bulk_data true --exporter.baseDirectory ./salida Massachusetts"
+  },
+  {
+    "frente": "Roles IAM de healthcare esenciales",
+    "reverso": "fhirResourceReader (solo lectura de recursos), fhirResourceEditor (CRUD de recursos), fhirStoreAdmin (administrar stores, import/export), datasetAdmin/datasetViewer (datasets). Mínimo privilegio y a nivel de store cuando sea posible."
+  },
+  {
+    "frente": "Admin Activity logs vs Data Access logs",
+    "reverso": "Admin Activity: operaciones administrativas, siempre activos y gratuitos. Data Access: lecturas/escrituras de recursos FHIR, se habilitan explícitamente y facturan logging; imprescindibles para auditoría clínica."
+  },
+  {
+    "frente": "Notificaciones Pub/Sub del FHIR store",
+    "reverso": "El store publica un mensaje por cada create/update/delete en un tópico configurado. Base de arquitecturas dirigidas por eventos; el service agent necesita pubsub.publisher sobre el tópico."
+  },
+  {
+    "frente": "412 Precondition Failed en un PUT con If-Match",
+    "reverso": "Concurrencia optimista: la versión indicada ya no es la actual porque alguien más actualizó. Releer el recurso y reintentar sobre la versión vigente."
+  },
+  {
+    "frente": "Ritual de limpieza para costo $0",
+    "reverso": "gcloud healthcare datasets delete DS --location=L; gcloud storage rm -r gs://BUCKET; bq rm -r -f -d PROYECTO:dataset_bq. Al cerrar el tema: gcloud projects delete PROYECTO."
   }
 ]

@@ -1,37 +1,16 @@
 [
-  {
-    "claveLegacy": "d1-resourcetype",
-    "frente": "En un recurso FHIR en JSON, .que campo indica de que tipo de recurso se trata?",
-    "reverso": "El campo 'resourceType' (por ejemplo, \"resourceType\": \"Patient\")."
-  },
-  {
-    "claveLegacy": "d1-objeto-array",
-    "frente": "Diferencia entre objeto { } y array [ ] en JSON",
-    "reverso": "El objeto agrupa pares clave:valor; el array es una lista ordenada de elementos."
-  },
-  {
-    "claveLegacy": "d1-ruta-given",
-    "frente": "Ruta para el primer nombre de pila de un Patient",
-    "reverso": "Patient.name[0].given[0]"
-  },
-  {
-    "claveLegacy": "d1-tipos",
-    "frente": "Tipos de valor permitidos en JSON",
-    "reverso": "Texto (string), numero, booleano (true/false), null, objeto { } y array [ ]."
-  },
-  {
-    "claveLegacy": "d2-xml-vs-json",
-    "frente": ".Que formatos admite FHIR para representar recursos?",
-    "reverso": "JSON y XML. JSON es el mas usado hoy; el examen espera que sepas LEER ambos."
-  },
-  {
-    "claveLegacy": "d2-anidamiento",
-    "frente": ".Que significa que un JSON este 'anidado'?",
-    "reverso": "Que un objeto o array contiene otros objetos/arrays dentro (estructura en arbol)."
-  },
-  {
-    "claveLegacy": "d2-coding",
-    "frente": ".Que es un campo de tipo 'CodeableConcept'?",
-    "reverso": "Un concepto codificado: contiene uno o varios 'coding' (system, code, display) y un 'text' libre."
-  }
+  { "frente": "id vs identifier vs meta.versionId", "reverso": "id: id lógico del recurso en ESE servidor (parte de la URL, estable entre versiones). identifier: identificadores del mundo real (system+value, p. ej. DUI). meta.versionId: la versión de la instancia; cambia con cada update (vread, ETag)." },
+  { "frente": "Campos de meta", "reverso": "versionId, lastUpdated (instant), profile (canonical de perfiles DECLARADOS), security (etiquetas de confidencialidad), tag (etiquetas de proceso sin semántica clínica)." },
+  { "frente": "date vs dateTime vs instant", "reverso": "date: AAAA[-MM[-DD]], sin hora ni zona. dateTime: parciales permitidos; si hay hora, zona OBLIGATORIA. instant: timestamp completo con zona, siempre (meta.lastUpdated)." },
+  { "frente": "uri vs url vs canonical", "reverso": "uri: identificador (urn:oid:... cuenta). url: uri que además es dirección accesible. canonical: referencia a artefactos canónicos (perfiles, ValueSets), admite |versión: ...Patient|4.0.1." },
+  { "frente": "Tipo primitivo id: regla", "reverso": "[A-Za-z0-9\\-\\.]{1,64}: letras, dígitos, guion y punto, máximo 64 caracteres." },
+  { "frente": "El patrón _propiedad en JSON", "reverso": "Propiedad hermana con guion bajo que transporta id/extensiones de un primitivo (\"birthDate\" + \"_birthDate\"). En arrays de primitivos corre en paralelo posición a posición, con null de relleno: único null legal en FHIR JSON." },
+  { "frente": "Choice types value[x]: reglas", "reverso": "Solo UNA variante presente por instancia; nombre = elemento + tipo capitalizado (valueQuantity, effectivePeriod, medicationReference); no se repiten. Dos variantes a la vez = instancia inválida." },
+  { "frente": "Repetibles y cardinalidad en JSON", "reverso": "Cardinalidad máx * = SIEMPRE array aunque haya 1 ítem (name: [{...}]); máx 1 = nunca array. Índices desde 0: name[0].family. Casi todo es min 0: los perfiles endurecen." },
+  { "frente": "Reglas de lectura de XML FHIR", "reverso": "Tipo = etiqueta raíz + xmlns=http://hl7.org/fhir; primitivos en atributo value=; repetición = etiqueta repetida; el ORDEN de elementos importa; extensiones como hijos con url; div en namespace XHTML." },
+  { "frente": "code vs Coding vs CodeableConcept", "reverso": "code: valor pelado de un conjunto fijo (status: 'final'). Coding: system+code+display. CodeableConcept: coding[] (varios sistemas para el mismo concepto) + text (lo que vio el humano)." },
+  { "frente": "Quantity: estructura", "reverso": "value (decimal con precisión significativa), unit (texto legible), system+code (unidad formal UCUM: http://unitsofmeasure.org), comparator opcional (<, <=, >=, >)." },
+  { "frente": "Reference: formas posibles", "reverso": "Relativa (Patient/123), absoluta (https://otro/fhir/Patient/9), interna a contained (#med1), o lógica (solo identifier, cuando no conoces la URL). display opcional para humanos." },
+  { "frente": "Reglas de contained", "reverso": "Referencia #id; sin meta.versionId/lastUpdated; no anidable; NO direccionable por URL propia ni buscable; debe estar vinculado al contenedor. Úsalo solo si el recurso no tiene identidad propia." },
+  { "frente": "Narrative (text): estados", "reverso": "status: generated (derivada de los datos), extensions, additional (contiene información que NO está estructurada: no la ignores), empty. div: XHTML restringido (sanitizar siempre: riesgo XSS)." }
 ]

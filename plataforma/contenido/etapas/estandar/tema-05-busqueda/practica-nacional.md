@@ -1,4 +1,4 @@
-## Tema 5 · Búsqueda → Las preguntas que hace el sistema
+## Tema 5 · Búsqueda -> Las preguntas que hace el sistema
 
 - Práctica (60 min, PC): escribe y ejecuta (contra HAPI con tus datos del Tema 4)
   las 5 búsquedas que un sistema nacional haría a diario, p. ej.: pacientes por DUI;

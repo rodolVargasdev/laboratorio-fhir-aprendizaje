@@ -2,11 +2,40 @@
   "slug": "tema-01-json-xml",
   "numero": 1,
   "nombre": "JSON y XML: el lenguaje de los datos",
-  "resumen": "Objetos, arrays, rutas tipo Patient.name[0].family, JSON anidado y XML comparado.",
+  "resumen": "La representacion FHIR completa: resourceType, id y meta; tipos primitivos y sus reglas (date/dateTime/instant, decimal, uri/url/canonical); el patron _propiedad; choice types value[x]; arrays y cardinalidad; XML equivalente (atributo value, orden, namespaces); narrativa y contained; y un Patient completo comentado campo a campo.",
   "opcional": false,
-  "objetivos": [],
-  "enlaces": [],
+  "objetivos": [
+    "Descomponer cualquier recurso en resourceType, id, meta (versionId, lastUpdated, profile, security, tag), text y contenido",
+    "Distinguir id, identifier y versionId, y code, Coding y CodeableConcept sin dudar",
+    "Aplicar las reglas de los primitivos: date vs dateTime vs instant, decimal con precision significativa, uri/url/canonical, tipo id",
+    "Usar el patron _propiedad para extensiones de primitivos, incluida la alineacion con null en arrays",
+    "Aplicar las reglas de los choice types value[x]: una sola variante y nombre con tipo capitalizado",
+    "Leer el mismo recurso en JSON y XML, ubicando primitivos (value=), repeticion, orden y namespaces",
+    "Explicar la narrativa (status generated/extensions/additional/empty) y las reglas de los recursos contained",
+    "Detectar instancias invalidas a simple vista (dos value[x], dateTime sin zona, null ilegal, repetible sin array)"
+  ],
+  "enlaces": [
+    { "titulo": "Tipos de datos R4", "url": "http://hl7.org/fhir/R4/datatypes.html", "nota": "La referencia central del tema: cada primitivo con su regla y cada complejo con su estructura." },
+    { "titulo": "Representacion JSON R4", "url": "http://hl7.org/fhir/R4/json.html", "nota": "Las reglas exactas de serializacion JSON: _propiedad, arrays, manejo de null." },
+    { "titulo": "Representacion XML R4", "url": "http://hl7.org/fhir/R4/xml.html", "nota": "El espejo XML: atributo value, orden significativo, namespaces." },
+    { "titulo": "Narrative R4", "url": "http://hl7.org/fhir/R4/narrative.html", "nota": "Estados de text.status y el subconjunto XHTML permitido en div." },
+    { "titulo": "Extensibilidad R4", "url": "http://hl7.org/fhir/R4/extensibility.html", "nota": "Como funcionan las extensiones que _propiedad transporta en JSON." },
+    { "titulo": "Recurso Patient R4", "url": "http://hl7.org/fhir/R4/patient.html", "nota": "El recurso del ejemplo comentado: tabla de elementos, cardinalidades y bindings." },
+    { "titulo": "Lista de recursos R4", "url": "http://hl7.org/fhir/R4/resourcelist.html", "nota": "Para practicar lectura de definiciones con mas recursos." }
+  ],
   "notebooklm": {
-    "nombreCuaderno": "FHIR — JSON y XML: el lenguaje de los datos"
+    "nombreCuaderno": "FHIR - JSON y XML: el lenguaje de los datos",
+    "fuentes": [
+      { "titulo": "FHIR R4 Datatypes", "url": "http://hl7.org/fhir/R4/datatypes.html" },
+      { "titulo": "FHIR R4 JSON", "url": "http://hl7.org/fhir/R4/json.html" },
+      { "titulo": "FHIR R4 XML", "url": "http://hl7.org/fhir/R4/xml.html" },
+      { "titulo": "FHIR R4 Patient", "url": "http://hl7.org/fhir/R4/patient.html" }
+    ],
+    "prompts": [
+      "Muestrame recursos FHIR en JSON con errores sutiles (dos value[x], dateTime con hora sin zona, repetible sin array, null ilegal) y pideme detectarlos uno por uno.",
+      "Hazme un examen oral sobre date/dateTime/instant, uri/url/canonical y code/Coding/CodeableConcept: definicion, ejemplo valido y ejemplo invalido de cada uno.",
+      "Compara en tabla la representacion JSON y XML del mismo Patient: tipo de recurso, primitivos, repeticion, orden, extensiones y narrativa.",
+      "Explicame el patron _propiedad con un ejemplo de birthDate parcial mas extension birthTime, y como se ve lo mismo en XML."
+    ]
   }
 }

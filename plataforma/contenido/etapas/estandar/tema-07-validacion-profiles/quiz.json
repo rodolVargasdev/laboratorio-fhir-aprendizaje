@@ -2,155 +2,215 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "d15q1",
-      "bloom": "aplicar",
+      "id": "tema-07-validacion-profiles-1",
       "tipo": "opcion_multiple",
-      "pregunta": ".Como invocas la validacion de un Patient en FHIR?",
-      "opciones": [
-        "GET [base]/Patient/$validate",
-        "POST [base]/Patient/$validate con el recurso en el cuerpo",
-        "DELETE [base]/Patient/$validate",
-        "POST [base]/validate/Patient"
-      ],
-      "respuesta": 1,
-      "explicacion": "$validate es una operacion; se invoca con POST y el recurso en el body."
-    },
-    {
-      "id": "d15q2",
-      "bloom": "recordar",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Que recurso devuelve el servidor para reportar errores de validacion?",
-      "opciones": [
-        "Bundle",
-        "OperationOutcome",
-        "CapabilityStatement",
-        "Parameters"
-      ],
-      "respuesta": 1,
-      "explicacion": "OperationOutcome agrupa los issue con severity, code y diagnostics."
-    },
-    {
-      "id": "d15q3",
       "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "Un JSON bien formado puede ser invalido como recurso FHIR porque...",
+      "pregunta": "En una StructureDefinition, ¿qué indica derivation = constraint frente a specialization?",
       "opciones": [
-        "JSON no admite arrays",
-        "puede faltar un elemento obligatorio o tener tipo/cardinalidad incorrecta",
-        "FHIR solo usa XML",
-        "siempre devuelve 404"
+        "constraint crea un tipo nuevo; specialization lo restringe",
+        "constraint es un perfil que restringe un tipo existente sin crear uno nuevo; specialization define un tipo nuevo (lo que hace la propia especificación)",
+        "Son sinónimos desde R4",
+        "constraint solo aplica a extensiones"
       ],
       "respuesta": 1,
-      "explicacion": "La sintaxis JSON != conformidad con el modelo FHIR."
+      "explicacion": "Todo perfil (nacional, US Core...) es derivation constraint sobre un type existente; Patient sobre DomainResource es specialization."
     },
     {
-      "id": "d15q4",
+      "id": "tema-07-validacion-profiles-2",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué contiene el differential y qué contiene el snapshot?",
+      "opciones": [
+        "differential: los elementos obligatorios; snapshot: los opcionales",
+        "differential: solo lo que el perfil cambia respecto a su base; snapshot: la vista completa calculada acumulando toda la cadena de bases",
+        "differential: la versión borrador; snapshot: la publicada",
+        "Son dos formatos del mismo contenido"
+      ],
+      "respuesta": 1,
+      "explicacion": "Los humanos leen el differential; los validadores evalúan contra el snapshot (o lo generan)."
+    },
+    {
+      "id": "tema-07-validacion-profiles-3",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un IG marca Patient.birthDate como 0..1 con mustSupport=true. Llega una instancia sin birthDate. ¿Es conforme?",
+      "opciones": [
+        "No: mustSupport la hace obligatoria",
+        "Sí: mustSupport exige que el SISTEMA sea capaz de poblar/procesar el elemento (según defina el IG), no que esté presente en cada instancia",
+        "Solo si añade dataAbsentReason",
+        "Solo si meta.profile omite el perfil"
+      ],
+      "respuesta": 1,
+      "explicacion": "Must-support no cambia la cardinalidad: habla de capacidad del sistema. Es una de las confusiones más explotadas en el examen."
+    },
+    {
+      "id": "tema-07-validacion-profiles-4",
+      "tipo": "opcion_multiple",
       "bloom": "aplicar",
+      "pregunta": "Quieres exigir que Observation.code contenga el coding LOINC 85354-9, permitiendo codings adicionales y text. ¿Qué usas?",
+      "opciones": [
+        "fixedCodeableConcept con ese coding",
+        "patternCodeableConcept con ese coding",
+        "binding required al ValueSet de LOINC completo",
+        "una invariante isModifier"
+      ],
+      "respuesta": 1,
+      "explicacion": "pattern[x] = 'debe contener al menos esto'; fixed[x] exigiría igualdad total y rompería instancias con codings locales adicionales legítimos."
+    },
+    {
+      "id": "tema-07-validacion-profiles-5",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Cuáles son los tipos de discriminator de slicing en R4?",
+      "opciones": [
+        "value, pattern, type, profile, exists",
+        "code, system, display, version",
+        "open, closed, openAtEnd",
+        "fixed, pattern, binding, constraint"
+      ],
+      "respuesta": 0,
+      "explicacion": "El discriminator dice cómo distinguir cada repetición; open/closed/openAtEnd son las rules del slicing, no discriminators."
+    },
+    {
+      "id": "tema-07-validacion-profiles-6",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Perfil nacional: exactamente un identifier con system del DUI, permitiendo otros identifiers. ¿Cómo se define?",
+      "opciones": [
+        "Patient.identifier 1..1 con fixedUri en system",
+        "Slicing de Patient.identifier con discriminator value sobre system, rules=open, slice dui 1..1 con system fijado",
+        "Una extensión modifier con el DUI",
+        "binding required de identifier al ValueSet del DUI"
+      ],
+      "respuesta": 1,
+      "explicacion": "El slicing permite reglas por rebanada: dui 1..1 con fixedUri, y rules=open deja pasar otros identifiers (expediente, NIT)."
+    },
+    {
+      "id": "tema-07-validacion-profiles-7",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Una instancia declara us-core-patient en meta.profile pero $validate contra esa canónica devuelve errores. ¿Cuál es la lectura correcta?",
+      "opciones": [
+        "El servidor tiene un bug: meta.profile garantiza conformidad",
+        "La conformidad afirmada (claimed) no es conformidad validada: la instancia dice cumplir el perfil pero no lo cumple",
+        "meta.profile solo aplica a Bundles",
+        "Los errores son informativos si meta.profile está presente"
+      ],
+      "respuesta": 1,
+      "explicacion": "meta.profile es una afirmación; la prueba es la validación. Los servidores no están obligados a verificarla al ingreso."
+    },
+    {
+      "id": "tema-07-validacion-profiles-8",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "¿Cómo validas un Patient contra un perfil concreto usando la API REST?",
+      "opciones": [
+        "GET [base]/Patient/$validate?profile=...",
+        "POST [base]/Patient/$validate?profile={canonica} con el recurso en el cuerpo",
+        "PUT [base]/Patient/{id}?validate=true",
+        "POST [base]/StructureDefinition/$validate con el perfil en el cuerpo"
+      ],
+      "respuesta": 1,
+      "explicacion": "La operación $validate a nivel de tipo recibe el recurso (o Parameters) y el parámetro profile con la URL canónica; admite mode=create/update/delete."
+    },
+    {
+      "id": "tema-07-validacion-profiles-9",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "$validate respondió HTTP 200. ¿Qué concluyes?",
+      "opciones": [
+        "La instancia es válida",
+        "Nada aún: 200 significa que la validación se ejecutó; hay que revisar los issues del OperationOutcome (pasa solo sin fatal/error)",
+        "La instancia fue creada en el servidor",
+        "Hubo un error del servidor de terminología"
+      ],
+      "respuesta": 1,
+      "explicacion": "El resultado de la validación está en el cuerpo, no en el código HTTP. Distinto de un create real, donde lo inválido produce 400/422."
+    },
+    {
+      "id": "tema-07-validacion-profiles-10",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "En OperationOutcome.issue, ¿qué papel cumple expression?",
+      "opciones": [
+        "El texto legible del error",
+        "La ruta FHIRPath al elemento problemático, tu mapa para corregir",
+        "La regla FHIRPath que se evaluó",
+        "El perfil contra el que se validó"
+      ],
+      "respuesta": 1,
+      "explicacion": "severity = gravedad, code = categoría (required, invariant, code-invalid...), diagnostics = texto, expression = dónde."
+    },
+    {
+      "id": "tema-07-validacion-profiles-11",
       "tipo": "respuesta_corta",
-      "pregunta": "En OperationOutcome, .que campo indica la ruta al elemento con problema?",
+      "bloom": "recordar",
+      "pregunta": "Nombra las cuatro severidades posibles de un issue de OperationOutcome, de mayor a menor gravedad.",
       "respuestas_validas": [
-        "location",
-        "expression"
+        "fatal, error, warning, information",
+        "fatal error warning information",
+        "fatal, error, warning, informacion",
+        "fatal error warning informacion"
       ],
-      "explicacion": "location o expression apuntan al path del error (ej. Patient.name)."
+      "explicacion": "fatal (no se pudo procesar), error (no conforme), warning (aceptable pero sospechoso), information."
     },
     {
-      "id": "d15q5",
-      "bloom": "comprender",
+      "id": "tema-07-validacion-profiles-12",
       "tipo": "verdadero_falso",
-      "pregunta": "HTTP 200 en $validate significa siempre que el recurso es valido sin errores.",
+      "bloom": "comprender",
+      "pregunta": "Un perfil puede relajar la base: por ejemplo, hacer opcional Observation.status o ampliar un binding required.",
       "respuesta": false,
-      "explicacion": "Debes revisar issue[] y buscar severity error o fatal."
+      "explicacion": "Los perfiles solo restringen: cerrar cardinalidades, endurecer bindings, fijar valores. Nunca abren lo que la base exige o prohíbe."
     },
     {
-      "id": "d15q6",
-      "bloom": "recordar",
+      "id": "tema-07-validacion-profiles-13",
       "tipo": "opcion_multiple",
-      "pregunta": ".Que codigo HTTP suele indicar que el servidor rechazo un recurso mal formado al crear?",
-      "opciones": [
-        "200 OK",
-        "201 Created",
-        "422 Unprocessable Entity",
-        "301 Moved"
-      ],
-      "respuesta": 2,
-      "explicacion": "422 = no se pudo procesar el recurso; a menudo trae OperationOutcome."
-    },
-    {
-      "id": "d16q1",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Que es un profile en FHIR?",
-      "opciones": [
-        "Un servidor alternativo",
-        "Una restriccion del estandar base para un caso de uso, definida en StructureDefinition",
-        "Un tipo de Bundle",
-        "Un codigo LOINC"
-      ],
-      "respuesta": 1,
-      "explicacion": "El profile acota/reglas adicionales sobre un recurso R4."
-    },
-    {
-      "id": "d16q2",
-      "bloom": "recordar",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Que recurso define formalmente un profile?",
-      "opciones": [
-        "CapabilityStatement",
-        "StructureDefinition",
-        "ValueSet",
-        "ConceptMap"
-      ],
-      "respuesta": 1,
-      "explicacion": "StructureDefinition describe la estructura del profile."
-    },
-    {
-      "id": "d16q3",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Que diferencia hay entre differential y snapshot en StructureDefinition?",
-      "opciones": [
-        "Son sinonimos",
-        "differential = cambios respecto al base; snapshot = vista completa expandida",
-        "snapshot = solo cambios; differential = vista completa",
-        "Ninguno se usa en profiles"
-      ],
-      "respuesta": 1,
-      "explicacion": "differential lista deltas; snapshot es el modelo completo resultante."
-    },
-    {
-      "id": "d16q4",
       "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Parametro de $validate para validar contra un profile concreto.",
-      "respuestas_validas": [
-        "profile",
-        "el parametro profile",
-        "?profile="
-      ],
-      "explicacion": "POST .../$validate?profile=<url-del-StructureDefinition>"
-    },
-    {
-      "id": "d16q5",
-      "bloom": "comprender",
-      "tipo": "verdadero_falso",
-      "pregunta": "Un Patient valido contra R4 base siempre cumple US Core Patient.",
-      "respuesta": false,
-      "explicacion": "US Core exige mas restricciones; puede fallar aunque R4 base pase."
-    },
-    {
-      "id": "d16q6",
-      "bloom": "recordar",
-      "tipo": "opcion_multiple",
-      "pregunta": "En StructureDefinition, el campo 'type' indica...",
+      "pregunta": "¿Qué comando valida obs.json contra un perfil de US Core con el validador oficial?",
       "opciones": [
-        "El MIME type del JSON",
-        "A que recurso FHIR aplica el profile (Patient, Observation...)",
-        "La version HTTP",
-        "El algoritmo de cifrado"
+        "fhir validate obs.json --us-core",
+        "java -jar validator_cli.jar obs.json -version 4.0.1 -ig hl7.fhir.us.core#7.0.0 -profile {canonica-del-perfil}",
+        "sushi obs.json -p us-core",
+        "curl -X POST tx.fhir.org/validate -d @obs.json"
       ],
       "respuesta": 1,
-      "explicacion": "type = recurso objetivo del profile."
+      "explicacion": "El validador Java de referencia carga el paquete del IG (-ig) y valida contra la canónica (-profile), usando tx.fhir.org para terminología."
+    },
+    {
+      "id": "tema-07-validacion-profiles-14",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Qué es FSH y qué hace SUSHI?",
+      "opciones": [
+        "Un formato binario de FHIR y su compresor",
+        "FHIR Shorthand: lenguaje textual para escribir perfiles/IGs; SUSHI lo compila a StructureDefinitions y demás artefactos",
+        "Una API de búsqueda y su cliente",
+        "El lenguaje de invariantes y su intérprete"
+      ],
+      "respuesta": 1,
+      "explicacion": "FSH (fshschool.org) es el estándar de facto de autoría; SUSHI genera los JSON que consume el IG Publisher. Las invariantes usan FHIRPath, no FSH."
+    },
+    {
+      "id": "tema-07-validacion-profiles-15",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Antes de integrar con un servidor FHIR ajeno necesitas saber si soporta update condicional y qué searchParams de Patient implementa. ¿Dónde lo verificas?",
+      "opciones": [
+        "En su OperationOutcome",
+        "En GET [base]/metadata: el CapabilityStatement (rest.resource.interaction, conditionalUpdate, searchParam)",
+        "Probando a ciegas con Prefer: handling=strict",
+        "En el registro registry.fhir.org"
+      ],
+      "respuesta": 1,
+      "explicacion": "El CapabilityStatement es el contrato del servidor: interacciones, perfiles soportados, parámetros de búsqueda y operaciones."
+    },
+    {
+      "id": "tema-07-validacion-profiles-16",
+      "tipo": "verdadero_falso",
+      "bloom": "aplicar",
+      "pregunta": "Para un despliegue nacional, el orden sensato es: casos de uso -> modelo mínimo de datos -> perfiles en FSH -> validación continua en CI -> publicación del IG como paquete -> certificación automatizada de proveedores.",
+      "respuesta": true,
+      "explicacion": "Perfilar sin caso de uso ni evidencia de datos reales es la receta clásica del fracaso; el IG publicado como paquete y un banco de pruebas (estilo Inferno) hacen verificable el contrato."
     }
   ]
 }

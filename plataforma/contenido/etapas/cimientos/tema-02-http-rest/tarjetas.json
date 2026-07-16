@@ -1,57 +1,16 @@
 [
-  {
-    "claveLegacy": "d3-rest",
-    "frente": ".Que es una API REST?",
-    "reverso": "Un estilo de comunicacion cliente-servidor sobre HTTP donde operas sobre recursos identificados por URLs usando metodos (GET, POST, PUT, DELETE)."
-  },
-  {
-    "claveLegacy": "d3-get",
-    "frente": ".Que metodo HTTP se usa para LEER un recurso sin modificarlo?",
-    "reverso": "GET. Es de solo lectura y no debe cambiar datos."
-  },
-  {
-    "claveLegacy": "d3-read-fhir",
-    "frente": ".Como se lee un Patient con id 123 por REST en FHIR?",
-    "reverso": "GET [base]/Patient/123"
-  },
-  {
-    "claveLegacy": "d3-content-type",
-    "frente": ".Que cabecera pides para recibir FHIR en JSON?",
-    "reverso": "Accept: application/fhir+json"
-  },
-  {
-    "claveLegacy": "d4-200",
-    "frente": ".Que significa un codigo de estado 200?",
-    "reverso": "OK: la peticion fue exitosa."
-  },
-  {
-    "claveLegacy": "d4-404",
-    "frente": ".Que significa un codigo 404?",
-    "reverso": "Not Found: el recurso no existe en esa URL."
-  },
-  {
-    "claveLegacy": "d4-4xx-5xx",
-    "frente": ".Diferencia entre errores 4xx y 5xx?",
-    "reverso": "4xx = error del cliente (peticion mal hecha); 5xx = error del servidor."
-  },
-  {
-    "claveLegacy": "d4-search",
-    "frente": ".Como buscas pacientes por apellido 'Perez' en FHIR?",
-    "reverso": "GET [base]/Patient?family=Perez"
-  },
-  {
-    "claveLegacy": "d5-post",
-    "frente": ".Que metodo crea un recurso nuevo dejando que el servidor asigne el id?",
-    "reverso": "POST a [base]/Patient. El servidor devuelve el id asignado."
-  },
-  {
-    "claveLegacy": "d5-put",
-    "frente": ".Que metodo actualiza (o crea con id conocido) un recurso?",
-    "reverso": "PUT a [base]/Patient/123. Es idempotente."
-  },
-  {
-    "claveLegacy": "d5-idempotente",
-    "frente": ".Que significa que una operacion sea idempotente?",
-    "reverso": "Repetirla varias veces produce el mismo resultado que hacerla una vez (ej. PUT, DELETE)."
-  }
+  { "frente": "Interacciones de instancia (6)", "reverso": "read (GET /[type]/[id]), vread (GET .../_history/[vid]), update (PUT), patch (PATCH), delete (DELETE), history (GET .../_history)." },
+  { "frente": "Interacciones de tipo y de sistema", "reverso": "Tipo: create (POST /[type]), search (GET /[type]?params o POST /[type]/_search), history. Sistema: capabilities (GET /metadata), batch/transaction (POST /[base]), history, search." },
+  { "frente": "Contrato del create (POST)", "reverso": "Cuerpo SIN id (lo asigna el servidor). Respuesta 201 Created + Location: [base]/[type]/[id]/_history/1. Cuerpo según Prefer: return=minimal | representation | OperationOutcome." },
+  { "frente": "Contrato del update (PUT)", "reverso": "Recurso COMPLETO (lo no enviado se pierde); id en URL y cuerpo deben coincidir (si no, 400). 200 OK normal; 201 si update-as-create (opcional, declarado en CapabilityStatement.updateCreate; si está deshabilitado: 405)." },
+  { "frente": "Bloqueo optimista: flujo", "reverso": "El read devuelve ETag: W/\"[versionId]\". El update lleva If-Match: W/\"[versionId]\". Si la versión cambió: 412 Precondition Failed -> releer, fusionar, reintentar. Sin If-Match: riesgo de lost update." },
+  { "frente": "Create condicional (If-None-Exist)", "reverso": "POST con header If-None-Exist: [criterio de búsqueda]. 0 matches -> crea (201); 1 match -> devuelve el existente (200, no duplica); varios -> 412. Antídoto contra duplicados en reintentos." },
+  { "frente": "Update/delete condicionales", "reverso": "PUT/DELETE [base]/[type]?criterio (sin id). 0 -> crea (update) / nada; 1 -> aplica sobre ese; varios -> 412. Dependen de identificadores bien gobernados (system+value únicos)." },
+  { "frente": "400 vs 422 vs 404", "reverso": "400: petición mal formada (sintaxis, parámetro ilegal, id URL≠cuerpo). 422: sintaxis OK pero el recurso viola reglas FHIR/perfil. 404: no existe. Bonus: 410 = existió y fue borrado; 401 sin autenticar; 403 sin permiso; 405 interacción no permitida; 412 precondición fallida." },
+  { "frente": "Idempotencia por verbo", "reverso": "GET, PUT y DELETE: idempotentes (repetir deja el mismo estado). POST: NO (cada repetición crea otro recurso). Por eso los reintentos de POST exigen If-None-Exist." },
+  { "frente": "Bundle searchset: campos clave", "reverso": "type: searchset; total (matches, opcional y a veces estimado); entry[] con fullUrl, resource y search.mode (match cuenta en total, include no); link[] con self/next/previous. La búsqueda SIEMPRE devuelve Bundle, aunque haya 0 o 1 resultados. Paginar = seguir la URL de 'next' TAL CUAL (es opaca) hasta que no exista." },
+  { "frente": "batch vs transaction", "reverso": "batch: cada entry independiente (best-effort), sin referencias cruzadas entre entradas. transaction: atómico (todo o nada), resuelve urn:uuid entre entradas, procesa DELETE->POST->PUT/PATCH->GET. Respuestas: Bundle batch-response / transaction-response con response.status por entrada." },
+  { "frente": "urn:uuid en transactions", "reverso": "La entry nueva lleva fullUrl urn:uuid:XXX; otras entradas la referencian con esa urn; el servidor asigna el id real y REESCRIBE las referencias (Patient/789) antes de persistir." },
+  { "frente": "Prefijos y lógica de búsqueda", "reverso": "Prefijos pegados al valor: eq ne gt lt ge le sa eb ap (date=ge2024-01-01). & = Y lógico; valores con coma = O lógico. Control: _count, _sort (-desc), _include, _revinclude, _summary, _elements." },
+  { "frente": "MIME types y negociación", "reverso": "application/fhir+json y application/fhir+xml. Accept = lo que quieres recibir; Content-Type = lo que envías; ?_format= como alternativa por URL. PATCH usa application/json-patch+json (JSON Patch) o FHIRPath Patch." }
 ]

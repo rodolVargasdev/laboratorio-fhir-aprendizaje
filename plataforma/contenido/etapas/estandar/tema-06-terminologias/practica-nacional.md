@@ -1,4 +1,4 @@
-## Tema 6 · Terminologías → Hablar el mismo idioma clínico
+## Tema 6 · Terminologías -> Hablar el mismo idioma clínico
 
 - Práctica (60 min, PC/celular): elige 10 conceptos frecuentes en la atención pública
   (hipertensión, diabetes tipo 2, glucosa en sangre, presión sistólica, dengue...)

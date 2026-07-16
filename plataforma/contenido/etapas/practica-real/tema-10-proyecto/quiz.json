@@ -2,146 +2,220 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "d13q1",
+      "id": "t10q01",
       "bloom": "analizar",
       "tipo": "opcion_multiple",
-      "pregunta": "Para generar un resumen clinico de un paciente, .que pasos REST necesitas?",
+      "pregunta": "En la arquitectura de referencia nacional, ¿dónde deben ocurrir el mapeo v2->FHIR y la validación contra perfiles?",
       "opciones": [
-        "Solo un POST",
-        "Crear (POST) los datos y luego leerlos (GET/search) por subject",
-        "Solo borrar (DELETE)",
-        "Solo pedir un token"
+        "En cada aplicación consumidora",
+        "En la capa de integración, antes de escribir en el servidor FHIR nacional",
+        "Dentro de BigQuery",
+        "En el navegador de los médicos"
       ],
       "respuesta": 1,
-      "explicacion": "Creas con POST y luego consultas con GET/search filtrando por paciente."
+      "explicacion": "La capa de integración traduce y valida en la puerta; al núcleo solo entran recursos conformes. Los rechazos van a una cola con su OperationOutcome."
     },
     {
-      "id": "d13q2",
-      "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Parametro de busqueda para traer observaciones de un paciente concreto.",
-      "respuestas_validas": [
-        "subject",
-        "subject=Patient/id",
-        "patient"
+      "id": "t10q02",
+      "bloom": "evaluar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Un comité propone construir el núcleo nacional en R5 'por ser más nuevo'. El contraargumento técnico más fuerte es:",
+      "opciones": [
+        "R5 es de pago",
+        "El ecosistema maduro (US Core, IPS, SMART, Bulk, certificaciones y servidores) vive en R4; R5 tiene IGs delgados y R6 sigue en balota",
+        "R5 no soporta JSON",
+        "R5 no permite perfiles"
       ],
-      "explicacion": "Observation?subject=Patient/{id} (tambien existe el parametro patient)."
+      "respuesta": 1,
+      "explicacion": "La decisión de versión es una decisión de ecosistema, no de novedad. R4 es la base normativa con herramientas y comunidad."
     },
     {
-      "id": "d13q3",
-      "bloom": "comprender",
-      "tipo": "verdadero_falso",
-      "pregunta": "Leer de vuelta del servidor confirma que los datos se guardaron y estan enlazados.",
-      "respuesta": true,
-      "explicacion": "Verificar leyendo es buena practica: confirma persistencia y relaciones."
-    },
-    {
-      "id": "d14q1",
+      "id": "t10q03",
       "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Ruta para leer el Patient con id 42.",
-      "respuestas_validas": [
-        "GET Patient/42",
-        "Patient/42",
-        "/Patient/42"
+      "tipo": "opcion_multiple",
+      "pregunta": "¿Cómo se modela correctamente el DUI en el perfil PacienteNacional?",
+      "opciones": [
+        "Como Patient.id, para que sea único",
+        "Como slice de Patient.identifier con un system canónico propio y estable",
+        "Como una extensión de texto libre",
+        "Dentro de Patient.name.suffix"
       ],
-      "explicacion": "Read = GET [base]/Patient/42."
+      "respuesta": 1,
+      "explicacion": "El id lógico pertenece al servidor; el identificador de negocio va en identifier con su system. Así funciona Patient?identifier=system|valor y la federación."
     },
     {
-      "id": "d14q2",
+      "id": "t10q04",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "¿Por qué el slice del DUI se define 0..1 y no 1..1 en PacienteNacional?",
+      "opciones": [
+        "Porque los perfiles no permiten cardinalidad 1..1",
+        "Porque recién nacidos y extranjeros pueden no tener DUI; otro identifier del slicing abierto los cubre",
+        "Para ahorrar almacenamiento",
+        "Porque el DUI cambia cada año"
+      ],
+      "respuesta": 1,
+      "explicacion": "Perfilar contra la realidad: exigir DUI 1..1 haría inválidos a pacientes legítimos. identifier global queda 1..* para exigir al menos un identificador."
+    },
+    {
+      "id": "t10q05",
+      "bloom": "recordar",
+      "tipo": "respuesta_corta",
+      "pregunta": "¿Qué herramienta compila perfiles escritos en FSH hacia StructureDefinitions (previo a publicar el IG con IG Publisher)?",
+      "respuestas_validas": [
+        "SUSHI",
+        "sushi",
+        "fsh-sushi"
+      ],
+      "explicacion": "FSH (FHIR Shorthand) se compila con SUSHI; IG Publisher arma la guía de implementación publicable."
+    },
+    {
+      "id": "t10q06",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "El laboratorio nacional tiene un catálogo interno de exámenes. Para integrarlo a la red, el artefacto FHIR correcto para el mapeo hacia LOINC es:",
+      "opciones": [
+        "Un diccionario Python dentro del motor de integración",
+        "Un ConceptMap versionado y publicado, usado con $translate",
+        "Un CSV en el correo del equipo",
+        "Reescribir el catálogo del laboratorio"
+      ],
+      "respuesta": 1,
+      "explicacion": "Los mapeos son entregables gobernados: ConceptMap con canonical propio, versionado, consultable con $translate por toda la red."
+    },
+    {
+      "id": "t10q07",
       "bloom": "comprender",
       "tipo": "opcion_multiple",
-      "pregunta": "Recurso que un servidor FHIR devuelve para informar errores/validaciones:",
+      "pregunta": "¿Qué papel juegan Provenance y AuditEvent en el sistema nacional?",
       "opciones": [
-        "OperationOutcome",
-        "Bundle",
-        "CapabilityStatement",
-        "Parameters"
+        "Son opcionales y redundantes con los logs del sistema operativo",
+        "Provenance rastrea el origen/transformación de cada recurso; AuditEvent registra quién accedió a qué; juntos sostienen la trazabilidad exigible a un sistema público",
+        "Provenance guarda contraseñas y AuditEvent los backups",
+        "Solo aplican a imágenes DICOM"
+      ],
+      "respuesta": 1,
+      "explicacion": "Cuando la capa de integración transforma datos v2, Provenance documenta la procedencia; AuditEvent (más los Data Access logs) responde quién consultó el expediente."
+    },
+    {
+      "id": "t10q08",
+      "bloom": "evaluar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Dos instituciones deben intercambiar recursos sin usuario presente. La opción de seguridad correcta es:",
+      "opciones": [
+        "Un usuario y contraseña compartidos por correo",
+        "Un api-key estático en la URL",
+        "SMART Backend Services: registro formal, JWKS, client assertion firmado y scopes system/ mínimos",
+        "Abrir el endpoint solo por IP"
+      ],
+      "respuesta": 2,
+      "explicacion": "Sistema a sistema = Backend Services. Las credenciales compartidas y api-keys estáticos no rotan, no se auditan por identidad y se filtran."
+    },
+    {
+      "id": "t10q09",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "¿Qué es el IPS y por qué conviene adoptarlo como resumen nacional del paciente?",
+      "opciones": [
+        "Un servidor FHIR de Google",
+        "Un IG de HL7: Bundle document (Composition + secciones mínimas como alergias, medicación y problemas) consensuado internacionalmente",
+        "Un formato propietario de Epic",
+        "Una extensión del recurso Patient"
+      ],
+      "respuesta": 1,
+      "explicacion": "Adoptar IPS evita diseñar un formato propio sin comunidad y habilita compatibilidad transfronteriza."
+    },
+    {
+      "id": "t10q10",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "La doble barrera de calidad del proyecto consiste en:",
+      "opciones": [
+        "Dos firewalls en serie",
+        "Validación runtime en la capa de integración ($validate contra perfiles, cola de rechazos) + validación en CI (SUSHI/IG Publisher y validator oficial sobre los ejemplos en cada commit)",
+        "Revisar los JSON a ojo dos veces",
+        "Duplicar el servidor FHIR"
+      ],
+      "respuesta": 1,
+      "explicacion": "Una barrera protege producción en tiempo real; la otra impide publicar perfiles y ejemplos rotos. Inferno modela pruebas de conformidad de quienes se conectan."
+    },
+    {
+      "id": "t10q11",
+      "bloom": "evaluar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Para el piloto nacional se propone GCP como núcleo y HAPI local para desarrollo. La mitigación principal del lock-in es:",
+      "opciones": [
+        "Firmar un contrato eterno con Google",
+        "Que todo lo que entra y sale es FHIR R4 estándar + NDJSON exportable: la salida de emergencia siempre existe",
+        "No usar BigQuery",
+        "Cifrar los datos para que Google no los lea"
+      ],
+      "respuesta": 1,
+      "explicacion": "Usar el estándar como contrato de datos hace reemplazable al proveedor: export NDJSON e import a otro servidor R4."
+    },
+    {
+      "id": "t10q12",
+      "bloom": "recordar",
+      "tipo": "verdadero_falso",
+      "pregunta": "Puedes presentar el examen HL7 FHIR Advanced Developer sin haber aprobado antes el Foundational Implementer.",
+      "respuesta": false,
+      "explicacion": "El Foundational es prerrequisito formal del Advanced; además el orden pedagógico es ese."
+    },
+    {
+      "id": "t10q13",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Tu criterio objetivo para agendar el Foundational, según el plan del curso, es:",
+      "opciones": [
+        "Sentirte con confianza",
+        "Simulacros cronometrados con al menos 65% en dos o más días distintos",
+        "Leer la especificación completa dos veces",
+        "Terminar el tema 10"
+      ],
+      "respuesta": 1,
+      "explicacion": "Dos días distintos controlan la varianza; el 65% da margen sobre el umbral real de aprobación (cercano al 60%; confirma condiciones vigentes al inscribirte)."
+    },
+    {
+      "id": "t10q14",
+      "bloom": "recordar",
+      "tipo": "opcion_multiple",
+      "pregunta": "En el temario estimado del Advanced Developer, el dominio con mayor peso es:",
+      "opciones": [
+        "Clientes y Bundles",
+        "Profiling y extensiones (~25%)",
+        "Terminología",
+        "Conformance"
+      ],
+      "respuesta": 1,
+      "explicacion": "Estimación de estudio: profiling ~25%, búsqueda avanzada ~20%, SMART ~20%, terminología ~15%, conformance ~10%, clientes/Bundles ~10%."
+    },
+    {
+      "id": "t10q15",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Con múltiples fuentes registrando pacientes habrá duplicados. Las piezas FHIR pertinentes para el MPI nacional son:",
+      "opciones": [
+        "Patient.link y la operación $match",
+        "Binary y $export",
+        "Observation.component",
+        "CapabilityStatement.rest"
       ],
       "respuesta": 0,
-      "explicacion": "OperationOutcome transporta detalles de error/validacion."
+      "explicacion": "Patient.link (replaces/replaced-by) expresa la relación entre registros y $match soporta deduplicación probabilística."
     },
     {
-      "id": "d14q3",
+      "id": "t10q16",
       "bloom": "comprender",
       "tipo": "opcion_multiple",
-      "pregunta": "LOINC se usa para... y SNOMED CT para...",
+      "pregunta": "¿Cuál es la vía principal para mantenerse al día con FHIR después del curso?",
       "opciones": [
-        "diagnosticos / mediciones",
-        "mediciones-observaciones / conceptos clinicos (diagnosticos)",
-        "unidades / direcciones",
-        "tokens / fechas"
+        "Releer los apuntes cada año",
+        "El Zulip de la comunidad (chat.fhir.org), los connectathons, los ciclos de balota (R6) y las release notes de los IGs adoptados",
+        "Esperar a que HL7 envíe un correo",
+        "Seguir solo blogs de proveedores"
       ],
       "respuesta": 1,
-      "explicacion": "LOINC = que se midio; SNOMED = conceptos clinicos."
-    },
-    {
-      "id": "d14q4",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "SMART on FHIR se basa en... y un scope describe...",
-      "opciones": [
-        "SOAP / la version FHIR",
-        "OAuth 2.0 / el alcance del permiso",
-        "FTP / la unidad de medida",
-        "GraphQL / el id del paciente"
-      ],
-      "respuesta": 1,
-      "explicacion": "SMART = perfil OAuth 2.0; el scope define que se puede hacer."
-    },
-    {
-      "id": "d14q5",
-      "bloom": "aplicar",
-      "tipo": "opcion_multiple",
-      "pregunta": "Jerarquia de un FHIR store en GCP:",
-      "opciones": [
-        "Dataset > Proyecto > Store",
-        "Proyecto > Localizacion > Dataset > FHIR store",
-        "Store > Dataset > Region",
-        "Organizacion > Store > Dataset"
-      ],
-      "respuesta": 1,
-      "explicacion": "Proyecto > Localizacion > Dataset > FHIR store."
-    },
-    {
-      "id": "d14q6",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Cual es idempotente?",
-      "opciones": [
-        "POST",
-        "DELETE",
-        "ninguno",
-        "solo PATCH"
-      ],
-      "respuesta": 1,
-      "explicacion": "DELETE (y GET, PUT) son idempotentes; POST no."
-    },
-    {
-      "id": "d14q7",
-      "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Endpoint para obtener el CapabilityStatement (ruta relativa).",
-      "respuestas_validas": [
-        "metadata",
-        "/metadata",
-        "GET metadata"
-      ],
-      "explicacion": "GET [base]/metadata."
-    },
-    {
-      "id": "d14q8",
-      "bloom": "analizar",
-      "tipo": "opcion_multiple",
-      "pregunta": "Una app muestra 401 al llamar a tu FHIR store de GCP. .Causa mas probable?",
-      "opciones": [
-        "El recurso no existe",
-        "Falta o expiro el token de acceso (autorizacion)",
-        "El JSON esta mal formado",
-        "El servidor esta caido"
-      ],
-      "respuesta": 1,
-      "explicacion": "401 = no autenticado; el token de GCP caduca en ~1 hora."
+      "explicacion": "FHIR evoluciona por comunidad: 30 minutos semanales en esos canales bastan para anticipar cambios que afectan tus perfiles."
     }
   ]
 }

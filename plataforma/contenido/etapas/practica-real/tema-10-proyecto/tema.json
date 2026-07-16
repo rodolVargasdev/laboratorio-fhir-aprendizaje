@@ -2,11 +2,85 @@
   "slug": "tema-10-proyecto",
   "numero": 10,
   "nombre": "Proyecto integrador y examen",
-  "resumen": "Mini-proyecto end-to-end de integración nacional + examen acumulado + plan hacia la certificacion.",
+  "resumen": "Diseño completo de la interoperabilidad FHIR de una red nacional de salud: arquitectura de referencia (legacy -> integración -> servidor R4 -> consumidores), perfil PacienteNacional con DUI, terminología y ConceptMaps, seguridad con Backend Services, calidad con $validate e IPS como resumen del paciente. Diez entregables concretos y el plan medible hacia Foundational Implementer, competencia GCP y Advanced Developer.",
   "opcional": false,
-  "objetivos": [],
-  "enlaces": [],
+  "objetivos": [
+    "Diseñar y defender la arquitectura de referencia nacional: fuentes legacy, capa de integración con validación en la puerta, servidor FHIR R4 y consumidores SMART/Bulk/BI.",
+    "Justificar las decisiones fundacionales (R4, GCP+HAPI, gobernanza de IG) con una tabla comparativa y mitigación de lock-in.",
+    "Perfilar PacienteNacional en FSH: DUI como slice de identifier con system canónico, cardinalidades realistas y must support.",
+    "Construir el catálogo terminológico nacional: ValueSets propios y ConceptMap del catálogo de laboratorio a LOINC con $translate.",
+    "Diseñar la matriz de scopes SMART de toda la red con mínimo privilegio y el flujo correcto por actor (App Launch vs Backend Services).",
+    "Establecer trazabilidad y calidad: Provenance, AuditEvent, doble barrera de validación (runtime y CI) e IPS como resumen nacional.",
+    "Producir los 10 entregables del proyecto, incluido el piloto GCP con limpieza a $0 y la propuesta ejecutiva.",
+    "Ejecutar el plan de certificación: simulacros Foundational ≥65% en dos días, checklist GCP y plan de estudio del Advanced Developer."
+  ],
+  "enlaces": [
+    {
+      "titulo": "Certificación FHIR de HL7",
+      "url": "https://www.hl7.org/certification/fhir.cfm",
+      "nota": "Requisitos, formato y condiciones vigentes de Foundational y Advanced; verificar antes de inscribirse."
+    },
+    {
+      "titulo": "Cursos oficiales de HL7",
+      "url": "https://courses.hl7.org/",
+      "nota": "Material de preparación complementario para ambos exámenes."
+    },
+    {
+      "titulo": "US Core",
+      "url": "https://hl7.org/fhir/us/core/",
+      "nota": "El IG nacional de referencia: copia su metodología de perfilado, no su contenido."
+    },
+    {
+      "titulo": "International Patient Summary (IPS)",
+      "url": "https://www.hl7.org/fhir/uv/ips/",
+      "nota": "El formato del resumen nacional del paciente."
+    },
+    {
+      "titulo": "Registro de IGs FHIR",
+      "url": "https://registry.fhir.org/",
+      "nota": "Dónde viven y se resuelven los paquetes e IGs publicados."
+    },
+    {
+      "titulo": "Terminología de HL7",
+      "url": "https://terminology.hl7.org/",
+      "nota": "CodeSystems y ValueSets canónicos que tus perfiles referencian."
+    },
+    {
+      "titulo": "Especificación FHIR R4",
+      "url": "http://hl7.org/fhir/R4/",
+      "nota": "La base normativa de todo el proyecto."
+    },
+    {
+      "titulo": "HAPI FHIR R4 (servidor público)",
+      "url": "https://hapi.fhir.org/baseR4",
+      "nota": "Banco de pruebas gratuito para los entregables sin tocar GCP."
+    }
+  ],
   "notebooklm": {
-    "nombreCuaderno": "FHIR — Proyecto integrador y examen"
+    "nombreCuaderno": "FHIR — Proyecto integrador y examen",
+    "fuentes": [
+      {
+        "titulo": "Certificación FHIR de HL7",
+        "url": "https://www.hl7.org/certification/fhir.cfm"
+      },
+      {
+        "titulo": "US Core",
+        "url": "https://hl7.org/fhir/us/core/"
+      },
+      {
+        "titulo": "International Patient Summary",
+        "url": "https://www.hl7.org/fhir/uv/ips/"
+      },
+      {
+        "titulo": "FHIR R4",
+        "url": "http://hl7.org/fhir/R4/"
+      }
+    ],
+    "prompts": [
+      "Actúa como comité técnico hostil: cuestiona mi arquitectura nacional (R4, GCP, Backend Services, IPS) y oblígame a defender cada decisión.",
+      "Tómame un simulacro estilo Foundational de 20 preguntas mezclando recursos, REST, búsqueda, Bundles y conformidad, cronometrado.",
+      "Genera un plan de estudio de 6 semanas para el Advanced Developer usando los pesos: profiling 25, búsqueda 20, SMART 20, terminología 15, conformance 10, clientes 10.",
+      "Resume los 10 entregables del proyecto como checklist con criterios de aceptación verificables."
+    ]
   }
 }

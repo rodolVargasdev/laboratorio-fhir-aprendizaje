@@ -1,14 +1,50 @@
 [
   {
-    "frente": ".Que es una API?",
-    "reverso": "Un contrato para pedir y recibir datos entre un cliente y un servidor."
+    "frente": "¿Qué es una API?",
+    "reverso": "Un contrato entre cliente y servidor: define qué se puede pedir, con qué formato y qué se recibe. La implementación interna es invisible; por eso sistemas distintos pueden interoperar."
   },
   {
-    "frente": ".Diferencia entre 4xx y 5xx?",
-    "reverso": "4xx = error del cliente; 5xx = error del servidor."
+    "frente": "Partes de una URL (con ejemplo)",
+    "reverso": "esquema://host:puerto/path?query. En https://hapi.fhir.org/baseR4/Patient?name=garcia&_count=5: esquema https, host hapi.fhir.org, puerto implícito 443, path /baseR4/Patient, query name=garcia&_count=5."
   },
   {
-    "frente": ".Con que verbo se crea un recurso nuevo?",
-    "reverso": "POST."
+    "frente": "Sintaxis de la query string",
+    "reverso": "Empieza con ? y contiene parejas clave=valor separadas por &. Ejemplo: ?name=garcia&_count=5."
+  },
+  {
+    "frente": "GET / POST / PUT / PATCH / DELETE en FHIR",
+    "reverso": "GET lee o busca; POST crea (el servidor asigna el id); PUT reemplaza el recurso completo; PATCH modifica solo algunos campos; DELETE borra."
+  },
+  {
+    "frente": "¿Por qué PUT es idempotente y POST no?",
+    "reverso": "Repetir un PUT deja el mismo estado final (reintento seguro tras fallo de red). Cada POST puede crear un recurso nuevo: reintentar a ciegas genera duplicados."
+  },
+  {
+    "frente": "Headers Accept y Content-Type",
+    "reverso": "Accept: formato que quieres recibir. Content-Type: formato del cuerpo que envías (o que llega). En FHIR ambos suelen valer application/fhir+json."
+  },
+  {
+    "frente": "¿Qué es application/fhir+json?",
+    "reverso": "Un media type: JSON (cualquier parser lo lee, por el sufijo +json) que además cumple las reglas de estructura de FHIR."
+  },
+  {
+    "frente": "401 vs 403",
+    "reverso": "401 Unauthorized: credenciales ausentes o inválidas; se arregla renovando el token. 403 Forbidden: identidad válida pero sin permiso para esa acción; requiere que otorguen el permiso."
+  },
+  {
+    "frente": "Familias de códigos de estado",
+    "reverso": "1xx informativo, 2xx éxito, 3xx redirección/caché, 4xx error del cliente (revisa tu petición), 5xx error del servidor (no es culpa tuya)."
+  },
+  {
+    "frente": "¿Qué significa un 404 en una API FHIR?",
+    "reverso": "Que el recurso o la ruta no existe: el servidor funcionó y lo dijo con precisión, normalmente con un OperationOutcome. No es una caída del sistema."
+  },
+  {
+    "frente": "Los 4 principios de REST",
+    "reverso": "1) Todo es un recurso con URL propia; 2) los verbos son los de HTTP; 3) viajan representaciones (JSON/XML), no los datos en sí; 4) sin estado: cada petición es autocontenida."
+  },
+  {
+    "frente": "GET [base]/metadata",
+    "reverso": "Devuelve el CapabilityStatement: la declaración de qué versión de FHIR, recursos y operaciones soporta el servidor. Primera petición obligada ante un servidor desconocido."
   }
 ]

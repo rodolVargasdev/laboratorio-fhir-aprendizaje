@@ -1,32 +1,58 @@
 [
   {
-    "claveLegacy": "d15-validate",
-    "frente": ".Como invocas la validacion de un Patient?",
-    "reverso": "POST [base]/Patient/$validate con el recurso en el cuerpo (operacion $validate)."
+    "frente": "derivation: constraint vs specialization",
+    "reverso": "constraint = perfil (restringe un tipo existente). specialization = tipo nuevo (lo hace la especificación, p. ej. Patient sobre DomainResource)."
   },
   {
-    "claveLegacy": "d15-severity",
-    "frente": "En OperationOutcome.issue, .que significa severity 'error'?",
-    "reverso": "Problema que invalida el recurso o impide su uso; debe corregirse."
+    "frente": "differential vs snapshot",
+    "reverso": "differential: solo lo que el perfil cambia (lo que escribió el autor). snapshot: vista completa calculada acumulando toda la cadena de bases; es lo que usa el validador."
   },
   {
-    "claveLegacy": "d15-location",
-    "frente": "Campo de OperationOutcome que indica la ruta al elemento con problema",
-    "reverso": "location (o expression), ej. Patient.name."
+    "frente": "Regla de oro del perfilado",
+    "reverso": "Un perfil solo restringe: cerrar cardinalidades, endurecer bindings, fijar valores, slicing. Nunca relaja lo que la base exige ni abre lo que prohíbe."
   },
   {
-    "claveLegacy": "d16-profile",
-    "frente": ".Que es un profile en FHIR?",
-    "reverso": "Restriccion del estandar base para un caso de uso, definida en StructureDefinition."
+    "frente": "fixed[x] vs pattern[x]",
+    "reverso": "fixed: la instancia debe ser exactamente ese valor, sin nada más. pattern: debe contener al menos lo especificado (admite codings/campos adicionales). Para CodeableConcepts casi siempre pattern."
   },
   {
-    "claveLegacy": "d16-sd",
-    "frente": ".Que recurso define formalmente un profile?",
-    "reverso": "StructureDefinition."
+    "frente": "mustSupport: qué es y qué NO es",
+    "reverso": "No es obligatoriedad en la instancia (un 0..1 MS puede faltar). Exige que el sistema pueda poblar/procesar el elemento; el significado exacto lo define cada IG."
   },
   {
-    "claveLegacy": "d16-differential",
-    "frente": "differential vs snapshot en StructureDefinition",
-    "reverso": "differential = cambios vs base; snapshot = vista completa expandida del profile."
+    "frente": "Slicing: las tres piezas",
+    "reverso": "discriminator (value, pattern, type, profile, exists) + rules (open, closed, openAtEnd) + slices con sliceName y sus restricciones."
+  },
+  {
+    "frente": "Slicing típico de Patient.identifier nacional",
+    "reverso": "discriminator value sobre system, rules=open; slice dui 1..1 con fixedUri del system nacional; identifier global min 1."
+  },
+  {
+    "frente": "meta.profile: claimed vs validated",
+    "reverso": "meta.profile es conformidad AFIRMADA (la instancia dice cumplir). La conformidad VALIDADA solo existe tras pasar $validate/validador contra esa canónica."
+  },
+  {
+    "frente": "Invocación de $validate",
+    "reverso": "POST [base]/Tipo/$validate?profile={canonica} con el recurso en el cuerpo; mode=create|update|delete. Responde OperationOutcome; HTTP 200 = la validación corrió, no que pasó."
+  },
+  {
+    "frente": "OperationOutcome.issue: campos clave",
+    "reverso": "severity (fatal, error, warning, information), code (required, invariant, code-invalid...), diagnostics (texto) y expression (ruta FHIRPath al problema). Pasa sin fatal/error."
+  },
+  {
+    "frente": "Comando del validador oficial",
+    "reverso": "java -jar validator_cli.jar recurso.json -version 4.0.1 -ig hl7.fhir.us.core#7.0.0 -profile {canonica}. Usa tx.fhir.org para terminología (configurable con -tx)."
+  },
+  {
+    "frente": "FSH y SUSHI",
+    "reverso": "FSH (FHIR Shorthand): lenguaje textual para autoría de perfiles/IGs, versionable en git. SUSHI lo compila a StructureDefinitions; el IG Publisher genera el IG navegable."
+  },
+  {
+    "frente": "CapabilityStatement: kind y contenido",
+    "reverso": "kind: instance (este servidor), capability (este software), requirements (lo que un proyecto exige). rest.resource: interactions, profiles, searchParams, conditionalCreate/Update. Se obtiene en GET [base]/metadata."
+  },
+  {
+    "frente": "Invariante (constraint) en ElementDefinition",
+    "reverso": "key + severity (error/warning) + human + expression en FHIRPath. Ej.: family.exists() or given.exists() — verificable automáticamente por el validador."
   }
 ]

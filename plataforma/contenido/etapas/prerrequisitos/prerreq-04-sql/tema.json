@@ -1,20 +1,51 @@
 {
   "slug": "prerreq-04-sql",
   "numero": -11,
-  "nombre": "SQL minimo",
-  "resumen": "Tablas, filas y una consulta SELECT basica.",
+  "nombre": "SQL: pensar en tablas",
+  "resumen": "Modelo relacional, SELECT completo, agregaciones, JOIN y NULL con un mini esquema de salud salvadoreño, más el puente mental hacia los recursos y búsquedas de FHIR.",
   "opcional": false,
   "objetivos": [
-    "Leer una tabla",
-    "Escribir un SELECT simple"
+    "Explicar con la analogía del archivero qué son tablas, filas, columnas, clave primaria y clave foránea",
+    "Justificar por qué pacientes y consultas viven en dos tablas separadas (normalización) sin usar jerga",
+    "Escribir consultas SELECT con WHERE combinando AND, OR, NOT, LIKE, IN y BETWEEN",
+    "Ordenar y recortar resultados con ORDER BY (ASC/DESC) y LIMIT",
+    "Calcular resúmenes con COUNT, AVG, MIN, MAX y SUM usando GROUP BY, y reconocer el papel de HAVING",
+    "Unir las tablas paciente y consulta con INNER JOIN y predecir qué registros desaparecen frente a un LEFT JOIN",
+    "Manejar NULL correctamente con IS NULL / IS NOT NULL y traducir conceptos SQL a sus equivalentes FHIR"
   ],
   "enlaces": [
     {
-      "titulo": "SELECT basico (W3Schools, es)",
-      "url": "https://www.w3schools.com/sql/sql_select.asp"
+      "titulo": "W3Schools — SQL SELECT",
+      "url": "https://www.w3schools.com/sql/sql_select.asp",
+      "nota": "Tutorial interactivo con editor integrado para probar cada variación de SELECT al instante."
+    },
+    {
+      "titulo": "SQLite — referencia oficial de SELECT",
+      "url": "https://www.sqlite.org/lang_select.html",
+      "nota": "La documentación exacta del dialecto usado en la práctica; para resolver dudas de sintaxis."
+    },
+    {
+      "titulo": "SQLite Online",
+      "url": "https://sqliteonline.com",
+      "nota": "El entorno de práctica del tema: SQLite completo en el navegador, sin instalar nada."
     }
   ],
   "notebooklm": {
-    "nombreCuaderno": "Bases — SQL minimo"
+    "nombreCuaderno": "Bases - SQL: pensar en tablas",
+    "fuentes": [
+      {
+        "titulo": "W3Schools — SQL SELECT",
+        "url": "https://www.w3schools.com/sql/sql_select.asp"
+      },
+      {
+        "titulo": "SQLite — referencia oficial de SELECT",
+        "url": "https://www.sqlite.org/lang_select.html"
+      }
+    ],
+    "prompts": [
+      "Explícame paso a paso, con un ejemplo de tabla de pacientes, por qué WHERE presion = NULL no devuelve filas y cómo se detectan correctamente los datos ausentes en SQL.",
+      "Hazme 8 preguntas de práctica sobre SELECT, WHERE, LIKE, ORDER BY, GROUP BY e INNER JOIN, una por una, corrigiendo mi respuesta antes de pasar a la siguiente.",
+      "Compara WHERE y HAVING con un ejemplo de conteo de pacientes por municipio, indicando en qué momento del procesamiento actúa cada cláusula."
+    ]
   }
 }

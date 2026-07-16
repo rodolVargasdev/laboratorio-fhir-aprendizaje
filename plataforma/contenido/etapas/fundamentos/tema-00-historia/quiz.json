@@ -2,127 +2,196 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "ehq1",
+      "id": "tema-00-historia-1",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "Un ministerio recibe resultados de laboratorio de dos hospitales. Ambos mensajes se parsean sin error, pero uno reporta 'glucosa' como texto libre y otro como LOINC 1558-6. ¿Qué nivel de interoperabilidad falta?",
+      "opciones": [
+        "Sintáctica, porque los formatos difieren",
+        "Semántica, porque el significado no es comparable entre sistemas",
+        "Fundacional, porque los datos no llegan",
+        "Ninguno: si el mensaje se parsea, hay interoperabilidad completa"
+      ],
+      "respuesta": 1,
+      "explicacion": "El parseo exitoso demuestra interoperabilidad sintáctica. Falta la semántica: sin un código compartido (LOINC) el receptor no puede saber con certeza que ambos datos son el mismo concepto clínico. FHIR aporta las herramientas (terminología, perfiles), pero la semántica hay que gobernarla."
+    },
+    {
+      "id": "tema-00-historia-2",
+      "tipo": "opcion_multiple",
       "bloom": "recordar",
+      "pregunta": "En un mensaje HL7 v2, ¿qué segmento abre siempre el mensaje y qué información clave lleva?",
+      "opciones": [
+        "PID: identifica al paciente y su nombre",
+        "MSH: emisor, receptor, fecha y tipo de evento (p. ej. ADT^A01)",
+        "OBX: el resultado de la observación",
+        "ACK: el acuse de recibo del receptor"
+      ],
+      "respuesta": 1,
+      "explicacion": "MSH (Message Header) abre todo mensaje v2; MSH-9 lleva el tipo de mensaje/evento como ADT^A01 (admisión). PID identifica al paciente pero no abre el mensaje; el ACK es la respuesta, no un segmento del mensaje original."
+    },
+    {
+      "id": "tema-00-historia-3",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "El dicho 'si has visto una interfaz HL7 v2, has visto UNA interfaz HL7 v2' resume el problema central de v2. ¿Cuál es la causa raíz?",
+      "opciones": [
+        "El uso de delimitadores | y ^ en vez de JSON",
+        "La opcionalidad extrema y las variantes locales (incl. Z-segments) sin mecanismo gobernado de extensión",
+        "Que v2 solo funciona sobre redes locales",
+        "Que v2 no puede transportar resultados de laboratorio"
+      ],
+      "respuesta": 1,
+      "explicacion": "El formato pipe-delimited es incómodo pero parseable; el problema real es que el estándar deja tanto opcional y permite segmentos Z opacos, de modo que cada sitio habla un dialecto y cada integración es un proyecto de mapeo a medida. FHIR responde con extensiones declaradas por URL y perfiles validables."
+    },
+    {
+      "id": "tema-00-historia-4",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Sobre qué clases fundamentales se construye el RIM de HL7 v3?",
+      "opciones": [
+        "Patient, Observation y Encounter",
+        "Act, Entity y Role (con Participation, ActRelationship y RoleLink)",
+        "Segment, Field y Component",
+        "Resource, Element y Extension"
+      ],
+      "respuesta": 1,
+      "explicacion": "El Reference Information Model deriva todo contenido clínico de un núcleo abstracto: Act (lo que ocurre), Entity (lo que existe), Role (cómo participa), unidas por Participation, ActRelationship y RoleLink. Ese nivel de abstracción fue precisamente lo que hizo v3 tan costoso de implementar."
+    },
+    {
+      "id": "tema-00-historia-5",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Por qué C-CDA sigue en producción masiva en EE. UU. pese al auge de FHIR?",
+      "opciones": [
+        "Porque es más rápido que FHIR para consultas granulares",
+        "Porque los documentos clínicos legales necesitan persistencia y firma, y la regulación (Meaningful Use) lo cimentó",
+        "Porque FHIR no puede representar documentos",
+        "Porque C-CDA usa JSON y es más moderno"
+      ],
+      "respuesta": 1,
+      "explicacion": "CDA/C-CDA resuelve bien el caso 'documento clínico con identidad legal' y quedó exigido por regulación, así que el ecosistema instalado persiste. FHIR sí puede representar documentos (Bundle tipo document con Composition), pero eso no borra décadas de C-CDA desplegado."
+    },
+    {
+      "id": "tema-00-historia-6",
       "tipo": "respuesta_corta",
-      "pregunta": "Que significa el acronimo FHIR (en ingles)?",
-      "respuestas_validas": [
-        "fast healthcare interoperability resources",
-        "fast healthcare interoperability resource"
-      ],
-      "explicacion": "Fast Healthcare Interoperability Resources — recursos intercambiables por APIs web."
-    },
-    {
-      "id": "ehq2",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "Cual fue el principal problema practico de HL7 v2 en implementaciones reales?",
-      "opciones": [
-        "Era imposible transmitir por TCP",
-        "Opcionalidad y variaciones locales hacian que cada sitio interpretara distinto",
-        "Solo funcionaba en JSON",
-        "No podia representar pacientes"
-      ],
-      "respuesta": 1,
-      "explicacion": "v2 es ubiquo pero inconsistente entre organizaciones."
-    },
-    {
-      "id": "ehq3",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "Por que HL7 v3 / RIM tuvo adopcion limitada frente a lo que buscaba el mercado?",
-      "opciones": [
-        "Era demasiado simple",
-        "Complejidad alta, costo de implementacion y curva de aprendizaje muy pronunciados",
-        "Prohibia XML",
-        "No tenia modelo de datos"
-      ],
-      "respuesta": 1,
-      "explicacion": "v3 es semanticamente riguroso pero pesado para despliegues agiles."
-    },
-    {
-      "id": "ehq4",
       "bloom": "recordar",
-      "tipo": "opcion_multiple",
-      "pregunta": "Aproximadamente en que ano arranco el trabajo que llevo a FHIR?",
-      "opciones": [
-        "1989",
-        "1995",
-        "2011",
-        "2019"
-      ],
-      "respuesta": 2,
-      "explicacion": "El trabajo moderno de Resources/FHIR comenzo alrededor de 2011."
+      "pregunta": "¿Quién publicó en 2011 la propuesta 'Resources for Health' que dio origen a FHIR?",
+      "respuestas_validas": ["grahame grieve", "graham grieve", "grieve"],
+      "explicacion": "Grahame Grieve, australiano con experiencia profunda en v2 y v3, publicó la propuesta en su blog Health Intersections en agosto de 2011; HL7 la adoptó y la renombró FHIR."
     },
     {
-      "id": "ehq5",
+      "id": "tema-00-historia-7",
+      "tipo": "opcion_multiple",
       "bloom": "comprender",
+      "pregunta": "La regla 80/20 de FHIR significa que...",
+      "opciones": [
+        "el 80 % de los recursos son normativos y el 20 % Trial Use",
+        "el núcleo de cada recurso cubre lo que usa ~80 % de los sistemas; el resto va en extensiones y perfiles gobernados",
+        "solo el 20 % de la especificación es gratuita",
+        "el 80 % de los mensajes v2 se pueden mapear a FHIR"
+      ],
+      "respuesta": 1,
+      "explicacion": "Es la corrección histórica a v3 (que intentó modelar el 100 % en el núcleo) y a v2 (que dejó la variabilidad sin gobierno). Lo local y lo raro se expresa con extensiones con URL definida, restringidas por StructureDefinition, visibles y validables."
+    },
+    {
+      "id": "tema-00-historia-8",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "Ordena correctamente la línea de versiones de FHIR:",
+      "opciones": [
+        "DSTU1 -> STU3 -> DSTU2 -> R4 -> R5 -> R4B",
+        "DSTU1 -> DSTU2 -> STU3 -> R4 -> R4B -> R5 -> R6 (en balota)",
+        "DSTU2 -> DSTU1 -> R4 -> STU3 -> R5",
+        "STU3 -> DSTU1 -> DSTU2 -> R4B -> R4 -> R5"
+      ],
+      "respuesta": 1,
+      "explicacion": "DSTU1 (2014), DSTU2 (2015, base de Argonaut), STU3 (2017), R4 (2018/2019, primer contenido normativo, versión de examen), R4B (2022, transicional), R5 (2023, Trial Use) y R6 en balota normativa 2026-27."
+    },
+    {
+      "id": "tema-00-historia-9",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Cuál de estos conjuntos es normativo en R4?",
+      "opciones": [
+        "Todos los recursos de la especificación",
+        "La API REST, los formatos JSON/XML, los datatypes y recursos como Patient, Observation, StructureDefinition, ValueSet, CodeSystem, CapabilityStatement y OperationDefinition",
+        "Únicamente Patient y Observation",
+        "Solo los Implementation Guides como US Core"
+      ],
+      "respuesta": 1,
+      "explicacion": "R4 fue la primera versión con contenido normativo, pero no todo R4 lo es: gran parte sigue en Trial Use con FMM variable. La infraestructura (REST, formatos, tipos) y los pilares citados sí son normativos. Los IG se balotan por separado."
+    },
+    {
+      "id": "tema-00-historia-10",
       "tipo": "verdadero_falso",
-      "pregunta": "FHIR fue disenado desde el inicio para usar patrones web como HTTP REST y JSON.",
+      "bloom": "comprender",
+      "pregunta": "Para que un artefacto FHIR alcance FMM 2 debe haberse probado en un connectathon con intercambio exitoso entre al menos tres sistemas independientes.",
       "respuesta": true,
-      "explicacion": "Principio central: APIs web familiares para desarrolladores."
+      "explicacion": "El FHIR Maturity Model (0-5 más Normative) condiciona la madurez a implementación real: FMM 2 exige prueba en connectathon; FMM 5 exige producción en múltiples sistemas independientes; Normative añade garantía ANSI de compatibilidad hacia adelante."
     },
     {
-      "id": "ehq6",
-      "bloom": "recordar",
+      "id": "tema-00-historia-11",
       "tipo": "opcion_multiple",
-      "pregunta": "Que version de FHIR es la referencia normativa clave para el examen Foundational (R4)?",
+      "bloom": "analizar",
+      "pregunta": "¿Cuál fue el aporte diferencial del Proyecto Argonaut (2014-2016) que FHIR por sí solo no había logrado?",
       "opciones": [
-        "DSTU2",
-        "STU3",
-        "R4",
-        "R5 unicamente"
+        "Inventar el formato JSON para salud",
+        "Que vendors de EHR competidores implementaran los mismos perfiles y la misma autorización SMART, convirtiendo FHIR en contrato ejecutable",
+        "Hacer obligatorio FHIR por ley en todo el mundo",
+        "Reemplazar HL7 International como organismo gobernante"
+      ],
+      "respuesta": 1,
+      "explicacion": "Argonaut alineó a Epic, Cerner, athenahealth y otros sobre perfiles DSTU2 comunes más SMART/OAuth. Su IG es el ancestro de US Core. La obligación legal vino después (Cures Act, reglas ONC) y solo en EE. UU."
+    },
+    {
+      "id": "tema-00-historia-12",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Diriges la integración nacional y un proveedor propone construir el registro de citas sobre un recurso con FMM 1. ¿Cuál es la lectura experta?",
+      "opciones": [
+        "Rechazarlo: solo se puede usar contenido normativo",
+        "Aceptarlo sin reservas: todo R4 es estable",
+        "Aceptarlo presupuestando cambios: FMM 1 indica borrador con poca prueba real, la interfaz puede cambiar entre versiones",
+        "Exigir que se use HL7 v2 en su lugar"
       ],
       "respuesta": 2,
-      "explicacion": "R4 (2019) es la base normativa del ecosistema y del examen."
+      "explicacion": "FMM bajo no prohíbe el uso, pero señala riesgo de cambios incompatibles. La decisión de dirección es gestionar ese riesgo (capa de aislamiento, presupuesto de migración), no fingir que no existe ni sobre-reaccionar prohibiéndolo."
     },
     {
-      "id": "ehq7",
-      "bloom": "comprender",
-      "tipo": "respuesta_corta",
-      "pregunta": "Proyecto (2014-2016) que acelero adopcion con Epic, Cerner y perfiles OAuth+FHIR.",
-      "respuestas_validas": [
-        "argonaut",
-        "proyecto argonaut",
-        "argonaut project"
-      ],
-      "explicacion": "Argonaut alineo vendors grandes y SMART on FHIR."
-    },
-    {
-      "id": "ehq8",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "Que significa que FHIR modela datos como 'Resources'?",
-      "opciones": [
-        "Solo archivos PDF clinicos",
-        "Entidades identificables (Patient, Observation...) intercambiables individualmente por API",
-        "Mensajes pipe-delimited",
-        "Solo bases de datos SQL"
-      ],
-      "respuesta": 1,
-      "explicacion": "Cada recurso tiene tipo, id y ciclo de vida propio via REST."
-    },
-    {
-      "id": "ehq9",
-      "bloom": "comprender",
+      "id": "tema-00-historia-13",
       "tipo": "verdadero_falso",
-      "pregunta": "En la mayoria de hospitales, FHIR reemplazo por completo a HL7 v2 de la noche a la manana.",
+      "bloom": "comprender",
+      "pregunta": "Las extensiones FHIR son esencialmente lo mismo que los Z-segments de HL7 v2.",
       "respuesta": false,
-      "explicacion": "Coexistencia: mappers v2->FHIR durante anos de migracion gradual."
+      "explicacion": "Comparten la intención (representar lo que el núcleo no cubre) pero no el mecanismo: una extensión FHIR lleva una URL que apunta a su definición formal (StructureDefinition) y es validable contra perfiles; un Z-segment es opaco, sin definición descubrible ni validación estándar."
     },
     {
-      "id": "ehq10",
-      "bloom": "aplicar",
+      "id": "tema-00-historia-14",
       "tipo": "opcion_multiple",
-      "pregunta": "Un CapabilityStatement en /metadata es ejemplo de...",
+      "bloom": "comprender",
+      "pregunta": "SMART on FHIR desciende de un proyecto cuyo objetivo original era...",
       "opciones": [
-        "Un estandar previo a HTTP",
-        "Herencia del enfoque FHIR: servidor que se autodescribe para clientes",
-        "Solo aplica a HL7 v2",
-        "Un tipo de mensaje ADT"
+        "cifrar mensajes HL7 v2 en tránsito",
+        "que las apps clínicas fueran sustituibles, como en una tienda de apps (Boston Children's/Harvard, ~2010)",
+        "reemplazar OAuth 2.0 con un protocolo médico propio",
+        "exportar datos masivos en NDJSON"
       ],
       "respuesta": 1,
-      "explicacion": "El servidor declara recursos, operaciones y seguridad soportadas."
+      "explicacion": "SMART (Substitutable Medical Applications, Reusable Technologies) nació antes que FHIR con financiamiento de la ONC; al adoptar FHIR como modelo de datos y OAuth 2.0/OpenID Connect como seguridad se convirtió en SMART on FHIR. No inventa criptografía nueva: perfila estándares web."
+    },
+    {
+      "id": "tema-00-historia-15",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Un hospital nacional tiene 35 sistemas internos consumiendo ADT por un motor de interfaces v2 que funciona bien, y debe exponer datos a apps móviles de pacientes. ¿Cuál es la arquitectura más sensata según las lecciones históricas?",
+      "opciones": [
+        "Migrar de inmediato los 35 sistemas internos a clientes REST FHIR",
+        "Mantener el flujo v2 interno y exponer una fachada FHIR (con mapper v2->FHIR) hacia las apps",
+        "Exponer los mensajes v2 crudos a las apps móviles",
+        "Convertir todo a documentos C-CDA"
+      ],
+      "respuesta": 1,
+      "explicacion": "FHIR se diseñó para coexistir: el patrón real es legacy v2 -> mapper -> servidor FHIR -> apps modernas. Migrar 35 integraciones internas que funcionan sería costo sin beneficio; exponer v2 crudo a apps es inviable e inseguro. La decisión experta es elegir QUÉ frontera se expone como FHIR."
     }
   ]
 }

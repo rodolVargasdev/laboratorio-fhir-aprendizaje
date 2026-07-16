@@ -2,11 +2,62 @@
   "slug": "tema-05-busqueda",
   "numero": 5,
   "nombre": "Busqueda avanzada",
-  "resumen": "Chaining, _include/_revinclude, modificadores, paginacion y parametros compuestos.",
+  "resumen": "Los nueve tipos de parámetro y su sintaxis exacta, prefijos con semántica de rangos en fechas, modificadores por tipo, las cuatro formas del token, chaining tipado y _has, composites con $, parámetros de resultado (_include/_revinclude:iterate, _sort, _summary, _elements, _total) y paginación opaca con manejo lenient/strict.",
   "opcional": false,
-  "objetivos": [],
-  "enlaces": [],
+  "objetivos": [
+    "Clasificar cualquier parámetro de búsqueda en su tipo (token, date, string, reference, composite...) y aplicar la sintaxis correcta.",
+    "Predecir qué matchea un prefijo de fecha (eq/gt/sa/eb) usando el modelo de rangos por precisión.",
+    "Escribir tokens en sus cuatro formas y justificar cuándo es obligatorio system|code.",
+    "Construir chaining simple, tipado y múltiple, y reverse chaining con _has (incluso anidado).",
+    "Usar composites con $ para correlacionar código y valor en la misma repetición.",
+    "Componer respuestas eficientes con _include/_revinclude (:iterate), _elements, _summary y _total.",
+    "Paginar correctamente siguiendo link.next y auditar link.self para detectar parámetros ignorados.",
+    "Decidir entre GET y POST _search y aplicar Prefer: handling=strict en integraciones críticas."
+  ],
+  "enlaces": [
+    {
+      "titulo": "Search R4",
+      "url": "http://hl7.org/fhir/R4/search.html",
+      "nota": "La referencia completa: tipos, prefijos, modificadores, chaining, _has, _include. Léela dos veces."
+    },
+    {
+      "titulo": "HTTP / API RESTful R4",
+      "url": "http://hl7.org/fhir/R4/http.html",
+      "nota": "Interacciones REST, header Prefer (handling), POST _search."
+    },
+    {
+      "titulo": "Bundle R4",
+      "url": "http://hl7.org/fhir/R4/bundle.html",
+      "nota": "searchset: total, link de paginación y search.mode."
+    },
+    {
+      "titulo": "SearchParameter R4",
+      "url": "http://hl7.org/fhir/R4/searchparameter.html",
+      "nota": "Cómo se definen los parámetros y cómo crear parámetros personalizados con FHIRPath."
+    },
+    {
+      "titulo": "CapabilityStatement R4",
+      "url": "http://hl7.org/fhir/R4/capabilitystatement.html",
+      "nota": "Dónde declara un servidor qué parámetros de búsqueda soporta realmente."
+    },
+    {
+      "titulo": "Servidor público HAPI",
+      "url": "https://hapi.fhir.org/baseR4",
+      "nota": "Banco de pruebas para practicar cada sintaxis de la lección."
+    }
+  ],
   "notebooklm": {
-    "nombreCuaderno": "FHIR — Busqueda avanzada"
+    "nombreCuaderno": "FHIR — Busqueda avanzada",
+    "fuentes": [
+      { "titulo": "Search R4", "url": "http://hl7.org/fhir/R4/search.html" },
+      { "titulo": "HTTP / API RESTful R4", "url": "http://hl7.org/fhir/R4/http.html" },
+      { "titulo": "Bundle R4", "url": "http://hl7.org/fhir/R4/bundle.html" }
+    ],
+    "prompts": [
+      "Dame 10 URLs de búsqueda FHIR y pídeme traducirlas a lenguaje natural; corrige mis interpretaciones token a token.",
+      "Hazme un examen de 12 preguntas sobre prefijos de fecha como rangos, chaining, _has y composites, estilo certificación.",
+      "Explica con ejemplos por qué la paginación FHIR es opaca y qué garantías da (y no da) entre páginas.",
+      "Plantéame 5 escenarios de bugs de búsqueda (lenient handling, :not con ausentes, composite mal simulado) y pídeme diagnosticarlos."
+    ]
   }
 }

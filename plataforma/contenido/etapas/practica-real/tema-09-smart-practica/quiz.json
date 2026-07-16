@@ -2,65 +2,208 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "d17q1",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "SMART Backend Services se usa cuando...",
-      "opciones": [
-        "Hay un usuario clickeando autorizar en el navegador",
-        "Un sistema backend necesita acceso sin usuario presente (machine-to-machine)",
-        "Solo para subir imagenes DICOM",
-        "No usa tokens"
+      "id": "t9q01",
+      "bloom": "recordar",
+      "tipo": "respuesta_corta",
+      "pregunta": "¿En qué ruta estándar publica un servidor SMART sus endpoints de autorización y capacidades?",
+      "respuestas_validas": [
+        ".well-known/smart-configuration",
+        "/.well-known/smart-configuration",
+        "[base]/.well-known/smart-configuration",
+        "well-known/smart-configuration"
       ],
-      "respuesta": 1,
-      "explicacion": "Backend Services = flujo sistema a sistema con JWT firmado."
+      "explicacion": "GET [base]/.well-known/smart-configuration devuelve authorization_endpoint, token_endpoint, capabilities y algoritmos soportados."
     },
     {
-      "id": "d17q2",
+      "id": "t9q02",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "¿Para qué sirve el parámetro aud en la petición de autorización de App Launch?",
+      "opciones": [
+        "Identificar al usuario final",
+        "Indicar la base FHIR destino para que el token emitido no sirva contra otro servidor",
+        "Transportar el code_verifier de PKCE",
+        "Definir la duración del access token"
+      ],
+      "respuesta": 1,
+      "explicacion": "aud ata la autorización a un servidor FHIR concreto; sin él, un token válido podría reutilizarse contra otro recurso."
+    },
+    {
+      "id": "t9q03",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Tras el consentimiento, tu app recibe code y state. ¿Qué DEBE hacer antes de canjear el código?",
+      "opciones": [
+        "Decodificar el code como JWT",
+        "Verificar que state coincide con el valor que la app generó al iniciar el flujo",
+        "Pedir un refresh token",
+        "Publicar su JWKS"
+      ],
+      "respuesta": 1,
+      "explicacion": "state es la defensa anti-CSRF: si no coincide, la respuesta no corresponde a un flujo iniciado por tu app y se descarta."
+    },
+    {
+      "id": "t9q04",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "¿Qué problema resuelve PKCE en el flujo authorization code?",
+      "opciones": [
+        "Cifra el access token en tránsito",
+        "Evita que un code interceptado sea canjeable sin el code_verifier original",
+        "Permite tokens de mayor duración",
+        "Sustituye al parámetro state"
+      ],
+      "respuesta": 1,
+      "explicacion": "El servidor compara el S256 del code_verifier contra el code_challenge del paso 1; quien robó solo el code no puede canjearlo."
+    },
+    {
+      "id": "t9q05",
       "bloom": "aplicar",
       "tipo": "respuesta_corta",
-      "pregunta": "Claim JWT que evita reutilizar el mismo assertion (replay).",
+      "pregunta": "Escribe el scope v2 mínimo para que una app con paciente en contexto lea y busque Observations:",
       "respuestas_validas": [
-        "jti",
-        "el jti"
+        "patient/Observation.rs",
+        "patient/observation.rs"
       ],
-      "explicacion": "jti = JWT ID, unico por emision."
+      "explicacion": "Contexto patient/, recurso Observation, letras r (read) y s (search) en orden c-r-u-d-s."
     },
     {
-      "id": "d17q3",
-      "bloom": "comprender",
+      "id": "t9q06",
+      "bloom": "analizar",
       "tipo": "opcion_multiple",
-      "pregunta": "El scope 'patient/Observation.read' permite...",
+      "pregunta": "Un buzón que solo recibe resultados de laboratorio de otros sistemas (crea Observations pero jamás las lee). Scope v2 correcto:",
       "opciones": [
-        "Borrar pacientes",
-        "Leer observaciones en contexto del paciente autorizado",
-        "Acceso total de administrador",
-        "Solo escribir en el servidor"
+        "system/Observation.rs",
+        "system/Observation.c",
+        "user/Observation.cruds",
+        "patient/Observation.c"
       ],
       "respuesta": 1,
-      "explicacion": "El scope limita recurso + operacion + contexto."
+      "explicacion": "v2 permite conceder create sin read: mínimo privilegio imposible de expresar con los scopes v1."
     },
     {
-      "id": "d17q4",
+      "id": "t9q07",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "¿Qué par de scopes hace que el id_token identifique al usuario y a qué recurso FHIR apunta su claim principal?",
+      "opciones": [
+        "launch/patient y offline_access; apunta a Patient",
+        "openid y fhirUser; fhirUser apunta a Practitioner, Patient u otro recurso del usuario",
+        "state y aud; apunta a Person",
+        "system/*.rs y jti; apunta a Device"
+      ],
+      "respuesta": 1,
+      "explicacion": "openid activa OIDC y fhirUser añade el claim con la referencia FHIR del usuario autenticado."
+    },
+    {
+      "id": "t9q08",
       "bloom": "recordar",
       "tipo": "opcion_multiple",
-      "pregunta": "Tras obtener access_token, como lo envias a FHIR?",
+      "pregunta": "En el client assertion de Backend Services, ¿qué valor lleva aud?",
       "opciones": [
-        "Header Cookie",
-        "Authorization: Bearer <token>",
-        "Query ?password=",
-        "En el body del Patient"
+        "La base FHIR del servidor de recursos",
+        "El client_id de la app",
+        "La URL exacta del token endpoint del authorization server",
+        "La URL del JWKS publicado"
       ],
-      "respuesta": 1,
-      "explicacion": "Bearer token en cabecera Authorization."
+      "respuesta": 2,
+      "explicacion": "aud = token endpoint. Poner la base FHIR es la causa número uno de invalid_client."
     },
     {
-      "id": "d17q5",
-      "bloom": "comprender",
+      "id": "t9q09",
+      "bloom": "aplicar",
       "tipo": "verdadero_falso",
-      "pregunta": "SMART App Launch requiere tipicamente interaccion del usuario para autorizar.",
-      "respuesta": true,
-      "explicacion": "App Launch = flujo con usuario; Backend Services = sin usuario."
+      "pregunta": "Un client assertion con exp a 60 minutos es válido según SMART Backend Services siempre que esté bien firmado.",
+      "respuesta": false,
+      "explicacion": "La expiración debe ser corta (máximo 5 minutos). Se genera un assertion nuevo por cada token request."
+    },
+    {
+      "id": "t9q10",
+      "bloom": "recordar",
+      "tipo": "respuesta_corta",
+      "pregunta": "Valor exacto de client_assertion_type en el token request de Backend Services:",
+      "respuestas_validas": [
+        "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+      ],
+      "explicacion": "Acompaña a grant_type=client_credentials y al JWT firmado en client_assertion."
+    },
+    {
+      "id": "t9q11",
+      "bloom": "analizar",
+      "tipo": "opcion_multiple",
+      "pregunta": "El sandbox responde invalid_client aunque tu JWT parece correcto. Rotaste claves ayer. Causa más probable:",
+      "opciones": [
+        "El scope pedido es demasiado amplio",
+        "El kid del header no existe en el JWKS publicado (o el servidor cachea el JWKS viejo)",
+        "Falta el parámetro state",
+        "El grant_type debía ser authorization_code"
+      ],
+      "respuesta": 1,
+      "explicacion": "Tras una rotación mal hecha, la clave que firma no está en el JWKS que el servidor consulta. Publicar antes de firmar y dar periodo de gracia."
+    },
+    {
+      "id": "t9q12",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Kick-off correcto de un export masivo de una cohorte:",
+      "opciones": [
+        "POST [base]/Group/123/$export con Content-Type: text/plain",
+        "GET [base]/Group/123/$export con Accept: application/fhir+json y Prefer: respond-async",
+        "GET [base]/Group/123/_history con Prefer: bulk",
+        "DELETE [base]/$export"
+      ],
+      "respuesta": 1,
+      "explicacion": "El Async Request Pattern arranca con GET $export + Prefer: respond-async; el servidor devuelve 202 y Content-Location."
+    },
+    {
+      "id": "t9q13",
+      "bloom": "aplicar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Durante el polling del export recibes 202 con Retry-After: 120. Tu cliente debe:",
+      "opciones": [
+        "Reintentar inmediatamente en bucle hasta el 200",
+        "Esperar al menos 120 segundos antes del siguiente GET a la URL de estado",
+        "Cancelar el export con DELETE",
+        "Repetir el kick-off desde cero"
+      ],
+      "respuesta": 1,
+      "explicacion": "Retry-After es parte del contrato; ignorarlo produce 429 y puede degradar el servidor."
+    },
+    {
+      "id": "t9q14",
+      "bloom": "comprender",
+      "tipo": "opcion_multiple",
+      "pregunta": "En el manifiesto final del export, ¿qué indica requiresAccessToken: true?",
+      "opciones": [
+        "Que el export falló",
+        "Que las URLs de output deben descargarse presentando el bearer token",
+        "Que hay que repetir la autorización del usuario",
+        "Que los archivos están cifrados con la clave privada del cliente"
+      ],
+      "respuesta": 1,
+      "explicacion": "Los archivos NDJSON del output se sirven autenticados; sin token la descarga falla."
+    },
+    {
+      "id": "t9q15",
+      "bloom": "evaluar",
+      "tipo": "opcion_multiple",
+      "pregunta": "Reporte epidemiológico nocturno nacional: cada madrugada un proceso sin usuario extrae pacientes y observaciones nuevas de una cohorte. Diseño correcto:",
+      "opciones": [
+        "App Launch con un usuario administrador que deja su sesión abierta",
+        "Backend Services (client_credentials + JWT RS384) con system/Patient.rs y system/Observation.rs, y Group/[cohorte]/$export con _since",
+        "Compartir un api-key estático en la URL",
+        "Un usuario y contraseña de servicio en texto plano en el cron"
+      ],
+      "respuesta": 1,
+      "explicacion": "Sistema a sistema sin usuario = Backend Services; la cohorte y el incremento se resuelven con Group/$export y _since."
+    },
+    {
+      "id": "t9q16",
+      "bloom": "analizar",
+      "tipo": "verdadero_falso",
+      "pregunta": "Si pediste system/*.rs y el token response trae scope: system/Patient.rs, puedes asumir que igualmente podrás exportar Observations.",
+      "respuesta": false,
+      "explicacion": "El scope de la RESPUESTA es el contrato real: el servidor concedió menos de lo pedido y las Observations quedarán fuera o fallarán."
     }
   ]
 }

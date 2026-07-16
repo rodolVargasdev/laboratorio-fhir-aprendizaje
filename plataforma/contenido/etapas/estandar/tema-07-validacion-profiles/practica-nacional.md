@@ -1,4 +1,4 @@
-## Tema 7 · Validación y Profiles → Las reglas salvadoreñas
+## Tema 7 · Validación y Profiles -> Las reglas salvadoreñas
 
 - Práctica (90 min, PC): redacta en texto (aún sin herramientas) el profile
   "PacienteNacional": qué elementos del `Patient` base vuelves obligatorios (DUI o

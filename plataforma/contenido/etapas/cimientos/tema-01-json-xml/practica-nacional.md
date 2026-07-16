@@ -1,4 +1,4 @@
-## Tema 1 · JSON y XML → El paciente salvadoreño en FHIR
+## Tema 1 · JSON y XML -> El paciente salvadoreño en FHIR
 
 - Práctica (45 min, PC): escribe a mano un `Patient` JSON válido para un paciente
   ficticio salvadoreño: nombre con dos apellidos (`family` más la convención que

@@ -2,11 +2,80 @@
   "slug": "tema-08-gcp",
   "numero": 8,
   "nombre": "FHIR en Google Cloud",
-  "resumen": "Jerarquia GCP, Cloud Healthcare API, datasets y FHIR stores, carga de Synthea, import/export e IAM.",
+  "resumen": "Operación real de un servidor FHIR R4 administrado: jerarquía proyecto/location/dataset/store, banderas críticas del store (enableUpdateCreate, integridad referencial, versionado, Pub/Sub), CRUD autenticado con curl, import de Synthea desde GCS, export a BigQuery, IAM de mínimo privilegio, auditoría y disciplina de costo $0.",
   "opcional": false,
-  "objetivos": [],
-  "enlaces": [],
+  "objetivos": [
+    "Explicar las dos jerarquías de GCP (administrativa y de datos de salud) y decidir la location según residencia de datos.",
+    "Crear proyecto, habilitar la Healthcare API y montar dataset + FHIR store R4 con gcloud, justificando cada bandera de configuración.",
+    "Ejecutar CRUD, búsqueda e historial contra healthcare.googleapis.com con curl y access token, incluyendo concurrencia optimista con If-Match.",
+    "Generar poblaciones sintéticas con Synthea e importarlas al store desde Cloud Storage en NDJSON, diagnosticando los errores típicos del import.",
+    "Exportar el store a GCS y a BigQuery (schema analytics vs lossless) y responder preguntas epidemiológicas con SQL.",
+    "Diseñar bindings IAM de mínimo privilegio con roles de healthcare y cuentas de servicio, evitando claves JSON en repositorios.",
+    "Configurar notificaciones Pub/Sub del store y explicar su papel en arquitecturas dirigidas por eventos.",
+    "Aplicar el modelo de costos y el ritual de limpieza (dataset, bucket, BigQuery, proyecto) para operar en capa gratuita a $0."
+  ],
+  "enlaces": [
+    {
+      "titulo": "Cloud Healthcare API (producto)",
+      "url": "https://cloud.google.com/healthcare-api",
+      "nota": "Página oficial del servicio administrado que hospeda tu FHIR store."
+    },
+    {
+      "titulo": "Guías how-to de FHIR en Healthcare API",
+      "url": "https://cloud.google.com/healthcare-api/docs/how-tos/fhir",
+      "nota": "Crear stores, CRUD, import/export: la referencia operativa del tema."
+    },
+    {
+      "titulo": "Documentación conceptual de FHIR en GCP",
+      "url": "https://cloud.google.com/healthcare-api/docs/fhir",
+      "nota": "Versiones soportadas, comportamiento del store y detalles de la implementación."
+    },
+    {
+      "titulo": "Capa gratuita de Google Cloud",
+      "url": "https://cloud.google.com/free",
+      "nota": "Verifica aquí las cifras vigentes de uso gratuito antes de cada ciclo de práctica."
+    },
+    {
+      "titulo": "Instalación del SDK de Google Cloud",
+      "url": "https://cloud.google.com/sdk/docs/install",
+      "nota": "gcloud CLI, requisito de toda la práctica."
+    },
+    {
+      "titulo": "Synthea",
+      "url": "https://synthea.mitre.org/",
+      "nota": "Generador de pacientes sintéticos en FHIR R4; jamás practiques con datos reales."
+    },
+    {
+      "titulo": "API REST de FHIR R4",
+      "url": "http://hl7.org/fhir/R4/",
+      "nota": "La especificación que tu store implementa; contrasta el CapabilityStatement contra ella."
+    }
+  ],
   "notebooklm": {
-    "nombreCuaderno": "FHIR — FHIR en Google Cloud"
+    "nombreCuaderno": "FHIR — FHIR en Google Cloud",
+    "fuentes": [
+      {
+        "titulo": "Cloud Healthcare API",
+        "url": "https://cloud.google.com/healthcare-api"
+      },
+      {
+        "titulo": "How-tos de FHIR stores",
+        "url": "https://cloud.google.com/healthcare-api/docs/how-tos/fhir"
+      },
+      {
+        "titulo": "Capa gratuita de GCP",
+        "url": "https://cloud.google.com/free"
+      },
+      {
+        "titulo": "Synthea",
+        "url": "https://synthea.mitre.org/"
+      }
+    ],
+    "prompts": [
+      "Hazme un examen de 12 preguntas de troubleshooting sobre 401 vs 403 vs 404 vs 412 en Cloud Healthcare API, con escenarios realistas.",
+      "Redacta un runbook paso a paso: crear proyecto y store R4, importar NDJSON desde GCS, exportar a BigQuery y borrar todo al final con costo $0.",
+      "Explica enableUpdateCreate y disableReferentialIntegrity con casos de uso de una red nacional de salud y los riesgos de cada bandera.",
+      "Compara el FHIR store de GCP con un HAPI autogestionado en costos, seguridad, escalado y auditoría para una institución pública."
+    ]
   }
 }

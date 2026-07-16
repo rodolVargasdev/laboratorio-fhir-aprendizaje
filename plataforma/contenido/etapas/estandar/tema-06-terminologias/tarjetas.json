@@ -1,32 +1,58 @@
 [
   {
-    "claveLegacy": "d11-loinc",
-    "frente": ".Para que sirve LOINC?",
-    "reverso": "Codificar observaciones y pruebas de laboratorio (que se midio), p.ej. tipo de analisis de sangre."
+    "frente": "code vs Coding vs CodeableConcept",
+    "reverso": "code: sistema fijado por la spec (status). Coding: un código de un sistema (system+code+display). CodeableConcept: coding[] (mismo concepto en varios sistemas) + text — el caso clínico general."
   },
   {
-    "claveLegacy": "d11-snomed",
-    "frente": ".Para que sirve SNOMED CT?",
-    "reverso": "Codificar conceptos clinicos: diagnosticos, hallazgos, procedimientos."
+    "frente": "URIs canónicas: LOINC, SNOMED CT, UCUM, ICD-10",
+    "reverso": "http://loinc.org · http://snomed.info/sct · http://unitsofmeasure.org · http://hl7.org/fhir/sid/icd-10"
   },
   {
-    "claveLegacy": "d11-coding-vs-codeable",
-    "frente": ".Diferencia entre 'Coding' y 'CodeableConcept'?",
-    "reverso": "Coding es un solo codigo (system+code+display). CodeableConcept puede tener varios Coding mas un texto libre."
+    "frente": "Roles: LOINC vs SNOMED vs ICD vs UCUM",
+    "reverso": "LOINC: qué se midió (lab, signos vitales). SNOMED: significado clínico (diagnósticos, hallazgos). ICD: clasificación administrativa/epidemiológica. UCUM: unidades computables."
   },
   {
-    "claveLegacy": "d11-binding",
-    "frente": ".Que es la 'fuerza de binding' de un value set?",
-    "reverso": "Que tan obligatorio es usar codigos de ese value set: required, extensible, preferred o example."
+    "frente": "CodeSystem.content: valores",
+    "reverso": "complete, fragment, not-present (solo metadatos; los conceptos viven en el tx-server, típico SNOMED), example, supplement (añade displays/propiedades a otro sistema)."
   },
   {
-    "claveLegacy": "d19-cs-vs-vs",
-    "frente": "CodeSystem vs ValueSet",
-    "reverso": "CodeSystem = diccionario; ValueSet = subconjunto seleccionado de codigos."
+    "frente": "ValueSet: compose vs expansion",
+    "reverso": "compose: definición intensional (include/exclude, concept, filter is-a, valueSet). expansion: lista materializada por $expand, con timestamp; puede cambiar cuando el CodeSystem evoluciona."
   },
   {
-    "claveLegacy": "d19-expand",
-    "frente": "Operacion para listar codigos de un ValueSet",
-    "reverso": "$expand."
+    "frente": "ConceptMap.equivalence (R4): valores clave",
+    "reverso": "equivalent, equal, wider (destino más amplio: pierde especificidad), narrower, inexact, unmatched, disjoint. Agrupado por group.source->target. En R5 se llama relationship."
+  },
+  {
+    "frente": "Las 4 fuerzas de binding, en orden",
+    "reverso": "required > extensible > preferred > example. Los perfiles pueden endurecer un binding heredado, nunca relajarlo."
+  },
+  {
+    "frente": "Significado EXACTO de extensible",
+    "reverso": "Debes usar un código del ValueSet si el concepto está cubierto; solo puedes usar otro código (o texto) cuando el concepto real no está en el conjunto."
+  },
+  {
+    "frente": "$lookup",
+    "reverso": "GET CodeSystem/$lookup?system=...&code=... -> Parameters con display, designations y properties del código."
+  },
+  {
+    "frente": "$validate-code",
+    "reverso": "GET ValueSet/$validate-code?url=...&system=...&code=... -> Parameters con result (boolean) y message. Es lo que ejecuta el validador para cada binding."
+  },
+  {
+    "frente": "$expand y el patrón typeahead",
+    "reverso": "GET ValueSet/$expand?url=...&filter=texto&count=10 -> expansion.contains con los conceptos que matchean: autocompletado clínico estándar."
+  },
+  {
+    "frente": "$translate y $subsumes",
+    "reverso": "$translate cruza un ConceptMap -> match[] con equivalence. $subsumes compara codeA/codeB jerárquicamente -> subsumes | subsumed-by | equivalent | not-subsumed."
+  },
+  {
+    "frente": "tx.fhir.org vs terminology.hl7.org",
+    "reverso": "tx.fhir.org: servidor de terminología de referencia (usado por el validador oficial). terminology.hl7.org (THO): publicación de los CodeSystems/ValueSets propios de HL7."
+  },
+  {
+    "frente": "Patrón nacional para catálogos legados",
+    "reverso": "1) Publicar catálogo local como CodeSystem; 2) ValueSet nacional sobre LOINC/SNOMED; 3) ConceptMap local->estándar con equivalences honestas; 4) $translate y guardar AMBOS codings + text."
   }
 ]

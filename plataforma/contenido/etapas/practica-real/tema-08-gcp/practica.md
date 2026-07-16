@@ -1,234 +1,165 @@
-> **Como practicar este tema:** varios ejercicios puedes hacerlos en el navegador desde el [Laboratorio](/laboratorio). Los que piden tu PC usan los scripts en `legacy/dias/`; prepara tu entorno una sola vez con la [guia de setup](/setup).
+# Practica
 
-# Dia 8: Google Cloud - cuenta, proyecto y como NO gastar
+## Objetivo
 
-Objetivo: dejar listo GCP para practicar FHIR sin gastar (o como mucho centavos),
-y tener un plan B 100% gratis con un servidor FHIR local.
-Tiempo: 2-3 horas. Costo objetivo: $0.
+Montar de cero un FHIR store R4 en Cloud Healthcare API, poblarlo con pacientes sintéticos de Synthea vía import desde Cloud Storage, ejecutar CRUD y búsqueda autenticados con `curl`, exportar a BigQuery para analítica SQL, y desmontarlo todo dejando la cuenta en costo $0.
 
-## Importante sobre tu situacion (sin creditos)
+## Preparacion
 
-Como tu cuenta ya no tiene credito de bienvenida, seguimos esta regla de oro:
+- Cuenta de Google con facturación verificada (no se cobrará si respetas la capa gratuita y la limpieza final). Crea la alerta de presupuesto en $1 antes de empezar.
+- `gcloud` CLI instalado y autenticado (`gcloud auth login`); ver [Setup](/setup). Verifica con `gcloud --version`.
+- `curl` y Java 11+ (para Synthea). En Windows usa Git Bash o Cloud Shell (Cloud Shell ya trae todo).
+- Descarga `synthea-with-dependencies.jar` desde el sitio oficial de Synthea.
+- Define variables (ajusta el ID de proyecto a uno único tuyo):
 
-- Cloud Healthcare API tiene CAPA GRATUITA permanente: 25,000 peticiones/mes y
-  1 GiB-hora/mes de almacenamiento. Para aprender, cabes de sobra en lo gratis.
-- Aun asi, GCP pedira una tarjeta para verificar identidad. No se cobra sin que
-  superes la capa gratuita y tengas facturacion activa.
-- Plan B garantizado a $0: levantar un servidor FHIR HAPI en tu propia maquina
-  (ver `practica/servidor-local.md`). No toca GCP en absoluto.
-
-Recomendacion: hoy elige UNA via.
-- Via A (nube, gratis con disciplina): util para tu mentalidad GCP-first.
-- Via B (local, cero riesgo de cobro): util si prefieres no dar tarjeta.
-
-Ambas sirven para los dias 9-13. Las practicas leen la variable de entorno
-`FHIR_BASE_URL`, asi que funcionan con cualquiera de las dos.
-
-## Rutina
-
-1. `python evaluacion\repaso.py`.
-2. Leccion + elegir via.
-3. Practica (configurar la via elegida).
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 8`.
-
-## Teoria: jerarquia de GCP
-
-Organizacion > Proyecto > Recursos. Todo recurso (incluido un FHIR store) vive
-dentro de un proyecto. La facturacion se asocia al proyecto.
-
-Herramienta: `gcloud` (CLI de Google Cloud) te deja controlar GCP desde la
-terminal.
-
-## Practica
-
-- Via A (nube): sigue `practica/gcp-cuenta.md` (crear proyecto, instalar gcloud,
-  poner alertas de presupuesto en $1 como red de seguridad).
-- Via B (local): sigue `practica/servidor-local.md` (HAPI FHIR con Docker, gratis).
-
-Comprueba tu gcloud (si elegiste Via A):
-
-```powershell
-python legacy\dias\dia-08\practica\comprobar_gcloud.py
+```bash
+export PROJECT=fhir-lab-sv-2026
+export LOCATION=us-central1
+export DATASET=nacional-ds
+export STORE=store-r4
+export BUCKET=gs://$PROJECT-datos
 ```
+
+## Ejercicios guiados
+
+1. **Proyecto y API habilitada.**
+
+   ```bash
+   gcloud projects create $PROJECT --name="Laboratorio FHIR"
+   gcloud config set project $PROJECT
+   gcloud billing accounts list
+   gcloud billing projects link $PROJECT --billing-account=TU-BILLING-ID
+   gcloud services enable healthcare.googleapis.com
+   ```
+
+   Salida esperada del último comando: `Operation ... finished successfully.` Verifica: `gcloud services list --enabled --filter=healthcare` debe listar `healthcare.googleapis.com`.
+
+2. **Dataset y FHIR store R4.**
+
+   ```bash
+   gcloud healthcare datasets create $DATASET --location=$LOCATION
+   gcloud healthcare fhir-stores create $STORE \
+     --dataset=$DATASET --location=$LOCATION \
+     --version=R4 --enable-update-create
+   ```
+
+   Salida esperada: `Created fhirStore [store-r4].` Verifica: `gcloud healthcare fhir-stores describe $STORE --dataset=$DATASET --location=$LOCATION` muestra `version: R4` y `enableUpdateCreate: true`.
+
+3. **CRUD autenticado con curl.**
+
+   ```bash
+   TOKEN=$(gcloud auth print-access-token)
+   BASE="https://healthcare.googleapis.com/v1/projects/$PROJECT/locations/$LOCATION/datasets/$DATASET/fhirStores/$STORE/fhir"
+
+   curl -sS -X POST "$BASE/Patient" \
+     -H "Authorization: Bearer $TOKEN" \
+     -H "Content-Type: application/fhir+json" \
+     -d '{"resourceType":"Patient","identifier":[{"system":"https://fhir.salud.gob.sv/identificadores/dui","value":"04567890-1"}],"name":[{"family":"Ramírez","given":["Ana"]}],"gender":"female","birthDate":"1988-04-12"}'
+   ```
+
+   Salida esperada: el Patient creado con `"id"` asignado y `"meta":{"versionId":"1",...}`. Verifica con búsqueda por identificador:
+
+   ```bash
+   curl -sS -H "Authorization: Bearer $TOKEN" \
+     "$BASE/Patient?identifier=https://fhir.salud.gob.sv/identificadores/dui|04567890-1"
+   ```
+
+   Debe devolver un `Bundle` tipo `searchset` con `"total": 1`.
+
+4. **Generar 20 pacientes con Synthea y subirlos a GCS.**
+
+   ```bash
+   java -jar synthea-with-dependencies.jar -p 20 -s 20260715 \
+     --exporter.fhir.bulk_data true --exporter.baseDirectory ./salida Massachusetts
+
+   gcloud storage buckets create $BUCKET --location=$LOCATION
+   gcloud storage cp ./salida/fhir/*.ndjson $BUCKET/synthea/
+   ```
+
+   Salida esperada: Synthea reporta `Records: total=20...` y el `cp` lista los `.ndjson` copiados. Verifica: `gcloud storage ls $BUCKET/synthea/` muestra `Patient.ndjson`, `Observation.ndjson`, etc.
+
+5. **Import masivo al store.**
+
+   ```bash
+   gcloud healthcare fhir-stores import gcs $STORE \
+     --dataset=$DATASET --location=$LOCATION \
+     --gcs-uri=$BUCKET/synthea/*.ndjson \
+     --content-structure=resource
+   ```
+
+   Salida esperada: la operación termina con un resumen sin errores (si falla por permisos, otorga `roles/storage.objectViewer` al service agent de Healthcare sobre el bucket). Verifica contando pacientes:
+
+   ```bash
+   curl -sS -H "Authorization: Bearer $TOKEN" "$BASE/Patient?_summary=count"
+   ```
+
+   Debe devolver `"total"` igual o mayor a 21 (tus 20 de Synthea + Ana Ramírez).
+
+6. **Export a BigQuery y consulta SQL.**
+
+   ```bash
+   bq mk --location=$LOCATION fhir_analitica
+   gcloud healthcare fhir-stores export bq $STORE \
+     --dataset=$DATASET --location=$LOCATION \
+     --bq-dataset=bq://$PROJECT.fhir_analitica \
+     --schema-type=analytics
+
+   bq query --use_legacy_sql=false \
+     "SELECT gender, COUNT(*) AS n FROM \`$PROJECT.fhir_analitica.Patient\` GROUP BY gender"
+   ```
+
+   Salida esperada: tabla con filas `male`/`female` y conteos que suman el total de pacientes.
+
+7. **IAM de mínimo privilegio.**
+
+   ```bash
+   gcloud iam service-accounts create lector-reportes
+   gcloud projects add-iam-policy-binding $PROJECT \
+     --member="serviceAccount:lector-reportes@$PROJECT.iam.gserviceaccount.com" \
+     --role="roles/healthcare.fhirResourceReader"
+   ```
+
+   Verifica: `gcloud projects get-iam-policy $PROJECT --flatten="bindings[].members" --filter="bindings.members:lector-reportes*"` muestra solo el rol de lectura.
+
+## Limpieza
+
+Ejecuta SIEMPRE al terminar la sesión; es lo que garantiza costo $0:
+
+```bash
+gcloud healthcare datasets delete $DATASET --location=$LOCATION --quiet
+gcloud storage rm -r $BUCKET
+bq rm -r -f -d $PROJECT:fhir_analitica
+gcloud iam service-accounts delete lector-reportes@$PROJECT.iam.gserviceaccount.com --quiet
+```
+
+Al cerrar el tema por completo, opción nuclear:
+
+```bash
+gcloud projects delete $PROJECT --quiet
+```
+
+Verifica: `gcloud healthcare datasets list --location=$LOCATION` vacío, `gcloud storage ls` sin el bucket, y en la consola Billing -> Reports el costo del día en $0.
+
+## Retos
+
+1. **Upsert nacional**: haz `PUT $BASE/Patient/dui-04567890-1` con un Patient completo. Éxito: se crea con ese ID exacto (gracias a `enableUpdateCreate`) y un segundo PUT sube `versionId` a 2.
+2. **Concurrencia optimista**: repite el PUT con `If-Match: W/"1"` cuando la versión ya es 2. Éxito: recibes `412 Precondition Failed`.
+3. **Notificaciones**: crea un tópico Pub/Sub, configúralo en el store, crea un Patient y lee el mensaje con una suscripción pull. Éxito: el mensaje contiene el nombre del recurso creado.
+4. **Integridad referencial**: intenta crear una Observation cuyo `subject` apunte a `Patient/no-existe`. Éxito: explicas el resultado observado según la configuración de tu store.
+5. **Historial**: actualiza dos veces a Ana y recupera `GET $BASE/Patient/{id}/_history`. Éxito: Bundle tipo `history` con 3 entradas.
+6. **Métricas**: llama a `fhirStores.getFHIRStoreMetrics` vía REST. Éxito: obtienes conteo por tipo de recurso coherente con tu import.
 
 ## Reto Feynman
 
-En `PROGRESO.md`, explica la jerarquia de GCP (organizacion/proyecto/recurso) y
-por que la capa gratuita de Healthcare API te alcanza para aprender.
+Explica en 10 líneas, como si se lo contaras al director de informática de la institución: por qué un FHIR store administrado en GCP puede costar $0 mientras aprendes, qué tres conceptos generan costo real en producción, y qué disciplina operativa (IAM mínimo, auditoría, limpieza/infraestructura como código) propondrías desde el primer día.
 
----
+## Criterio de completado
 
-# Dia 9: Tu propio servidor FHIR (dataset y FHIR store)
-
-Objetivo: tener un servidor FHIR R4 propio donde escribir y leer. Via nube
-(Cloud Healthcare API, capa gratuita) o via local (HAPI, ya listo del dia 8).
-Tiempo: 2-3 horas. Costo objetivo: $0.
-
-## Rutina
-
-1. `python evaluacion\repaso.py`.
-2. Leccion + montar tu store.
-3. Practica.
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 9`.
-
-## Teoria: jerarquia de un FHIR store en GCP
-
-Proyecto > Localizacion (ej. us-central1) > Dataset > FHIR store.
-
-- Dataset: contenedor por region para tus stores de salud.
-- FHIR store: el servidor FHIR en si (eliges la version: R4 para certificacion).
-
-El endpoint REST de tu store sera del estilo:
-
-    https://healthcare.googleapis.com/v1/projects/PROJECT/locations/LOCATION/datasets/DATASET/fhirStores/STORE/fhir
-
-Sobre ese endpoint usas los MISMOS GET/POST/PUT/DELETE que aprendiste, pero las
-peticiones requieren un token de acceso (autorizacion) de Google.
-
-## Practica
-
-- Via nube: sigue `practica/crear-store.md` (comandos gcloud, capa gratuita).
-- Via local: tu servidor del dia 8 ya hace de "store". No hay nada que crear.
-
-Verifica el CapabilityStatement de tu servidor (funciona con ambas vias si
-defines FHIR_BASE_URL):
-
-```powershell
-python legacy\dias\dia-09\practica\capability.py
-```
-
-## Reto Feynman
-
-En `PROGRESO.md`, explica la diferencia entre dataset y FHIR store, y por que el
-endpoint de GCP necesita un token mientras el servidor publico de pruebas no.
-
----
-
-# Dia 10: Cargar y consultar datos FHIR
-
-Objetivo: poblar tu servidor con datos ficticios y consultarlos, uniendo recursos
-con referencias (un paciente y sus observaciones).
-Tiempo: 2-3 horas. Costo objetivo: $0.
-
-## Rutina
-
-1. `python evaluacion\repaso.py`.
-2. Leccion.
-3. Practica.
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 10`.
-
-## Teoria
-
-### Datos sinteticos (Synthea)
-
-Para practicar sin datos reales se usan generadores como Synthea, que crean
-pacientes ficticios completos (con historia clinica) en formato FHIR. Puedes
-descargar muestras desde https://synthea.mitre.org/downloads. No es obligatorio
-hoy: la practica crea sus propios datos minimos.
-
-### Referencias entre recursos
-
-Los recursos FHIR se enlazan por referencias. Una Observation apunta a su paciente:
-
-```json
-"subject": { "reference": "Patient/123" }
-```
-
-Asi, al crear un paciente y luego una observacion con su id, quedan conectados.
-
-### Transacciones por Bundle (opcional)
-
-Se pueden enviar varios recursos a la vez en un Bundle de tipo "transaction" con
-un POST a la base. Util para cargar datos relacionados de forma atomica.
-
-## Practica
-
-Define a que servidor apuntas (si no, usa el publico por defecto):
-
-```powershell
-# Local:  $env:FHIR_BASE_URL = "http://localhost:8080/fhir"
-# GCP:    define FHIR_BASE_URL y TOKEN (ver dia 9)
-python legacy\dias\dia-10\practica\cargar_y_consultar.py
-```
-
-El script crea un paciente ficticio, le agrega una observacion (frecuencia
-cardiaca) referenciandolo, y luego consulta las observaciones de ese paciente.
-Reto: agrega una segunda observacion (por ejemplo, temperatura) y vuelve a consultar.
-
-## Reto Feynman
-
-En `PROGRESO.md`, explica como se conecta una Observation con su Patient y por
-que las referencias evitan duplicar los datos del paciente en cada observacion.
-
----
-
-# Dia 20: GCP avanzado (importacion, IAM, metricas y limpieza)
-
-Objetivo: completar la competencia GCP: importar datos sinteticos, roles IAM minimos,
-consultar metricas del FHIR store y limpiar recursos para quedar en $0.
-Tiempo: 2-3 horas. Costo objetivo: $0 (capa gratuita + borrado al terminar).
-
-## Rutina
-
-1. `python evaluacion\repaso.py`
-2. Leccion + guias en `practica/`.
-3. Practica.
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 20`
-
-## Teoria
-
-### Import masivo desde Cloud Storage
-
-Flujo tipico para cargar Synthea (datos ficticios) en tu FHIR store:
-
-1. Subes archivos `.ndjson` a un bucket GCS.
-2. Invocas la operacion de import del Healthcare API apuntando al bucket.
-3. El servicio ingiere recursos en el FHIR store (validacion incluida).
-
-Comandos detallados: `practica/import-synthea.md`
-
-### IAM: principio de menor privilegio
-
-Roles utiles (no des roles de Owner para practicar):
-- `roles/healthcare.fhirResourceEditor` — leer/escribir recursos FHIR
-- `roles/healthcare.fhirStoreAdmin` — administrar el store (solo si lo necesitas)
-- `roles/healthcare.datasetViewer` — solo lectura de metadatos
-
-Para scripts de practica, preferible una **cuenta de servicio** dedicada con el
-rol minimo necesario. Nunca subas el JSON de la clave a git.
-
-### Metricas del FHIR store
-
-El metodo `fhirStores.getFHIRStoreMetrics` devuelve conteo por tipo de recurso y
-tamano almacenado. Sirve para estimar coste y verificar que la importacion llego.
-
-### Limpieza obligatoria
-
-Al terminar practicas en nube:
-
-    gcloud healthcare datasets delete integracion-nacional-dataset --location=us-central1
-
-Ver `legacy/legacy/dias/dia-14/practica/limpieza-gcp.md`.
-
-## Practica
-
-**Via nube (si tienes GCP configurado):**
-
-```powershell
-python legacy\dias\dia-20\practica\gcp_metricas.py
-```
-
-**Via local (sin GCP):** lee `practica/import-synthea.md` y `practica/iam-roles.md`;
-el script te indicara que hacer cuando no hay gcloud.
-
-Reto: documenta en `competencias.json` los dominios gcp_datos y gcp_seguridad con
-evidencia cuando completes import o IAM en tu proyecto.
-
-## Reto Feynman
-
-Explica por que borrar el dataset al terminar y que rol IAM minimo usarias para
-una app que solo lee Observation.
+- [ ] Proyecto creado, facturación vinculada, alerta de presupuesto en $1 y Healthcare API habilitada.
+- [ ] FHIR store R4 con `enableUpdateCreate` creado y descrito con `gcloud`.
+- [ ] Patient creado, buscado por identifier y actualizado con `If-Match` vía `curl`.
+- [ ] 20 pacientes Synthea importados desde GCS sin errores y verificados con `_summary=count`.
+- [ ] Export a BigQuery ejecutado y consulta SQL con resultados coherentes.
+- [ ] Cuenta de servicio de solo lectura creada con rol `fhirResourceReader`.
+- [ ] Al menos 4 de los 6 retos completados con su criterio de éxito.
+- [ ] Limpieza total ejecutada y verificada (datasets, bucket, BigQuery; costo $0).

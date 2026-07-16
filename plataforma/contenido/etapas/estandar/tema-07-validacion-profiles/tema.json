@@ -2,11 +2,73 @@
   "slug": "tema-07-validacion-profiles",
   "numero": 7,
   "nombre": "Validacion y Profiles",
-  "resumen": "$validate, OperationOutcome, StructureDefinition, profiles, differential vs snapshot, US Core.",
+  "resumen": "El marco de conformidad completo: anatomía de StructureDefinition (canónica, derivation, differential vs snapshot), ElementDefinition (fixed vs pattern, bindings, invariantes FHIRPath, mustSupport), slicing con discriminators, claimed vs validated conformance, $validate y OperationOutcome, validador oficial Java, FSH/SUSHI, CapabilityStatement como contrato y la estrategia de perfilado nacional.",
   "opcional": false,
-  "objetivos": [],
-  "enlaces": [],
+  "objetivos": [
+    "Explicar la anatomía de una StructureDefinition (url canónica, kind, abstract, type, baseDefinition, derivation, context) y la diferencia constraint vs specialization.",
+    "Distinguir differential de snapshot y justificar por qué el validador trabaja sobre el snapshot.",
+    "Elegir correctamente entre fixed[x] y pattern[x], y entre perfilar y extender.",
+    "Diseñar slicing con discriminator (value/pattern/type/profile/exists) y rules (open/closed/openAtEnd) para identifier y Observation.component.",
+    "Aplicar el significado real de mustSupport y de meta.profile (claimed vs validated conformance).",
+    "Ejecutar $validate (modos, parámetro profile) y el validador oficial Java, e interpretar OperationOutcome (severity, code, expression).",
+    "Escribir un perfil básico en FSH, compilarlo con SUSHI y validar instancias contra él.",
+    "Leer un CapabilityStatement como contrato (kind, interactions, searchParams) y dirigir un proceso de perfilado nacional paso a paso."
+  ],
+  "enlaces": [
+    {
+      "titulo": "Profiling R4",
+      "url": "http://hl7.org/fhir/R4/profiling.html",
+      "nota": "Perfiles, slicing, discriminators y las reglas de qué puede restringir un perfil."
+    },
+    {
+      "titulo": "StructureDefinition R4",
+      "url": "http://hl7.org/fhir/R4/structuredefinition.html",
+      "nota": "El recurso de conformidad central: differential, snapshot, derivation, context."
+    },
+    {
+      "titulo": "Validation R4",
+      "url": "http://hl7.org/fhir/R4/validation.html",
+      "nota": "Qué se valida (estructura, cardinalidad, terminología, invariantes) y con qué herramientas."
+    },
+    {
+      "titulo": "OperationOutcome R4",
+      "url": "http://hl7.org/fhir/R4/operationoutcome.html",
+      "nota": "Severidades, códigos de issue y expression."
+    },
+    {
+      "titulo": "Using the FHIR Validator",
+      "url": "https://confluence.hl7.org/spaces/FHIR/pages/35718580/Using+the+FHIR+Validator",
+      "nota": "Guía práctica del validador oficial Java (validator_cli.jar): flags -ig, -profile, -tx."
+    },
+    {
+      "titulo": "FSH School",
+      "url": "https://fshschool.org/",
+      "nota": "Aprender FHIR Shorthand y SUSHI con tutoriales interactivos."
+    },
+    {
+      "titulo": "US Core Implementation Guide",
+      "url": "https://hl7.org/fhir/us/core/",
+      "nota": "El IG de referencia: estudia sus patrones de mustSupport, slicing y CapabilityStatements."
+    },
+    {
+      "titulo": "Inferno",
+      "url": "https://inferno.healthit.gov/",
+      "nota": "Banco de pruebas de conformidad automatizado; modelo para una certificación nacional."
+    }
+  ],
   "notebooklm": {
-    "nombreCuaderno": "FHIR — Validacion y Profiles"
+    "nombreCuaderno": "FHIR — Validacion y Profiles",
+    "fuentes": [
+      { "titulo": "Profiling R4", "url": "http://hl7.org/fhir/R4/profiling.html" },
+      { "titulo": "StructureDefinition R4", "url": "http://hl7.org/fhir/R4/structuredefinition.html" },
+      { "titulo": "Validation R4", "url": "http://hl7.org/fhir/R4/validation.html" },
+      { "titulo": "OperationOutcome R4", "url": "http://hl7.org/fhir/R4/operationoutcome.html" }
+    ],
+    "prompts": [
+      "Hazme un examen de 12 preguntas sobre differential/snapshot, fixed vs pattern, mustSupport y slicing, estilo certificación.",
+      "Dame 5 OperationOutcomes de ejemplo y pídeme diagnosticar y corregir el recurso que los provocó.",
+      "Guíame en el diseño de un perfil nacional de Patient con slicing de identifier (DUI) e invariantes FHIRPath, cuestionando cada decisión.",
+      "Explícame la diferencia entre conformidad afirmada y validada, y cómo montar validación continua en CI con el validador oficial."
+    ]
   }
 }

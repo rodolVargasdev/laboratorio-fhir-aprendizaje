@@ -2,11 +2,71 @@
   "slug": "tema-09-smart-practica",
   "numero": 9,
   "nombre": "SMART on FHIR en practica",
-  "resumen": "App Launch y Backend Services de verdad: JWT firmado, JWKS, scopes granulares.",
+  "resumen": "Los dos flujos SMART 2.2 de punta a punta: App Launch con PKCE, consentimiento, launch context y scopes v2 granulares (.cruds); y Backend Services con client assertion JWT RS384, JWKS y rotación de claves como base de Bulk Data 2.0 ($export asíncrono, manifiesto, NDJSON). Práctica real contra los sandboxes de SMART Health IT.",
   "opcional": false,
-  "objetivos": [],
-  "enlaces": [],
+  "objetivos": [
+    "Interpretar el smart-configuration de un servidor y decidir qué flujos y scopes soporta antes de programar.",
+    "Ejecutar el App Launch completo: authorize con response_type/client_id/redirect_uri/scope/state/aud/launch, PKCE S256, consentimiento, canje code->token y refresh con offline_access.",
+    "Usar el launch context (patient, encounter, fhirContext) y la identidad openid/fhirUser en una app clínica.",
+    "Diseñar scopes v2 de mínimo privilegio con la sintaxis .cruds y explicar sus ventajas sobre v1, incluidos los parámetros embebidos.",
+    "Construir y firmar el client assertion de Backend Services (iss/sub/aud/exp/jti, RS384, kid) y obtener tokens con client_credentials.",
+    "Publicar y rotar claves vía JWKS sin interrumpir integraciones en producción.",
+    "Programar el flujo Bulk Data 2.0 completo en Python: kick-off $export, polling con Retry-After, manifiesto y descarga NDJSON.",
+    "Diagnosticar los fallos típicos de producción: aud incorrecto, exp excesivo, algoritmo no soportado, kid desalineado y scopes recortados."
+  ],
+  "enlaces": [
+    {
+      "titulo": "SMART App Launch (especificación)",
+      "url": "http://hl7.org/fhir/smart-app-launch/",
+      "nota": "La fuente normativa del tema: App Launch, Backend Services, scopes y contexto."
+    },
+    {
+      "titulo": "SMART App Launcher (sandbox)",
+      "url": "https://launch.smarthealthit.org",
+      "nota": "Simula EHR launch y standalone launch con pacientes de prueba."
+    },
+    {
+      "titulo": "Bulk Data Server (sandbox)",
+      "url": "https://bulk-data.smarthealthit.org/",
+      "nota": "Servidor de referencia para practicar Backend Services y $export de punta a punta."
+    },
+    {
+      "titulo": "FHIR R4 (especificación base)",
+      "url": "http://hl7.org/fhir/R4/",
+      "nota": "Operaciones, Bundles y el patrón asíncrono sobre el que corre Bulk Data."
+    },
+    {
+      "titulo": "Inferno",
+      "url": "https://inferno.healthit.gov/",
+      "nota": "Suite de conformidad que valida implementaciones SMART y Bulk Data."
+    },
+    {
+      "titulo": "US Core",
+      "url": "https://hl7.org/fhir/us/core/",
+      "nota": "Los perfiles que las apps SMART consumen en el ecosistema estadounidense; referencia para perfilar el nacional."
+    }
+  ],
   "notebooklm": {
-    "nombreCuaderno": "FHIR — SMART on FHIR en practica"
+    "nombreCuaderno": "FHIR — SMART on FHIR en practica",
+    "fuentes": [
+      {
+        "titulo": "SMART App Launch",
+        "url": "http://hl7.org/fhir/smart-app-launch/"
+      },
+      {
+        "titulo": "SMART App Launcher",
+        "url": "https://launch.smarthealthit.org"
+      },
+      {
+        "titulo": "Bulk Data Server",
+        "url": "https://bulk-data.smarthealthit.org/"
+      }
+    ],
+    "prompts": [
+      "Tómame un examen de 12 preguntas sobre los parámetros del authorize, PKCE y los claims del client assertion, con escenarios de troubleshooting.",
+      "Explica paso a paso el Async Request Pattern de Bulk Data con los códigos HTTP y headers de cada etapa, como runbook para un operador nocturno.",
+      "Compara scopes v1 y v2 con cinco casos de mínimo privilegio de una red nacional de salud y el scope exacto para cada uno.",
+      "Dame los cinco errores más comunes al implementar Backend Services y cómo se manifiestan (mensaje de error, causa, corrección)."
+    ]
   }
 }

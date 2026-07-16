@@ -2,66 +2,215 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "d18q1",
-      "bloom": "aplicar",
+      "id": "tema-05-busqueda-1",
       "tipo": "opcion_multiple",
-      "pregunta": "Para traer Observation y los Patient referenciados en un solo Bundle:",
+      "bloom": "comprender",
+      "pregunta": "¿Qué devuelve Observation?status=final,amended frente a Observation?status=final&status=amended?",
       "opciones": [
-        "Observation?_include=Observation:subject",
-        "Observation?_revinclude=Patient:subject",
-        "Patient?_include=Observation:subject",
-        "Observation?_count=include"
+        "Son equivalentes",
+        "La primera es OR (final o amended); la segunda es AND (imposible sobre un status único)",
+        "La primera es AND; la segunda es OR",
+        "Ambas son inválidas porque status no admite listas"
       ],
-      "respuesta": 0,
-      "explicacion": "_include trae recursos referenciados por el resultado."
+      "respuesta": 1,
+      "explicacion": "Comas dentro de un parámetro = OR; parámetros repetidos = AND. Como status es 1..1, el AND de dos valores distintos no matchea nada."
     },
     {
-      "id": "d18q2",
-      "bloom": "comprender",
+      "id": "tema-05-busqueda-2",
       "tipo": "opcion_multiple",
-      "pregunta": "_revinclude sirve para...",
-      "opciones": [
-        "Incluir recursos que referencian al resultado (inversa)",
-        "Borrar referencias",
-        "Validar profiles",
-        "Cifrar el Bundle"
-      ],
-      "respuesta": 0,
-      "explicacion": "Revinclude = recursos que apuntan al recurso buscado."
-    },
-    {
-      "id": "d18q3",
       "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": "Modificador para buscar pacientes SIN birthDate.",
-      "respuestas_validas": [
-        "birthdate:missing=true",
-        "missing=true",
-        ":missing=true"
+      "pregunta": "¿Cuál es la forma correcta y segura de buscar frecuencia cardíaca LOINC 8867-4 evitando colisiones con otros catálogos?",
+      "opciones": [
+        "Observation?code=8867-4",
+        "Observation?code=http://loinc.org|8867-4",
+        "Observation?code:text=8867-4",
+        "Observation?code=loinc/8867-4"
       ],
-      "explicacion": "Patient?birthdate:missing=true"
+      "respuesta": 1,
+      "explicacion": "La forma token system|code fija el CodeSystem. Sin sistema, el mismo código numérico de otro catálogo también matchearía."
     },
     {
-      "id": "d18q4",
-      "bloom": "comprender",
-      "tipo": "verdadero_falso",
-      "pregunta": "Chaining permite filtrar por campos de un recurso referenciado.",
-      "respuesta": true,
-      "explicacion": "Ej. subject:Patient.name=Smith en Observation."
+      "id": "tema-05-busqueda-3",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Patient?birthdate=eq2020 devuelve un paciente nacido el 2020-03-15. ¿Por qué?",
+      "opciones": [
+        "Es un bug del servidor: eq exige igualdad de cadena",
+        "El servidor aplicó manejo lenient e ignoró el prefijo",
+        "Un valor date es un rango implícito según su precisión: 2020 cubre todo el año, y eq matchea si la fecha del recurso cae dentro",
+        "eq solo compara el año cuando el recurso usa dateTime"
+      ],
+      "respuesta": 2,
+      "explicacion": "La precisión define el rango: 2020 = [2020-01-01, 2020-12-31]. eq = el valor del recurso está contenido en ese rango."
     },
     {
-      "id": "d18q5",
+      "id": "tema-05-busqueda-4",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un Encounter tiene period.start=2026-02-20 y period.end ausente. ¿Qué afirma correctamente sobre date=sa2026-03-01?",
+      "opciones": [
+        "Matchea porque el periodo sigue abierto en marzo",
+        "No matchea: sa exige que el periodo del recurso empiece después de la fecha, y empezó el 20 de febrero",
+        "Matchea porque sa es un alias de gt",
+        "Es inválido combinar sa con Periods"
+      ],
+      "respuesta": 1,
+      "explicacion": "sa/eb exigen separación total de rangos; gt sí matchearía porque parte del periodo abierto cae después de la fecha."
+    },
+    {
+      "id": "tema-05-busqueda-5",
+      "tipo": "opcion_multiple",
       "bloom": "recordar",
-      "tipo": "opcion_multiple",
-      "pregunta": "Para la siguiente pagina de resultados miras...",
+      "pregunta": "¿Qué hace el modificador :missing?",
       "opciones": [
-        "Bundle.link con relation 'next'",
-        "OperationOutcome",
-        "CapabilityStatement",
-        "meta.versionId"
+        "Devuelve error si el parámetro no está soportado",
+        "param:missing=true matchea recursos donde el elemento está ausente; =false, donde está presente",
+        "Excluye recursos borrados de la búsqueda",
+        "Busca valores nulos dentro de arrays"
       ],
-      "respuesta": 0,
-      "explicacion": "La paginacion usa links en el Bundle."
+      "respuesta": 1,
+      "explicacion": "Es el mecanismo estándar para filtrar por presencia/ausencia de un elemento, disponible en todos los tipos de parámetro."
+    },
+    {
+      "id": "tema-05-busqueda-6",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué trampa tiene Observation?status:not=final?",
+      "opciones": [
+        "Ninguna: devuelve exactamente los status distintos de final",
+        "También matchea recursos donde el elemento buscado está ausente (en elementos opcionales)",
+        "Solo funciona sobre parámetros string",
+        ":not exige declarar el sistema del código"
+      ],
+      "respuesta": 1,
+      "explicacion": ":not no implica presencia: es la negación del match, y un elemento ausente tampoco matchea el valor, así que entra en el resultado."
+    },
+    {
+      "id": "tema-05-busqueda-7",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Quieres las Observations cuyos pacientes se apellidan González, pero subject también admite Group y Device. ¿Cuál es la búsqueda precisa?",
+      "opciones": [
+        "Observation?subject.family=gonzalez",
+        "Observation?subject:Patient.family=gonzalez",
+        "Observation?Patient.family=gonzalez",
+        "Observation?subject.name:Patient=gonzalez"
+      ],
+      "respuesta": 1,
+      "explicacion": "El chaining tipado subject:Patient.family desambigua el tipo destino antes del punto; el parámetro encadenado es un SearchParameter de Patient."
+    },
+    {
+      "id": "tema-05-busqueda-8",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Interpreta: Patient?_has:Observation:patient:code=http://loinc.org|4548-4",
+      "opciones": [
+        "Observations de pacientes con código 4548-4",
+        "Pacientes que tienen registrada al menos una Observation (que los referencia vía su parámetro patient) con código LOINC 4548-4",
+        "Pacientes cuyo identifier es 4548-4 en LOINC",
+        "Una búsqueda inválida: _has no admite tokens"
+      ],
+      "respuesta": 1,
+      "explicacion": "_has es chaining inverso: selecciona el tipo base (Patient) según los recursos que lo referencian y sus criterios."
+    },
+    {
+      "id": "tema-05-busqueda-9",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "¿Por qué component-code=8480-6&component-value-quantity=gt140 no es equivalente al composite component-code-value-quantity=8480-6$gt140?",
+      "opciones": [
+        "Sí son equivalentes; el composite es solo azúcar sintáctica",
+        "Los parámetros sueltos pueden satisfacerse en components distintos del mismo recurso; el composite exige la correlación en la misma repetición",
+        "El composite es más lento y por eso se desaconseja",
+        "Los parámetros sueltos hacen OR en lugar de AND"
+      ],
+      "respuesta": 1,
+      "explicacion": "El composite (valores unidos con $) ata ambos criterios a la misma repetición del elemento: es la única forma correcta de expresar 'sistólica > 140'."
+    },
+    {
+      "id": "tema-05-busqueda-10",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "En un searchset con _include, ¿cómo distingues los recursos que coincidieron de los incluidos?",
+      "opciones": [
+        "Por el orden: primero matches, luego includes",
+        "Por entry.search.mode: match vs include",
+        "Por entry.request.method",
+        "Los incluidos van en un Bundle anidado"
+      ],
+      "respuesta": 1,
+      "explicacion": "search.mode es la marca normativa. El orden no está garantizado y _count solo limita los match."
+    },
+    {
+      "id": "tema-05-busqueda-11",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Tu cliente necesita la página 3 de una búsqueda. ¿Cuál es el procedimiento correcto?",
+      "opciones": [
+        "Añadir _page=3 a la URL original",
+        "Añadir _getpagesoffset=40 calculado a mano",
+        "Seguir dos veces el link con relation=next devuelto por el servidor",
+        "Repetir la búsqueda con _count=60 y descartar 40"
+      ],
+      "respuesta": 2,
+      "explicacion": "Los enlaces de paginación son opacos y su formato es interno del servidor; el único contrato es seguir next."
+    },
+    {
+      "id": "tema-05-busqueda-12",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Enviaste GET Patient?birhtdate=lt1960 (typo) y recibiste 200 con miles de pacientes de todas las edades. ¿Qué pasó y cómo lo previenes?",
+      "opciones": [
+        "El servidor corrigió el typo automáticamente",
+        "Manejo lenient: el servidor ignoró el parámetro desconocido; se previene con Prefer: handling=strict y auditando el self link",
+        "birthdate no admite lt; había que usar eb",
+        "El servidor aplicó el filtro pero la paginación mezcló resultados"
+      ],
+      "respuesta": 1,
+      "explicacion": "Por defecto los servidores pueden ignorar parámetros desconocidos; el self link muestra lo realmente aplicado y handling=strict fuerza el error."
+    },
+    {
+      "id": "tema-05-busqueda-13",
+      "tipo": "verdadero_falso",
+      "bloom": "recordar",
+      "pregunta": "POST [base]/Patient/_search con cuerpo form-urlencoded es una forma válida de ejecutar una búsqueda, útil para URLs largas o para no exponer identificadores en la URL.",
+      "respuesta": true,
+      "explicacion": "La especificación define POST _search con los mismos parámetros como alternativa al GET."
+    },
+    {
+      "id": "tema-05-busqueda-14",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "¿Qué parámetro de resultado usas para que la búsqueda devuelva únicamente el número total de coincidencias, sin recursos?",
+      "respuestas_validas": [
+        "_summary=count",
+        "_summary count",
+        "summary=count",
+        "_summary:count"
+      ],
+      "explicacion": "_summary=count devuelve un Bundle sin entries con Bundle.total; alternativa: _count=0 con _total."
+    },
+    {
+      "id": "tema-05-busqueda-15",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Quieres al paciente 123 y todas las Observations que lo referencian en un solo viaje. ¿Cuál es la búsqueda?",
+      "opciones": [
+        "Patient/123?_revinclude=Observation:patient",
+        "Patient?_id=123&_revinclude=Observation:patient",
+        "Observation?patient=123&_include=Patient",
+        "Patient?_id=123&_include=Observation:patient"
+      ],
+      "respuesta": 1,
+      "explicacion": "_revinclude requiere contexto de búsqueda (no un read), de ahí _id=123. _include iría de Observation hacia lo que referencia, no al revés."
+    },
+    {
+      "id": "tema-05-busqueda-16",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "_include:iterate permite que el include se aplique también sobre los recursos ya incluidos, por ejemplo para traer los médicos de cabecera de los pacientes incluidos.",
+      "respuesta": true,
+      "explicacion": "Sin :iterate el include solo se evalúa sobre los matches; con él se vuelve transitivo (el servidor puede limitar la profundidad)."
     }
   ]
 }

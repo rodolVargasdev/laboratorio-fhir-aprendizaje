@@ -2,82 +2,207 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "d6q1",
-      "bloom": "comprender",
+      "id": "tema-03-seguridad-1",
       "tipo": "opcion_multiple",
-      "pregunta": ".Que distingue autenticacion de autorizacion?",
-      "opciones": [
-        "Son sinonimos",
-        "Autenticacion = quien eres; autorizacion = que puedes hacer",
-        "Autenticacion = que puedes hacer; autorizacion = quien eres",
-        "Ambas verifican contrasenas unicamente"
-      ],
-      "respuesta": 1,
-      "explicacion": "authn = identidad; authz = permisos."
-    },
-    {
-      "id": "d6q2",
-      "bloom": "recordar",
-      "tipo": "opcion_multiple",
-      "pregunta": "OAuth 2.0 es principalmente un marco de...",
-      "opciones": [
-        "cifrado",
-        "autorizacion",
-        "compresion",
-        "enrutamiento"
-      ],
-      "respuesta": 1,
-      "explicacion": "OAuth 2.0 concede acceso limitado mediante tokens (autorizacion)."
-    },
-    {
-      "id": "d6q3",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Que es SMART on FHIR?",
-      "opciones": [
-        "Un formato de datos alternativo a JSON",
-        "Un perfil sobre OAuth 2.0 para autorizar acceso a datos FHIR en salud",
-        "Un lenguaje de programacion",
-        "Una base de datos de pacientes"
-      ],
-      "respuesta": 1,
-      "explicacion": "SMART estandariza la autorizacion OAuth 2.0 para apps de salud."
-    },
-    {
-      "id": "d6q4",
       "bloom": "aplicar",
-      "tipo": "opcion_multiple",
-      "pregunta": ".Que permite el scope 'patient/Observation.read'?",
+      "pregunta": "Tu app recibe 403 Forbidden al hacer POST de una Observation. El token no ha expirado. ¿Cuál es el diagnóstico más probable y la acción correcta?",
       "opciones": [
-        "Crear observaciones de cualquier paciente",
-        "Leer observaciones en el contexto del paciente",
-        "Borrar el recurso Patient",
-        "Acceso total de administrador"
+        "Fallo de autenticación; renovar el token y reintentar",
+        "Permiso insuficiente (p. ej. el scope solo concede lectura); revisar los scopes concedidos, no reintentar con el mismo token",
+        "El recurso no existe; crear primero el Patient",
+        "Error del servidor; reintentar con backoff"
       ],
       "respuesta": 1,
-      "explicacion": "El scope describe el alcance: leer Observation del paciente."
+      "explicacion": "403 = autenticado pero sin permiso (authz). Renovar token es la respuesta a un 401 (authn). Con un scope patient/Observation.rs (solo read+search), un POST (create, verbo c) da exactamente 403."
     },
     {
-      "id": "d6q5",
-      "bloom": "recordar",
+      "id": "tema-03-seguridad-2",
       "tipo": "opcion_multiple",
-      "pregunta": "Un JWT esta formado por tres partes:",
-      "opciones": [
-        "usuario.clave.dominio",
-        "header.payload.signature",
-        "get.post.put",
-        "iss.aud.exp"
-      ],
-      "respuesta": 1,
-      "explicacion": "header.payload.signature, separadas por puntos."
-    },
-    {
-      "id": "d6q6",
       "bloom": "comprender",
+      "pregunta": "¿Qué papel juega el parámetro state en el flujo authorization code?",
+      "opciones": [
+        "Transporta el scope solicitado",
+        "Es un valor aleatorio que la app genera al iniciar y verifica al recibir el callback: defensa contra CSRF",
+        "Contiene el code_verifier de PKCE",
+        "Identifica al paciente en contexto"
+      ],
+      "respuesta": 1,
+      "explicacion": "Sin state verificado, un atacante puede inyectar SU code en la sesión de la víctima (CSRF). PKCE usa code_challenge/code_verifier (otra pieza); el contexto de paciente llega con la respuesta del token en SMART."
+    },
+    {
+      "id": "tema-03-seguridad-3",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué problema resuelve PKCE (code_challenge/code_verifier)?",
+      "opciones": [
+        "Cifra el access token en tránsito",
+        "Impide que un authorization code interceptado sea canjeado por quien lo robó, pues el canje exige el code_verifier original",
+        "Sustituye la necesidad de TLS",
+        "Autentica al usuario sin contraseña"
+      ],
+      "respuesta": 1,
+      "explicacion": "La app envía el hash S256 del secreto efímero al autorizar y el secreto original al canjear: robar solo el code no sirve. SMART 2.x lo exige incluso para clientes confidenciales (defensa en profundidad). TLS sigue siendo obligatorio."
+    },
+    {
+      "id": "tema-03-seguridad-4",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "¿Por qué los ecosistemas SMART usan RS256 (asimétrico) y no HS256 (simétrico) para las firmas de tokens y assertions?",
+      "opciones": [
+        "RS256 es más rápido de computar",
+        "Con HS256 todo verificador posee la clave que también FIRMA (puede falsificar); con RS256 solo el emisor firma con la privada y cualquiera verifica con la pública vía JWKS",
+        "HS256 no funciona con JSON",
+        "RS256 cifra el payload y HS256 no"
+      ],
+      "respuesta": 1,
+      "explicacion": "La asimetría permite ecosistemas abiertos multi-cliente: se publican solo claves públicas (JWKS, con kid para rotación) y ningún secreto se comparte. Ninguno de los dos cifra el payload: la firma da integridad y origen, no confidencialidad."
+    },
+    {
+      "id": "tema-03-seguridad-5",
       "tipo": "verdadero_falso",
-      "pregunta": "SMART Backend Services permite acceso sistema-a-sistema sin un usuario presente.",
+      "bloom": "comprender",
+      "pregunta": "El payload de un JWT está cifrado, por eso es seguro transportar en él información sensible.",
+      "respuesta": false,
+      "explicacion": "Doble falso: header y payload son base64url, legibles por cualquiera que tenga el token (decodificar no es romper). La firma garantiza integridad y origen; la confidencialidad en tránsito la da TLS. Jamás metas secretos ni datos clínicos en un JWT."
+    },
+    {
+      "id": "tema-03-seguridad-6",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Tu API valida la firma del JWT pero NO valida el claim aud. ¿Qué ataque queda abierto?",
+      "opciones": [
+        "Ninguno: la firma basta",
+        "Un token legítimo emitido por el mismo issuer para OTRO servicio funcionaría contra tu API (token de audiencia ajena)",
+        "El token podría usarse después de expirar",
+        "El atacante podría cambiar el payload sin romper la firma"
+      ],
+      "respuesta": 1,
+      "explicacion": "aud dice para quién es el token. Sin validarlo, cualquier token del mismo emisor (p. ej. para un servicio de citas) sirve contra tu servidor FHIR. El exp cubre expiración y la firma cubre integridad: cada validación bloquea un ataque distinto."
+    },
+    {
+      "id": "tema-03-seguridad-7",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Cuál es la diferencia de propósito entre access token e id_token?",
+      "opciones": [
+        "Son intercambiables",
+        "El access token es la llave para la API de recursos; el id_token (OpenID Connect, scope openid) es la constancia de que el usuario se autenticó y quién es",
+        "El id_token dura más y por eso se usa para la API",
+        "El access token identifica al usuario y el id_token da permisos"
+      ],
+      "respuesta": 1,
+      "explicacion": "Usar el id_token contra la API (o el access token como prueba de identidad) es un antipatrón clásico. En SMART, el scope fhirUser añade al id_token la URL del recurso FHIR del usuario (Practitioner/456 o Patient/123)."
+    },
+    {
+      "id": "tema-03-seguridad-8",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Una app de médico necesita crear y actualizar recetas (MedicationRequest) de cualquier paciente que atienda, sin poder borrarlas. Scope v2 de mínimo privilegio:",
+      "opciones": [
+        "patient/MedicationRequest.cud",
+        "user/MedicationRequest.cu",
+        "user/MedicationRequest.write",
+        "system/MedicationRequest.cruds"
+      ],
+      "respuesta": 1,
+      "explicacion": "Contexto user/ (el médico maneja múltiples pacientes según su rol), verbos c+u sin d (no borra). patient/ limitaría al paciente en contexto; .write es sintaxis v1 y además regala delete; system/ es para procesos sin usuario y viola mínimo privilegio."
+    },
+    {
+      "id": "tema-03-seguridad-9",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe el scope SMART v2 que permite a una app de paciente leer y buscar SOLO sus observaciones de signos vitales (categoría vital-signs).",
+      "respuestas_validas": [
+        "patient/Observation.rs?category=vital-signs",
+        "patient/observation.rs?category=vital-signs"
+      ],
+      "explicacion": "Los parámetros embebidos de SMART 2.x acotan el permiso a un subconjunto del tipo: granularidad imposible en v1. Verbos r+s en contexto patient/."
+    },
+    {
+      "id": "tema-03-seguridad-10",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué distingue el EHR launch del standalone launch en SMART?",
+      "opciones": [
+        "EHR launch no usa OAuth",
+        "En EHR launch la app se abre desde el EHR y recibe iss + un parámetro launch opaco que resuelve el contexto (paciente en pantalla); en standalone la app arranca sola y pide contexto con scopes launch/patient",
+        "Standalone solo funciona para médicos",
+        "EHR launch usa scopes v1 y standalone v2"
+      ],
+      "respuesta": 1,
+      "explicacion": "Ambos usan authorization code + PKCE; difieren en cómo llega el contexto. En EHR launch el token response trae patient/encounter del contexto de pantalla; en standalone el servidor lo resuelve (p. ej. la cuenta del propio paciente). fhirContext (2.1+) generaliza el contexto extra."
+    },
+    {
+      "id": "tema-03-seguridad-11",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "En SMART Backend Services, ¿cómo se autentica el cliente ante el token endpoint?",
+      "opciones": [
+        "Con usuario y contraseña de servicio",
+        "Con un client secret en texto plano",
+        "Con una client assertion: JWT firmado con su clave privada (iss=sub=client_id, aud=token endpoint, exp corto, jti), que el servidor verifica contra el JWKS registrado",
+        "Con un certificado TLS de cliente obligatorio"
+      ],
+      "respuesta": 2,
+      "explicacion": "grant_type=client_credentials + client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer. La gracia: ningún secreto compartido viaja ni se almacena; solo circulan claves públicas (jwks_uri permite rotación). Emite tokens con scopes system/."
+    },
+    {
+      "id": "tema-03-seguridad-12",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Un proceso nocturno sin usuario exporta encuentros de todos los hospitales hacia el lago de datos del ministerio. ¿Flujo y scope correctos?",
+      "opciones": [
+        "Authorization code + PKCE con scope user/Encounter.rs",
+        "Backend Services (client_credentials + JWT assertion) con scope system/Encounter.rs",
+        "Standalone launch con launch/patient",
+        "Password grant con system/*.*"
+      ],
+      "respuesta": 1,
+      "explicacion": "Sin usuario presente no hay pantalla de login: es Backend Services con contexto system/ y verbos mínimos (rs). El password grant está desaconsejado/retirado de las buenas prácticas OAuth, y system/*.* viola mínimo privilegio."
+    },
+    {
+      "id": "tema-03-seguridad-13",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "¿Por qué un redirect_uri registrado 'con comodines' (https://miapp.com/*) es una vulnerabilidad?",
+      "opciones": [
+        "No lo es: los comodines son práctica recomendada",
+        "Permite que un atacante que controle cualquier ruta/subpágina reciba el authorization code en un destino no previsto (open redirect), robando la sesión de autorización",
+        "Hace más lento el flujo",
+        "Impide usar PKCE"
+      ],
+      "respuesta": 1,
+      "explicacion": "La defensa es el registro EXACTO del redirect_uri (comparación literal) + PKCE. El open redirect es una de las vías clásicas de robo de code, junto con el CSRF sin state y el token leakage por URLs/logs."
+    },
+    {
+      "id": "tema-03-seguridad-14",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "El scope concedido puede ser menor que el solicitado: la app debe leer el campo scope de la respuesta del token en vez de asumir que recibió lo pedido.",
       "respuesta": true,
-      "explicacion": "Usa un JWT firmado con clave privada del cliente (flujo de backend)."
+      "explicacion": "El scope pedido es el techo, no la garantía: servidor y usuario pueden recortar. Una app robusta ajusta su funcionalidad al scope efectivamente otorgado (y maneja el 403 con gracia cuando la política restringe más)."
+    },
+    {
+      "id": "tema-03-seguridad-15",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "¿Qué par de recursos FHIR cubre la auditoría y la trazabilidad del dato?",
+      "opciones": [
+        "Consent y Contract",
+        "AuditEvent (quién accedió a qué, cuándo, con qué resultado) y Provenance (origen y cadena de custodia del recurso)",
+        "OperationOutcome y Bundle",
+        "Subscription y SubscriptionTopic"
+      ],
+      "respuesta": 1,
+      "explicacion": "AuditEvent registra los accesos y operaciones (base del 'quién vio mi expediente'); Provenance documenta de dónde salió el dato y quién lo transformó. En una plataforma nacional son funcionalidad de primera clase, no un log opcional."
+    },
+    {
+      "id": "tema-03-seguridad-16",
+      "tipo": "verdadero_falso",
+      "bloom": "aplicar",
+      "pregunta": "Para una demo con directivos puedes cargar temporalmente datos reales de pacientes en hapi.fhir.org si los borras al terminar.",
+      "respuesta": false,
+      "explicacion": "Jamás. Es un servidor público compartido: cualquier dato subido es visible para terceros y el 'borrado' no garantiza nada (historial, réplicas, capturas). En formación y demos se usan exclusivamente datos ficticios o sintéticos (p. ej. Synthea). Regla sin excepciones."
     }
   ]
 }

@@ -1,4 +1,4 @@
-## Tema 4 · Modelo FHIR → Una consulta médica en recursos
+## Tema 4 · Modelo FHIR -> Una consulta médica en recursos
 
 - Práctica (60-90 min, PC): toma una consulta externa típica (paciente llega,
   se toman signos vitales, el médico diagnostica y receta) y modélala: `Patient`,

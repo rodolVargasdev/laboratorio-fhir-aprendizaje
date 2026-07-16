@@ -132,6 +132,7 @@ body {
 .prosa h2 { font-size: 1.3rem; font-weight: 800; line-height: 1.25; margin-top: 1.5rem; }
 .prosa h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1.2rem; }
 .prosa h1:first-child, .prosa h2:first-child, .prosa h3:first-child { margin-top: 0; }
+.prosa h2, .prosa h3 { scroll-margin-top: 5.5rem; }
 .prosa p { line-height: 1.7; }
 .prosa a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
 .prosa ul, .prosa ol { padding-left: 1.4rem; }

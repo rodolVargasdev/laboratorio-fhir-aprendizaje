@@ -1,306 +1,63 @@
-# Extra: Historia y nacimiento de FHIR (de HL7 v2 a recursos web)
+# Practica
 
-Objetivo: entender **por que existe FHIR**, que problemas resolvio y como se construyo.
-No es codigo pesado; es contexto que te hace mejor implementador y te prepara para
-preguntas de comprension en certificacion Foundational.
-Tiempo: 2-3 horas (lectura profunda + practica + quiz). Costo: $0.
-Momento ideal: **antes del Dia 1** o en paralelo a la Semana 1.
+## Objetivo
 
-## Rutina
+Tocar con tus manos las huellas de la historia que acabas de leer: comprobar que HAPI es un servidor R4, leer un CapabilityStatement (el autodescubrimiento que v2 nunca tuvo), y contrastar la granularidad de un recurso FHIR con el mundo de mensajes y documentos que lo precedió.
 
-1. Lee esta leccion completa (con Composer si quieres profundizar).
-2. Practica: ordena la linea de tiempo y explora fuentes oficiales.
-3. Reto Feynman (abajo).
-4. Quiz: `python evaluacion\quiz_runner.py --extra historia-fhir`
-5. Exporta a NotebookLM: `python evaluacion\export_notebooklm.py --extra historia-fhir`
+## En el navegador (Laboratorio)
 
----
+Usa el playground de la app (GET contra `https://hapi.fhir.org/baseR4`; escribe solo el path).
 
-## 1. El problema que nadie podia ignorar (1980s–2000s)
+1. Consulta: `metadata`
+   Qué observar: es el **CapabilityStatement** del servidor. Busca `fhirVersion` (debe decir `4.0.1`: exactamente la versión de tu examen) y `format` (verás `application/fhir+json` y `application/fhir+xml`).
+   Qué esperar: un recurso enorme; no lo leas entero, solo ubica esos dos campos y la lista `rest[0].resource` (los tipos que el servidor soporta).
 
-La interoperabilidad en salud significa que dos sistemas distintos (un hospital, un
-laboratorio, una aseguradora) puedan **intercambiar datos clinicos** de forma que el
-receptor los entienda sin reinterpretar a mano.
+2. Consulta: `Patient?_count=1`
+   Qué observar: la respuesta es un `Bundle` con `entry[0].resource`. Dentro del recurso, ubica `resourceType`, `id` y `meta.versionId`/`meta.lastUpdated`.
+   Qué esperar: esto es lo que v2 no podía darte: el **estado actual consultable** de un paciente, con identidad y versión. Un ADT era un evento que pasaba; esto es un recurso que existe.
 
-### HL7 v2 (1989 en adelante): el estandar que gano la calle
+3. Consulta: `Patient/[id]/_history` (usa el `id` real del paso 2)
+   Qué observar: un Bundle de tipo `history` con las versiones del recurso.
+   Qué esperar: el historial de cambios, otra capacidad impensable en mensajería v2.
 
-HL7 **Version 2** usa mensajes de texto con campos separados por `|` (pipe). Ejemplo
-simplificado de un segmento de paciente:
+4. Consulta: `StructureDefinition?kind=resource&_count=3`
+   Qué observar: los recursos que definen recursos. FHIR se describe a sí mismo con sus propias piezas (herencia directa del rigor de v3, pero ejecutable).
+   Qué esperar: un Bundle con definiciones; ubica en alguna entry el campo `fhirVersion`.
 
-```
-PID|1||12345^^^Hospital||Perez^Juan||19850315|M
-```
+5. Consulta: `Patient?_format=xml&_count=1`
+   Qué observar: el mismo tipo de dato del paso 2, ahora en XML con el namespace `http://hl7.org/fhir` y valores en atributos `value=`.
+   Qué esperar: comprobar que JSON y XML son el mismo modelo con distinto traje (lo estudiarás a fondo en el tema de formatos).
 
-**Por que triunfo:**
-- Relativamente simple de implementar en sistemas legacy.
-- Cubria flujos reales: admisiones (ADT), resultados de laboratorio (ORU), ordenes (ORM).
-- Millones de interfaces v2 siguen activas hoy en hospitales de todo el mundo.
+## En la PC
 
-**Por que dolía:**
-- **Opcionalidad extrema:** el mismo concepto puede ir en campos distintos segun el sitio.
-- **Variaciones locales:** cada hospital “interpreta” el estandar a su manera.
-- **Parsing fragil:** un `|` de mas rompe el mensaje; no es JSON ni XML estructurado.
-- **Acoplamiento al flujo de eventos:** un mensaje ADT no es un “documento de paciente”
-  que puedas consultar con GET; es un evento puntual en un canal.
-
-Analogia: v2 es como **telegrams clinicos** — rapidos y ubicuos, pero cada operador
-tiene su jerga y no puedes “buscar el paciente 123” con una API web moderna.
-
-### HL7 v3 (2000s): rigor academico, adopcion limitada
-
-Ante el caos de v2, HL7 diseno **Version 3** sobre un modelo unificado llamado **RIM**
-(Reference Information Model): clases, atributos, relaciones formales, narrativa XML
-detallada (CDA para documentos clinicos).
-
-**Fortalezas:**
-- Modelo semantico muy preciso.
-- CDA (Clinical Document Architecture) sigue siendo relevante para documentos legales
-  (informes de alta, resumenes clinicos en XML).
-
-**Debilidades practicas:**
-- Curva de aprendizaje brutal para desarrolladores.
-- Implementaciones pesadas, costosas y lentas de desplegar.
-- Muchos proyectos v3 no llegaron a produccion masiva fuera de nichos (documentos, algunos paises).
-
-Analogia: v3 es como **construir un edificio completo antes de poder abrir una sola tienda**.
-Correcto en papel, pero el mercado necesitaba algo mas agil.
-
-### CDA y otros intentos intermedios
-
-**CDA** (parte del ecosistema v3) empaqueta documentos clinicos en XML. Sigue usandose
-(en EE.UU. mucho via **C-CDA**), pero es dificil de consultar granularmente: extraer
-“solo la hemoglobina del ultimo analisis” de un PDF/XML monolitico es trabajo extra.
-
-Conclusion del periodo: el sector tenia **v2 en todas partes** (pero inconsistente) y
-**v3/CDA** (preciso pero pesado). Faltaba algo **web-native**, modular y adoptable por
-desarrolladores normales.
-
----
-
-## 2. Nace FHIR: diseno deliberado para la era web (2011–2014)
-
-### Origen del nombre y del concepto
-
-**FHIR** significa **Fast Healthcare Interoperability Resources** (Recursos de
-Interoperabilidad Rapida en Salud).
-
-El trabajo arranco alrededor de **2011** liderado por **Grahame Grieve** (Entente Health,
-luego fuerte voz en HL7 internacional) con apoyo de HL7 y la comunidad global. La idea
-central no fue “otro mensaje pipe-delimited” ni “otro XML gigante”, sino:
-
-> Modelar la salud como **recursos** individuales, identificables, intercambiables por **HTTP/REST**,
-> serializables en **JSON o XML**, con reglas claras de extension y perfiles.
-
-Palabra clave: **Resources** (recursos). Cada cosa importante (Patient, Observation,
-Medication, Encounter…) es un recurso con:
-- Tipo (`resourceType`)
-- Identificador (`id` o URL logica)
-- Contenido estructurado + metadatos
-- Historial de cambios posible (versionado)
-
-### Principios de diseno (los “por que” tecnicos)
-
-| Principio | Que significa en la practica |
-|-----------|------------------------------|
-| **API REST sobre HTTP** | GET /Patient/123, POST /Observation — igual que APIs web normales |
-| **Formatos familiares** | JSON primero (legible); XML para quien lo necesite |
-| **Recursos modulares** | Compones el intercambio uniendo recursos referenciados |
-| **Extension limitada pero real** | Perfiles (StructureDefinition) acotan variacion sin caos v2 |
-| **Implementacion barata** | Un dev con curl y Python puede empezar en horas, no meses |
-| **Compatibilidad hacia atras (conceptual)** | Mappings v2→FHIR, C-CDA→FHIR; coexistencia, no big-bang |
-| **Especificacion abierta** | Gratis de usar; proceso de ballot comunitario HL7 |
-
-FHIR aprendio del fracaso relativo de v3: **menos ontologia visible al implementador**,
-mas **patrones concretos listos para copiar**.
-
-### Primera ola publica: DSTU (Draft Standard for Trial Use)
-
-FHIR no salio “terminado” de golpe. Pasó por ciclos **DSTU** (borradores para uso real en produccion de prueba):
-
-- **DSTU1** (~2014): prueba de concepto; comunidad early adopters.
-- **DSTU2** (~2015): maduracion; muchos pilotos y primeros IGs.
-- **STU3** (~2017): amplia adopcion industrial; base de muchos sistemas aun en campo.
-
-Cada ciclo incorporo feedback de implementadores reales (leccion clave: FHIR se **forjo en produccion**, no solo en comites).
-
----
-
-## 3. La aceleracion: Argonaut, SMART y los gigantes (2014–2018)
-
-### Proyecto Argonaut
-
-**Argonaut** (2014–2016, liderado por HL7 con Epic, Cerner, athenahealth, etc.) fue el
-**punto de inflexion comercial**:
-
-- Definio perfiles concretos para datos ambulatorios (paciente, alergias, medicacion, problemas).
-- Integro **OAuth 2.0** y **OpenID Connect** via **SMART on FHIR** para apps de terceros.
-- Demostro que multiples EHR podian exponer **las mismas APIs**.
-
-Sin Argonaut, FHIR podria haber sido “otro estandar bonito”. Con Argonaut, fue **contrato
-real entre vendors y desarrolladores de apps**.
-
-### SMART on FHIR
-
-SMART (Substitutable Medical Applications, Reusable Technologies) anadio la capa de **seguridad
-y lanzamiento de apps** sobre FHIR: un portal autoriza scopes (`patient/Observation.read`)
-y la app consume recursos. Eso habilito el ecosistema de apps clinicas (similar a tiendas de apps, pero con consentimiento).
-
-Tu Dia 6 y Dia 17 descienden directamente de esta historia.
-
-### Implementation Guides (IGs)
-
-FHIR base es el “lenguaje”. Los **IGs** son “dialectos acordados” para un pais o caso de uso:
-
-- **US Core** (EE.UU.): perfiles minimos para interoperabilidad nacional.
-- **Da Vinci** (pagadores, prior auth, etc.).
-- **IPS** (International Patient Summary).
-- Perfiles nacionales en Europa, Canada, Australia…
-
-la integración nacional eventualmente necesitara **perfiles locales o IGs regionales**, no solo FHIR core.
-
----
-
-## 4. Hitos de versiones: camino a R4 (tu referencia de examen)
-
-| Version | Aprox. | Significado |
-|---------|--------|-------------|
-| DSTU1 | 2014 | Primer borrador usable |
-| DSTU2 | 2015 | Pilotos masivos |
-| STU3 | 2017 | Adopcion industrial amplia |
-| **R4** | **2019** | **Primera version normativa** para muchos recursos — base del examen Foundational |
-| R4B | 2022 | Puente menor hacia R5 |
-| R5 | 2023 | Evolucion normativa; ecosistema aun en transicion |
-
-**Normativo** vs **Trial Use:** normativo = reglas estables para implementacion a largo plazo;
-DSTU/STU = se espera feedback y cambios controlados.
-
-Para certificacion **Foundational Implementer** (2026), el foco sigue en **R4**. R5 existe
-pero muchos entornos de produccion y examenes aun pivotan en R4.
-
-### Que cambio la mentalidad con R4
-
-- Recursos maduros (Patient, Observation, DiagnosticReport, etc.) con semantica estable.
-- Terminologia integrada (CodeSystem, ValueSet, ConceptMap) como ciudadanos de primera clase.
-- Operaciones REST (`$validate`, `$expand`, `$everything`) estandarizadas.
-- **CapabilityStatement**: el servidor declara que soporta (autodescubrimiento).
-
----
-
-## 5. Como se gobierna FHIR hoy (proceso HL7)
-
-FHIR no es propiedad de una empresa. **HL7 International** mantiene el proceso:
-
-1. **Work Groups** ( grupos de trabajo ) proponen cambios.
-2. **Ballots** comunitarios: votacion formal de miembros HL7.
-3. Publicacion en **hl7.org/fhir** con versionado semver de paquetes.
-4. **FHIR Confluence** y **chat.fhir.org** (Zulip) para discusion abierta.
-
-Cualquier organizacion puede **implementar FHIR sin pagar licencia** del estandar. Lo que
-si cuesta (opcional) es membresia HL7 si quieres votar en ballots o ciertos entrenamientos.
-
-Herramientas oficiales clave nacidas de esta comunidad:
-- **HL7 FHIR Validator** (validacion de instancias y perfiles)
-- **FHIR Shorthand (FSH/SUSHI)** para definir perfiles como codigo
-- Servidores open source (**HAPI FHIR**, **Firely/Vonk**) que usas en este laboratorio
-
----
-
-## 6. FHIR en el mundo real (2019–2026)
-
-### Estados Unidos (motor economico del estandar)
-
-- **21st Century Cures Act** y reglas ONC/CMS empujaron APIs FHIR + SMART para acceso del paciente y interoperabilidad.
-- **USCDI** define conjuntos de datos minimos; **US Core IG** los implementa en FHIR.
-- **TEFCA** (marco nacional de intercambio) apuesta por FHIR y redes QHIN.
-
-### Resto del mundo
-
-- **IPS** para resumen internacional del paciente (viajes, fronteras).
-- Europa: **HL7 Europe**, perfiles para vacunas, imagenes, ID de paciente.
-- WHO: alineacion con **FHIR para salud global** (inmunizaciones, brotes).
-
-### Google Cloud Healthcare API
-
-No “invento” FHIR; **implementa** el estandar en infraestructura gestionada (FHIR store,
-terminologia, BigQuery export). Tu laboratorio GCP encaja aqui: eres implementador sobre
-un servidor conforme, no autor del estandar.
-
-### Coexistencia con v2 y CDA (realismo)
-
-Migracion **no es big-bang**. Patron tipico en hospitales:
-
-```
-Sistema legacy (v2)  -->  interfaz/mapper  -->  FHIR server  -->  apps modernas / nube
-CDA documentos       -->  transformacion     -->  recursos FHIR granulares
-```
-
-FHIR fue disenado asumiendo este mundo hibrido durante decadas.
-
----
-
-## 7. Lecciones para ti como implementador en la integración nacional
-
-1. **FHIR es respuesta a dolor real**, no moda: v2 inconsistente + v3 pesado → recursos web.
-2. **“Resource-first”** cambia como piensas: de eventos a documentos consultables.
-3. **Perfiles e IGs** son donde vive la interoperabilidad de verdad (core solo es la base).
-4. **SMART** es parte del ADN moderno; seguridad no es add-on opcional.
-5. **R4 es tu ancla** de estudio hasta que tu proyecto y el examen digan lo contrario.
-6. **Validar y CapabilityStatement** son herencia directa del proceso abierto HL7.
-
----
-
-## Practica
-
-### A) Linea de tiempo interactiva
+Si ya hiciste el [Setup](/setup), repite el descubrimiento desde la terminal:
 
 ```powershell
-python dias\extra-historia-fhir\practica\linea_tiempo.py
+curl -s https://hapi.fhir.org/baseR4/metadata?_summary=true -H "Accept: application/fhir+json"
 ```
 
-Ordena hitos historicos y recibe feedback. Refuerza la narrativa cronologica.
+Salida esperada (fragmento): un JSON con `"resourceType": "CapabilityStatement"` y `"fhirVersion": "4.0.1"`. El parámetro `_summary=true` reduce el tamaño de la respuesta.
 
-### B) Explorar fuentes primarias (15 min)
+Compara con un mensaje v2: abre cualquier ejemplo de mensaje ADT (el de la lección sirve) y pregúntate cómo harías con él lo que acabas de hacer con dos URLs.
 
-Lee (aunque sea el resumen ejecutivo) de:
+## Retos
 
-- Historia en HL7 FHIR wiki: https://confluence.hl7.org/display/FHIR
-- Pagina principal R4: http://hl7.org/fhir/R4/
-- Blog tecnico de Grahame Grieve (busca “FHIR history” en confluence/blog HL7)
-
-Anota 3 frases en `notas/extra-historia-fhir.md` con lo que te sorprendio.
-
-### C) Conexion con tu Dia 1
-
-Abre HAPI y pide metadata:
-
-```powershell
-curl -s https://hapi.fhir.org/baseR4/metadata | python -m json.tool | more
-```
-
-Ese **CapabilityStatement** es el resultado de ~10 anos de evolucion que acabas de leer.
-
----
+1. En el CapabilityStatement de HAPI, encuentra cuántas interacciones declara para `Patient` (busca `interaction` dentro de la entrada de Patient). Éxito: puedes listar al menos read, search-type, create y update.
+2. Averigua (con `metadata`) si HAPI declara soporte de formato XML además de JSON. Éxito: citas el valor exacto del array `format`.
+3. Toma el segmento `PID|1||12345^^^HOSP01^MR||Perez^Juan...` de la lección y escribe en papel a qué campos de un recurso `Patient` R4 mapearías PID-3, PID-5 y PID-7. Éxito: mencionas `identifier`, `name` (family/given) y `birthDate`.
+4. Busca en `hl7.org/fhir/R4/resourcelist.html` el FMM de `Patient`, `Encounter` y `AppointmentResponse`. Éxito: identificas cuál es normativo y cuál tiene madurez baja, y explicas qué implicaría para un proyecto.
+5. En chat.fhir.org (solo lectura, sin cuenta puedes ver algunos streams públicos), localiza el stream "implementers". Éxito: describes qué tipo de preguntas se hacen ahí y guardas el enlace.
+6. Escribe tres diferencias concretas entre un Z-segment de v2 y una extensión FHIR. Éxito: al menos una menciona la URL de definición y otra la validación contra perfiles.
 
 ## Reto Feynman
 
-Explica en 8-10 frases, como si se lo contaras a un companero de Nacional:
+Explica a un colega no técnico, en 4-6 líneas: (1) por qué los hospitales llevan 30 años "conectados" y aun así integrar dos sistemas cuesta meses, y (2) qué cambió FHIR para que una app pueda pedir "el paciente 123" como quien abre una página web. Sin jerga: telegramas, dialectos y ventanilla de consulta son buenas imágenes.
 
-1. Por que HL7 v2 no bastaba para apps web modernas.
-2. Que aporto FHIR que v3 no logro en adopcion.
-3. Que papel tuvo Argonaut/SMART en la historia.
+## Criterio de completado
 
-Apunta tu respuesta en `PROGRESO.md` seccion Extra.
-
----
-
-## Autoevaluacion rapida
-
-1. Que significa el acronimo FHIR?
-2. Quien es la figura asociada al liderazgo tecnico inicial de FHIR?
-3. Que version es la referencia normativa clave para tu examen Foundational?
-4. Que proyecto acerco Epic/Cerner al mismo perfil OAuth+FHIR?
-5. v2 usa principalmente que estilo de mensaje?
-
-(Respuestas en el quiz formal; intenta antes de mirar.)
-
----
+- [ ] Ejecuté las 5 consultas del Laboratorio y encontré `fhirVersion 4.0.1` en el CapabilityStatement.
+- [ ] Puedo explicar la diferencia entre interoperabilidad sintáctica y semántica sin releer.
+- [ ] Reconstruyo de memoria la línea de tiempo DSTU1 -> R4 -> R6 con el aporte de cada versión.
+- [ ] Sé qué significa FMM 2, FMM 5 y Normative, y por qué le importan a un director de proyecto.
+- [ ] Mapeé mentalmente un segmento PID a campos de Patient.
+- [ ] Completé el Reto Feynman por escrito.

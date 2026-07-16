@@ -1,20 +1,18 @@
 # NotebookLM — SMART on FHIR en practica
 
-> Paso obligatorio. Llevar el material de este tema a un cuaderno de NotebookLM
-> consolida lo aprendido (audio, preguntas y mapa mental). Marca cada casilla al
-> completarla; el tema no se cierra sin este paso.
+> Paso obligatorio. Consolida el tema en un cuaderno de NotebookLM (audio, preguntas y mapa mental) antes de cerrarlo.
 
 ## Pasos
 
 - [ ] Abrir [notebooklm.google.com](https://notebooklm.google.com) con tu cuenta Google.
-- [ ] Crear un cuaderno nuevo llamado: **FHIR — SMART on FHIR en practica**.
-- [ ] Subir la lectura de este tema como fuente (usa el boton "Exportar para NotebookLM").
-- [ ] Anadir 2 a 4 enlaces oficiales del tema como fuentes adicionales.
-- [ ] Generar el **Audio Overview** y escucharlo una vez.
-- [ ] Pedirle al cuaderno un **examen oral de 10 preguntas** y responderlo sin mirar.
+- [ ] Crear el cuaderno **FHIR — SMART on FHIR en practica**.
+- [ ] Subir la lectura del tema como fuente (botón "Exportar para NotebookLM").
+- [ ] Añadir como fuentes: la especificación SMART App Launch, el SMART App Launcher y el Bulk Data Server.
+- [ ] Generar el Audio Overview y escucharlo una vez completa.
+- [ ] Responder un examen oral de 10 preguntas sin mirar el material.
 
 ## Prompts sugeridos
 
-- "Hazme un examen oral de 10 preguntas sobre este tema, de facil a dificil, sin darme las respuestas hasta que yo intente."
-- "Explica los 3 errores mas comunes de novato en este tema y por que lo son."
-- "Genera una guia de estudio con definiciones y ejemplos concretos basados solo en las fuentes."
+- "Tómame un examen de troubleshooting: dame errores reales de token (invalid_client, invalid_scope, 429 en polling) y pídeme causa y corrección."
+- "Explícame el App Launch y el Backend Services como dos historias paralelas: qué viaja en cada paso, qué se firma y qué se verifica."
+- "Genera una tabla de scopes v2 de mínimo privilegio para cinco apps distintas de una red nacional de salud."

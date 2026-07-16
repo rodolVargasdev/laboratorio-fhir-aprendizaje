@@ -1,225 +1,89 @@
-> **Como practicar este tema:** varios ejercicios puedes hacerlos en el navegador desde el [Laboratorio](/laboratorio). Los que piden tu PC usan los scripts en `legacy/dias/`; prepara tu entorno una sola vez con la [guia de setup](/setup).
+# Practica
 
-# Dia 3: HTTP y REST (parte 1)
+## Objetivo
 
-Objetivo: entender el modelo cliente-servidor, las URLs y los metodos HTTP, y
-hacer lecturas (GET) de distintos tipos de recurso FHIR.
-Tiempo: 2-3 horas. Costo: $0.
+Ejecutar el contrato REST completo contra un servidor real: read, vread, history, búsqueda con paginación, y (desde la PC) create, update con If-Match y un Bundle transaction con urn:uuid. Al terminar, cada código de estado te contará una historia en vez de sorprenderte.
 
-## Rutina
+## En el navegador (Laboratorio)
 
-1. `python evaluacion\repaso.py`.
-2. Leccion.
-3. Practica.
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 3`.
+Usa el playground (GET contra `https://hapi.fhir.org/baseR4`; escribe solo el path).
 
-## Teoria con analogia
+1. Consulta: `Patient?family=Smith&_count=2`
+   Qué observar: `type: "searchset"`, `total`, `entry[].search.mode` y el array `link`.
+   Qué esperar: un Bundle con hasta 2 pacientes y un link `next` si hay más. Copia la URL de `next` y nota que es opaca (tokens `_getpages`).
 
-REST es un estilo para que un cliente (tu app) pida cosas a un servidor por HTTP.
-Analogia: un restaurante. La URL es la mesa/plato que pides; el metodo HTTP es la
-accion (ver el menu, pedir, cambiar, cancelar).
+2. Consulta: `Patient/[id]` (un id real del paso 1)
+   Qué observar: ahora NO hay Bundle: es el recurso directo (interacción read). Ubica `meta.versionId`.
+   Qué esperar: la diferencia estructural entre search (Bundle) y read (recurso).
 
-Metodos HTTP principales (en FHIR):
-- GET: leer (no cambia nada). Ej: ver un paciente.
-- POST: crear algo nuevo (el servidor asigna el id).
-- PUT: crear o reemplazar un recurso con id conocido.
-- DELETE: borrar.
+3. Consulta: `Patient/[id]/_history`
+   Qué observar: Bundle tipo `history` con las versiones; cada entry trae `request` indicando qué operación la produjo.
+   Qué esperar: si `versionId` era 3, verás hasta 3 entradas.
 
-Anatomia de una URL FHIR:
+4. Consulta: `Patient/[id]/_history/1`
+   Qué observar: vread: la PRIMERA versión del recurso, aunque el estado actual sea otro.
+   Qué esperar: comparar campos con el paso 2 y detectar qué cambió entre versiones.
 
-    https://hapi.fhir.org/baseR4 / Patient / 123
-    \______ base del servidor ___/ \_tipo_/ \id/
+5. Consulta: `Observation?code=8867-4&date=ge2024-01-01&_count=3`
+   Qué observar: el prefijo `ge` pegado al valor y el efecto de `_count`.
+   Qué esperar: solo observaciones de frecuencia cardiaca desde 2024; si `total` es 0, prueba `date=ge2020-01-01`.
 
-Cabeceras (headers) utiles:
-- `Accept: application/fhir+json` -> "respondeme en JSON".
-- `Content-Type: application/fhir+json` -> "lo que te envio es JSON" (en POST/PUT).
+6. Consulta: `Observation?patient=[id]&_include=Observation:patient&_count=5`
+   Qué observar: entradas con `search.mode: "match"` (observaciones) y `"include"` (el paciente).
+   Qué esperar: el paciente viaja en el MISMO Bundle sin segunda petición; los include no suman al total.
 
-Interacciones de lectura en FHIR:
-- read: GET [base]/Patient/123 (un recurso concreto).
-- search: GET [base]/Patient?family=Perez (busqueda, devuelve un Bundle).
-- vread (version): GET [base]/Patient/123/_history/1 (una version concreta).
+7. Consulta: `Patient/id-que-no-existe-999999`
+   Qué observar: el error y el cuerpo.
+   Qué esperar: 404 con un OperationOutcome; lee `issue[0].severity` y `diagnostics`.
 
-## Practica
+## En la PC
+
+Con el entorno del [Setup](/setup). Usa SOLO datos ficticios: es un servidor público.
+
+Create con Prefer y captura del Location:
 
 ```powershell
-python legacy\dias\dia-03\practica\explorar_rest.py
+curl -si -X POST "https://hapi.fhir.org/baseR4/Patient" -H "Content-Type: application/fhir+json" -H "Prefer: return=representation" -d "{\"resourceType\":\"Patient\",\"name\":[{\"family\":\"PruebaSV\",\"given\":[\"Laboratorio\"]}],\"gender\":\"female\",\"birthDate\":\"1990-01-01\"}"
 ```
 
-Hace GET de varios tipos (Patient, Observation, Organization) y muestra el
-codigo de estado y cuantos resultados llegaron.
-Reto: agrega un tipo mas (por ejemplo, "Practitioner") a la lista del script.
+Salida esperada: `HTTP/1.1 201 Created`, header `Location: .../Patient/[id]/_history/1`, `ETag: W/"1"` y el recurso con su id en el cuerpo.
+
+Update con bloqueo optimista (usa TU id):
+
+```powershell
+curl -si -X PUT "https://hapi.fhir.org/baseR4/Patient/[id]" -H "Content-Type: application/fhir+json" -H "If-Match: W/\"1\"" -d "{\"resourceType\":\"Patient\",\"id\":\"[id]\",\"name\":[{\"family\":\"PruebaSV\",\"given\":[\"Laboratorio\",\"Editado\"]}],\"gender\":\"female\",\"birthDate\":\"1990-01-01\"}"
+```
+
+Salida esperada: `200 OK` y `ETag: W/"2"`. Repite el MISMO comando (sigue diciendo `If-Match: W/"1"`): ahora esperas **412 Precondition Failed**: acabas de ver el bloqueo optimista funcionando.
+
+Transaction con urn:uuid (guarda el JSON de la lección en `tx.json` con un Patient y una Observation que lo referencia):
+
+```powershell
+curl -s -X POST "https://hapi.fhir.org/baseR4" -H "Content-Type: application/fhir+json" --data-binary "@tx.json"
+```
+
+Salida esperada: Bundle `transaction-response` con `response.status` "201 Created" en ambas entradas; abre la Observation creada y comprueba que `subject.reference` ya apunta a `Patient/[id-real]`, no a la urn.
+
+Limpieza: `curl -si -X DELETE "https://hapi.fhir.org/baseR4/Patient/[id]"` (espera 200/204) y luego un GET del mismo id (espera **410 Gone**).
+
+## Retos
+
+1. Provoca deliberadamente un 400 y un 404 con curl y captura ambos OperationOutcome. Éxito: explicas por qué cada uno es ese código y no el otro.
+2. Envía un POST de Observation sin `status` (campo 1..1). Éxito: recibes 422 (o 400 según el servidor) y citas el issue del OperationOutcome que lo delata.
+3. Crea dos veces el mismo paciente ficticio usando `If-None-Exist` con un identifier inventado único. Éxito: primera vez 201, segunda vez 200 con el MISMO id (no hay duplicado).
+4. Pagina una búsqueda (`Patient?_count=5`) siguiendo `link next` dos veces con curl o Python. Éxito: tres páginas sin construir ninguna URL a mano.
+5. Convierte tu transaction en `type: "batch"` quitando la referencia urn:uuid (dos recursos independientes). Éxito: explicas por qué en batch la Observation NO podía referenciar al Patient del mismo Bundle.
+6. Con `GET [base]/metadata`, verifica si HAPI declara `conditionalCreate` y `conditionalUpdate` para Patient. Éxito: citas los valores del CapabilityStatement.
 
 ## Reto Feynman
 
-En `PROGRESO.md`, explica con tus palabras la diferencia entre 'read' y 'search'
-en FHIR, y por que search devuelve un Bundle.
+Explica a un colega no técnico, en 4-6 líneas: (1) por qué "guardar dos veces por si acaso" puede crear dos pacientes duplicados y cómo lo evita la creación condicional, y (2) qué pasa si dos enfermeras editan la misma ficha a la vez y cómo el sistema detecta al segundo con una "versión vieja" (bloqueo optimista).
 
----
+## Criterio de completado
 
-# Dia 4: REST (parte 2) - codigos de estado y busqueda
-
-Objetivo: interpretar codigos de estado HTTP y construir busquedas (search) FHIR
-con parametros.
-Tiempo: 2-3 horas. Costo: $0.
-
-## Rutina
-
-1. `python evaluacion\repaso.py`.
-2. Leccion.
-3. Practica.
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 4`.
-
-## Teoria
-
-### Codigos de estado HTTP (los que mas veras)
-
-- 2xx exito: 200 OK (lectura), 201 Created (creacion).
-- 4xx error del CLIENTE: 400 peticion mal formada, 401 no autenticado,
-  403 no autorizado, 404 no encontrado, 422 recurso no valido.
-- 5xx error del SERVIDOR: 500 error interno, 503 no disponible.
-
-Regla mental: 4xx = "lo hiciste mal tu", 5xx = "fallo el servidor".
-
-### Busqueda (search) en FHIR
-
-Se hace con GET sobre el tipo de recurso y parametros en la query string:
-
-    GET [base]/Patient?family=Perez&gender=female
-    GET [base]/Observation?code=8867-4
-    GET [base]/Observation?date=ge2024-01-01     (ge = mayor o igual)
-
-Parametros utiles de control:
-- `_count=10` cuantos resultados por pagina.
-- `_sort=birthdate` ordenar.
-- `_include` traer recursos referenciados.
-
-Prefijos de comparacion para fechas/numeros: eq, ne, gt, lt, ge, le.
-
-El resultado es un Bundle de tipo 'searchset'. Su campo `total` indica cuantos
-hay; `entry` trae los recursos de la pagina actual; `link` con relation "next"
-permite paginar.
-
-## Practica
-
-```powershell
-python legacy\dias\dia-04\practica\buscar.py
-```
-
-Ejecuta varias busquedas y muestra el codigo de estado y el total.
-Reto: agrega una busqueda de Patient por `gender=male` y compara el total.
-
-## Reto Feynman
-
-En `PROGRESO.md`, explica la diferencia entre un error 404 y un 422, con un
-ejemplo de cada uno.
-
----
-
-# Dia 5: Crear y modificar datos (CRUD) en un servidor de pruebas
-
-Objetivo: crear (POST), leer, actualizar (PUT) y borrar (DELETE) recursos, y
-entender la idempotencia.
-Tiempo: 2-3 horas. Costo: $0 (servidor publico de pruebas; usa datos ficticios).
-
-## Rutina
-
-1. `python evaluacion\repaso.py`.
-2. Leccion.
-3. Practica.
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 5`.
-
-## Teoria
-
-CRUD = Create, Read, Update, Delete. En FHIR REST:
-
-- Create: POST [base]/Patient con el recurso en el cuerpo. El servidor asigna el
-  id y responde 201 Created con la cabecera Location del nuevo recurso.
-- Read: GET [base]/Patient/{id}.
-- Update: PUT [base]/Patient/{id} con el recurso completo. Si no existe y el
-  servidor lo permite, lo crea (update-as-create).
-- Delete: DELETE [base]/Patient/{id}.
-
-### Idempotencia (concepto que cae en el examen)
-
-Una operacion es idempotente si repetirla varias veces deja el sistema igual que
-hacerla una vez.
-- GET, PUT y DELETE son idempotentes.
-- POST NO es idempotente: dos POST iguales crean dos recursos distintos.
-
-Analogia: PUT es "deja el documento exactamente asi" (lo repitas o no, queda
-igual). POST es "agrega una copia nueva" (cada vez agregas otra).
-
-### Importante (seguridad y etica)
-
-Estas en un servidor publico compartido. Usa SOLO datos ficticios. Nunca subas
-datos reales de pacientes a servidores de prueba.
-
-## Practica
-
-```powershell
-python legacy\dias\dia-05\practica\crud.py
-```
-
-El script crea un paciente ficticio, lo lee, lo actualiza y finalmente lo borra,
-mostrando el codigo de estado en cada paso.
-Reto: tras el DELETE, agrega un GET y observa que codigo de estado devuelve.
-
-## Reto Feynman
-
-En `PROGRESO.md`, explica por que PUT es idempotente y POST no, con un ejemplo.
-
----
-
-# Dia 7: Repaso activo y consolidacion (Semana 1)
-
-Objetivo: consolidar JSON, REST, CRUD y seguridad con recuperacion activa e
-intercalado. Hoy NO hay tema nuevo: hoy demuestras lo aprendido.
-Tiempo: 2-3 horas. Costo: $0.
-
-## Rutina de hoy
-
-1. Repaso espaciado completo:
-
-   ```powershell
-   python evaluacion\repaso.py
-   python evaluacion\repaso.py --estado
-   ```
-
-   Mira cuantas tarjetas ya estan en cajas 3-5 (retencion creciente).
-
-2. Quiz intercalado (mezcla preguntas de los dias 1-6):
-
-   ```powershell
-   python evaluacion\quiz_runner.py --repaso --n 15
-   ```
-
-3. Quiz de consolidacion de la semana:
-
-   ```powershell
-   python evaluacion\quiz_runner.py --dia 7
-   ```
-
-4. Repite la practica del dia que peor te haya salido (segun el desglose por
-   Bloom y las preguntas falladas).
-
-## Checklist objetivo de la Semana 1 (marca lo que ya dominas)
-
-- [ ] Leo JSON anidado y uso rutas (Patient.name[0].family).
-- [ ] Distingo objeto { } de array [ ].
-- [ ] Hago GET (read) y search en FHIR.
-- [ ] Interpreto codigos 2xx/4xx/5xx.
-- [ ] Construyo busquedas con parametros y prefijos de fecha.
-- [ ] Ejecuto un ciclo CRUD y explico la idempotencia.
-- [ ] Explico authn vs authz, OAuth y SMART on FHIR, y scopes.
-
-Criterio para avanzar a la Semana 2: quiz del dia 7 >= 80% y la mayoria del
-checklist marcado. Si no, dedica este dia (o uno extra) a reforzar.
-
-## Reto Feynman (integrador)
-
-En `PROGRESO.md`, explica en un parrafo el viaje completo de un dato clinico:
-desde que una app pide autorizacion (SMART/OAuth), hace un GET a un servidor FHIR,
-recibe un Bundle en JSON, y tu lees un valor con una ruta. Usa tus palabras.
+- [ ] Ejecuté las 7 consultas del Laboratorio y distingo Bundle searchset de recurso directo.
+- [ ] Hice el ciclo completo en PC: 201 create, 200 update, 412 por If-Match viejo, 410 tras delete.
+- [ ] Mi transaction con urn:uuid funcionó y verifiqué la referencia reescrita.
+- [ ] Recito la tabla de códigos (400/401/403/404/405/410/412/422) con un ejemplo propio de cada uno.
+- [ ] Pagině siguiendo link next sin fabricar URLs.
+- [ ] Completé el Reto Feynman por escrito.

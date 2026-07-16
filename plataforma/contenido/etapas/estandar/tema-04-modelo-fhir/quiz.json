@@ -2,73 +2,209 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "d12q1",
-      "bloom": "recordar",
+      "id": "tema-04-modelo-fhir-1",
       "tipo": "opcion_multiple",
-      "pregunta": ".Que recurso representa una visita o atencion?",
+      "bloom": "recordar",
+      "pregunta": "¿Qué elementos añade DomainResource sobre los que ya define Resource?",
       "opciones": [
-        "Observation",
-        "Encounter",
-        "Organization",
-        "Condition"
+        "id, meta, implicitRules, language",
+        "text, contained, extension, modifierExtension",
+        "identifier, status, subject, code",
+        "entry, fullUrl, request, response"
       ],
       "respuesta": 1,
-      "explicacion": "Encounter modela una visita/atencion."
+      "explicacion": "Resource aporta id/meta/implicitRules/language; DomainResource añade narrativa (text), contained y las dos clases de extensiones."
     },
     {
-      "id": "d12q2",
-      "bloom": "comprender",
+      "id": "tema-04-modelo-fhir-2",
       "tipo": "opcion_multiple",
-      "pregunta": ".Que recurso representa un diagnostico o problema?",
+      "bloom": "analizar",
+      "pregunta": "Tu sistema recibe una Condition con una modifierExtension cuya url no reconoce. ¿Cuál es el comportamiento conforme al estándar?",
       "opciones": [
-        "Condition",
-        "MedicationRequest",
-        "Patient",
-        "Practitioner"
+        "Ignorar la extensión y procesar la Condition normalmente",
+        "Eliminar la extensión antes de persistir el recurso",
+        "No procesar el recurso como si la extensión no existiera: rechazarlo o tratarlo como excepción",
+        "Convertirla en extension normal y continuar"
+      ],
+      "respuesta": 2,
+      "explicacion": "Una modifierExtension cambia el significado del recurso; ignorarla puede invertir la semántica clínica (p. ej. una negación). Debe entenderse o el recurso no debe procesarse con normalidad."
+    },
+    {
+      "id": "tema-04-modelo-fhir-3",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Cuál es la diferencia esencial entre Patient.id y Patient.identifier?",
+      "opciones": [
+        "Son sinónimos; identifier es la forma antigua",
+        "id es el identificador lógico asignado por cada servidor; identifier es un identificador de negocio (system+value) que viaja con la persona entre sistemas",
+        "id es obligatorio en la creación; identifier lo asigna el servidor",
+        "identifier solo se usa dentro de Bundles"
+      ],
+      "respuesta": 1,
+      "explicacion": "El id es técnico y local (puede diferir entre servidores); el Identifier (DUI, expediente) identifica a la entidad en el mundo real."
+    },
+    {
+      "id": "tema-04-modelo-fhir-4",
+      "tipo": "verdadero_falso",
+      "bloom": "recordar",
+      "pregunta": "Un recurso contenido (contained) puede tener su propia narrativa (text) y su propio meta.versionId.",
+      "respuesta": false,
+      "explicacion": "Las invariantes de DomainResource lo prohíben: sin narrativa, sin contained anidados, sin meta.versionId/lastUpdated, y debe ser referenciado desde el contenedor."
+    },
+    {
+      "id": "tema-04-modelo-fhir-5",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Quieres referenciar a un paciente del que solo conoces su DUI (no su URL en ningún servidor). ¿Qué forma de Reference usas?",
+      "opciones": [
+        "\"reference\": \"Patient/DUI-01234567-8\"",
+        "\"display\": \"01234567-8\"",
+        "\"identifier\": { \"system\": \"https://fhir.gob.sv/id/dui\", \"value\": \"01234567-8\" }",
+        "\"reference\": \"urn:uuid:01234567-8\""
+      ],
+      "respuesta": 2,
+      "explicacion": "Es una referencia lógica: se usa Reference.identifier con system+value. El servidor destino no está obligado a resolverla automáticamente."
+    },
+    {
+      "id": "tema-04-modelo-fhir-6",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Este JSON llega a tu servidor: {\"resourceType\":\"Observation\",\"status\":\"final\",\"code\":{...},\"valueQuantity\":{\"value\":98},\"dataAbsentReason\":{\"coding\":[{\"code\":\"unable-to-obtain\"}]}}. ¿Cuál es el problema?",
+      "opciones": [
+        "Falta subject, que es 1..1",
+        "valueQuantity y dataAbsentReason no pueden coexistir (invariante obs-6)",
+        "status no admite el valor final",
+        "dataAbsentReason debe ser un Coding, no un CodeableConcept"
+      ],
+      "respuesta": 1,
+      "explicacion": "dataAbsentReason solo puede estar presente cuando value[x] está ausente: o hay valor o hay razón de ausencia, nunca ambos."
+    },
+    {
+      "id": "tema-04-modelo-fhir-7",
+      "tipo": "opcion_multiple",
+      "bloom": "recordar",
+      "pregunta": "En una presión arterial 120/80 modelada según el perfil de signos vitales, ¿dónde viven los valores sistólico y diastólico?",
+      "opciones": [
+        "En dos recursos Observation independientes obligatoriamente",
+        "En Observation.valueQuantity y Observation.valueRatio",
+        "En dos Observation.component, cada uno con su code LOINC (8480-6 y 8462-4) y su valueQuantity",
+        "En una extension sobre valueQuantity"
+      ],
+      "respuesta": 2,
+      "explicacion": "Un solo Observation (code 85354-9) con dos component; el recurso raíz no lleva value[x]."
+    },
+    {
+      "id": "tema-04-modelo-fhir-8",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué distingue a un Bundle transaction de un batch?",
+      "opciones": [
+        "El transaction solo admite POST; el batch admite cualquier método",
+        "El transaction es atómico (todo o nada) y sus entradas pueden referenciarse con urn:uuid; el batch procesa cada entrada de forma independiente y sin interdependencias",
+        "El batch es atómico y el transaction no",
+        "Solo el batch devuelve un Bundle de respuesta"
+      ],
+      "respuesta": 1,
+      "explicacion": "Atomicidad e interdependencia de entradas son las dos diferencias que caen en examen."
+    },
+    {
+      "id": "tema-04-modelo-fhir-9",
+      "tipo": "respuesta_corta",
+      "bloom": "recordar",
+      "pregunta": "En un Bundle de tipo document, ¿qué recurso debe ser obligatoriamente la primera entry?",
+      "respuestas_validas": [
+        "Composition",
+        "composition",
+        "una composition",
+        "una Composition"
+      ],
+      "explicacion": "Un document empieza con Composition (y un message empieza con MessageHeader)."
+    },
+    {
+      "id": "tema-04-modelo-fhir-10",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "En una transaction, ¿en qué orden procesa el servidor las operaciones?",
+      "opciones": [
+        "En el orden del array entry",
+        "GET, POST, PUT, DELETE",
+        "DELETE, POST, PUT/PATCH, GET/HEAD",
+        "POST, DELETE, GET, PUT"
+      ],
+      "respuesta": 2,
+      "explicacion": "La especificación fija el orden DELETE -> POST -> PUT/PATCH -> GET/HEAD, independiente del orden de las entries."
+    },
+    {
+      "id": "tema-04-modelo-fhir-11",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "En R4, Encounter.class es de tipo Coding (no CodeableConcept), con binding a códigos como AMB, IMP y EMER.",
+      "respuesta": true,
+      "explicacion": "Es una excepción famosa: un solo Coding porque el sistema está fijado. En R5 cambió a CodeableConcept."
+    },
+    {
+      "id": "tema-04-modelo-fhir-12",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un médico registra una sospecha de dengue todavía en estudio. ¿Qué combinación de estados usa la Condition?",
+      "opciones": [
+        "clinicalStatus=resolved, verificationStatus=confirmed",
+        "clinicalStatus=active, verificationStatus=provisional",
+        "clinicalStatus=inactive, verificationStatus=refuted",
+        "clinicalStatus=provisional, verificationStatus=active"
+      ],
+      "respuesta": 1,
+      "explicacion": "clinicalStatus describe el curso clínico (active) y verificationStatus la certeza diagnóstica (provisional). Los valores no son intercambiables entre ambos elementos."
+    },
+    {
+      "id": "tema-04-modelo-fhir-13",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Dentro de un Bundle, ¿cómo se resuelve la referencia \"urn:uuid:abc-123\" de una entry?",
+      "opciones": [
+        "Se consulta al servidor con GET urn:uuid:abc-123",
+        "Se busca una entry cuyo fullUrl sea exactamente urn:uuid:abc-123",
+        "Se ignora porque los URN no son referencias válidas",
+        "Se resuelve contra la URL base declarada en Bundle.meta.source"
+      ],
+      "respuesta": 1,
+      "explicacion": "La resolución interna de un Bundle compara la referencia contra los fullUrl de las entries; por eso fullUrl es clave y no decorativo."
+    },
+    {
+      "id": "tema-04-modelo-fhir-14",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Cuál de estos elementos usa correctamente un choice type?",
+      "opciones": [
+        "\"value[x]\": { \"value\": 72 }",
+        "\"valueQuantity\": {...} y \"valueString\": \"72\" en el mismo recurso",
+        "\"valuequantity\": {...}",
+        "\"valueQuantity\": { \"value\": 72, \"unit\": \"beats/min\", \"system\": \"http://unitsofmeasure.org\", \"code\": \"/min\" }"
+      ],
+      "respuesta": 3,
+      "explicacion": "El nombre serializado concatena value + tipo con mayúscula inicial, y solo puede haber una variante presente a la vez."
+    },
+    {
+      "id": "tema-04-modelo-fhir-15",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "Bundle puede llevar extension y modifierExtension en su raíz, igual que Patient.",
+      "respuesta": false,
+      "explicacion": "Bundle hereda directamente de Resource (no de DomainResource), por lo que no tiene text, contained ni extensiones en la raíz."
+    },
+    {
+      "id": "tema-04-modelo-fhir-16",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Quieres que una carga masiva de pacientes sea idempotente: si el paciente ya existe (mismo identifier), no crear duplicado. ¿Qué mecanismo usas en cada entry de la transaction?",
+      "opciones": [
+        "request.ifNoneExist con la búsqueda por identifier (conditional create)",
+        "request.method = PUT sin id",
+        "Un modifierExtension de deduplicación",
+        "search.mode = include"
       ],
       "respuesta": 0,
-      "explicacion": "Condition modela diagnosticos/problemas."
-    },
-    {
-      "id": "d12q3",
-      "bloom": "aplicar",
-      "tipo": "respuesta_corta",
-      "pregunta": ".Como se llama el array de un Bundle que contiene los recursos?",
-      "respuestas_validas": [
-        "entry",
-        "el entry",
-        ".entry",
-        "bundle.entry"
-      ],
-      "explicacion": "Bundle.entry es la lista de entradas, cada una con un 'resource'."
-    },
-    {
-      "id": "d12q4",
-      "bloom": "analizar",
-      "tipo": "opcion_multiple",
-      "pregunta": "Para 'paciente con hipertension diagnosticada en una consulta y con receta', .que combinacion es correcta?",
-      "opciones": [
-        "Solo Patient",
-        "Patient + Encounter + Condition + MedicationRequest",
-        "Solo Observation",
-        "Organization + Practitioner unicamente"
-      ],
-      "respuesta": 1,
-      "explicacion": "Cada hecho clinico es un recurso distinto enlazado por referencias."
-    },
-    {
-      "id": "d12q5",
-      "bloom": "comprender",
-      "tipo": "opcion_multiple",
-      "pregunta": "Un Bundle de tipo 'searchset' se obtiene tipicamente al...",
-      "opciones": [
-        "crear un recurso",
-        "hacer una busqueda (search)",
-        "borrar un recurso",
-        "pedir un token"
-      ],
-      "respuesta": 1,
-      "explicacion": "Las busquedas devuelven un Bundle searchset."
+      "explicacion": "entry.request.ifNoneExist=\"identifier=system|value\" instruye al servidor a crear solo si la búsqueda no devuelve resultados."
     }
   ]
 }

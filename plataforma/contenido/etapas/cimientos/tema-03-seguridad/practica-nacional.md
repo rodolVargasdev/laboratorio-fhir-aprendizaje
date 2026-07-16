@@ -1,4 +1,4 @@
-## Tema 3 · Seguridad → ¿Quién puede ver un expediente?
+## Tema 3 · Seguridad -> ¿Quién puede ver un expediente?
 
 - Práctica (45 min, celular o PC): tabla de actores de un sistema nacional de salud
   (médico, enfermería, farmacia, paciente, sistema de reportes del MINSAL) y, para

@@ -1,4 +1,4 @@
-## Tema 10 · Proyecto integrador → La propuesta nacional
+## Tema 10 · Proyecto integrador -> La propuesta nacional
 
 - Práctica (el mini-proyecto del día 13, versión aplicada): script Python
   end-to-end que registre una consulta completa (Tema 4) en tu FHIR store y genere

@@ -1,11 +1,3 @@
-# NotebookLM — JSON en 10 minutos
+# NotebookLM - JSON a fondo
 
-> Paso obligatorio. Consolida el tema en un cuaderno de NotebookLM.
-
-## Pasos
-
-- [ ] Abrir [notebooklm.google.com](https://notebooklm.google.com) con tu cuenta Google.
-- [ ] Crear un cuaderno: **Bases — JSON en 10 minutos**.
-- [ ] Subir la lectura de este tema como fuente.
-- [ ] Generar el Audio Overview y escucharlo.
-- [ ] Pedir un examen oral de 8 preguntas y responderlo sin mirar.
+Consolida este tema con un cuaderno propio en [NotebookLM](https://notebooklm.google.com). Crea el cuaderno con el nombre que indica la plataforma (**Bases - JSON a fondo**) y agrega como fuentes los enlaces que la app te muestra para este tema (MDN JSON en español y la especificación de json.org en español); la app toma estos datos de la configuración del tema. Después usa los prompts de estudio sugeridos en la app: uno explica objeto frente a array con datos de paciente, otro te examina sobre errores de sintaxis y el tercero trabaja la diferencia entre null y campo ausente, la distinción que más pesa en FHIR. Genera además el resumen de audio y escúchalo una vez; termina pidiéndole al cuaderno un examen oral de 8 preguntas y respóndelo sin mirar la lección.

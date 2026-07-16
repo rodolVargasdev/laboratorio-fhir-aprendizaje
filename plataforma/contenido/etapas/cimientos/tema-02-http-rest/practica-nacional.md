@@ -1,4 +1,4 @@
-## Tema 2 · HTTP y REST → El expediente viaja por la red
+## Tema 2 · HTTP y REST -> El expediente viaja por la red
 
 - Práctica (60 min, PC): usando el servidor HAPI público (o tu HAPI local), haz el
   ciclo completo con tu `paciente-sv.json`: POST (crear), GET por id, búsqueda por

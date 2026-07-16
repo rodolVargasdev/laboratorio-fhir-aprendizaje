@@ -1,4 +1,4 @@
-## Tema 0 · Por qué existe FHIR → El diagnóstico de interoperabilidad
+## Tema 0 · Por qué existe FHIR -> El diagnóstico de interoperabilidad
 
 **Pregunta guía:** ¿en qué punto de la historia HL7 está la salud pública del país hoy?
 

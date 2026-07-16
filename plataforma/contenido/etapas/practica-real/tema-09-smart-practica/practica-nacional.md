@@ -1,4 +1,4 @@
-## Tema 9 · SMART en práctica → El acceso sistema-a-sistema
+## Tema 9 · SMART en práctica -> El acceso sistema-a-sistema
 
 - Práctica (60 min, PC): diseña el flujo Backend Services para un caso real:
   "el sistema de reportes epidemiológicos consulta cada noche las Observations

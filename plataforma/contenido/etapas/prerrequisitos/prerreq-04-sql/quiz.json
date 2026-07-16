@@ -2,40 +2,155 @@
   "umbralMaestria": 0.8,
   "preguntas": [
     {
-      "id": "p4-1",
+      "id": "sql-1",
       "tipo": "opcion_multiple",
       "bloom": "recordar",
-      "pregunta": ".Que palabra elige las columnas a traer?",
-      "opciones": [
-        "FROM",
-        "WHERE",
-        "SELECT",
-        "ORDER"
-      ],
+      "pregunta": "¿Qué cláusula de SQL filtra las filas según una condición?",
+      "opciones": ["SELECT", "FROM", "WHERE", "ORDER BY"],
       "respuesta": 2,
-      "explicacion": "SELECT indica las columnas."
+      "explicacion": "WHERE evalúa una condición fila por fila y solo deja pasar las que la cumplen. SELECT elige columnas, FROM indica la tabla y ORDER BY ordena el resultado."
     },
     {
-      "id": "p4-2",
+      "id": "sql-2",
       "tipo": "opcion_multiple",
       "bloom": "comprender",
-      "pregunta": ".Que hace la clausula WHERE?",
+      "pregunta": "¿Por qué el sistema guarda pacientes y consultas en dos tablas separadas en lugar de una sola tabla gigante?",
       "opciones": [
-        "Ordena",
-        "Filtra filas por condicion",
-        "Borra la tabla",
-        "Une tablas"
+        "Porque SQL no permite tablas con más de 10 columnas",
+        "Para no repetir los datos del paciente en cada consulta y evitar inconsistencias al actualizarlos",
+        "Porque las consultas médicas ocupan más espacio que los pacientes",
+        "Para que las consultas se ejecuten siempre más rápido"
       ],
       "respuesta": 1,
-      "explicacion": "WHERE filtra por condicion."
+      "explicacion": "Es la idea central de la normalización: cada hecho se guarda una sola vez. Si el municipio del paciente estuviera copiado en cada consulta, una mudanza obligaría a actualizar muchas filas y cualquier fallo dejaría la base contradiciéndose."
     },
     {
-      "id": "p4-3",
+      "id": "sql-3",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "En la tabla consulta, la columna paciente_id que apunta al id de la tabla paciente es:",
+      "opciones": [
+        "Una clave primaria",
+        "Una clave foránea",
+        "Un índice",
+        "Una función de agregación"
+      ],
+      "respuesta": 1,
+      "explicacion": "Una clave foránea es una columna que guarda la clave primaria de otra tabla para señalarla. La clave primaria de consulta es su propia columna id."
+    },
+    {
+      "id": "sql-4",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Una columna tiene los valores 120, 130, NULL y 150. ¿Qué devuelve COUNT(columna)?",
+      "opciones": ["4", "3", "2", "NULL"],
+      "respuesta": 1,
+      "explicacion": "COUNT(columna) cuenta solo los valores no nulos: 120, 130 y 150. Para contar todas las filas, incluidas las que tienen NULL, se usa COUNT(*), que aquí daría 4."
+    },
+    {
+      "id": "sql-5",
       "tipo": "verdadero_falso",
-      "bloom": "recordar",
-      "pregunta": "Una fila representa un registro (por ejemplo, un paciente).",
+      "bloom": "comprender",
+      "pregunta": "La condición WHERE presion_sistolica = NULL devuelve las filas donde la presión no fue registrada.",
+      "respuesta": false,
+      "explicacion": "NULL representa un desconocido y compararlo con = nunca da verdadero, ni siquiera NULL = NULL. Para detectar ausencia de dato se usa IS NULL."
+    },
+    {
+      "id": "sql-6",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe el operador de SQL que se usa para encontrar las filas donde una columna no tiene valor (dato ausente).",
+      "respuestas_validas": ["IS NULL", "is null", "WHERE columna IS NULL"],
+      "explicacion": "IS NULL es el operador especial para nulos; su inverso es IS NOT NULL. El operador = no funciona con NULL."
+    },
+    {
+      "id": "sql-7",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "En la tabla paciente hay nombres: Ana, Elena, Carmen y Maria. ¿Cuáles devuelve WHERE nombre LIKE '_na'?",
+      "opciones": [
+        "Ana y Elena",
+        "Solo Ana",
+        "Solo Elena",
+        "Ana, Elena y Carmen"
+      ],
+      "respuesta": 1,
+      "explicacion": "El comodín _ exige exactamente un carácter. 'Ana' es A + 'na' y coincide; 'Elena' tiene tres caracteres antes de 'na', así que necesitaría '%na' para coincidir."
+    },
+    {
+      "id": "sql-8",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "Necesitas las 5 consultas más recientes de la tabla consulta. ¿Cuál es la combinación correcta?",
+      "opciones": [
+        "SELECT * FROM consulta WHERE fecha = MAX(fecha) LIMIT 5;",
+        "SELECT * FROM consulta ORDER BY fecha ASC LIMIT 5;",
+        "SELECT * FROM consulta ORDER BY fecha DESC LIMIT 5;",
+        "SELECT TOP 5 * FROM consulta GROUP BY fecha;"
+      ],
+      "respuesta": 2,
+      "explicacion": "Primero se ordena de más reciente a más antigua (DESC) y luego se recorta a 5 filas con LIMIT. Con ASC obtendrías las 5 más antiguas; MAX en WHERE y TOP no son sintaxis válida de SQLite."
+    },
+    {
+      "id": "sql-9",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "Un reporte usa INNER JOIN entre paciente y consulta, y un paciente registrado ayer no aparece. ¿Cuál es la causa más probable?",
+      "opciones": [
+        "El INNER JOIN borra a los pacientes nuevos de la base",
+        "El paciente aún no tiene consultas y el INNER JOIN descarta las filas sin pareja",
+        "Falta un ORDER BY en la consulta",
+        "La tabla consulta tiene demasiadas filas"
+      ],
+      "respuesta": 1,
+      "explicacion": "INNER JOIN devuelve solo las parejas que existen: sin consultas no hay emparejamiento y el paciente desaparece del resultado sin ningún aviso. Un LEFT JOIN desde paciente lo incluiría con las columnas de consulta en NULL."
+    },
+    {
+      "id": "sql-10",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "¿Cuál es la diferencia entre WHERE y HAVING?",
+      "opciones": [
+        "Son sinónimos; HAVING es la forma antigua",
+        "WHERE filtra filas antes de agrupar; HAVING filtra grupos después de agrupar",
+        "WHERE solo funciona con texto y HAVING solo con números",
+        "HAVING filtra filas antes de agrupar; WHERE filtra grupos después"
+      ],
+      "respuesta": 1,
+      "explicacion": "WHERE actúa fila por fila antes del GROUP BY; HAVING actúa sobre los grupos ya agregados, por ejemplo HAVING COUNT(*) >= 2 para quedarse con los grupos de dos o más filas."
+    },
+    {
+      "id": "sql-11",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "La tabla paciente tiene 3 pacientes de San Salvador, 2 de Santa Ana, 2 de Soyapango y 3 de otros municipios distintos. ¿Cuántas filas devuelve SELECT municipio, COUNT(*) FROM paciente GROUP BY municipio;?",
+      "opciones": ["10", "3", "6", "1"],
+      "respuesta": 2,
+      "explicacion": "GROUP BY devuelve una fila por grupo, es decir, una por municipio distinto: San Salvador, Santa Ana, Soyapango y los 3 municipios restantes suman 6 grupos."
+    },
+    {
+      "id": "sql-12",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "AVG(presion_sistolica) trata los valores NULL como si fueran cero, lo que baja el promedio.",
+      "respuesta": false,
+      "explicacion": "AVG ignora los NULL por completo: promedia solo los valores presentes. Si los tratara como cero, un promedio clínico se desplomaría artificialmente."
+    },
+    {
+      "id": "sql-13",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Completa la consulta para ordenar los pacientes del más joven al más viejo: SELECT nombre FROM paciente ORDER BY fecha_nacimiento ____;",
+      "respuestas_validas": ["DESC", "desc", "ORDER BY fecha_nacimiento DESC"],
+      "explicacion": "El más joven tiene la fecha de nacimiento más grande (más reciente), así que se ordena de mayor a menor con DESC. ASC pondría primero al más viejo."
+    },
+    {
+      "id": "sql-14",
+      "tipo": "verdadero_falso",
+      "bloom": "comprender",
+      "pregunta": "En FHIR, una referencia como Patient/123 dentro de otro recurso cumple el mismo papel que una clave foránea en SQL.",
       "respuesta": true,
-      "explicacion": "Fila = registro; columna = campo."
+      "explicacion": "Ambas apuntan al identificador único de otro registro en lugar de copiar sus datos: paciente_id apunta a paciente.id igual que subject apunta a Patient/123. Es el mismo patrón de diseño con distinta sintaxis."
     }
   ]
 }

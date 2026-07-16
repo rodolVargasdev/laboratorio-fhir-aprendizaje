@@ -1,18 +1,9 @@
 # NotebookLM — Panorama actual de FHIR (2026)
 
-> Paso obligatorio. Consolida el panorama en un cuaderno de NotebookLM.
+Consolida este tema en un cuaderno de NotebookLM llamado **FHIR - Panorama actual 2026**.
 
-## Pasos
-
-- [ ] Abrir [notebooklm.google.com](https://notebooklm.google.com) con tu cuenta Google.
-- [ ] Crear un cuaderno: **FHIR - Panorama actual 2026**.
-- [ ] Subir la lectura de este tema como fuente (boton "Exportar para NotebookLM").
-- [ ] Anadir como fuentes: la raiz de R4 (hl7.org/fhir/R4/) y el build continuo (build.fhir.org).
-- [ ] Generar el Audio Overview y escucharlo.
-- [ ] Pedir un examen oral de 10 preguntas sobre versiones, certificacion y scopes v2.
-
-## Prompts sugeridos
-
-- "Comparame R4, R5 y R6 en una tabla: estado, adopcion y por que importa para el examen."
-- "Hazme 10 preguntas tipo examen sobre SMART v2 scopes y terminologia."
-- "Lista los 8 gotchas mas comunes de implementacion FHIR y por que lo son."
+- Sube la lección de este tema como fuente principal (botón "Exportar para NotebookLM").
+- Añade como fuentes las URL de la sección NotebookLM del tema: raíz R4, SMART App Launch, US Core e IPS.
+- Genera el Audio Overview y escúchalo una vez completo.
+- Usa los prompts del tema: tabla R4/R4B/R5/R6, examen de scopes v2, el patrón de backports y los 8 gotchas.
+- Cierre: responde un examen oral de 10 preguntas sobre versiones, certificación y scopes sin mirar la lección.

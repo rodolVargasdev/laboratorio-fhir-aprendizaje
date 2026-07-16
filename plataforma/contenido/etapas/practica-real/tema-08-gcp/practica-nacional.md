@@ -1,4 +1,4 @@
-## Tema 8 · Google Cloud → El piloto de infraestructura
+## Tema 8 · Google Cloud -> El piloto de infraestructura
 
 - Práctica (90 min, PC): en tu proyecto GCP de capa gratuita crea `dataset=integracion-piloto`
   con un FHIR store R4, súbele tus recursos de los temas 4-6 y repite las búsquedas

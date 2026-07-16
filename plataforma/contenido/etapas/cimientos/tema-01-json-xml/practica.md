@@ -1,161 +1,73 @@
-> **Como practicar este tema:** varios ejercicios puedes hacerlos en el navegador desde el [Laboratorio](/laboratorio). Los que piden tu PC usan los scripts en `legacy/dias/`; prepara tu entorno una sola vez con la [guia de setup](/setup).
+# Practica
 
-# Dia 1: JSON y tu primer contacto con un servidor FHIR
+## Objetivo
 
-Objetivo del dia: entender JSON y leer un paciente real desde un servidor FHIR.
-Tiempo: 2-3 horas. Costo: $0 (servidor publico de pruebas).
+Leer recursos FHIR reales con ojos de validador: localizar `resourceType`, `id`, `meta`, tipos primitivos y complejos, choice types y narrativa, tanto en JSON como en XML, y detectar representaciones inválidas a simple vista.
 
-## Rutina (sigue siempre este orden)
+## En el navegador (Laboratorio)
 
-1. Repaso espaciado: `python evaluacion\repaso.py` (5-10 min; el dia 1 estara casi vacio, normal).
-2. Lee esta leccion (idealmente con Composer como guia, ver el prompt al final).
-3. Haz la practica.
-4. Reto Feynman (abajo).
-5. Quiz: `python evaluacion\quiz_runner.py --dia 1` y apunta tu % en `PROGRESO.md`.
+Usa el playground (GET contra `https://hapi.fhir.org/baseR4`; escribe solo el path).
 
-## Por que empezamos por JSON
+1. Consulta: `Patient?_count=1`
+   Qué observar: en `entry[0].resource`, localiza `id`, `meta.versionId`, `meta.lastUpdated` y, si existe, `text.div`.
+   Qué esperar: `lastUpdated` con formato instant completo (fecha, hora con milisegundos y zona). Comprueba que `name` es un array aunque traiga un elemento.
 
-FHIR intercambia informacion clinica principalmente en formato JSON. Si lees
-JSON con soltura, ya tienes ganada la mitad de la base que el examen da por sabida.
+2. Consulta: `Observation?_count=1`
+   Qué observar: el choice type: ¿la instancia trae `valueQuantity`, `valueCodeableConcept`, `valueString` u otro? Anota cuál y confirma que solo hay UNA variante.
+   Qué esperar: si es `valueQuantity`, revisa `value` (decimal), `unit` (texto) y `system`/`code` (UCUM en `http://unitsofmeasure.org`).
 
-## Teoria con analogia
+3. Consulta: `Observation?code=8867-4&_count=1`
+   Qué observar: `code.coding[0].system` y `code.coding[0].code`.
+   Qué esperar: `http://loinc.org` y `8867-4` (frecuencia cardiaca). Practica la ruta completa: `Observation.code.coding[0].code`.
 
-JSON (JavaScript Object Notation) escribe datos como texto que humanos y programas
-entienden. Analogia: una ficha de paciente con casillas.
-- Un par "clave": valor es una casilla con su etiqueta y su dato.
-- Un objeto { } agrupa casillas.
-- Un array [ ] es una lista (por ejemplo, varios telefonos).
+4. Consulta: `Patient?_count=1&_format=xml`
+   Qué observar: el MISMO tipo de recurso en XML: etiqueta raíz, `xmlns="http://hl7.org/fhir"`, primitivos en atributos `value=`, `given` repetido si hay varios nombres.
+   Qué esperar: poder señalar dónde quedó cada cosa que viste en JSON. El Bundle también cambia de forma: `<entry><resource><Patient>...`.
 
-Ejemplo minimo de Patient:
+5. Consulta: `MedicationRequest?_count=5`
+   Qué observar: busca en las entradas el choice `medication[x]`: ¿aparece `medicationCodeableConcept` o `medicationReference`? Si alguna trae `contained`, localiza la referencia interna `#...`.
+   Qué esperar: ver el mismo elemento lógico con dos representaciones distintas según la instancia: eso es un choice type en la práctica.
 
-```json
-{
-  "resourceType": "Patient",
-  "id": "ejemplo-1",
-  "active": true,
-  "name": [
-    { "use": "official", "family": "Hernandez", "given": ["Maria", "Jose"] }
-  ],
-  "gender": "female",
-  "birthDate": "1985-04-12"
-}
-```
+6. Consulta: `Patient/[id]/_history` (con el id del paso 1)
+   Qué observar: cómo `meta.versionId` cambia entre versiones mientras `id` permanece.
+   Qué esperar: la diferencia id lógico vs versión, vivida.
 
-Notas clave:
-- `resourceType` indica el tipo de recurso (aqui Patient).
-- `name` es un array porque una persona puede tener varios nombres.
-- Dentro de name, `given` es otro array (varios nombres de pila).
+## En la PC
 
-### Rutas dentro del JSON (clave en FHIR)
-
-El apellido del ejemplo es `Patient.name[0].family` -> "Hernandez".
-Se lee: del Patient, el primer (indice 0) elemento de name, su campo family.
-Esta notacion la veras constantemente en FHIR.
-
-## Practica
-
-Desde la terminal (con el entorno activado):
+Con el entorno del [Setup](/setup):
 
 ```powershell
-python legacy\dias\dia-01\practica\ejercicio_1_local.py
-python legacy\dias\dia-01\practica\ejercicio_2_servidor.py
+python -c "import urllib.request, json; b = json.load(urllib.request.urlopen('https://hapi.fhir.org/baseR4/Observation?code=8867-4&_count=1')); r = b['entry'][0]['resource']; print(r['resourceType'], r['code']['coding'][0]['code'], r.get('valueQuantity', {}).get('value'))"
 ```
 
-- `ejercicio_1_local.py` lee un Patient desde un archivo local (sin internet).
-- `ejercicio_2_servidor.py` descarga un Patient real del servidor publico HAPI.
+Salida esperada: `Observation 8867-4` seguido del valor numérico (o `None` si esa instancia usa otra variante de value[x]: hallazgo igual de valioso).
 
-Reto practico: en `ejercicio_1_local.py`, donde dice "RETO", escribe el codigo
-para imprimir la fecha de nacimiento y el genero del paciente.
+Round-trip JSON/XML con curl:
+
+```powershell
+curl -s "https://hapi.fhir.org/baseR4/Patient?_count=1" -H "Accept: application/fhir+xml"
+```
+
+Salida esperada: un Bundle XML; verifica el atributo `value=` en los primitivos.
+
+## Retos
+
+1. En un Patient real de HAPI, escribe las rutas de: primer apellido, segundo nombre de pila, y sistema del primer identificador. Éxito: `name[0].family`, `name[0].given[1]`, `identifier[0].system`.
+2. Clasifica estos valores como date/dateTime/instant válido o inválido: `2026`, `2026-07`, `2026-07-10T08:30:00`, `2026-07-10T08:30:00Z`, `2026-07-10T08:30:00.123-06:00`. Éxito: detectas que el tercero es el único inválido (hora sin zona).
+3. Escribe a mano un Patient JSON mínimo válido con: un identifier (system+value), un name oficial con dos given, gender y birthDate. Éxito: los repetibles son arrays, sin null, sin comentarios.
+4. Convierte mentalmente (o en papel) tu Patient del reto 3 a XML. Éxito: etiqueta raíz con namespace, primitivos en `value=`, given repetido.
+5. Detecta los DOS errores de esta instancia: `{"resourceType":"Observation","status":"final","code":{"coding":[{"system":"http://loinc.org","code":"8867-4"}]},"valueQuantity":{"value":72},"valueString":"72 lpm","effectiveDateTime":"2026-07-10T08:30:00"}`. Éxito: dos variantes de value[x] simultáneas + dateTime con hora sin zona horaria.
+6. En la página de datatypes de R4, busca la definición del tipo `canonical` y explica con tus palabras el sufijo `|4.0.1`. Éxito: referencia a artefacto canónico con versión específica.
 
 ## Reto Feynman
 
-En `PROGRESO.md`, escribe en 3-4 lineas, con tus palabras, que es JSON y por que
-FHIR lo usa, como si se lo explicaras a un companero que nunca lo vio.
+Explica a un colega no técnico, en 4-6 líneas: (1) por qué el mismo expediente puede tener un "número de ficha" distinto en cada hospital pero el DUI es el mismo en todos (id lógico vs identifier), y (2) por qué las computadoras necesitan que "72 latidos por minuto" viaje como número + unidad codificada y no como frase.
 
-## Autoevaluacion rapida
+## Criterio de completado
 
-1. .Por que `name` esta entre corchetes [ ]?
-2. .Cual es la ruta para el primer nombre de pila (given)?
-3. .Que campo dice siempre el tipo de recurso FHIR?
-
-(Respuestas: 1, permite varios nombres; 2, Patient.name[0].given[0]; 3, resourceType.)
-
----
-
-# Dia 2: JSON a fondo + XML comparado
-
-Objetivo: navegar estructuras JSON anidadas (como las de FHIR) y saber LEER XML.
-Tiempo: 2-3 horas. Costo: $0.
-
-## Rutina
-
-1. `python evaluacion\repaso.py` (repaso espaciado).
-2. Leccion (con Composer si quieres).
-3. Practica.
-4. Reto Feynman.
-5. `python evaluacion\quiz_runner.py --dia 2`.
-
-## Teoria
-
-### Anidamiento (estructura en arbol)
-
-Un JSON FHIR real tiene objetos dentro de objetos y arrays dentro de objetos.
-Pensar en "rutas" es la clave para no perderse. Ejemplo de Observation (signo vital):
-
-```json
-{
-  "resourceType": "Observation",
-  "status": "final",
-  "code": {
-    "coding": [
-      { "system": "http://loinc.org", "code": "8867-4", "display": "Frecuencia cardiaca" }
-    ],
-    "text": "Frecuencia cardiaca"
-  },
-  "subject": { "reference": "Patient/123" },
-  "valueQuantity": { "value": 72, "unit": "latidos/min", "system": "http://unitsofmeasure.org", "code": "/min" }
-}
-```
-
-Rutas utiles aqui:
-- `Observation.code.coding[0].code` -> "8867-4" (el codigo LOINC).
-- `Observation.valueQuantity.value` -> 72 (el numero medido).
-- `Observation.subject.reference` -> "Patient/123" (a quien pertenece).
-
-Observa el patron CodeableConcept: un objeto con `coding` (lista de codigos
-formales) y `text` (texto legible). Lo veras en casi todos los recursos.
-
-### JSON vs XML
-
-FHIR admite ambos. El mismo dato en XML usa etiquetas:
-
-```xml
-<Observation xmlns="http://hl7.org/fhir">
-  <status value="final"/>
-  <code>
-    <coding>
-      <system value="http://loinc.org"/>
-      <code value="8867-4"/>
-    </coding>
-  </code>
-</Observation>
-```
-
-Lo que debes saber para el examen:
-- En JSON, los valores son directos ("status": "final").
-- En XML, los valores suelen ir en el atributo `value` de la etiqueta.
-- Los arrays JSON se representan en XML repitiendo la etiqueta.
-
-## Practica
-
-```powershell
-python legacy\dias\dia-02\practica\navegar_observation.py
-```
-
-Descarga una Observation real y extrae el codigo, el valor y el paciente.
-Reto: modifica el script para imprimir tambien `Observation.status`.
-
-## Reto Feynman
-
-Explica en `PROGRESO.md` que es un CodeableConcept y por que tiene a la vez
-`coding` (codigos) y `text` (texto libre).
+- [ ] Ejecuté las 6 consultas del Laboratorio e identifiqué meta, choice types y arrays.
+- [ ] Distingo sin dudar id / identifier / versionId y code / Coding / CodeableConcept.
+- [ ] Clasifico date vs dateTime vs instant y sé cuándo la zona horaria es obligatoria.
+- [ ] Leí el mismo recurso en JSON y XML y ubico primitivos, repetición y namespace en ambos.
+- [ ] Detecté los dos errores del reto 5 sin ayuda.
+- [ ] Escribí un Patient mínimo válido a mano y completé el Reto Feynman.

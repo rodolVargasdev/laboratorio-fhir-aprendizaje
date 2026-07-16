@@ -16,6 +16,7 @@ import {
 import { auth } from "@/auth";
 import { obtenerTema } from "@/lib/contenido";
 import { Markdown } from "@/components/markdown";
+import { IndiceLeccion } from "@/components/indice-leccion";
 import { PasoMarcable } from "@/components/paso-marcable";
 import { PasoNotebookLM } from "@/components/paso-notebooklm";
 import { Quiz, type PreguntaQuiz } from "@/components/quiz";
@@ -197,13 +198,26 @@ function PasoCuerpo({
   }
 
   if (paso.tipo === "NOTEBOOKLM") {
-    const cfg = (tema.notebooklm as { nombreCuaderno?: string } | null) ?? {};
+    const cfg =
+      (tema.notebooklm as {
+        nombreCuaderno?: string;
+        fuentes?: { titulo: string; url: string }[];
+      } | null) ?? {};
+    // Fuentes exactas a pegar en NotebookLM: las del tema o, si faltan, sus enlaces.
+    const fuentes =
+      cfg.fuentes && cfg.fuentes.length > 0
+        ? cfg.fuentes.slice(0, 4)
+        : ((tema.enlaces as Enlace[] | null) ?? []).slice(0, 3).map((e) => ({
+            titulo: e.titulo,
+            url: e.url,
+          }));
     return (
       <PasoNotebookLM
         pasoId={paso.id}
         temaId={tema.id}
         temaSlug={tema.slug}
-        nombreCuaderno={cfg.nombreCuaderno ?? `FHIR — ${tema.nombre}`}
+        nombreCuaderno={cfg.nombreCuaderno ?? `FHIR - ${tema.nombre}`}
+        fuentes={fuentes}
         completado={paso.completado}
         datosIniciales={paso.datos as { items?: boolean[] } | null}
       />
@@ -237,7 +251,35 @@ function PasoCuerpo({
     );
   }
 
-  // LECTURA / NOTEBOOKLM / PRACTICA / PRACTICA_NACIONAL → markdown + marcar
+  // LECTURA: markdown con indice lateral (TOC) + marcar
+  if (paso.tipo === "LECTURA") {
+    return (
+      <div className="flex flex-col gap-4">
+        {paso.contenido ? (
+          <div className="lg:flex lg:items-start lg:gap-6">
+            <div className="min-w-0 flex-1">
+              <IndiceLeccion markdown={paso.contenido} variante="movil" />
+              <Markdown>{paso.contenido}</Markdown>
+            </div>
+            <IndiceLeccion markdown={paso.contenido} variante="escritorio" />
+          </div>
+        ) : (
+          <p className="text-sm text-muted-foreground">Contenido en preparacion.</p>
+        )}
+        <div>
+          <PasoMarcable
+            pasoId={paso.id}
+            temaId={tema.id}
+            temaSlug={tema.slug}
+            completado={paso.completado}
+            etiqueta="Termine la lectura"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // PRACTICA / PRACTICA_NACIONAL: markdown + marcar
   return (
     <div className="flex flex-col gap-4">
       {paso.contenido ? (

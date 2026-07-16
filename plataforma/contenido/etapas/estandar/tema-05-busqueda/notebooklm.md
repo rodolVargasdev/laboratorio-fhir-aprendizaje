@@ -1,20 +1,18 @@
 # NotebookLM — Busqueda avanzada
 
-> Paso obligatorio. Llevar el material de este tema a un cuaderno de NotebookLM
-> consolida lo aprendido (audio, preguntas y mapa mental). Marca cada casilla al
-> completarla; el tema no se cierra sin este paso.
+> Consolida el tema en un cuaderno: audio, examen oral y mapa mental. El tema no
+> se cierra sin este paso.
 
 ## Pasos
 
-- [ ] Abrir [notebooklm.google.com](https://notebooklm.google.com) con tu cuenta Google.
-- [ ] Crear un cuaderno nuevo llamado: **FHIR — Busqueda avanzada**.
-- [ ] Subir la lectura de este tema como fuente (usa el boton "Exportar para NotebookLM").
-- [ ] Anadir 2 a 4 enlaces oficiales del tema como fuentes adicionales.
-- [ ] Generar el **Audio Overview** y escucharlo una vez.
-- [ ] Pedirle al cuaderno un **examen oral de 10 preguntas** y responderlo sin mirar.
+- [ ] Crear un cuaderno llamado **FHIR — Busqueda avanzada** en [notebooklm.google.com](https://notebooklm.google.com).
+- [ ] Subir la lección de este tema como fuente (botón "Exportar para NotebookLM").
+- [ ] Añadir las fuentes oficiales: search.html, http.html y bundle.html (R4).
+- [ ] Generar el Audio Overview y escucharlo una vez.
+- [ ] Responder un examen oral de 10 preguntas sin mirar el material.
 
 ## Prompts sugeridos
 
-- "Hazme un examen oral de 10 preguntas sobre este tema, de facil a dificil, sin darme las respuestas hasta que yo intente."
-- "Explica los 3 errores mas comunes de novato en este tema y por que lo son."
-- "Genera una guia de estudio con definiciones y ejemplos concretos basados solo en las fuentes."
+- "Dame 10 URLs de búsqueda y pídeme traducirlas a lenguaje natural; corrígeme token a token."
+- "Examen de 12 preguntas sobre prefijos de fecha, chaining, _has y composites."
+- "Explica por qué la paginación es opaca y qué pasa con los parámetros desconocidos (lenient vs strict)."
