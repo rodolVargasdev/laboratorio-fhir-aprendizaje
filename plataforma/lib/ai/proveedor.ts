@@ -5,21 +5,44 @@ export type MensajeChat = { rol: "user" | "assistant"; contenido: string };
 
 export type RespuestaTutor = { texto: string; proveedor: string };
 
-const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.0-flash";
+// Lista de modelos Gemini a intentar en orden (resiliencia ante 429/503 del free tier).
+// gemini-2.0-flash suele quedarse sin cuota gratis; 2.5-flash y lite funcionan mejor.
+const GEMINI_MODELS = [
+  process.env.GEMINI_MODEL,
+  "gemini-2.5-flash",
+  "gemini-2.5-flash-lite",
+  "gemini-2.0-flash-lite",
+  "gemini-flash-latest",
+].filter(Boolean) as string[];
+
 const GROQ_MODEL = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
 
-/** Genera una respuesta del tutor probando Gemini -> Groq -> (dev) eco. */
+/** Genera una respuesta del tutor probando Gemini (varios modelos) -> Groq -> (dev) eco. */
 export async function generarRespuestaTutor(
   system: string,
   mensajes: MensajeChat[]
 ): Promise<RespuestaTutor> {
   if (process.env.GEMINI_API_KEY) {
-    try {
-      return { texto: await conGemini(system, mensajes), proveedor: "gemini" };
-    } catch (e) {
-      console.error("[tutor] Gemini fallo, intento fallback:", e);
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const contents = mensajes.map((m) => ({
+      role: m.rol === "assistant" ? "model" : "user",
+      parts: [{ text: m.contenido }],
+    }));
+    let ultimoError: unknown;
+    for (const modelo of GEMINI_MODELS) {
+      try {
+        const model = genAI.getGenerativeModel({ model: modelo, systemInstruction: system });
+        const res = await model.generateContent({ contents });
+        const texto = res.response.text();
+        if (texto?.trim()) return { texto, proveedor: `gemini:${modelo}` };
+      } catch (e) {
+        ultimoError = e;
+        // 429 (cuota) o 503 (sobrecarga) -> probar el siguiente modelo.
+      }
     }
+    console.error("[tutor] Gemini fallo en todos los modelos:", ultimoError);
   }
+
   if (process.env.GROQ_API_KEY) {
     try {
       return { texto: await conGroq(system, mensajes), proveedor: "groq" };
@@ -27,24 +50,11 @@ export async function generarRespuestaTutor(
       console.error("[tutor] Groq fallo:", e);
     }
   }
+
   if (process.env.NODE_ENV !== "production") {
     return { texto: ecoDesarrollo(mensajes), proveedor: "dev-eco" };
   }
-  throw new Error("El tutor no esta configurado (falta GEMINI_API_KEY).");
-}
-
-async function conGemini(system: string, mensajes: MensajeChat[]): Promise<string> {
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-  const model = genAI.getGenerativeModel({
-    model: GEMINI_MODEL,
-    systemInstruction: system,
-  });
-  const contents = mensajes.map((m) => ({
-    role: m.rol === "assistant" ? "model" : "user",
-    parts: [{ text: m.contenido }],
-  }));
-  const res = await model.generateContent({ contents });
-  return res.response.text();
+  throw new Error("El tutor no esta disponible (todos los proveedores fallaron).");
 }
 
 async function conGroq(system: string, mensajes: MensajeChat[]): Promise<string> {
@@ -69,7 +79,7 @@ async function conGroq(system: string, mensajes: MensajeChat[]): Promise<string>
 function ecoDesarrollo(mensajes: MensajeChat[]): string {
   const ultima = [...mensajes].reverse().find((m) => m.rol === "user")?.contenido ?? "";
   return [
-    "(Tutor en modo desarrollo — sin clave de IA configurada.)",
+    "(Tutor en modo desarrollo - sin clave de IA configurada.)",
     "",
     `Buena pregunta. Antes de responderte, pensemos juntos: sobre "${ultima.slice(0, 80)}", ` +
       "que parte crees que es la clave?",
