@@ -6,6 +6,7 @@ import {
   BookOpen,
   Headphones,
   Terminal,
+  Lightbulb,
   ListChecks,
   Flag,
   Layers,
@@ -15,10 +16,13 @@ import {
 } from "lucide-react";
 import { auth } from "@/auth";
 import { obtenerTema } from "@/lib/contenido";
+import { UMBRAL_FEYNMAN } from "@/lib/feynman";
 import { Markdown } from "@/components/markdown";
 import { IndiceLeccion } from "@/components/indice-leccion";
 import { PasoMarcable } from "@/components/paso-marcable";
 import { PasoNotebookLM } from "@/components/paso-notebooklm";
+import { PasoFeynman } from "@/components/paso-feynman";
+import { SugerenciaTutor } from "@/components/sugerencia-tutor";
 import { Quiz, type PreguntaQuiz } from "@/components/quiz";
 import { registrarIntentoQuiz } from "@/lib/acciones";
 import type { TipoPaso } from "@/generated/prisma/enums";
@@ -27,9 +31,24 @@ const ICONO: Record<TipoPaso, React.ComponentType<{ className?: string }>> = {
   LECTURA: BookOpen,
   NOTEBOOKLM: Headphones,
   PRACTICA: Terminal,
+  FEYNMAN: Lightbulb,
   QUIZ: ListChecks,
   PRACTICA_NACIONAL: Flag,
   TARJETAS: Layers,
+};
+
+/** Sugerencia de uso del tutor adaptada a cada tipo de paso. */
+const SUGERENCIA_TUTOR: Partial<Record<TipoPaso, { texto: string; prompt?: string }>> = {
+  LECTURA: {
+    texto: "Si un parrafo no te cuadra, pide una analogia simple o un ejemplo.",
+  },
+  NOTEBOOKLM: {
+    texto: "Usa los prompts del cuaderno; lo que el audio no deje claro, preguntalo aqui.",
+  },
+  PRACTICA: {
+    texto: "Si te atascas, pide una pista (no la solucion completa) para seguir tu mismo.",
+    prompt: "Estoy haciendo la practica de este tema y me atasque. Dame una pista, no la solucion.",
+  },
 };
 
 type Enlace = { titulo: string; url: string; nota?: string };
@@ -137,8 +156,14 @@ export default async function TemaPage({
                   )}
                 </summary>
 
-                <div className="border-t border-border p-4">
+                <div className="flex flex-col gap-4 border-t border-border p-4">
                   <PasoCuerpo tema={tema} paso={paso} />
+                  {SUGERENCIA_TUTOR[paso.tipo] && (
+                    <SugerenciaTutor
+                      texto={SUGERENCIA_TUTOR[paso.tipo]!.texto}
+                      prompt={SUGERENCIA_TUTOR[paso.tipo]!.prompt}
+                    />
+                  )}
                 </div>
               </details>
             </li>
@@ -193,6 +218,31 @@ function PasoCuerpo({
         preguntas={preguntas}
         mejorPrevio={tema.mejorQuiz}
         registrar={registrarIntentoQuiz.bind(null, tema.id, tema.slug)}
+      />
+    );
+  }
+
+  if (paso.tipo === "FEYNMAN") {
+    return (
+      <PasoFeynman
+        temaId={tema.id}
+        temaSlug={tema.slug}
+        temaNombre={tema.nombre}
+        objetivos={tema.objetivos}
+        umbral={UMBRAL_FEYNMAN}
+        intentoPrevio={
+          tema.feynman
+            ? {
+                explicacion: tema.feynman.explicacion,
+                puntaje: tema.feynman.puntaje,
+                veredicto: tema.feynman.veredicto,
+                fortalezas: tema.feynman.fortalezas,
+                brechas: tema.feynman.brechas,
+                sugerencias: tema.feynman.sugerencias,
+                aprobado: tema.feynman.aprobado,
+              }
+            : null
+        }
       />
     );
   }

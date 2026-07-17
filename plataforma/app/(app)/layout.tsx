@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { CircleHelp, Users } from "lucide-react";
+import { BarChart3, CircleHelp, Users } from "lucide-react";
 import { auth } from "@/auth";
 import { Marca } from "@/components/marca";
 import { MenuUsuario } from "@/components/menu-usuario";
@@ -24,14 +24,24 @@ export default async function AppLayout({
           </Link>
           <div className="flex items-center gap-2">
             {sesion.user.rol === "ADMIN" && (
-              <Link
-                href="/admin/usuarios"
-                title="Gestionar usuarios"
-                className="inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <Users className="h-4 w-4" />
-                <span className="hidden sm:inline">Usuarios</span>
-              </Link>
+              <>
+                <Link
+                  href="/admin/reportes"
+                  title="Reportes de progreso"
+                  className="inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <BarChart3 className="h-4 w-4" />
+                  <span className="hidden sm:inline">Reportes</span>
+                </Link>
+                <Link
+                  href="/admin/usuarios"
+                  title="Gestionar usuarios"
+                  className="inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <Users className="h-4 w-4" />
+                  <span className="hidden sm:inline">Usuarios</span>
+                </Link>
+              </>
             )}
             <Link
               href="/como-funciona"

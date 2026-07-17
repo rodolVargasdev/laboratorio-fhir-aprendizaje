@@ -39,6 +39,7 @@ model User {
   repasos         RepasoTarjeta[]
   diagnosticos    Diagnostico[]
   conversaciones  ConversacionTutor[]
+  retosFeynman    RetoFeynman[]
 
   @@map("usuarios")
 }
@@ -91,6 +92,7 @@ enum TipoPaso {
   LECTURA
   NOTEBOOKLM
   PRACTICA
+  FEYNMAN
   QUIZ
   PRACTICA_NACIONAL
   TARJETAS
@@ -140,6 +142,7 @@ model Tema {
   tarjetas  Tarjeta[]
   progresos ProgresoTema[]
   intentos  IntentoQuiz[]
+  retosFeynman RetoFeynman[]
 
   @@map("temas")
 }
@@ -277,6 +280,26 @@ model RepasoTarjeta {
   @@unique([usuarioId, tarjetaId])
   @@index([usuarioId, proximaRevision])
   @@map("repaso_tarjetas")
+}
+
+model RetoFeynman {
+  id          String   @id @default(cuid())
+  usuarioId   String
+  temaId      String
+  explicacion String // texto del estudiante
+  puntaje     Int // 0..100 evaluado por el tutor
+  aprobado    Boolean  @default(false) // puntaje >= UMBRAL_FEYNMAN
+  veredicto   String // resumen corto del tutor
+  fortalezas  String[] // lo que explico bien
+  brechas     String[] // vacios o errores detectados
+  sugerencias String? // siguiente paso sugerido
+  creado      DateTime @default(now())
+
+  usuario User @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  tema    Tema @relation(fields: [temaId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId, temaId])
+  @@map("retos_feynman")
 }
 
 model Diagnostico {

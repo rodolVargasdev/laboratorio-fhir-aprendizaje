@@ -6,6 +6,12 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { UMBRAL_MAESTRIA } from "@/lib/contenido";
 import { siguienteCaja, proximaFecha, INTERVALOS_DIAS } from "@/lib/sr";
+import {
+  evaluarExplicacionFeynman,
+  UMBRAL_FEYNMAN,
+  MIN_EXPLICACION,
+  type EvaluacionFeynman,
+} from "@/lib/feynman";
 
 async function usuarioActual() {
   const sesion = await auth();
@@ -156,6 +162,79 @@ export async function registrarIntentoQuiz(
   revalidatePath("/panel");
   revalidatePath(`/tema/${temaSlug}`);
   return { porcentaje, aciertos, total, aprobado, estado };
+}
+
+/** Reto Feynman: el estudiante explica el tema con sus palabras y el tutor lo evalua.
+ *  Guarda el intento; si el puntaje alcanza el umbral, completa el paso FEYNMAN. */
+export async function enviarRetoFeynman(
+  temaId: string,
+  temaSlug: string,
+  explicacion: string
+): Promise<
+  | { ok: true; evaluacion: EvaluacionFeynman; aprobado: boolean; umbral: number }
+  | { ok: false; error: string }
+> {
+  const usuarioId = await usuarioActual();
+  const texto = explicacion.trim();
+  if (texto.length < MIN_EXPLICACION) {
+    return {
+      ok: false,
+      error: `Escribe una explicacion mas completa (al menos ${MIN_EXPLICACION} caracteres).`,
+    };
+  }
+
+  // Limite ligero anti-abuso del free tier de IA: max 15 intentos por hora.
+  const desde = new Date(Date.now() - 60 * 60 * 1000);
+  const recientes = await prisma.retoFeynman.count({
+    where: { usuarioId, creado: { gte: desde } },
+  });
+  if (recientes >= 15) {
+    return { ok: false, error: "Alcanzaste el limite de intentos por hora. Intenta mas tarde." };
+  }
+
+  let evaluacion: EvaluacionFeynman;
+  try {
+    evaluacion = await evaluarExplicacionFeynman(temaSlug, texto);
+  } catch (e) {
+    console.error("[feynman] error evaluando:", e);
+    return { ok: false, error: "El tutor no pudo evaluar tu explicacion ahora. Intenta de nuevo." };
+  }
+
+  const aprobado = evaluacion.puntaje >= UMBRAL_FEYNMAN;
+
+  await prisma.retoFeynman.create({
+    data: {
+      usuarioId,
+      temaId,
+      explicacion: texto,
+      puntaje: evaluacion.puntaje,
+      aprobado,
+      veredicto: evaluacion.veredicto,
+      fortalezas: evaluacion.fortalezas,
+      brechas: evaluacion.brechas,
+      sugerencias: evaluacion.sugerencias,
+    },
+  });
+
+  if (aprobado) {
+    const pasoFeynman = await prisma.paso.findUnique({
+      where: { temaId_tipo: { temaId, tipo: "FEYNMAN" } },
+      select: { id: true },
+    });
+    if (pasoFeynman) {
+      const ahora = new Date();
+      await prisma.progresoPaso.upsert({
+        where: { usuarioId_pasoId: { usuarioId, pasoId: pasoFeynman.id } },
+        update: { completado: true, completadoEn: ahora },
+        create: { usuarioId, pasoId: pasoFeynman.id, completado: true, completadoEn: ahora },
+      });
+      await recomputarEstadoTema(usuarioId, temaId);
+    }
+  }
+
+  revalidatePath("/panel");
+  revalidatePath(`/tema/${temaSlug}`);
+  return { ok: true, evaluacion, aprobado, umbral: UMBRAL_FEYNMAN };
 }
 
 /** Registra la calificacion de una tarjeta y reprograma su proxima revision (Leitner). */

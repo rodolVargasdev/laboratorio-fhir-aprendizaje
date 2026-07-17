@@ -103,16 +103,17 @@ async function sembrarTema(etapaId: string, dirRel: string, orden: number) {
   const practica = leer(path.join(base, "practica.md"));
   const practicaNacional = leer(path.join(base, "practica-nacional.md"));
 
-  const pasos: { tipo: "LECTURA" | "NOTEBOOKLM" | "PRACTICA" | "QUIZ" | "PRACTICA_NACIONAL" | "TARJETAS"; titulo: string; contenido: string | null; orden: number }[] = [
+  const pasos: { tipo: "LECTURA" | "NOTEBOOKLM" | "PRACTICA" | "FEYNMAN" | "QUIZ" | "PRACTICA_NACIONAL" | "TARJETAS"; titulo: string; contenido: string | null; orden: number }[] = [
     { tipo: "LECTURA", titulo: "Lectura", contenido: leccion || null, orden: 1 },
     { tipo: "NOTEBOOKLM", titulo: "NotebookLM (obligatorio)", contenido: notebooklm || null, orden: 2 },
     { tipo: "PRACTICA", titulo: "Practica en la PC", contenido: practica || null, orden: 3 },
-    { tipo: "QUIZ", titulo: "Quiz del tema", contenido: null, orden: 4 },
+    { tipo: "FEYNMAN", titulo: "Reto Feynman: explicalo con tus palabras", contenido: null, orden: 4 },
+    { tipo: "QUIZ", titulo: "Quiz del tema", contenido: null, orden: 5 },
   ];
   if (practicaNacional) {
-    pasos.push({ tipo: "PRACTICA_NACIONAL", titulo: "Practica nacional", contenido: practicaNacional, orden: 5 });
+    pasos.push({ tipo: "PRACTICA_NACIONAL", titulo: "Practica nacional", contenido: practicaNacional, orden: 6 });
   }
-  pasos.push({ tipo: "TARJETAS", titulo: "Tarjetas de repaso", contenido: null, orden: 6 });
+  pasos.push({ tipo: "TARJETAS", titulo: "Tarjetas de repaso", contenido: null, orden: 7 });
 
   for (const paso of pasos) {
     await prisma.paso.upsert({

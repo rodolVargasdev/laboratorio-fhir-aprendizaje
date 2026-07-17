@@ -4,6 +4,7 @@ import {
   BookOpen,
   Headphones,
   Terminal,
+  Lightbulb,
   ListChecks,
   Flag,
   Layers,
@@ -41,21 +42,26 @@ const PASOS_TEMA = [
   {
     icono: Terminal,
     t: "3 · Practica",
-    d: "Ejercicios guiados con resultado esperado: los de REST se hacen aqui mismo en el Laboratorio (peticiones reales a un servidor FHIR publico); los que requieren tu PC traen el setup exacto y los comandos con su salida. Cierra con retos de dificultad creciente y un Reto Feynman (explicarlo con tus palabras).",
+    d: "Ejercicios guiados con resultado esperado: los de REST se hacen aqui mismo en el Laboratorio (peticiones reales a un servidor FHIR publico); los que requieren tu PC traen el setup exacto y los comandos con su salida. Cierra con retos de dificultad creciente.",
+  },
+  {
+    icono: Lightbulb,
+    t: "4 · Reto Feynman (verificado)",
+    d: "Antes del quiz, explicas el tema con tus palabras, como si se lo ensenaras a alguien sin base tecnica. El tutor evalua tu explicacion (0-100), te dice que dominas y que te falta, y solo se cierra el paso con 70 o mas. Es la prueba de que de verdad entendiste, no solo de que reconoces la respuesta correcta.",
   },
   {
     icono: ListChecks,
-    t: "4 · Quiz (maestria 80%)",
+    t: "5 · Quiz (maestria 80%)",
     d: "12-16 preguntas nivel examen. Si no llegas al 80%, ves exactamente que fallaste, con explicacion, y puedes pedirle al tutor que te lo explique. Reintentas hasta dominarlo: no se avanza con lagunas.",
   },
   {
     icono: Flag,
-    t: "5 · Practica nacional",
+    t: "6 · Practica nacional",
     d: "Un entregable aplicado a la integracion nacional de salud (El Salvador). Al final del curso, los entregables se unen en una propuesta presentable a tu institucion.",
   },
   {
     icono: Layers,
-    t: "6 · Tarjetas",
+    t: "7 · Tarjetas",
     d: "Las tarjetas del tema entran a tu calendario de repaso espaciado. Cinco minutos al dia mantienen todo fresco hasta el examen.",
   },
 ];
@@ -89,7 +95,7 @@ const SECCIONES = [
   {
     icono: Bot,
     t: "Tutor (apoyo, no requisito)",
-    d: "Un tutor con IA disponible en toda la app (boton flotante). Conoce el tema que estas viendo y te guia con pistas al estilo socratico. Es un apoyo: el curso esta disenado para completarse sin el.",
+    d: "Un tutor con IA disponible en toda la app (boton flotante). Conoce el tema que estas viendo y te guia con pistas al estilo socratico. Cuando conviene usarlo: en la Lectura, si un parrafo no cuadra, pidele una analogia; en la Practica, si te atascas, pide una pista (no la solucion); antes del Reto Feynman, pidele preguntas de calentamiento; y tras un quiz fallado, que te explique el error. Es un apoyo: el curso esta disenado para completarse sin el, pero usarlo en esos momentos acelera el aprendizaje.",
   },
   {
     icono: Wrench,
@@ -125,9 +131,9 @@ const METODOS = [
     d: "Los simulacros mezclan temas para que aprendas a DISCRIMINAR entre conceptos, como exige el examen real.",
   },
   {
-    icono: Flag,
-    t: "Tecnica Feynman",
-    d: "Cada practica te pide explicar el concepto con tus palabras: si no puedes explicarlo simple, aun no lo dominas.",
+    icono: Lightbulb,
+    t: "Tecnica Feynman (verificada)",
+    d: "Cada tema tiene un paso donde explicas el concepto con tus palabras y el tutor lo evalua: si no puedes explicarlo simple, aun no lo dominas. Se aprueba con 70/100.",
   },
   {
     icono: CalendarCheck,
@@ -183,7 +189,7 @@ export default function ComoFuncionaPage() {
 
       {/* La clase de cada tema */}
       <section className="mt-10">
-        <h2 className="text-xl font-bold">Dentro de cada tema: 6 pasos, siempre iguales</h2>
+        <h2 className="text-xl font-bold">Dentro de cada tema: 7 pasos, siempre iguales</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Cada tema es una clase guiada. El paso pendiente se abre solo; no hay forma de
           perderse.

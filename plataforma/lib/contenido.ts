@@ -7,6 +7,7 @@ export const ORDEN_PASOS: TipoPaso[] = [
   "LECTURA",
   "NOTEBOOKLM",
   "PRACTICA",
+  "FEYNMAN",
   "QUIZ",
   "PRACTICA_NACIONAL",
   "TARJETAS",
@@ -16,6 +17,7 @@ export const ETIQUETA_PASO: Record<TipoPaso, string> = {
   LECTURA: "Lectura",
   NOTEBOOKLM: "NotebookLM",
   PRACTICA: "Practica en la PC",
+  FEYNMAN: "Reto Feynman",
   QUIZ: "Quiz del tema",
   PRACTICA_NACIONAL: "Practica nacional",
   TARJETAS: "Tarjetas de repaso",
@@ -110,7 +112,7 @@ export async function obtenerTema(slug: string, usuarioId: string) {
   });
   if (!tema) return null;
 
-  const [progresoPasos, mejor, progresoTema] = await Promise.all([
+  const [progresoPasos, mejor, progresoTema, feynman] = await Promise.all([
     prisma.progresoPaso.findMany({
       where: { usuarioId, pasoId: { in: tema.pasos.map((p) => p.id) } },
     }),
@@ -121,6 +123,10 @@ export async function obtenerTema(slug: string, usuarioId: string) {
     prisma.progresoTema.findUnique({
       where: { usuarioId_temaId: { usuarioId, temaId: tema.id } },
     }),
+    prisma.retoFeynman.findFirst({
+      where: { usuarioId, temaId: tema.id },
+      orderBy: { creado: "desc" },
+    }),
   ]);
 
   const hechos = new Map(progresoPasos.map((p) => [p.pasoId, p]));
@@ -129,6 +135,7 @@ export async function obtenerTema(slug: string, usuarioId: string) {
     ...tema,
     mejorQuiz: mejor._max.porcentaje ?? null,
     estado: progresoTema?.estado ?? "NO_INICIADO",
+    feynman,
     pasos: tema.pasos.map((p) => ({
       ...p,
       completado: hechos.get(p.id)?.completado ?? false,
