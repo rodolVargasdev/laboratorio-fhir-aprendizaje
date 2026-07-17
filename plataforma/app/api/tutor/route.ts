@@ -2,18 +2,22 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { generarRespuestaTutor, type MensajeChat } from "@/lib/ai/proveedor";
-import {
-  construirSystemPrompt,
-  contextoTema,
-  mensajesUltimaHora,
-  LIMITE_MENSAJES_HORA,
-} from "@/lib/tutor";
+import { construirSystemPrompt, contextoTema } from "@/lib/tutor";
+import { estadoLimiteTutor } from "@/lib/limite-tutor";
 
 const Body = z.object({
   mensaje: z.string().min(1).max(2000),
   temaSlug: z.string().optional(),
   conversacionId: z.string().optional(),
 });
+
+/** Estado del limite diario del tutor para el usuario actual (para mostrarlo en la UI). */
+export async function GET() {
+  const sesion = await auth();
+  if (!sesion?.user?.id) return new Response("No autorizado", { status: 401 });
+  const limite = await estadoLimiteTutor(sesion.user.id);
+  return Response.json(limite);
+}
 
 export async function POST(req: Request) {
   const sesion = await auth();
@@ -24,10 +28,14 @@ export async function POST(req: Request) {
   if (!parsed.success) return Response.json({ error: "Solicitud invalida" }, { status: 400 });
   const { mensaje, temaSlug, conversacionId } = parsed.data;
 
-  // Rate limit (protege el free tier de la IA).
-  if ((await mensajesUltimaHora(usuarioId)) >= LIMITE_MENSAJES_HORA) {
+  // Limite diario proporcional al numero de usuarios (protege el free tier de la IA).
+  const limite = await estadoLimiteTutor(usuarioId);
+  if (limite.restantes <= 0) {
     return Response.json(
-      { error: "Alcanzaste el limite de preguntas por hora. Intenta mas tarde." },
+      {
+        error: `Alcanzaste tu limite de ${limite.limite} preguntas al tutor por hoy. Vuelve manana.`,
+        limite,
+      },
       { status: 429 }
     );
   }
@@ -84,5 +92,8 @@ export async function POST(req: Request) {
     data: { conversacionId: conversacion.id, rol: "assistant", contenido: respuesta },
   });
 
-  return Response.json({ conversacionId: conversacion.id, respuesta });
+  // Estado del limite tras registrar esta pregunta (para que la UI lo muestre al dia).
+  const limiteActual = await estadoLimiteTutor(usuarioId);
+
+  return Response.json({ conversacionId: conversacion.id, respuesta, limite: limiteActual });
 }

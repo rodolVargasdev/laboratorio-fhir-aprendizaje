@@ -1,8 +1,6 @@
 import "server-only";
 import { prisma } from "@/lib/db";
 
-export const LIMITE_MENSAJES_HORA = 40;
-
 /** Instruccion de sistema: tutor socratico, principiante, en espanol, que cita fuentes. */
 export function construirSystemPrompt(contextoTema?: string): string {
   return [
@@ -30,12 +28,4 @@ export async function contextoTema(slug: string): Promise<string | undefined> {
   const leccion = (tema.pasos[0]?.contenido ?? "").slice(0, 1500);
   const objetivos = tema.objetivos.length ? `Objetivos: ${tema.objetivos.join("; ")}.` : "";
   return [`Tema: ${tema.nombre}.`, tema.resumen, objetivos, leccion].filter(Boolean).join("\n");
-}
-
-/** Cuenta mensajes del usuario en la ultima hora (para limitar el uso del free tier). */
-export async function mensajesUltimaHora(usuarioId: string): Promise<number> {
-  const desde = new Date(Date.now() - 60 * 60 * 1000);
-  return prisma.mensajeTutor.count({
-    where: { rol: "user", creado: { gte: desde }, conversacion: { usuarioId } },
-  });
 }
