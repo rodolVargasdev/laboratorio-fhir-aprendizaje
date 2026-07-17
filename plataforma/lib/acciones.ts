@@ -25,6 +25,10 @@ async function exigirAdmin() {
   return sesion.user.id;
 }
 
+/** Correo del administrador principal (bootstrap): siempre ADMIN, protegido. */
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL ?? "").trim().toLowerCase();
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
 /** El admin crea (o reactiva) un usuario con correo, nombre y contrasena inicial. */
 export async function crearUsuario(input: {
   email: string;
@@ -36,7 +40,7 @@ export async function crearUsuario(input: {
   const nombre = input.nombre.trim();
   const password = input.password;
 
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { ok: false, error: "Correo invalido" };
+  if (!EMAIL_RE.test(email)) return { ok: false, error: "Correo invalido" };
   if (password.length < 8) return { ok: false, error: "La contrasena debe tener al menos 8 caracteres" };
 
   const hash = await bcrypt.hash(password, 10);
@@ -48,6 +52,79 @@ export async function crearUsuario(input: {
     });
   } catch {
     return { ok: false, error: "No se pudo crear el usuario" };
+  }
+  revalidatePath("/admin/usuarios");
+  return { ok: true };
+}
+
+/** El admin edita un usuario: nombre, correo, rol y (opcional) nueva contrasena.
+ *  Protege al administrador principal y evita que el admin se autobloquee. */
+export async function actualizarUsuario(input: {
+  id: string;
+  nombre: string;
+  email: string;
+  rol: "ADMIN" | "ESTUDIANTE";
+  password?: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  const adminId = await exigirAdmin();
+  const email = input.email.trim().toLowerCase();
+  const nombre = input.nombre.trim();
+  const nuevaPassword = input.password?.trim() ?? "";
+
+  if (!EMAIL_RE.test(email)) return { ok: false, error: "Correo invalido" };
+  if (nuevaPassword && nuevaPassword.length < 8)
+    return { ok: false, error: "La contrasena debe tener al menos 8 caracteres" };
+
+  const objetivo = await prisma.user.findUnique({ where: { id: input.id } });
+  if (!objetivo) return { ok: false, error: "Usuario no encontrado" };
+
+  const esYo = objetivo.id === adminId;
+  const esPrincipal = (objetivo.email ?? "").toLowerCase() === ADMIN_EMAIL && !!ADMIN_EMAIL;
+
+  // Protecciones: no autobloquearse y no degradar/renombrar el correo del admin principal.
+  if (esYo && input.rol !== "ADMIN")
+    return { ok: false, error: "No puedes quitarte a ti mismo el rol de administrador." };
+  if (esPrincipal && input.rol !== "ADMIN")
+    return { ok: false, error: "El administrador principal siempre debe ser ADMIN." };
+  if (esPrincipal && email !== ADMIN_EMAIL)
+    return { ok: false, error: "No se puede cambiar el correo del administrador principal." };
+
+  // Correo unico si cambio.
+  if (email !== (objetivo.email ?? "").toLowerCase()) {
+    const existe = await prisma.user.findUnique({ where: { email }, select: { id: true } });
+    if (existe) return { ok: false, error: "Ya existe un usuario con ese correo." };
+  }
+
+  const data: { name: string | null; email: string; rol: "ADMIN" | "ESTUDIANTE"; password?: string } = {
+    name: nombre || null,
+    email,
+    rol: input.rol,
+  };
+  if (nuevaPassword) data.password = await bcrypt.hash(nuevaPassword, 10);
+
+  try {
+    await prisma.user.update({ where: { id: input.id }, data });
+  } catch {
+    return { ok: false, error: "No se pudo actualizar el usuario" };
+  }
+  revalidatePath("/admin/usuarios");
+  return { ok: true };
+}
+
+/** El admin elimina un usuario (y su progreso, por cascada). Protege su propia
+ *  cuenta y al administrador principal. */
+export async function eliminarUsuario(id: string): Promise<{ ok: boolean; error?: string }> {
+  const adminId = await exigirAdmin();
+  const objetivo = await prisma.user.findUnique({ where: { id } });
+  if (!objetivo) return { ok: false, error: "Usuario no encontrado" };
+  if (objetivo.id === adminId) return { ok: false, error: "No puedes eliminar tu propia cuenta." };
+  if ((objetivo.email ?? "").toLowerCase() === ADMIN_EMAIL && !!ADMIN_EMAIL)
+    return { ok: false, error: "No se puede eliminar al administrador principal." };
+
+  try {
+    await prisma.user.delete({ where: { id } });
+  } catch {
+    return { ok: false, error: "No se pudo eliminar el usuario" };
   }
   revalidatePath("/admin/usuarios");
   return { ok: true };

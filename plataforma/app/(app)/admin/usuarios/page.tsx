@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Users, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Users } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Tarjeta, TarjetaContenido, TarjetaTitulo } from "@/components/ui/card";
 import { FormularioCrearUsuario } from "@/components/formulario-crear-usuario";
+import { GestionUsuarios } from "@/components/gestion-usuarios";
 
 export const metadata: Metadata = { title: "Usuarios" };
 
@@ -14,10 +15,19 @@ export default async function AdminUsuariosPage() {
   if (!sesion?.user) redirect("/login");
   if (sesion.user.rol !== "ADMIN") redirect("/panel");
 
-  const usuarios = await prisma.user.findMany({
+  const filas = await prisma.user.findMany({
     orderBy: { createdAt: "asc" },
     select: { id: true, name: true, email: true, rol: true, password: true, createdAt: true },
   });
+  // No exponemos el hash al cliente: solo si tiene contrasena definida.
+  const usuarios = filas.map((u) => ({
+    id: u.id,
+    name: u.name,
+    email: u.email,
+    rol: u.rol as "ADMIN" | "ESTUDIANTE",
+    tienePassword: !!u.password,
+  }));
+  const adminEmail = (process.env.ADMIN_EMAIL ?? "").trim();
 
   return (
     <div className="flex flex-col gap-5">
@@ -46,36 +56,11 @@ export default async function AdminUsuariosPage() {
       <Tarjeta>
         <TarjetaContenido>
           <TarjetaTitulo>Usuarios registrados ({usuarios.length})</TarjetaTitulo>
-          <div className="mt-3 overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left text-xs uppercase tracking-wide text-muted-foreground">
-                  <th className="pb-2 pr-3 font-semibold">Nombre</th>
-                  <th className="pb-2 pr-3 font-semibold">Correo</th>
-                  <th className="pb-2 pr-3 font-semibold">Rol</th>
-                  <th className="pb-2 font-semibold">Contrasena</th>
-                </tr>
-              </thead>
-              <tbody>
-                {usuarios.map((u) => (
-                  <tr key={u.id} className="border-t border-border">
-                    <td className="py-2 pr-3">{u.name ?? "-"}</td>
-                    <td className="py-2 pr-3">{u.email}</td>
-                    <td className="py-2 pr-3">
-                      <span className="inline-flex items-center gap-1">
-                        {u.rol === "ADMIN" && <ShieldCheck className="h-3.5 w-3.5 text-primary" />}
-                        {u.rol === "ADMIN" ? "Admin" : "Usuario"}
-                      </span>
-                    </td>
-                    <td className="py-2 text-muted-foreground">{u.password ? "definida" : "solo Google"}</td>
-                  </tr>
-                ))}
-                {usuarios.length === 0 && (
-                  <tr><td colSpan={4} className="py-3 text-muted-foreground">Aun no hay usuarios.</td></tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+          <p className="mb-3 mt-1 text-sm text-muted-foreground">
+            Edita nombre, correo, rol o restablece la contrasena. Tu propia cuenta y el
+            administrador principal estan protegidos para evitar bloqueos.
+          </p>
+          <GestionUsuarios usuarios={usuarios} miId={sesion.user.id} adminEmail={adminEmail} />
         </TarjetaContenido>
       </Tarjeta>
     </div>
