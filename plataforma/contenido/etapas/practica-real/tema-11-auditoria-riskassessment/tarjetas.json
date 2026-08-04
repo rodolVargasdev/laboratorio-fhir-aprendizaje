@@ -1,0 +1,62 @@
+[
+  {
+    "frente": "id vs identifier vs status",
+    "reverso": "id = llave técnica del servidor. identifier = folio del negocio (único, estable, buscable). status = dónde va en el flujo. Tres cosas, tres lugares. Poner 'preliminary' en identifier es el anti-patrón del recurso auditado."
+  },
+  {
+    "frente": "RiskAssessment: code vs method",
+    "reverso": "code = QUÉ evaluación es (riesgo cardiovascular, fase de prevención). method = CÓMO se calculó (Framingham, ASCVD, motor de reglas propio)."
+  },
+  {
+    "frente": "Regla de oro de la extensibilidad",
+    "reverso": "Antes de escribir una extensión, busca el elemento del core. Extender lo que el estándar ya modela = formato propietario con envoltura FHIR. La condición evaluada va en RiskAssessment.condition, no en method.extension."
+  },
+  {
+    "frente": "¿Qué significan varias coding en un CodeableConcept?",
+    "reverso": "Codificaciones alternativas del MISMO concepto (SNOMED + LOINC + catálogo local). Nunca dos conceptos distintos: mezclar fase y estado en un solo outcome hace que el consumidor obtenga una respuesta al azar entre dos preguntas."
+  },
+  {
+    "frente": "Anti-patrón: JSON dentro de un string",
+    "reverso": "Legal y pasa $validate, y por eso es peligroso. Pierdes búsqueda, validación, terminología, trazabilidad, analítica y versionado del contrato. Los datos clínicos van como Observation referenciadas desde basis."
+  },
+  {
+    "frente": "basis vs basedOn vs parent (RiskAssessment)",
+    "reverso": "basis = la información en que se basó (Observation, Condition). basedOn = la petición que cumple. parent = el evento del que forma parte. Que el tipo sea Reference(Any) no autoriza a ignorar el significado."
+  },
+  {
+    "frente": "prediction.outcome, ¿qué es?",
+    "reverso": "El desenlace potencial del paciente, acompañado de probability o qualitativeRisk y when. No es un diccionario clave-valor: un 'grado = -1' es un atributo de la evaluación y va en una extensión publicada."
+  },
+  {
+    "frente": "Código sin system",
+    "reverso": "Una cadena sin dueño: no se resuelve, no se traduce, no se valida contra ValueSet. 5C80.0Z es ICD-11 MMS y su canónica es http://id.who.int/icd/release/11/mms."
+  },
+  {
+    "frente": "valueCode vs valueString vs valueCoding",
+    "reverso": "code = símbolo de un sistema cerrado, nunca texto humano. Para una frase, valueString. Para código + sistema + etiqueta juntos, valueCoding (evita desparramar un concepto en cuatro extensiones hermanas)."
+  },
+  {
+    "frente": "Conformidad afirmada vs validada",
+    "reverso": "Afirmada = meta.profile declara qué perfil dice cumplir. Validada = correr el validador contra ese perfil. Sin lo primero no existe lo segundo, y la validación en la puerta del servidor nacional es imposible."
+  },
+  {
+    "frente": "Canónica de un CodeSystem propio",
+    "reverso": "http://<dominio>/fhir/CodeSystem/<id>, y esa URI debería resolver a la definición publicada. '.../codeable-concept/...' nombra un CodeSystem con el nombre de un tipo de dato: smell de gobernanza. Un país, una canónica."
+  },
+  {
+    "frente": "meta.versionId opaco (Cloud Healthcare API)",
+    "reverso": "Lo asigna el servidor y no se interpreta ni se ordena. Para historial se usa _history. No es la versión del motor que produjo el recurso: eso va en performer -> Device.version o en Provenance."
+  },
+  {
+    "frente": "Método de auditoría de un recurso ajeno",
+    "reverso": "1) $validate contra el core. 2) ¿de quién es cada dato? 3) cada extensión contra su elemento del core. 4) strings largos = hallazgo grave. 5) todo código con system resoluble. 6) contrastar estados. 7) cerrar con severidades y costo de migración."
+  },
+  {
+    "frente": "¿Validar = interoperar?",
+    "reverso": "No. El recurso auditado pasa $validate sin errores y acumula siete hallazgos. La validación base comprueba tipos y cardinalidades; que cada dato esté en el elemento semánticamente correcto solo lo comprueba un perfil."
+  },
+  {
+    "frente": "Reglas clínicas como recurso ejecutable",
+    "reverso": "PlanDefinition con condiciones en FHIRPath + operación $apply (módulo Clinical Reasoning). Es la alternativa estándar a un YAML opaco cuyo rastro termina en un string."
+  }
+]

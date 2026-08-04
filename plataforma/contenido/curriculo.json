@@ -54,12 +54,13 @@
       "numero": 3,
       "slug": "practica-real",
       "nombre": "Practica real",
-      "meta": "FHIR en Google Cloud, SMART en practica y proyecto integrador.",
+      "meta": "FHIR en Google Cloud, SMART en practica, proyecto integrador y auditoria de un recurso real de produccion.",
       "orden": 4,
       "temas": [
         "practica-real/tema-08-gcp",
         "practica-real/tema-09-smart-practica",
-        "practica-real/tema-10-proyecto"
+        "practica-real/tema-10-proyecto",
+        "practica-real/tema-11-auditoria-riskassessment"
       ]
     }
   ]

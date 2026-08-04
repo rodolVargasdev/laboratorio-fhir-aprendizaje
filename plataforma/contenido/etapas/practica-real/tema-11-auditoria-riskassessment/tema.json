@@ -1,0 +1,74 @@
+{
+  "slug": "tema-11-auditoria-riskassessment",
+  "numero": 11,
+  "nombre": "Auditoria de un recurso real: RiskAssessment de prevencion",
+  "resumen": "El unico tema con materia prima institucional: un RiskAssessment R4 emitido por el orquestador de prevencion y almacenado en Cloud Healthcare API. Anatomia de RiskAssessment (code, method, condition, basis, basedOn, parent, prediction), los cinco anti-patrones que trae (identifier usado como estado, contexto clinico en extension pudiendo ir en el core, CodeableConcept con dos conceptos distintos, JSON serializado dentro de rationale, prediction usado como diccionario), y el ciclo completo de remediacion: auditar, refactorizar, perfilar en FSH, publicar CodeSystems y validar la version vieja contra la nueva.",
+  "opcional": false,
+  "objetivos": [
+    "Leer la anatomia de RiskAssessment R4 y ubicar cada dato del negocio en su elemento correcto: code, method, condition, performer, basis, basedOn, parent, prediction.",
+    "Distinguir identidad de negocio (identifier) de estado de flujo (status) y detectar cuando un sistema confunde ambos.",
+    "Aplicar la regla de oro de las extensiones: no extender lo que el core ya modela, y justificar cada extension que sobreviva la revision.",
+    "Explicar por que las coding de un CodeableConcept deben ser representaciones equivalentes del MISMO concepto, y separar los conceptos mezclados.",
+    "Argumentar el costo real del anti-patron 'JSON dentro de un string': sin busqueda, sin validacion, sin indices, sin trazabilidad.",
+    "Refactorizar el recurso: llevar el snapshot de laboratorio a Observation referenciadas desde basis y la condicion a RiskAssessment.condition.",
+    "Escribir en FSH el perfil RiskAssessmentPrevencionSV y los CodeSystem de fase, estado y grado, con canonicas resolubles y estables.",
+    "Ejecutar $validate sobre la version original y la refactorizada e interpretar la diferencia entre ambos OperationOutcome."
+  ],
+  "enlaces": [
+    {
+      "titulo": "RiskAssessment R4",
+      "url": "http://hl7.org/fhir/R4/riskassessment.html",
+      "nota": "El recurso auditado: elementos, cardinalidades, invariantes y notas de alcance."
+    },
+    {
+      "titulo": "Extensibility R4",
+      "url": "http://hl7.org/fhir/R4/extensibility.html",
+      "nota": "Cuando extender y cuando no; extensiones simples vs complejas y sus reglas."
+    },
+    {
+      "titulo": "CodeableConcept R4",
+      "url": "http://hl7.org/fhir/R4/datatypes.html#CodeableConcept",
+      "nota": "La regla clave: las coding son codificaciones alternativas del mismo concepto."
+    },
+    {
+      "titulo": "Resource Identity R4",
+      "url": "http://hl7.org/fhir/R4/resource.html#identifiers",
+      "nota": "id logico vs identifier de negocio; por que un estado nunca es un identificador."
+    },
+    {
+      "titulo": "ICD-11 MMS (OMS)",
+      "url": "https://icd.who.int/browse11",
+      "nota": "El codigo 5C80.0Z del recurso; su system canonico es http://id.who.int/icd/release/11/mms."
+    },
+    {
+      "titulo": "FSH School",
+      "url": "https://fshschool.org/",
+      "nota": "FHIR Shorthand y SUSHI para escribir el perfil de prevencion."
+    },
+    {
+      "titulo": "Cloud Healthcare API - FHIR",
+      "url": "https://cloud.google.com/healthcare-api/docs/concepts/fhir",
+      "nota": "Donde vive el recurso auditado; explica el versionId opaco del meta."
+    },
+    {
+      "titulo": "Clinical Reasoning R4",
+      "url": "http://hl7.org/fhir/R4/clinicalreasoning-module.html",
+      "nota": "La alternativa de fondo: modelar el motor de reglas con PlanDefinition y $apply en vez de un YAML opaco."
+    }
+  ],
+  "notebooklm": {
+    "nombreCuaderno": "FHIR - Auditoria de un RiskAssessment real",
+    "fuentes": [
+      { "titulo": "RiskAssessment R4", "url": "http://hl7.org/fhir/R4/riskassessment.html" },
+      { "titulo": "Extensibility R4", "url": "http://hl7.org/fhir/R4/extensibility.html" },
+      { "titulo": "CodeableConcept R4", "url": "http://hl7.org/fhir/R4/datatypes.html#CodeableConcept" },
+      { "titulo": "Clinical Reasoning R4", "url": "http://hl7.org/fhir/R4/clinicalreasoning-module.html" }
+    ],
+    "prompts": [
+      "Interrogame sobre la anatomia de RiskAssessment: que va en code, method, condition, basis, basedOn y parent, con casos limite.",
+      "Dame diez recursos con anti-patrones de extension y pideme decidir cual es extension legitima y cual debio ir en el core.",
+      "Actua como el arquitecto del orquestador defendiendo el JSON dentro de rationale; yo debo refutarlo con argumentos tecnicos concretos.",
+      "Tomame un examen sobre identifier vs status vs id logico, y sobre cuando dos coding pertenecen al mismo CodeableConcept."
+    ]
+  }
+}

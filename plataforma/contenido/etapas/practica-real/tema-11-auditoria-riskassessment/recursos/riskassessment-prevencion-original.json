@@ -1,0 +1,94 @@
+{
+  "resourceType": "RiskAssessment",
+  "id": "3f7b1a25-9c04-4e6d-8a31-b52d7c0e9f18",
+  "meta": {
+    "lastUpdated": "2026-08-04T17:40:16.049369+00:00",
+    "versionId": "MTc4NTg2NTIxNjA0OTM2OTAwMA"
+  },
+  "identifier": [
+    {
+      "system": "http://goes.gob.sv/fhir/prevention-program",
+      "value": "preliminary"
+    }
+  ],
+  "basis": [
+    {
+      "reference": "RiskAssessment/1d9e4c88-2a76-41b3-9f05-6c8ad3427e10"
+    }
+  ],
+  "method": {
+    "coding": [
+      {
+        "code": "secondary",
+        "display": "Prevencion Secundaria",
+        "system": "http://goes.gob.sv/fhir/codeable-concept/prevention-assessment"
+      }
+    ],
+    "extension": [
+      {
+        "url": "http://goes.gob.sv/fhir/extensions/prevention-assessment/context",
+        "extension": [
+          {
+            "url": "activeProblem",
+            "extension": [
+              { "url": "code", "valueCode": "5C80.0Z" },
+              { "url": "status", "valueCode": "confirmed" },
+              {
+                "url": "conditionDisplay",
+                "valueCode": "Hipercolesterolemia, sin especificacion"
+              },
+              {
+                "url": "conditionReference",
+                "valueReference": {
+                  "reference": "Condition/7c5a0b93-4d18-42ef-b6a9-0e3f18d75c24"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "occurrenceDateTime": "2026-08-04T11:40:15-06:00",
+  "prediction": [
+    {
+      "extension": [
+        {
+          "url": "http://goes.gob.sv/fhir/extensions/prevention-phase/type",
+          "extension": [{ "url": "phaseType", "valueCode": "preliminary" }]
+        }
+      ],
+      "outcome": {
+        "coding": [
+          {
+            "code": "phase_2_dis",
+            "display": "phase_2_dis",
+            "system": "http://goes.gob.sv/fhir/codeable-concept/prevention-phase/phase"
+          },
+          {
+            "code": "proposed",
+            "display": "Fase Propuesta por la Ejecucion Preliminar del Orquestador",
+            "system": "http://goes.gob.sv/fhir/codeable-concept/prevention-phase/status"
+          }
+        ]
+      },
+      "rationale": "{\"engine_context\": {\"rules_yaml\": \"prevention_phase_config_dis.yaml\", \"version\": \"base\", \"matched_rule_ids\": [\"dis_lipidos_transitional\", \"dis_transitional_pa\", \"dis_transitional_glycemia\"], \"phase_candidates\": [\"phase_2_dis\", \"phase_2_dis\", \"phase_2_dis\"], \"observations_snapshot\": {\"pa_mmHg\": {\"pa_s\": 118.0, \"pa_d\": 74.0}, \"fpg_mg_dl\": 111.0, \"colesterol_total_mg_dl\": 226.0, \"trigliceridos_mg_dl\": 132.0, \"hdl_mg_dl\": 38.0, \"ldl_mg_dl\": 162.0, \"dep_creatinina_orina_ml_min_mts\": {\"ml_min\": null, \"mts\": null}, \"carga_aterogenica_mg_dl\": 188.0, \"imc\": 29.4}, \"appointments\": [{\"specialty\": \"metabolico\", \"codeTCA\": \"METAB\", \"display\": \"Medico Metabolico\", \"schedule_rule\": {\"t_value\": 4, \"t_unit\": \"meses\"}}], \"studies\": [{\"code\": \"colesterol_total\", \"codeTCA\": 101115, \"display\": \"Colesterol Total\"}, {\"code\": \"hdl\", \"codeTCA\": 101117, \"display\": \"HDL Colesterol\"}, {\"code\": \"ldl\", \"codeTCA\": 101118, \"display\": \"LDL Colesterol\"}, {\"code\": \"trigliceridos\", \"codeTCA\": 101116, \"display\": \"Trigliceridos\"}], \"physical_assessments\": [{\"code\": \"pa\", \"codeTCA\": 10150104, \"display\": \"Presion Arterial\"}], \"routing\": {\"priority_mode\": \"dis\", \"active_condition\": \"dis\", \"active_codes\": [\"dis\"]}}}"
+    },
+    {
+      "outcome": {
+        "coding": [
+          {
+            "code": "-1",
+            "display": "Nivel dentro de la fase de prevencion",
+            "system": "http://goes.gob.sv/fhir/codeable-concept/prevention-phase/degree"
+          }
+        ]
+      },
+      "rationale": "{\"engine_context\": {\"rules_yaml\": \"prevention_phase_config_dis.yaml\", \"version\": \"base\", \"matched_rule_ids\": [\"dis_lipidos_transitional\", \"dis_transitional_pa\", \"dis_transitional_glycemia\"]}}"
+    }
+  ],
+  "status": "final",
+  "subject": {
+    "reference": "Patient/e41b6d70-8f39-4a52-9c1d-2b7e508a63f4"
+  }
+}

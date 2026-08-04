@@ -1,0 +1,200 @@
+{
+  "umbralMaestria": 0.8,
+  "preguntas": [
+    {
+      "id": "tema-11-auditoria-riskassessment-1",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "El recurso trae identifier[0].value = \"preliminary\". ¿Cuál es el problema de fondo?",
+      "opciones": [
+        "Que el system no usa https en vez de http",
+        "Que se usa un identificador de negocio para expresar un estado de flujo, cuando RiskAssessment.status ya admite el valor preliminary",
+        "Que identifier debería ser un objeto y no un array",
+        "Ninguno: identifier admite cualquier cadena, así que es correcto"
+      ],
+      "respuesta": 1,
+      "explicacion": "identifier es la identidad de negocio (única, estable, buscable). Un estado lo comparten millones de recursos y ya tiene su elemento: status. Además aquí status dice final, el identifier dice preliminary y la fase dice proposed: tres verdades distintas del mismo hecho."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-2",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "¿Qué distingue RiskAssessment.code de RiskAssessment.method?",
+      "opciones": [
+        "code es el código interno del sistema; method es el código estándar",
+        "code es qué tipo de evaluación es; method es con qué mecanismo o algoritmo se evaluó",
+        "Son sinónimos y basta con llenar uno de los dos",
+        "code es obligatorio y method opcional, esa es toda la diferencia"
+      ],
+      "respuesta": 1,
+      "explicacion": "code = qué evaluación es (riesgo cardiovascular, fase de prevención). method = cómo se calculó (Framingham, ASCVD, un motor de reglas propio). En el recurso auditado code está vacío y method carga ambas responsabilidades."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-3",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "prediction[0].outcome.coding lleva phase_2_dis (system .../phase) y proposed (system .../status). ¿Por qué está mal?",
+      "opciones": [
+        "Porque un CodeableConcept solo admite una coding",
+        "Porque las coding deben ser codificaciones alternativas del MISMO concepto, y aquí hay dos conceptos distintos: cuál es la fase y en qué estado está",
+        "Porque los dos system deben ser idénticos siempre",
+        "Porque falta el campo text del CodeableConcept"
+      ],
+      "respuesta": 1,
+      "explicacion": "Un CodeableConcept representa un concepto expresado en varios sistemas (el mismo significado en SNOMED, LOINC y el catálogo local). Un consumidor que tome la primera coding que reconozca obtendrá una respuesta al azar entre dos preguntas diferentes."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-4",
+      "tipo": "opcion_multiple",
+      "bloom": "evaluar",
+      "pregunta": "El contexto del motor viaja como JSON serializado dentro de prediction.rationale, que es de tipo string. ¿Cuál es la consecuencia más grave?",
+      "opciones": [
+        "Que el recurso pesa más de lo necesario",
+        "Que las escapes de comillas dificultan la lectura humana",
+        "Que datos clínicos de primera clase (colesterol, LDL, IMC) quedan invisibles para búsqueda, validación, terminología y analítica",
+        "Que rationale debería llamarse note"
+      ],
+      "respuesta": 2,
+      "explicacion": "Es sintácticamente legal y pasa $validate sin una queja, y ese es justo el peligro. Esas mediciones deben ser Observation con LOINC, referenciadas desde basis: entonces se vuelven buscables, validables, mapeables y exportables como columnas."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-5",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "La hipercolesterolemia evaluada se modeló como extensión dentro de method.extension. ¿Dónde correspondía?",
+      "opciones": [
+        "En RiskAssessment.condition, que es Reference(Condition) 0..1 en el core",
+        "En RiskAssessment.reasonCode, porque una condición siempre es una razón",
+        "Estaba bien: method.extension es el lugar previsto para el contexto clínico",
+        "En contained, como recurso incluido dentro del RiskAssessment"
+      ],
+      "respuesta": 0,
+      "explicacion": "Regla de oro de la extensibilidad: antes de escribir una extensión, busca el elemento del core. Extender lo que el estándar ya modela produce un formato propietario con envoltura FHIR: un consumidor genérico leerá condition y no encontrará nada."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-6",
+      "tipo": "verdadero_falso",
+      "bloom": "analizar",
+      "pregunta": "Que un recurso pase $validate contra el core sin issues de severidad error demuestra que está bien modelado y es interoperable.",
+      "respuesta": false,
+      "explicacion": "El recurso auditado pasa la validación base y aun así acumula siete hallazgos. La validación estructural comprueba tipos, cardinalidades e invariantes; no comprueba que cada dato esté en el elemento semánticamente correcto. Para eso hace falta un perfil."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-7",
+      "tipo": "opcion_multiple",
+      "bloom": "aplicar",
+      "pregunta": "basis apunta a RiskAssessment/1d9e4c88... (la ejecución anterior). ¿Cuál es la corrección?",
+      "opciones": [
+        "Dejarlo así: basis admite Reference(Any)",
+        "Moverlo a basedOn o parent, y usar basis para las Observation en que se basó la evaluación",
+        "Moverlo a contained",
+        "Eliminarlo: encadenar ejecuciones no se modela en FHIR"
+      ],
+      "respuesta": 1,
+      "explicacion": "basis es la información que sustenta la evaluación (las Observation, la Condition). Para enlazar con la petición que se cumple existe basedOn, y para el evento del que forma parte, parent. Que el tipo sea Reference(Any) no autoriza a ignorar el significado del elemento."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-8",
+      "tipo": "opcion_multiple",
+      "bloom": "analizar",
+      "pregunta": "La extensión trae { \"url\": \"conditionDisplay\", \"valueCode\": \"Hipercolesterolemia, sin especificación\" }. ¿Qué está mal?",
+      "opciones": [
+        "El texto lleva tilde y code no admite caracteres acentuados",
+        "Se usa valueCode para texto humano: un code es un símbolo de un sistema, no una frase. Correspondía valueString o, mejor, un valueCoding completo",
+        "Nada: valueCode admite cualquier cadena sin espacios",
+        "El url de la extensión debería ser absoluto y ese es el único problema"
+      ],
+      "respuesta": 1,
+      "explicacion": "El tipo code representa un símbolo tomado de un sistema cerrado. Además, un valueCoding único evitaría desparramar el mismo concepto (code, status, display, reference) en cuatro extensiones hermanas."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-9",
+      "tipo": "opcion_multiple",
+      "bloom": "comprender",
+      "pregunta": "El código 5C80.0Z aparece sin ningún system. ¿Por qué importa?",
+      "opciones": [
+        "Porque sin system el código no se puede resolver, traducir ni validar contra un ValueSet; es una cadena sin dueño",
+        "Porque los códigos ICD-11 son obligatorios en R4",
+        "Porque el system solo hace falta cuando hay más de una coding",
+        "No importa: el display permite deducir el sistema"
+      ],
+      "respuesta": 0,
+      "explicacion": "Es ICD-11 MMS y su canónica es http://id.who.int/icd/release/11/mms. Un código sin system es un símbolo sin gramática: ningún servidor de terminología puede hacer nada con él."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-10",
+      "tipo": "opcion_multiple",
+      "bloom": "evaluar",
+      "pregunta": "El segundo prediction lleva outcome con code \"-1\" y display \"Nivel dentro de la fase de prevención\". ¿Cuál es el diagnóstico correcto?",
+      "opciones": [
+        "Es correcto: prediction admite cualquier outcome codificado",
+        "Se está usando prediction como diccionario clave-valor; prediction.outcome es el desenlace potencial del paciente, y un grado es un atributo de la evaluación que corresponde a una extensión",
+        "El problema es solo que falta probability",
+        "Debió ir en mitigation"
+      ],
+      "respuesta": 1,
+      "explicacion": "Un lector estándar entenderá que el paciente tiene dos desenlaces posibles, lo cual es falso. Un atributo de la evaluación se modela con una extensión simple con su StructureDefinition publicada, no torciendo un elemento clínico."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-11",
+      "tipo": "verdadero_falso",
+      "bloom": "analizar",
+      "pregunta": "occurrenceDateTime = 2026-08-04T11:40:15-06:00 y meta.lastUpdated = 2026-08-04T17:40:16Z se contradicen y son un hallazgo de la auditoría.",
+      "respuesta": false,
+      "explicacion": "Son el mismo instante expresado en dos husos, con un segundo entre el evento y su persistencia. Es de lo que el recurso hace bien. Auditar también es saber qué NO reportar."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-12",
+      "tipo": "opcion_multiple",
+      "bloom": "evaluar",
+      "pregunta": "El recurso no declara meta.profile y sus URLs (.../fhir/codeable-concept/prevention-phase/phase) no resuelven a ninguna definición publicada. ¿Qué implica?",
+      "opciones": [
+        "Nada, mientras el equipo interno conozca los códigos",
+        "Solo un problema de estilo en el nombre de la URL",
+        "No hay conformidad afirmada (nada contra qué validar en la puerta) y los códigos son privados de facto: sin CodeSystem ni ValueSet publicados nadie externo puede interpretarlos",
+        "Que el recurso debe migrarse a R5"
+      ],
+      "respuesta": 2,
+      "explicacion": "Conformidad afirmada (meta.profile) vs validada (correr el validador contra ella). Sin lo primero, lo segundo es imposible y la validación automática en la puerta del servidor nacional no se puede montar. Convención: http://goes.gob.sv/fhir/CodeSystem/<id>, y esa URI debe resolver."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-13",
+      "tipo": "respuesta_corta",
+      "bloom": "aplicar",
+      "pregunta": "Escribe la ruta FHIRPath exacta del valor del identificador que se está usando como bandera de estado en el recurso auditado.",
+      "respuestas_validas": [
+        "RiskAssessment.identifier[0].value",
+        "identifier[0].value"
+      ],
+      "explicacion": "Una auditoría se escribe con rutas, no con descripciones. identifier es un array (índices desde 0) y value es el símbolo del Identifier."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-14",
+      "tipo": "opcion_multiple",
+      "bloom": "crear",
+      "pregunta": "Al refactorizar, ¿dónde se registra qué versión del motor de reglas produjo la evaluación?",
+      "opciones": [
+        "En prediction.rationale, junto al resto del contexto",
+        "En un Device referenciado desde performer (con su version), y opcionalmente en un Provenance",
+        "En meta.versionId",
+        "En una extensión sobre subject"
+      ],
+      "respuesta": 1,
+      "explicacion": "performer admite Device: el orquestador es un actor legítimo. meta.versionId es la versión que asigna el servidor (opaca en Cloud Healthcare API), no la del motor, y no debe interpretarse ni ordenarse."
+    },
+    {
+      "id": "tema-11-auditoria-riskassessment-15",
+      "tipo": "opcion_multiple",
+      "bloom": "evaluar",
+      "pregunta": "Si el objetivo de fondo es que las reglas del YAML sean ejecutables y auditables como parte del estándar, ¿cuál es el camino FHIR?",
+      "opciones": [
+        "Guardar el YAML completo en un Binary y referenciarlo",
+        "PlanDefinition con las condiciones en FHIRPath y la operación $apply, del módulo Clinical Reasoning",
+        "Un Questionnaire con enableWhen",
+        "Un Bundle document con el YAML en la Composition"
+      ],
+      "respuesta": 1,
+      "explicacion": "PlanDefinition modela lógica clínica accionable y $apply la ejecuta contra un paciente. Es la conversación de arquitectura que la auditoría debe abrir, más allá de corregir el recurso emitido."
+    }
+  ]
+}
