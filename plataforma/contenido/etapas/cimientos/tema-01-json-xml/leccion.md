@@ -15,7 +15,7 @@ Un recurso FHIR en JSON es un objeto cuyo primer nivel siempre puede contener es
     "lastUpdated": "2026-07-10T14:22:05.331Z",
     "profile": ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"],
     "security": [{ "system": "http://terminology.hl7.org/CodeSystem/v3-Confidentiality", "code": "R" }],
-    "tag": [{ "system": "https://salud.gob.sv/tags", "code": "carga-inicial" }]
+    "tag": [{ "system": "http://goes.gob.sv/fhir/CodeSystem/tags", "code": "carga-inicial" }]
   },
   "text": {
     "status": "generated",
@@ -115,7 +115,7 @@ En JSON, un primitivo es un valor pelado (`"birthDate": "1985"`): no hay dónde 
 - **Coding**: un código de un sistema: `{ "system": "http://loinc.org", "code": "8867-4", "display": "Heart rate" }`. `system` es la URI del sistema de códigos, `code` el símbolo para máquinas, `display` el texto oficial.
 - **CodeableConcept**: `coding[]` (el mismo concepto puede venir codificado en LOINC Y SNOMED CT a la vez) + `text` (lo que el humano vio o escribió). Contraste de examen: un elemento tipo `code` lleva un valor pelado de un conjunto fijo; un `CodeableConcept` es la estructura completa.
 - **Quantity**: `value` (decimal), `unit` (texto legible), `system` + `code` (unidad formal, casi siempre UCUM: `http://unitsofmeasure.org`), `comparator` opcional (`<`, `<=`, `>=`, `>`: "menos de 5").
-- **Identifier**: identificador del mundo real: `system` (el espacio de identificación, p. ej. `https://salud.gob.sv/identificadores/dui`) + `value` (el número), más `use` y `type`. La dupla system+value debe ser única en el mundo.
+- **Identifier**: identificador del mundo real: `system` (el espacio de identificación, p. ej. `http://goes.gob.sv/fhir/sid/dui`) + `value` (el número), más `use` y `type`. La dupla system+value debe ser única en el mundo.
 - **Reference**: cómo un recurso apunta a otro: `{ "reference": "Patient/123", "display": "Maria Hernandez" }`. Puede ser relativa (`Patient/123`), absoluta (`https://otro-servidor/fhir/Patient/9`), interna (`#med1`) o **lógica** (solo `identifier`, cuando no conoces la URL).
 - **HumanName** (`use`, `family` string, `given[]`), **Address**, **ContactPoint** (`system`: phone/email..., `value`, `use`), **Period** (`start`, `end`, ambos dateTime), **Range**, **Ratio**, **Annotation**, **Attachment**.
 
@@ -148,7 +148,7 @@ El examen espera que **leas** ambos formatos. El mismo contenido, en XML:
     <div xmlns="http://www.w3.org/1999/xhtml">Maria Hernandez, F, 1985-04-12</div>
   </text>
   <identifier>
-    <system value="https://salud.gob.sv/identificadores/dui"/>
+    <system value="http://goes.gob.sv/fhir/sid/dui"/>
     <value value="01234567-8"/>
   </identifier>
   <name>
@@ -195,7 +195,7 @@ Reglas para leerlo sin sufrir:
   "meta": {
     "versionId": "2",                               // versión actual (vread, ETag)
     "lastUpdated": "2026-07-01T10:15:00.000Z",      // instant: zona obligatoria
-    "profile": ["https://salud.gob.sv/fhir/StructureDefinition/paciente-sv"]
+    "profile": ["http://goes.gob.sv/fhir/StructureDefinition/paciente-sv"]
   },
   "text": {
     "status": "generated",                          // derivada de los datos
@@ -203,7 +203,7 @@ Reglas para leerlo sin sufrir:
   },
   "identifier": [{                                  // del mundo real (≠ id)
     "use": "official",
-    "system": "https://salud.gob.sv/identificadores/dui",
+    "system": "http://goes.gob.sv/fhir/sid/dui",
     "value": "01234567-8"
   }],
   "active": true,                                   // boolean primitivo

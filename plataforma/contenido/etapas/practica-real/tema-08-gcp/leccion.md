@@ -120,7 +120,7 @@ curl -sS -X POST "$BASE/Patient" \
   -d '{
     "resourceType": "Patient",
     "identifier": [{
-      "system": "https://fhir.salud.gob.sv/identificadores/dui",
+      "system": "http://goes.gob.sv/fhir/sid/dui",
       "value": "04567890-1"
     }],
     "name": [{"family": "Ramírez", "given": ["Ana"]}],
@@ -133,7 +133,7 @@ La respuesta incluye `id` y `meta.versionId: "1"`. Con ese ID:
 
 ```bash
 curl -sS -H "Authorization: Bearer $TOKEN" "$BASE/Patient/ID_ASIGNADO"          # read
-curl -sS -H "Authorization: Bearer $TOKEN" "$BASE/Patient?identifier=https://fhir.salud.gob.sv/identificadores/dui|04567890-1"   # search
+curl -sS -H "Authorization: Bearer $TOKEN" "$BASE/Patient?identifier=http://goes.gob.sv/fhir/sid/dui|04567890-1"   # search
 curl -sS -H "Authorization: Bearer $TOKEN" "$BASE/metadata" | head -40           # CapabilityStatement
 ```
 

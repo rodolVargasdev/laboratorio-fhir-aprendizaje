@@ -54,7 +54,33 @@ Un comité técnico de interoperabilidad (institución rectora + hospitales + la
 
 1. **Adoptar, no inventar**: partir del core R4 y de patrones probados (US Core como referencia metodológica, IPS para resúmenes). Se copia el proceso, no el contenido estadounidense.
 2. **Perfilar lo mínimo**: cada restricción debe responder a un requisito nacional real.
-3. **Publicar como IG**: perfiles en FSH compilados con SUSHI y publicados con IG Publisher, con canonical propio (`https://fhir.salud.gob.sv/...`).
+3. **Publicar como IG**: perfiles en FSH compilados con SUSHI y publicados con IG Publisher, con canonical propio (`http://goes.gob.sv/fhir/...`).
+
+### Gobernanza de URIs: la decisión que no se deshace
+
+Antes de escribir el primer perfil hay que zanjar el espacio de nombres, porque una
+canónica publicada es para siempre: cambiarla obliga a versionar todos los perfiles y a
+migrar los datos que ya la citan. La decisión institucional vigente:
+
+| Tipo de URI | Convención | Ejemplo | ¿Debe resolver? |
+|---|---|---|---|
+| Canónica de conformidad | `http://goes.gob.sv/fhir/StructureDefinition/<id>` | `.../StructureDefinition/paciente-nacional` | Idealmente sí, pero es ante todo un **identificador** |
+| Extensiones | `http://goes.gob.sv/fhir/StructureDefinition/<id>` | `.../StructureDefinition/fase-estado-prevencion` | Igual: una extensión **es** una StructureDefinition |
+| Terminología | `http://goes.gob.sv/fhir/CodeSystem/<id>`, `/ValueSet/<id>`, `/ConceptMap/<id>` | `.../CodeSystem/prevention-phase` | Sí |
+| Identificadores del mundo real | `http://goes.gob.sv/fhir/sid/<id>` | `.../sid/dui`, `.../sid/expediente` | No: nombra un espacio de identificación |
+| **Endpoints** | `https://<servicio>.salud.gob.sv/...` | `https://fhir.salud.gob.sv/r4`, `https://auth.salud.gob.sv` | **Sí, y con TLS** |
+
+Dos reglas que explican la tabla y que se preguntan en el examen:
+
+- **Canónica no es endpoint.** Una canónica identifica una definición; un endpoint es una
+  dirección de red. Por eso las canónicas usan `http://` sin escándalo —la propia HL7
+  publica `http://hl7.org/fhir/StructureDefinition/Patient`— y los endpoints exigen
+  `https://`. Confundirlas lleva a "arreglar" canónicas publicadas por estética y romper
+  a todos los consumidores.
+- **La canónica que ya está en producción gana.** El dominio `goes.gob.sv` se eligió
+  porque el orquestador de prevención ya emite recursos con él (ver tema 11): el costo de
+  cambiarla es migrar datos reales; el costo de alinear el material de estudio es un
+  find-replace. La estabilidad le gana a la elegancia, siempre.
 
 ### PacienteNacional: el perfil ancla
 
@@ -71,7 +97,7 @@ Description: "Paciente para el intercambio en la red nacional de salud."
 * identifier ^slicing.discriminator.path = "system"
 * identifier ^slicing.rules = #open
 * identifier contains dui 0..1 MS
-* identifier[dui].system = "https://fhir.salud.gob.sv/identificadores/dui" (exactly)
+* identifier[dui].system = "http://goes.gob.sv/fhir/sid/dui" (exactly)
 * identifier[dui].value 1..1
 * name 1..* MS
 * gender 1..1 MS
@@ -83,8 +109,8 @@ Decisiones incrustadas ahí que debes saber justificar: el DUI es `0..1` (recié
 ```json
 {
   "resourceType": "Patient",
-  "meta": {"profile": ["https://fhir.salud.gob.sv/StructureDefinition/paciente-nacional"]},
-  "identifier": [{"system": "https://fhir.salud.gob.sv/identificadores/dui", "value": "04567890-1"}],
+  "meta": {"profile": ["http://goes.gob.sv/fhir/StructureDefinition/paciente-nacional"]},
+  "identifier": [{"system": "http://goes.gob.sv/fhir/sid/dui", "value": "04567890-1"}],
   "name": [{"family": "Ramírez", "given": ["Ana"]}],
   "gender": "female",
   "birthDate": "1988-04-12"

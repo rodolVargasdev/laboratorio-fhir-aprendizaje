@@ -71,7 +71,7 @@ Evita duplicados al crear:
 ```http
 POST /baseR4/Patient HTTP/1.1
 Content-Type: application/fhir+json
-If-None-Exist: identifier=https://salud.gob.sv/identificadores/dui|01234567-8
+If-None-Exist: identifier=http://goes.gob.sv/fhir/sid/dui|01234567-8
 ```
 
 El servidor busca con ese criterio: **0 resultados** -> crea (201); **1 resultado** -> NO crea y devuelve el existente (200); **más de 1** -> **412 Precondition Failed**. Es el patrón correcto para cargas repetibles e integraciones que reintentan.
@@ -169,11 +169,11 @@ Ejemplo de transaction que crea un paciente y una observación que lo referencia
       "fullUrl": "urn:uuid:7f0a1e5b-3c1d-4f7e-9a2b-1234567890ab",
       "resource": {
         "resourceType": "Patient",
-        "identifier": [{ "system": "https://salud.gob.sv/identificadores/dui", "value": "01234567-8" }],
+        "identifier": [{ "system": "http://goes.gob.sv/fhir/sid/dui", "value": "01234567-8" }],
         "name": [{ "family": "Hernandez", "given": ["Maria"] }]
       },
       "request": { "method": "POST", "url": "Patient",
-        "ifNoneExist": "identifier=https://salud.gob.sv/identificadores/dui|01234567-8" }
+        "ifNoneExist": "identifier=http://goes.gob.sv/fhir/sid/dui|01234567-8" }
     },
     {
       "fullUrl": "urn:uuid:9b8c2d4e-5f6a-4b3c-8d1e-abcdef123456",

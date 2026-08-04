@@ -7,10 +7,12 @@
 - Entregable: `institucion/tema-11/` completo — `02-hallazgos.md` (tabla con ruta
   FHIRPath, regla citada y severidad), `03-refactor.json` aceptado como transaction,
   `prevencion.fsh` compilado con SUSHI y `05-validate-comparado.md`.
-- Entregable de gobernanza: una página que zanje la canónica institucional
-  (`http://goes.gob.sv/fhir/` vs `https://fhir.salud.gob.sv/` del tema 10), la
-  convención de URLs para CodeSystem/ValueSet/StructureDefinition, y quién es dueño del
-  catálogo de fases de prevención.
+- Entregable de gobernanza: la canónica institucional ya está decidida
+  (`http://goes.gob.sv/fhir/`, ver la tabla de URIs del tema 10). Lo que produces aquí
+  es la lista de artefactos a publicar bajo ella —qué CodeSystem, ValueSet y
+  StructureDefinition faltan, con su `id` definitivo— y quién es dueño del catálogo de
+  fases de prevención. Verifica de paso que ninguna canónica de tu FSH usa por error el
+  subdominio de los endpoints.
 - Esto demuestra: que el laboratorio dejó de ser teoría. Los perfiles y CodeSystems que
   salen de aquí son el primer contenido publicable de la guía de implementación
   nacional, y la tabla de hallazgos es la conversación que hay que tener con el equipo

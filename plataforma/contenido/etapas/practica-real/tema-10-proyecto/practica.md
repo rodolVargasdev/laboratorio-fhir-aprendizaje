@@ -16,7 +16,7 @@ Producir, en orden, los 10 entregables del proyecto integrador de la red naciona
 
 1. **Diagnóstico de interoperabilidad (entregable 1).** Crea `01-diagnostico.md` con una tabla: sistema, dueño, formato actual (v2/CSV/API), volumen diario estimado, identificador de paciente que usa, y brecha principal. Mínimo 5 sistemas (reales o plausibles de la red nacional). Verifica: cada fila termina con una decisión — traducir en la capa de integración, conectar como cliente SMART, o posponer.
 
-2. **Instancia PacienteNacional y validación (entregables 2 y 7).** Guarda `paciente-nacional.json` con `meta.profile`, DUI en `identifier` (system `https://fhir.salud.gob.sv/identificadores/dui`), `name`, `gender` y `birthDate`. Valida la estructura base contra HAPI:
+2. **Instancia PacienteNacional y validación (entregables 2 y 7).** Guarda `paciente-nacional.json` con `meta.profile`, DUI en `identifier` (system `http://goes.gob.sv/fhir/sid/dui`), `name`, `gender` y `birthDate`. Valida la estructura base contra HAPI:
 
    ```bash
    curl -sS -X POST "https://hapi.fhir.org/baseR4/Patient/$validate" \
@@ -39,7 +39,7 @@ Producir, en orden, los 10 entregables del proyecto integrador de la red naciona
 
 5. **Cinco búsquedas operativas (entregable 5).** Documenta en `05-busquedas.md` cinco URLs contra `hapi.fhir.org/baseR4`, cada una con la pregunta de negocio que responde. Deben incluir al menos: una por `identifier` (buscar por DUI), una con encadenamiento (`Observation?subject.identifier=...`), una con `_include` o `_revinclude`, una con rango de fechas y `_sort`, y una con `_summary=count`. Verifica: las cinco devuelven Bundle `searchset` coherente y pegas el `total` de cada una.
 
-6. **Catálogo terminológico (entregable 6).** Crea un ValueSet nacional (ej. tipos de establecimiento de salud) y un ConceptMap de 5 códigos del catálogo interno de laboratorio a LOINC (ej. `GLU` -> `2345-7`). Verifica: ambos recursos pasan `$validate` genérico en HAPI y sus canonicals usan tu dominio `https://fhir.salud.gob.sv/`.
+6. **Catálogo terminológico (entregable 6).** Crea un ValueSet nacional (ej. tipos de establecimiento de salud) y un ConceptMap de 5 códigos del catálogo interno de laboratorio a LOINC (ej. `GLU` -> `2345-7`). Verifica: ambos recursos pasan `$validate` genérico en HAPI y sus canonicals siguen la convención institucional (`http://goes.gob.sv/fhir/CodeSystem/<id>`, `.../ValueSet/<id>`, `.../ConceptMap/<id>`) y no el subdominio de los endpoints.
 
 7. **Piloto GCP + flujo backend + propuesta (entregables 8, 9 y 10).** Reejecuta condensado el flujo del tema 8 (store R4 -> import Synthea -> export BigQuery -> una consulta epidemiológica -> limpieza documentada con captura del costo en $0). Adapta el script Python del tema 9 como evidencia del flujo Backend Services (manifiesto del export). Cierra redactando `10-propuesta.md` (5-8 páginas): resumen ejecutivo, arquitectura (diagrama del tema), fases (piloto -> primer hospital -> red), riesgos y quick wins. Verifica: otra persona técnica puede leer la propuesta y reproducir el piloto solo con tus documentos.
 

@@ -9,7 +9,7 @@
   },
   {
     "frente": "DUI en el modelo FHIR",
-    "reverso": "Slice de Patient.identifier con system canónico propio (https://fhir.salud.gob.sv/identificadores/dui), 0..1 MS (no todos tienen DUI). Nunca como Patient.id: ese es el id lógico del servidor."
+    "reverso": "Slice de Patient.identifier con system canónico propio (http://goes.gob.sv/fhir/sid/dui), 0..1 MS (no todos tienen DUI). Nunca como Patient.id: ese es el id lógico del servidor."
   },
   {
     "frente": "Proceso de perfilado nacional",
@@ -54,5 +54,13 @@
   {
     "frente": "Temario estimado del Advanced Developer",
     "reverso": "Profiling y extensiones ~25%, búsqueda avanzada ~20%, SMART/seguridad ~20%, terminología ~15%, conformance ~10%, clientes/Bundles ~10%. Estudiar extra: FSH avanzado, invariantes FHIRPath, chaining/_revinclude."
+  },
+  {
+    "frente": "Canonica vs endpoint",
+    "reverso": "Canonica = identificador de una definicion (http://goes.gob.sv/fhir/StructureDefinition/<id>); endpoint = direccion de red que debe resolver con TLS (https://fhir.salud.gob.sv/r4). Por eso HL7 publica http://hl7.org/fhir/... sin escandalo. 'Corregir' el esquema de una canonica publicada rompe a los consumidores que la comparan como cadena."
+  },
+  {
+    "frente": "Regla de oro de la gobernanza de URIs",
+    "reverso": "La canonica que ya esta en produccion gana. Cambiarla obliga a versionar todos los perfiles y migrar los datos que la citan; alinear el material de estudio es un find-replace. La estabilidad le gana a la elegancia."
   }
 ]

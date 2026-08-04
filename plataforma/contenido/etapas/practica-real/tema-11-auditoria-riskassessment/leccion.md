@@ -206,9 +206,14 @@ extensión sabrá dónde mirar. Eso es un formato propietario con envoltura FHIR
   a la definición publicada.
 - No existe ningún `CodeSystem`, `ValueSet` ni `StructureDefinition` publicado para
   `phase_2_dis`, `secondary`, `proposed` o el grado. Los códigos son privados de facto.
-- Convive con la canónica `https://fhir.salud.gob.sv/` que definimos en el proyecto
-  integrador. **Un país, una canónica**: elegir cuál es y documentarlo es una decisión
-  de gobernanza de por vida, y es lo primero que debe zanjar el comité.
+- **Un país, una canónica.** Este punto ya está zanjado y es la única buena noticia de
+  la sección: el espacio de nombres institucional es `http://goes.gob.sv/fhir/`
+  precisamente porque este recurso ya lo emite. El material del tema 10 se alineó a él,
+  no al revés — una canónica en producción se respeta, no se corrige por gusto. Lo que
+  falta no es decidir el dominio: es **publicar** bajo él los CodeSystem, ValueSet y
+  StructureDefinition que hoy no existen. Cuidado con el error inverso: los endpoints
+  (`https://fhir.salud.gob.sv/r4`) sí son direcciones y siguen su propia convención con
+  TLS. Ver la tabla de gobernanza de URIs en el tema 10.
 
 ## 4. Cómo se ve el recurso corregido
 

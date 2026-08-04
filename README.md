@@ -197,6 +197,7 @@ URL de producción:
 | Estado de la sesión con el tutor | [SESION.md](SESION.md) |
 | Guías de método y planes largos | `guias/` |
 | Prácticas institucionales (integración nacional) | [PRACTICAS-NACIONALES.md](PRACTICAS-NACIONALES.md) |
+| Convenciones de URI (decisión de gobernanza) | [CONVENCIONES-URI.md](CONVENCIONES-URI.md) |
 | Enlaces oficiales | [recursos/enlaces-oficiales.md](recursos/enlaces-oficiales.md) |
 
 ---

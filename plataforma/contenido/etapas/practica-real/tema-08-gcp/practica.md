@@ -54,14 +54,14 @@ export BUCKET=gs://$PROJECT-datos
    curl -sS -X POST "$BASE/Patient" \
      -H "Authorization: Bearer $TOKEN" \
      -H "Content-Type: application/fhir+json" \
-     -d '{"resourceType":"Patient","identifier":[{"system":"https://fhir.salud.gob.sv/identificadores/dui","value":"04567890-1"}],"name":[{"family":"Ramírez","given":["Ana"]}],"gender":"female","birthDate":"1988-04-12"}'
+     -d '{"resourceType":"Patient","identifier":[{"system":"http://goes.gob.sv/fhir/sid/dui","value":"04567890-1"}],"name":[{"family":"Ramírez","given":["Ana"]}],"gender":"female","birthDate":"1988-04-12"}'
    ```
 
    Salida esperada: el Patient creado con `"id"` asignado y `"meta":{"versionId":"1",...}`. Verifica con búsqueda por identificador:
 
    ```bash
    curl -sS -H "Authorization: Bearer $TOKEN" \
-     "$BASE/Patient?identifier=https://fhir.salud.gob.sv/identificadores/dui|04567890-1"
+     "$BASE/Patient?identifier=http://goes.gob.sv/fhir/sid/dui|04567890-1"
    ```
 
    Debe devolver un `Bundle` tipo `searchset` con `"total": 1`.
