@@ -1,4 +1,4 @@
-# Entorno virtual de Python
+﻿# Entorno virtual de Python
 .venv/
 venv/
 __pycache__/
@@ -30,3 +30,113 @@ evaluacion/exports/*
 .DS_Store
 Thumbs.db
 .vscode/
+# >>> BEGIN bloque base claude-dotfiles (no editar dentro) >>>
+# ==========================================================================
+#  Bloque base de .gitignore
+#  Lo inserta y mantiene actualizado scripts\guardar.ps1 en cada repositorio.
+#  No edite dentro de las marcas BEGIN/END: se reescribe solo.
+#  Sus propias reglas van FUERA del bloque y se respetan.
+# ==========================================================================
+
+# --- Secretos: jamas se versionan ---
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.sample
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+service-account*.json
+service_account*.json
+*-key.json
+credentials.json
+client_secret*.json
+adc.json
+.npmrc
+.pypirc
+
+# --- Dependencias: se reinstalan con un comando ---
+node_modules/
+.pnpm-store/
+bower_components/
+vendor/
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.tox/
+.ruff_cache/
+
+# --- Builds y artefactos: se regeneran ---
+dist/
+build/
+out/
+target/
+.next/
+.nuxt/
+.svelte-kit/
+.turbo/
+.parcel-cache/
+.angular/
+*.tsbuildinfo
+coverage/
+.nyc_output/
+.gradle/
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# --- Datos pesados: viajan por Google Drive, no por git ---
+*.duckdb
+*.duckdb.*
+*.parquet
+*.sqlite
+*.sqlite3
+*.db
+*.mdf
+*.ldf
+*.bak
+*.dump
+*.sql.gz
+*.tgz
+*.tar.gz
+
+# --- Copias historicas: no se versionan ni se suben ---
+*.previo
+*.old
+*.orig
+*.prev
+espejo/
+respaldos/
+backups/
+
+# --- Multimedia pesada: va por Drive ---
+*.mp4
+*.mov
+*.wmv
+*.webm
+*.mkv
+*.avi
+
+# --- Registros y temporales ---
+*.log
+logs/
+tmp/
+temp/
+.cache/
+
+# --- Sistema operativo y editores ---
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~
+# <<< END bloque base claude-dotfiles <<<
