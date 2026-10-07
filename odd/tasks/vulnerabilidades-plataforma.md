@@ -31,7 +31,8 @@ anotado en `plataforma/docs/STACK_TECNOLOGICO.md` con su GHSA, impacto real y fe
 - [x] T2 next-auth 5.0.0-beta.32 y @auth/prisma-adapter 2.11.3 (inline) - 4e77591
 - [x] T3 prisma 7.10.0, overrides de mysql2/deepmerge-ts, retiro de gray-matter (sin uso) y
   `npm audit fix` de transitivas (inline) - 6f84db1
-- [ ] T4 verificacion: build, lint, arranque con login y laboratorio, imagen Docker
+- [x] T4 verificacion: build, lint, arranque con login y laboratorio, imagen Docker
+  (revision RDD aprobada sobre launch.json y este documento - a022db6)
 
 Cada tarea actualiza `plataforma/docs/STACK_TECNOLOGICO.md` en su mismo commit.
 
@@ -55,6 +56,13 @@ Medido el 2026-10-07. TDD: no configurado en el proyecto; `master` no tiene prue
   `/login` sin sesion; `/api/auth/session` con Bearer malformado devuelve `null` (200).
 - `next dev`: login de desarrollo lleva a `/panel`; `/laboratorio` con sesion ejecuta
   `GET metadata` contra hapi.fhir.org y devuelve 200. Sin errores en el servidor.
+- Imagen Docker construida desde un clon limpio de la rama (310 MB) y arrancada con
+  `node server.js` contra el Postgres local: `/login` 200, `/laboratorio` y `/panel` 307
+  sin sesion, `/api/auth/session` `null`. Con `AUTH_URL` fijada (como en `deploy.yml`) las
+  URLs de los proveedores salen correctas; sin ella usan `0.0.0.0:8080`.
+- Sugerencias no bloqueantes de la revision: `plataforma-start` exige `npm run build`
+  previo; la evidencia de humo es manual (no hay prueba automatizada de redireccion y
+  sesion).
 - Pendiente fuera de esta tarea: `prisma format --check` marca solo alineacion de espacios
   en `schema.prisma` (escrito a mano, previo).
 - Conflicto previsto con `visor-bundle-3d` (crea el mismo `STACK_TECNOLOGICO.md` y toca
