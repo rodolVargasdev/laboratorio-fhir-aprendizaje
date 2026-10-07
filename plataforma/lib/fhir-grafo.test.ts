@@ -140,3 +140,14 @@ test("colorDeTipo: tipos conocidos tienen su color y el resto cae en gris", () =
   assert.equal(colorDeTipo("Medication"), "#94A3B8");
   assert.notEqual(colorDeTipo("Patient"), colorDeTipo("Medication"));
 });
+
+test("Etiqueta de Patient: un nombre largo se acorta y uno corto queda intacto", () => {
+  const largo = { resourceType: "Patient", id: "9", name: [{ given: ["ShieldMed3I"], family: "SYNTHETIC-TEST-DO-NOT-USE" }] };
+  const g = extraerGrafo(largo);
+  assert.ok(g);
+  assert.ok(g.nodos[0].etiqueta.length <= 22);
+  assert.ok(g.nodos[0].etiqueta.endsWith("..."));
+  const corto = extraerGrafo(paciente);
+  assert.ok(corto);
+  assert.equal(corto.nodos[0].etiqueta, "Ana Lopez");
+});

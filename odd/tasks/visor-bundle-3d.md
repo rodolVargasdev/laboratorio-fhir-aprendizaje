@@ -27,7 +27,7 @@ Modo: desactivado (sin configuracion de proyecto). Runner para pruebas puras:
 - [x] T2 `lib/fhir-grafo.ts` + pruebas con contraprueba. Ruta: delegada (writer, 3 archivos no triviales).
 - [x] T3 `components/visor-bundle-3d.tsx` (three, fuerzas, raycast, etiquetas, fallback). Ruta: delegada.
 - [x] T4 Integracion en `fhir-playground.tsx` + reto nuevo en laboratorio. Ruta: delegada.
-- [ ] T5 Verificacion en navegador (lint, build, preview). Ruta: inline.
+- [x] T5 Verificacion en navegador (lint, build, preview). Ruta: inline.
 
 ## Criterios de aceptacion
 - `Encounter?_count=1&_include=Encounter:patient` muestra 2 nodos y 1 arista.
@@ -36,10 +36,20 @@ Modo: desactivado (sin configuracion de proyecto). Runner para pruebas puras:
 - Lint y build en verde.
 
 ## Progreso
-- T1: commit pendiente de registro.
+- T1: d081716 (three 0.186.1, @types/three 0.186.0, STACK_TECNOLOGICO.md).
 - T2: 9cf65a0 (modulo, 11 pruebas, script npm test). Se agrego colorDeTipo a lib/fhir-grafo.ts para compartir la paleta con la leyenda.
 - T3: e8ed43b (visor three, layout de fuerzas propio, fallback sin WebGL).
 - T4: pestanas JSON y Grafo en fhir-playground, ejemplo y reto nuevo (4c0bd20).
 
+- T5: verificado en navegador (escritorio y movil 375px) contra HAPI real, 2026-10-07.
+  - Encounter + include: 2 nodos, 1 arista. Observation sin include: Patient compartido como externo.
+  - Clic en nodo muestra su JSON. Sin errores de consola tras recarga limpia.
+  - Correcciones: la rueda sola desplaza la pagina y el zoom pide Ctrl/Cmd (contraprueba:
+    evento con ctrl hace preventDefault, sin ctrl no); touch-action pan-y; encuadre con el FOV
+    horizontal real (antes cortaba etiquetas en movil); nombres largos acortados (prueba 12);
+    plural del contador; pista de zoom oculta en pantallas tactiles.
+  - Checks: npm test 12/12, tsc sin errores, build de produccion OK, lint con 5 problemas
+    previos en paso-notebooklm.tsx y sr.ts (ninguno en archivos de esta feature).
+
 ## Siguiente paso
-T5: verificacion en navegador.
+Decision del usuario: push de la rama y PR a master.

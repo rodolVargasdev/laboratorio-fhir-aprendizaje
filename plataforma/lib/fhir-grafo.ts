@@ -34,6 +34,7 @@ export function colorDeTipo(tipo: string): string {
   return COLOR_TIPO[tipo] ?? COLOR_OTROS;
 }
 const LARGO_ID_ETIQUETA = 12;
+const LARGO_MAX_NOMBRE = 22;
 const TIPO_VALIDO = /^[A-Z][A-Za-z]+$/;
 
 type Obj = Record<string, unknown>;
@@ -50,7 +51,11 @@ function etiquetaDe(tipo: string, id: string | undefined, recurso: Obj | undefin
       const given = Array.isArray(n.given) && typeof n.given[0] === "string" ? n.given[0] : "";
       const family = typeof n.family === "string" ? n.family : "";
       const completo = `${given} ${family}`.trim();
-      if (completo) return completo;
+      // Un nombre largo se sale del lienzo en el celular.
+      if (completo)
+        return completo.length > LARGO_MAX_NOMBRE
+          ? `${completo.slice(0, LARGO_MAX_NOMBRE - 3)}...`
+          : completo;
     }
   }
   const idCorto =

@@ -180,7 +180,14 @@ export function FhirPlayground() {
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
             <span className="font-semibold text-foreground">
-              {grafo.nodos.length} recursos, {grafo.aristas.length} referencias
+              {grafo.nodos.length} {grafo.nodos.length === 1 ? "recurso" : "recursos"},{" "}
+              {grafo.aristas.length} {grafo.aristas.length === 1 ? "referencia" : "referencias"}
+            </span>
+            <span
+              className="hidden pointer-fine:inline"
+              title="Arrastre para girar. Ctrl o Cmd con la rueda para acercar."
+            >
+              Ctrl + rueda: zoom
             </span>
             {grafo.aristas.length === 0 && (
               <span className="rounded-full bg-warning-soft px-2 py-0.5 font-semibold text-warning">

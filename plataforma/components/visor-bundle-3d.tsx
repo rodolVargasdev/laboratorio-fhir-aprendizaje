@@ -181,6 +181,14 @@ export function VisorBundle3D({ grafo, onSeleccion }: Props) {
     const controles = new OrbitControls(camara, canvas);
     controles.enableDamping = !reducirMovimiento;
     controles.autoRotate = false;
+    // La rueda sola desplaza la pagina; el zoom exige Ctrl o Cmd, como en un mapa embebido.
+    // OrbitControls no llama a preventDefault cuando enableZoom es false.
+    const alRueda = (e: WheelEvent) => {
+      controles.enableZoom = e.ctrlKey || e.metaKey;
+    };
+    contenedor.addEventListener("wheel", alRueda, { capture: true, passive: true });
+    // En tactil, el gesto vertical queda para la pagina; el horizontal gira el grafo.
+    canvas.style.touchAction = "pan-y";
 
     // Nodos
     const geometriaNodo = new THREE.SphereGeometry(1, 24, 16);
@@ -324,9 +332,12 @@ export function VisorBundle3D({ grafo, onSeleccion }: Props) {
         radio = Math.max(radio, d);
       }
       radio += 2;
-      const mitadFov = (camara.fov * Math.PI) / 360;
-      const menor = Math.min(1, camara.aspect);
-      const distancia = (radio / Math.sin(mitadFov)) / Math.sqrt(menor) * 1.05;
+      // Encuadra con el campo de vision mas estrecho (el horizontal en el celular)
+      // y deja margen para que las etiquetas no se corten en el borde.
+      const mitadFovV = (camara.fov * Math.PI) / 360;
+      const mitadFovH = Math.atan(Math.tan(mitadFovV) * camara.aspect);
+      const mitadFov = Math.min(mitadFovV, mitadFovH);
+      const distancia = (radio / Math.sin(mitadFov)) * 1.3;
       controles.target.set(cx, cy, cz);
       camara.position.set(cx + distancia * 0.3, cy + distancia * 0.22, cz + distancia * 0.93);
       camara.near = Math.max(0.1, distancia / 100);
@@ -437,6 +448,7 @@ export function VisorBundle3D({ grafo, onSeleccion }: Props) {
       canvas.removeEventListener("pointerdown", alPresionar);
       canvas.removeEventListener("pointerup", alSoltar);
       canvas.removeEventListener("pointermove", alMover);
+      contenedor.removeEventListener("wheel", alRueda, { capture: true });
       controles.dispose();
       conos.dispose();
       geometrias.forEach((g) => g.dispose());
