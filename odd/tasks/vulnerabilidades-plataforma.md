@@ -27,9 +27,10 @@ anotado en `plataforma/docs/STACK_TECNOLOGICO.md` con su GHSA, impacto real y fe
 
 ## Tareas
 
-- [ ] T1 next y eslint-config-next 16.3.6 (inline, 2 archivos mecanicos)
-- [ ] T2 next-auth 5.0.0-beta.32 y @auth/prisma-adapter 2.11.3 (inline)
-- [ ] T3 prisma 7.10.0, overrides de mysql2/deepmerge-ts y `npm audit fix` de transitivas (inline)
+- [x] T1 next y eslint-config-next 16.3.6 (inline, 2 archivos mecanicos) - f35a693
+- [x] T2 next-auth 5.0.0-beta.32 y @auth/prisma-adapter 2.11.3 (inline) - 4e77591
+- [x] T3 prisma 7.10.0, overrides de mysql2/deepmerge-ts, retiro de gray-matter (sin uso) y
+  `npm audit fix` de transitivas (inline) - 6f84db1
 - [ ] T4 verificacion: build, lint, arranque con login y laboratorio, imagen Docker
 
 Cada tarea actualiza `plataforma/docs/STACK_TECNOLOGICO.md` en su mismo commit.
@@ -41,4 +42,20 @@ login y laboratorio.
 
 ## Evidencia
 
-(se completa por tarea)
+Medido el 2026-10-07. TDD: no configurado en el proyecto; `master` no tiene pruebas.
+
+- `npm audit`: 28 (4 criticas, 17 altas, 7 moderadas) -> 5 altas, todas la cadena de
+  braces (GHSA-vfj7-8cjw-p6xm, sin parche, solo lint).
+- `npm run build` limpio (sin `.next`): verde con Next.js 16.3.6.
+- `npm run lint`: 4 errores y 1 aviso, identicos a la linea base de `master` (previos,
+  `react-hooks/static-components` y una variable sin uso en `lib/sr.ts`).
+- `prisma generate` y `prisma validate` con 7.10.0 y deepmerge-ts 8.0.0: correctos.
+- Salida standalone: no incluye prisma, mysql2, deepmerge-ts, braces ni hono.
+- `next start` con Postgres local del compose: `/`, `/laboratorio` y `/panel` redirigen a
+  `/login` sin sesion; `/api/auth/session` con Bearer malformado devuelve `null` (200).
+- `next dev`: login de desarrollo lleva a `/panel`; `/laboratorio` con sesion ejecuta
+  `GET metadata` contra hapi.fhir.org y devuelve 200. Sin errores en el servidor.
+- Pendiente fuera de esta tarea: `prisma format --check` marca solo alineacion de espacios
+  en `schema.prisma` (escrito a mano, previo).
+- Conflicto previsto con `visor-bundle-3d` (crea el mismo `STACK_TECNOLOGICO.md` y toca
+  `package.json`): se resuelve en esta rama al sincronizar con `master`.
