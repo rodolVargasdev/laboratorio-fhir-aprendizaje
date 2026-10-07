@@ -13,7 +13,16 @@ export type NodoFhir = {
 /** ruta = path JSON del campo, por ejemplo "subject" o "participant[0].individual". */
 export type AristaFhir = { origen: string; destino: string; ruta: string };
 
-export type GrafoFhir = { nodos: NodoFhir[]; aristas: AristaFhir[] };
+/**
+ * truncado = el tope de MAX_NODOS dejo recursos o referencias fuera del grafo.
+ * referenciasOmitidas = referencias que no llegaron a ser arista por ese tope.
+ */
+export type GrafoFhir = {
+  nodos: NodoFhir[];
+  aristas: AristaFhir[];
+  truncado: boolean;
+  referenciasOmitidas: number;
+};
 
 export const MAX_NODOS = 200;
 
@@ -87,6 +96,9 @@ export function extraerGrafo(json: unknown): GrafoFhir | null {
   const porFullUrl = new Map<string, NodoFhir>();
   const aristas: AristaFhir[] = [];
   const vistas = new Set<string>();
+  let recursosRecortados = 0;
+  let referenciasOmitidas = 0;
+  let topeAlcanzado = false;
 
   // Recursos que aportan nodos: las entradas de un Bundle o el recurso suelto.
   const fuentes: { fullUrl?: string; recurso: Obj }[] = [];
@@ -106,7 +118,10 @@ export function extraerGrafo(json: unknown): GrafoFhir | null {
 
   const nodoDe = new Map<Obj, NodoFhir>();
   fuentes.forEach(({ fullUrl, recurso }, i) => {
-    if (nodos.length >= MAX_NODOS) return;
+    if (nodos.length >= MAX_NODOS) {
+      recursosRecortados++;
+      return;
+    }
     const tipo = recurso.resourceType as string;
     const recursoId = typeof recurso.id === "string" ? recurso.id : undefined;
     const id = `${tipo}/${recursoId ?? `sin-id-${i}`}`;
@@ -130,7 +145,10 @@ export function extraerGrafo(json: unknown): GrafoFhir | null {
   function crearExterno(id: string, tipo: string, recursoId: string): NodoFhir | null {
     const previo = porId.get(id);
     if (previo) return previo;
-    if (nodos.length >= MAX_NODOS) return null;
+    if (nodos.length >= MAX_NODOS) {
+      topeAlcanzado = true;
+      return null;
+    }
     const nodo: NodoFhir = {
       id,
       tipo,
@@ -155,16 +173,26 @@ export function extraerGrafo(json: unknown): GrafoFhir | null {
     return porId.get(id) ?? crearExterno(id, canon.tipo, canon.id);
   }
 
-  function agregarArista(origen: NodoFhir, ref: string, ruta: string) {
+  function agregarArista(origen: NodoFhir | null, ref: string, ruta: string) {
+    if (!origen) {
+      // Recurso recortado por el tope: su referencia no se puede dibujar.
+      if (!ref.startsWith("#") && (canonicaDe(ref) || ref.startsWith("urn:"))) referenciasOmitidas++;
+      return;
+    }
+    topeAlcanzado = false;
     const destino = resolver(ref);
-    if (!destino || destino.id === origen.id) return;
+    if (!destino) {
+      if (topeAlcanzado) referenciasOmitidas++;
+      return;
+    }
+    if (destino.id === origen.id) return;
     const clave = `${origen.id}\u0000${destino.id}\u0000${ruta}`;
     if (vistas.has(clave)) return;
     vistas.add(clave);
     aristas.push({ origen: origen.id, destino: destino.id, ruta });
   }
 
-  function recorrer(valor: unknown, ruta: string, origen: NodoFhir) {
+  function recorrer(valor: unknown, ruta: string, origen: NodoFhir | null) {
     if (Array.isArray(valor)) {
       valor.forEach((v, i) => recorrer(v, `${ruta}[${i}]`, origen));
       return;
@@ -177,8 +205,8 @@ export function extraerGrafo(json: unknown): GrafoFhir | null {
   }
 
   for (const { recurso } of fuentes) {
-    const origen = nodoDe.get(recurso);
-    if (!origen) continue; // recortado por el limite de nodos
+    // Sin nodo = recortado por el limite; igual se recorre para contar lo omitido.
+    const origen = nodoDe.get(recurso) ?? null;
     for (const [k, v] of Object.entries(recurso)) {
       // La narrativa y los recursos contenidos no forman parte del grafo.
       if (k === "contained" || k === "text") continue;
@@ -186,5 +214,10 @@ export function extraerGrafo(json: unknown): GrafoFhir | null {
     }
   }
 
-  return { nodos, aristas };
+  return {
+    nodos,
+    aristas,
+    truncado: recursosRecortados > 0 || referenciasOmitidas > 0,
+    referenciasOmitidas,
+  };
 }

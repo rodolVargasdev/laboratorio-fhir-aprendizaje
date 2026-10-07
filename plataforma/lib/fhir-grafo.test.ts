@@ -123,15 +123,37 @@ test("contraprueba: el mismo destino por dos campos distintos son dos aristas", 
   assert.equal(g.aristas.length, 2);
 });
 
-test("limita a 200 nodos sin fallar y sin aristas colgantes", () => {
-  const entradas = Array.from({ length: 250 }, (_, i) => ({
+function observaciones(cantidad: number) {
+  return Array.from({ length: cantidad }, (_, i) => ({
     resource: { resourceType: "Observation", id: `o${i}`, subject: { reference: "Patient/1" } },
   }));
-  const g = extraerGrafo(bundle(...entradas));
+}
+
+test("tope de 200 nodos con el Patient primero: quedan aristas validas y se avisa el recorte", () => {
+  const g = extraerGrafo(bundle({ resource: paciente }, ...observaciones(250)));
   assert.ok(g);
   assert.equal(g.nodos.length, 200);
+  assert.ok(g.aristas.length > 0);
   const ids = new Set(g.nodos.map((n) => n.id));
   assert.ok(g.aristas.every((a) => ids.has(a.origen) && ids.has(a.destino)));
+  assert.equal(g.truncado, true);
+  assert.ok(g.referenciasOmitidas > 0);
+});
+
+test("tope de 200 nodos sin Patient en el Bundle: 0 aristas pero truncado y con omitidas", () => {
+  const g = extraerGrafo(bundle(...observaciones(250)));
+  assert.ok(g);
+  assert.equal(g.nodos.length, 200);
+  assert.equal(g.aristas.length, 0);
+  assert.equal(g.truncado, true);
+  assert.ok(g.referenciasOmitidas > 0);
+});
+
+test("contraprueba: un Bundle pequeno no esta truncado y no omite referencias", () => {
+  const g = extraerGrafo(bundle({ resource: encuentro }, { resource: paciente }));
+  assert.ok(g);
+  assert.equal(g.truncado, false);
+  assert.equal(g.referenciasOmitidas, 0);
 });
 
 test("colorDeTipo: tipos conocidos tienen su color y el resto cae en gris", () => {

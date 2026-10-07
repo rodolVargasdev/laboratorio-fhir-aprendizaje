@@ -9,6 +9,7 @@ import {
   COLOR_EXTERNO,
   COLOR_OTROS,
   COLOR_TIPO,
+  MAX_NODOS,
   extraerGrafo,
   type NodoFhir,
 } from "@/lib/fhir-grafo";
@@ -71,6 +72,7 @@ export function FhirPlayground() {
       try {
         const json = JSON.parse(texto);
         setJson(json);
+        setSeleccion(null);
         setSalida(JSON.stringify(json, null, 2));
       } catch {
         setSalida(texto);
@@ -176,7 +178,7 @@ export function FhirPlayground() {
 
       {salida && grafo && vista === "grafo" && (
         <div role="tabpanel" className="flex flex-col gap-3">
-          <VisorBundle3D grafo={grafo} onSeleccion={setSeleccion} />
+          <VisorBundle3D grafo={grafo} onSeleccion={setSeleccion} seleccionId={seleccion?.id ?? null} />
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
             <span className="font-semibold text-foreground">
@@ -189,7 +191,15 @@ export function FhirPlayground() {
             >
               Ctrl + rueda: zoom
             </span>
-            {grafo.aristas.length === 0 && (
+            {grafo.truncado && (
+              <span
+                className="rounded-full bg-warning-soft px-2 py-0.5 font-semibold text-warning"
+                title={`El grafo muestra como maximo ${MAX_NODOS} recursos. Se omitieron ${grafo.referenciasOmitidas} ${grafo.referenciasOmitidas === 1 ? "referencia" : "referencias"} que apuntan a recursos fuera de ese limite.`}
+              >
+                Grafo recortado
+              </span>
+            )}
+            {grafo.aristas.length === 0 && grafo.referenciasOmitidas === 0 && (
               <span className="rounded-full bg-warning-soft px-2 py-0.5 font-semibold text-warning">
                 Sin referencias
               </span>
@@ -235,7 +245,11 @@ export function FhirPlayground() {
           <details className="rounded-md border border-border bg-card p-3 text-xs">
             <summary className="cursor-pointer font-semibold">Ver como lista</summary>
             {grafo.aristas.length === 0 ? (
-              <p className="mt-2 text-muted-foreground">Esta respuesta no contiene referencias.</p>
+              <p className="mt-2 text-muted-foreground">
+                {grafo.referenciasOmitidas > 0
+                  ? `No se dibujo ninguna referencia: ${grafo.referenciasOmitidas} quedaron fuera del limite de ${MAX_NODOS} recursos.`
+                  : "Esta respuesta no contiene referencias."}
+              </p>
             ) : (
               <ul className="mt-2 space-y-1 font-mono">
                 {grafo.aristas.map((a, i) => (
@@ -244,6 +258,11 @@ export function FhirPlayground() {
                   </li>
                 ))}
               </ul>
+            )}
+            {grafo.aristas.length > 0 && grafo.referenciasOmitidas > 0 && (
+              <p className="mt-2 text-muted-foreground">
+                Se omitieron {grafo.referenciasOmitidas} referencias por el limite de {MAX_NODOS} recursos.
+              </p>
             )}
           </details>
         </div>

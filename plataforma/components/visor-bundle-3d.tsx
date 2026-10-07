@@ -3,11 +3,14 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { zoomPermitido } from "@/lib/visor-entrada";
 import { COLOR_EXTERNO, colorDeTipo, type GrafoFhir, type NodoFhir } from "@/lib/fhir-grafo";
 
 type Props = {
   grafo: GrafoFhir;
   onSeleccion?: (nodo: NodoFhir | null) => void;
+  /** Nodo que el padre tiene seleccionado; el visor lo resalta al montar y al cambiar. */
+  seleccionId?: string | null;
 };
 
 const ITERACIONES = 300;
@@ -125,13 +128,21 @@ function crearEtiqueta(texto: string): { sprite: THREE.Sprite; relacion: number 
   return { sprite, relacion: ancho / alto };
 }
 
-export function VisorBundle3D({ grafo, onSeleccion }: Props) {
+export function VisorBundle3D({ grafo, onSeleccion, seleccionId = null }: Props) {
   const contenedorRef = useRef<HTMLDivElement>(null);
   const callbackRef = useRef(onSeleccion);
+  const seleccionIdRef = useRef(seleccionId);
+  // Resalta un nodo por id sin avisar al padre; la define el efecto principal.
+  const resaltarRef = useRef<((id: string | null) => void) | null>(null);
 
   useEffect(() => {
     callbackRef.current = onSeleccion;
   }, [onSeleccion]);
+
+  useEffect(() => {
+    seleccionIdRef.current = seleccionId;
+    resaltarRef.current?.(seleccionId);
+  }, [seleccionId]);
 
   useEffect(() => {
     const contenedor = contenedorRef.current;
@@ -184,7 +195,7 @@ export function VisorBundle3D({ grafo, onSeleccion }: Props) {
     // La rueda sola desplaza la pagina; el zoom exige Ctrl o Cmd, como en un mapa embebido.
     // OrbitControls no llama a preventDefault cuando enableZoom es false.
     const alRueda = (e: WheelEvent) => {
-      controles.enableZoom = e.ctrlKey || e.metaKey;
+      controles.enableZoom = zoomPermitido(e);
     };
     contenedor.addEventListener("wheel", alRueda, { capture: true, passive: true });
     // En tactil, el gesto vertical queda para la pagina; el horizontal gira el grafo.
@@ -362,6 +373,8 @@ export function VisorBundle3D({ grafo, onSeleccion }: Props) {
       renderer.setSize(ancho, alto, false);
       camara.aspect = ancho / alto;
       camara.updateProjectionMatrix();
+      // Con el layout terminado, se vuelve a encuadrar (p. ej. al rotar el celular).
+      if (iteracion >= ITERACIONES) ajustarCamara();
       sucio = true;
     }
     const rect = contenedor.getBoundingClientRect();
@@ -384,8 +397,12 @@ export function VisorBundle3D({ grafo, onSeleccion }: Props) {
       return golpes.length > 0 ? (golpes[0].object.userData.indice as number) : -1;
     }
 
-    function seleccionar(i: number) {
-      if (i === seleccionado) return;
+    function seleccionar(i: number, notificar = true) {
+      if (i === seleccionado) {
+        // Un clic en vacio siempre limpia la seleccion del padre, aunque aqui no haya nada.
+        if (i < 0 && notificar) callbackRef.current?.(null);
+        return;
+      }
       if (seleccionado >= 0) {
         (mallas[seleccionado].material as THREE.MeshStandardMaterial).emissiveIntensity = 0;
       }
@@ -393,8 +410,10 @@ export function VisorBundle3D({ grafo, onSeleccion }: Props) {
       if (i >= 0) (mallas[i].material as THREE.MeshStandardMaterial).emissiveIntensity = 0.7;
       for (let k = 0; k < n; k++) mallas[k].scale.setScalar(escalaNodo(k));
       actualizarObjetos();
-      callbackRef.current?.(i >= 0 ? grafo.nodos[i] : null);
+      if (notificar) callbackRef.current?.(i >= 0 ? grafo.nodos[i] : null);
     }
+
+    resaltarRef.current = (id) => seleccionar(id === null ? -1 : (indice.get(id) ?? -1), false);
 
     let inicio: { x: number; y: number } | null = null;
     function alPresionar(ev: PointerEvent) {
@@ -426,6 +445,8 @@ export function VisorBundle3D({ grafo, onSeleccion }: Props) {
       ajustarCamara();
     }
 
+    resaltarRef.current(seleccionIdRef.current);
+
     let cuadro = 0;
     function bucle() {
       cuadro = requestAnimationFrame(bucle);
@@ -444,6 +465,7 @@ export function VisorBundle3D({ grafo, onSeleccion }: Props) {
 
     return () => {
       cancelAnimationFrame(cuadro);
+      resaltarRef.current = null;
       observador.disconnect();
       canvas.removeEventListener("pointerdown", alPresionar);
       canvas.removeEventListener("pointerup", alSoltar);
