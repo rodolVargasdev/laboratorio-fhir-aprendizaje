@@ -16,6 +16,23 @@ export type AristaFhir = { origen: string; destino: string; ruta: string };
 export type GrafoFhir = { nodos: NodoFhir[]; aristas: AristaFhir[] };
 
 export const MAX_NODOS = 200;
+
+/** Paleta azul/gris/navy por tipo de recurso, compartida por el visor y su leyenda. */
+export const COLOR_TIPO: Record<string, string> = {
+  Patient: "#048DF3",
+  Encounter: "#0E2E6E",
+  Observation: "#3AA5F6",
+  Condition: "#164096",
+  Practitioner: "#64748B",
+  PractitionerRole: "#64748B",
+  Organization: "#64748B",
+};
+export const COLOR_OTROS = "#94A3B8";
+export const COLOR_EXTERNO = "#CBD5E1";
+
+export function colorDeTipo(tipo: string): string {
+  return COLOR_TIPO[tipo] ?? COLOR_OTROS;
+}
 const LARGO_ID_ETIQUETA = 12;
 const TIPO_VALIDO = /^[A-Z][A-Za-z]+$/;
 

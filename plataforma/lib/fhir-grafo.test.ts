@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { extraerGrafo } from "./fhir-grafo";
+import { colorDeTipo, extraerGrafo } from "./fhir-grafo";
 
 const paciente = { resourceType: "Patient", id: "1", name: [{ given: ["Ana"], family: "Lopez" }] };
 const encuentro = { resourceType: "Encounter", id: "e1", subject: { reference: "Patient/1" } };
@@ -132,4 +132,11 @@ test("limita a 200 nodos sin fallar y sin aristas colgantes", () => {
   assert.equal(g.nodos.length, 200);
   const ids = new Set(g.nodos.map((n) => n.id));
   assert.ok(g.aristas.every((a) => ids.has(a.origen) && ids.has(a.destino)));
+});
+
+test("colorDeTipo: tipos conocidos tienen su color y el resto cae en gris", () => {
+  assert.equal(colorDeTipo("Patient"), "#048DF3");
+  assert.equal(colorDeTipo("Organization"), colorDeTipo("Practitioner"));
+  assert.equal(colorDeTipo("Medication"), "#94A3B8");
+  assert.notEqual(colorDeTipo("Patient"), colorDeTipo("Medication"));
 });
