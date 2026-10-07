@@ -9,8 +9,8 @@ mismo commit que la incorpora, con su motivo y la alternativa descartada.
 |---|---|---|
 | next | 16.3.6 | framework (App Router, standalone) |
 | react / react-dom | 19.2.4 | interfaz |
-| next-auth | 5.0.0-beta.31 | autenticacion (Google y contrasena) |
-| @auth/prisma-adapter | 2.11.2 | sesiones en Postgres |
+| next-auth | 5.0.0-beta.32 | autenticacion (Google y contrasena) |
+| @auth/prisma-adapter | 2.11.3 | sesiones en Postgres |
 | @prisma/client / @prisma/adapter-pg | 7.8.0 | acceso a datos |
 | pg | 8.22.0 | driver Postgres |
 | bcryptjs | 3.0.3 | hash de contrasenas |
@@ -41,6 +41,14 @@ mismo commit que la incorpora, con su motivo y la alternativa descartada.
   fija postcss 8.5.23 y sharp ^0.35.4 (resuelve 0.35.5), igual que 16.4.0, por eso no hace
   falta 16.4.0. Las novedades de 16.3 son aditivas; ninguna toca `next.config.ts`.
   `eslint-config-next` acompana a la misma version.
+
+- **next-auth 5.0.0-beta.31 -> beta.32 y @auth/prisma-adapter 2.11.2 -> 2.11.3
+  (2026-10-07).** Ambas traen @auth/core 0.41.3, que corrige GHSA-7rqj-j65f-68wh (critico,
+  bypass del normalizador de correo con homoglifos), GHSA-xmf8-cvqr-rfgj (`getToken()`
+  lanza excepcion con un Bearer malformado) y GHSA-x445-f3h2-j279 (cookies de state, nonce
+  y PKCE no ligadas al proveedor). beta.32 ademas corrige GHSA-8fpg-xm3f-6cx3 (critico: con
+  la configuracion rota, `auth()` devolvia un objeto de error verdadero y las comprobaciones
+  por existencia fallaban abiertas). Sin cambios de API para el codigo del proyecto.
 
 ## Avisos de seguridad abiertos
 
