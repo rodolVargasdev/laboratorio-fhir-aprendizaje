@@ -39,7 +39,7 @@ Modo: desactivado (sin configuracion de proyecto). Runner para pruebas puras:
 - T1: commit pendiente de registro.
 - T2: 9cf65a0 (modulo, 11 pruebas, script npm test). Se agrego colorDeTipo a lib/fhir-grafo.ts para compartir la paleta con la leyenda.
 - T3: e8ed43b (visor three, layout de fuerzas propio, fallback sin WebGL).
-- T4: pestanas JSON y Grafo en fhir-playground, ejemplo y reto nuevo (hash en el commit de T4).
+- T4: pestanas JSON y Grafo en fhir-playground, ejemplo y reto nuevo (4c0bd20).
 
 ## Siguiente paso
 T5: verificacion en navegador.
