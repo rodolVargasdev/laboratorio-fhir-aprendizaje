@@ -28,7 +28,7 @@ Modo: desactivado (sin configuracion de proyecto). Runner para pruebas puras:
 - [x] T3 `components/visor-bundle-3d.tsx` (three, fuerzas, raycast, etiquetas, fallback). Ruta: delegada.
 - [x] T4 Integracion en `fhir-playground.tsx` + reto nuevo en laboratorio. Ruta: delegada.
 - [x] T5 Verificacion en navegador (lint, build, preview). Ruta: inline.
-- [ ] T6 Correccion de hallazgos de revision (5). Ruta: delegada (writer, 6 archivos no triviales).
+- [x] T6 Correccion de hallazgos de revision (5). Ruta: delegada (writer, 6 archivos no triviales).
 
 ## Criterios de aceptacion
 - `Encounter?_count=1&_include=Encounter:patient` muestra 2 nodos y 1 arista.
@@ -69,7 +69,7 @@ Modo: desactivado (sin configuracion de proyecto). Runner para pruebas puras:
      `engines.node >=20.9`.
   5. Regla de zoom extraida a lib/visor-entrada.ts con prueba y contraprueba.
   Checks: npm test 16/16, tsc sin errores, lint con los 5 problemas previos y ninguno nuevo.
-  Commit: (pendiente)
+  Commit: 8274770.
 
 ## Siguiente paso
 Revision, fusion y despliegue a Cloud Run.
