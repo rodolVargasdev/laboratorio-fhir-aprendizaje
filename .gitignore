@@ -30,6 +30,9 @@ evaluacion/exports/*
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Cache local del registro de skills del agente (se regenera)
+.atl/
 # >>> BEGIN bloque base claude-dotfiles (no editar dentro) >>>
 # ==========================================================================
 #  Bloque base de .gitignore

@@ -12,6 +12,7 @@ const RETOS = [
   "Busca pacientes por apellido y cambia el _count. .Que hace ese parametro?",
   "Trae una Observation y localiza el value[x]: .es un numero, un codigo, un texto?",
   "Usa _include para traer un Encounter junto con su Patient. .Cuantas entradas trae el Bundle?",
+  "Abre la pestana Grafo con el ejemplo Observacion + paciente. Luego quita el _include del path y vuelve a enviar: .que nodos pasan a ser externos?",
 ];
 
 export default function LaboratorioPage() {
