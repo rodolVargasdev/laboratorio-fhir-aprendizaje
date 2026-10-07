@@ -19,6 +19,7 @@ mismo commit que la incorpora, con su motivo y la alternativa descartada.
 | react-markdown / remark-gfm | 10.1.0 / 4.0.1 | render de lecciones |
 | lucide-react | 1.24.0 | iconos SVG |
 | class-variance-authority / clsx / tailwind-merge | 0.7.1 / 2.1.1 / 3.6.0 | utilidades de estilo |
+| three | 0.186.1 | visor 3D de Bundles FHIR en el laboratorio |
 
 ## Desarrollo
 
@@ -30,6 +31,7 @@ mismo commit que la incorpora, con su motivo y la alternativa descartada.
 | prisma | 7.10.0 | migraciones y cliente |
 | tsx | 4.23.1 | scripts TypeScript y pruebas con `node --test` |
 | dotenv | 17.4.2 | variables de entorno en scripts |
+| @types/three | 0.186.0 | tipos de three |
 | @types/node, @types/react, @types/react-dom, @types/pg, @types/bcryptjs | ver lockfile | tipos |
 
 ## Decisiones
@@ -74,6 +76,12 @@ mismo commit que la incorpora, con su motivo y la alternativa descartada.
   transitivas con parche: sharp 0.35.5, postcss 8.5.23, fast-uri 3.1.8, nanoid 3.3.20,
   brace-expansion 1.1.21 y 5.0.12, browserslist 4.29.3, baseline-browser-mapping 2.11.27,
   source-map-js 1.2.2, js-yaml 4.3.2 (de eslint).
+
+- **three 0.186.1 (2026-10-07).** Dibuja el grafo de recursos y referencias de un Bundle.
+  Se descarto `react-force-graph-3d` 1.29.2: suma cinco librerias transitivas (kapsule,
+  three-forcegraph, three-render-objects, d3-force-3d y otras) para un grafo que rara vez
+  pasa de 50 nodos; el layout de fuerzas propio cabe en un modulo pequeno. `three` no tiene
+  dependencias transitivas. `npm audit` sin avisos para three ni @types/three.
 
 ## Avisos de seguridad abiertos
 
