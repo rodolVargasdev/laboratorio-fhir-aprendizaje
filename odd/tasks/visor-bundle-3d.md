@@ -51,5 +51,10 @@ Modo: desactivado (sin configuracion de proyecto). Runner para pruebas puras:
   - Checks: npm test 12/12, tsc sin errores, build de produccion OK, lint con 5 problemas
     previos en paso-notebooklm.tsx y sr.ts (ninguno en archivos de esta feature).
 
+- Revision RDD: riesgo medio, aprobada y acusada (lineage review-f4861cb4ce32e70c). Hallazgos no
+  bloqueantes: seleccion desincronizada al cambiar de pestana, tope de 200 nodos silencioso,
+  sin reencuadre al redimensionar, glob de npm test exige Node 21+. Listados en el PR.
+- PR: https://github.com/rodolVargasdev/laboratorio-fhir-aprendizaje/pull/7
+
 ## Siguiente paso
-Decision del usuario: push de la rama y PR a master.
+Fusion del PR (despliega a Cloud Run) y, aparte, los cuatro hallazgos no bloqueantes.
